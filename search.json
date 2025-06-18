@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "WEHI R Course",
     "section": "",
-    "text": "Preface\nCode-based analysis is an increasingly important skill for modern biomedical research. The R coding language enables user-friendly data tidying and transformation, and creation of publication-ready graphics. R is also core to bioinformatics research, supporting all types of ’omics data analysis, and general statistical analysis too.\nDesigned for complete coding beginners, this course will introduce data wrangling, data visualisation, and bioinformatics analysis in R. The first 4 of 6 sessions will cover foundations of R, and user-friendly ‘tidyverse’ software, which is applicable to many areas of medical and clinical research, and beyond. The final two sessions will combine tidyverse and specialised bioinformatics software to perform an RNA seq analysis workflow.",
+    "text": "Preface\n[TEST] Code-based analysis is an increasingly important skill for modern biomedical research. The R coding language enables user-friendly data tidying and transformation, and creation of publication-ready graphics. R is also core to bioinformatics research, supporting all types of ’omics data analysis, and general statistical analysis too.\nDesigned for complete coding beginners, this course will introduce data wrangling, data visualisation, and bioinformatics analysis in R. The first 4 of 6 sessions will cover foundations of R, and user-friendly ‘tidyverse’ software, which is applicable to many areas of medical and clinical research, and beyond. The final two sessions will combine tidyverse and specialised bioinformatics software to perform an RNA seq analysis workflow.",
     "crumbs": [
       "Preface"
     ]
