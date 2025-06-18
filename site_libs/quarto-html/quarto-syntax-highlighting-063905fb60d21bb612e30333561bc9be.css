@@ -1,0 +1,205 @@
+/* quarto syntax highlight colors */
+:root {
+  --quarto-hl-ot-color: #6b7686;
+  --quarto-hl-at-color: #000000;
+  --quarto-hl-ss-color: #306a20;
+  --quarto-hl-an-color: #fc0ad0;
+  --quarto-hl-fu-color: #000000;
+  --quarto-hl-st-color: #306a20;
+  --quarto-hl-cf-color: #001cf5;
+  --quarto-hl-op-color: #6b7686;
+  --quarto-hl-er-color: #fc0ad0;
+  --quarto-hl-bn-color: #fc0ad0;
+  --quarto-hl-al-color: #fc0ad0;
+  --quarto-hl-va-color: #000000;
+  --quarto-hl-bu-color: #fc0ad0;
+  --quarto-hl-ex-color: #fc0ad0;
+  --quarto-hl-pp-color: #fc0ad0;
+  --quarto-hl-in-color: #fc0ad0;
+  --quarto-hl-vs-color: #306a20;
+  --quarto-hl-wa-color: #fc0ad0;
+  --quarto-hl-do-color: #5b866d;
+  --quarto-hl-im-color: #fc0ad0;
+  --quarto-hl-ch-color: #306a20;
+  --quarto-hl-dt-color: #fc0ad0;
+  --quarto-hl-fl-color: #0014c5;
+  --quarto-hl-co-color: #5b866d;
+  --quarto-hl-cv-color: #5b866d;
+  --quarto-hl-cn-color: #585cf6;
+  --quarto-hl-sc-color: #6b7686;
+  --quarto-hl-dv-color: #0014c5;
+  --quarto-hl-kw-color: #fc0ad0;
+}
+
+/* other quarto variables */
+:root {
+  --quarto-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+pre > code.sourceCode > span {
+  color: #000000;
+}
+
+code span {
+  color: #000000;
+}
+
+code.sourceCode > span {
+  color: #000000;
+}
+
+div.sourceCode,
+div.sourceCode pre.sourceCode {
+  color: #000000;
+}
+
+code span.ot {
+  color: #6b7686;
+  font-style: inherit;
+}
+
+code span.at {
+  color: #000000;
+  font-style: inherit;
+}
+
+code span.ss {
+  color: #306a20;
+  font-style: inherit;
+}
+
+code span.an {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.fu {
+  color: #000000;
+  font-style: inherit;
+}
+
+code span.st {
+  color: #306a20;
+  font-style: inherit;
+}
+
+code span.cf {
+  color: #001cf5;
+  font-style: inherit;
+}
+
+code span.op {
+  color: #6b7686;
+  font-style: inherit;
+}
+
+code span.er {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.bn {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.al {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.va {
+  color: #000000;
+  font-style: inherit;
+}
+
+code span.bu {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.ex {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.pp {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.in {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.vs {
+  color: #306a20;
+  font-style: inherit;
+}
+
+code span.wa {
+  color: #fc0ad0;
+  font-style: italic;
+}
+
+code span.do {
+  color: #5b866d;
+  font-style: italic;
+}
+
+code span.im {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.ch {
+  color: #306a20;
+  font-style: inherit;
+}
+
+code span.dt {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+code span.fl {
+  color: #0014c5;
+  font-style: inherit;
+}
+
+code span.co {
+  color: #5b866d;
+  font-style: inherit;
+}
+
+code span.cv {
+  color: #5b866d;
+  font-style: italic;
+}
+
+code span.cn {
+  color: #585cf6;
+  font-style: inherit;
+}
+
+code span.sc {
+  color: #6b7686;
+  font-style: inherit;
+}
+
+code span.dv {
+  color: #0014c5;
+  font-style: inherit;
+}
+
+code span.kw {
+  color: #fc0ad0;
+  font-style: inherit;
+}
+
+.prevent-inlining {
+  content: "</";
+}
+
+/*# sourceMappingURL=81e38addf02ecbe23cb0ad1e1bf30802.css.map */
