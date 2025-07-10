@@ -2030,7 +2030,7 @@ Packages in R
 <p>If you forget to load a package, R will give you an error when you try to use that package’s functions, so it’s usually a good idea to load all the packages you’ll need at the start of your script to prevent you forgetting to load them the next time you open R. We’ll do this at the start of each chapter in this course.</p>
 </div>
 </div>
-<p>To read in our data, we’ll use the <code>read_delim()</code> function from the <code>readr</code> package. This function takes in the path to the file you want to read in (in quotation marks <code>""</code>, as this is a character string) and returns as output a tibble (this is basically the same as a data frame <em>except</em> that tibbles can not have row names).</p>
+<p>To read in our data, we’ll use the <code>read_delim()</code> function from the <code>readr</code> package. This function takes in the path to the file you want to read in (in quotation marks <code>""</code>, as this is a character string) and returns as output a tibble.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -2358,7 +2358,7 @@ Click here to print <code>iris</code> as a data frame!
 # ℹ 140 more rows</code></pre>
 </div>
 </div>
-<p>It also tells us the number of rows (150) and columns (5) in the data, as well as the types of each column (<code>&lt;dbl&gt;</code> is short for <code>double</code>, which is a type of numeric data).</p>
+<p>It also tells us the number of rows (150) and columns (5) in the data, as well as the types of each column (<code>&lt;dbl&gt;</code> is short for <code>double</code>, which is a type of numeric data). Unlike data frames, tibbles can not include row names that sit ‘outside’ the cells.</p>
 <p>For the purpose of this course, we can treat tibbles and data frames as the same thing. However, if you’re interested in learning more about tibbles, you can read about them <a href="https://r4ds.had.co.nz/tibbles.html#tibbles-vs.-data.frame">here</a>.</p>
 </div>
 </div>
@@ -4515,7 +4515,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb154-1543"><a href="#cb154-1543" aria-hidden="true" tabindex="-1"></a><span class="at">If you forget to load a package, R will give you an error when you try to use that package's functions, so it's usually a good idea to load all the packages you'll need at the start of your script to prevent you forgetting to load them the next time you open R. We'll do this at the start of each chapter in this course.</span></span>
 <span id="cb154-1544"><a href="#cb154-1544" aria-hidden="true" tabindex="-1"></a><span class="at">:::</span></span>
 <span id="cb154-1545"><a href="#cb154-1545" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb154-1546"><a href="#cb154-1546" aria-hidden="true" tabindex="-1"></a><span class="at">To read in our data, we'll use the </span><span class="st">`</span><span class="fu">read_delim</span>()<span class="st">`</span><span class="at"> function from the </span><span class="st">`</span>readr<span class="st">`</span><span class="at"> package. This function takes in the path to the file you want to read in (in quotation marks </span><span class="st">`""`</span><span class="at">, as this is a character string) and returns as output a tibble (this is basically the same as a data frame _except_ that tibbles can not have row names).</span></span>
+<span id="cb154-1546"><a href="#cb154-1546" aria-hidden="true" tabindex="-1"></a><span class="at">To read in our data, we'll use the </span><span class="st">`</span><span class="fu">read_delim</span>()<span class="st">`</span><span class="at"> function from the </span><span class="st">`</span>readr<span class="st">`</span><span class="at"> package. This function takes in the path to the file you want to read in (in quotation marks </span><span class="st">`""`</span><span class="at">, as this is a character string) and returns as output a tibble.</span></span>
 <span id="cb154-1547"><a href="#cb154-1547" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb154-1550"><a href="#cb154-1550" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb154-1551"><a href="#cb154-1551" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
@@ -4619,7 +4619,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb154-1661"><a href="#cb154-1661" aria-hidden="true" tabindex="-1"></a><span class="st">as_tibble(iris)</span></span>
 <span id="cb154-1662"><a href="#cb154-1662" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb154-1663"><a href="#cb154-1663" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb154-1664"><a href="#cb154-1664" aria-hidden="true" tabindex="-1"></a><span class="st">It also tells us the number of rows (150) and columns (5) in the data, as well as the types of each column (`&lt;dbl&gt;` is short for `double`, which is a type of numeric data).</span></span>
+<span id="cb154-1664"><a href="#cb154-1664" aria-hidden="true" tabindex="-1"></a><span class="st">It also tells us the number of rows (150) and columns (5) in the data, as well as the types of each column (`&lt;dbl&gt;` is short for `double`, which is a type of numeric data). Unlike data frames, tibbles can not include row names that sit 'outside' the cells.</span></span>
 <span id="cb154-1665"><a href="#cb154-1665" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb154-1666"><a href="#cb154-1666" aria-hidden="true" tabindex="-1"></a><span class="st">For the purpose of this course, we can treat tibbles and data frames as the same thing. However, if you're interested in learning more about tibbles, you can read about them [here](https://r4ds.had.co.nz/tibbles.html#tibbles-vs.-data.frame).</span></span>
 <span id="cb154-1667"><a href="#cb154-1667" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
