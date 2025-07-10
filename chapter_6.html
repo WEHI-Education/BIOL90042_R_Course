@@ -261,24 +261,19 @@ window.Quarto = {
   <li><a href="#fitting-the-linear-model" id="toc-fitting-the-linear-model" class="nav-link" data-scroll-target="#fitting-the-linear-model"><span class="header-section-number">6.1.4</span> Fitting the linear model</a></li>
   </ul></li>
   <li><a href="#statistical-testing" id="toc-statistical-testing" class="nav-link" data-scroll-target="#statistical-testing"><span class="header-section-number">6.2</span> Statistical testing</a></li>
-  <li><a href="#plotting-results" id="toc-plotting-results" class="nav-link" data-scroll-target="#plotting-results"><span class="header-section-number">7</span> Plotting Results</a>
+  <li><a href="#plotting-results" id="toc-plotting-results" class="nav-link" data-scroll-target="#plotting-results"><span class="header-section-number">6.3</span> Plotting Results</a>
   <ul class="collapse">
-  <li><a href="#data-extract" id="toc-data-extract" class="nav-link" data-scroll-target="#data-extract"><span class="header-section-number">7.1</span> Data extract</a>
+  <li><a href="#data-extract" id="toc-data-extract" class="nav-link" data-scroll-target="#data-extract"><span class="header-section-number">6.3.1</span> Data extract</a></li>
+  <li><a href="#volcano-plot" id="toc-volcano-plot" class="nav-link" data-scroll-target="#volcano-plot"><span class="header-section-number">6.3.2</span> Volcano Plot</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">6.3.3</span> Boxplots</a></li>
+  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">6.3.4</span> Heatmap</a></li>
+  </ul></li>
+  <li><a href="#saving-the-results" id="toc-saving-the-results" class="nav-link" data-scroll-target="#saving-the-results"><span class="header-section-number">6.4</span> Saving the results</a></li>
+  <li><a href="#extension" id="toc-extension" class="nav-link" data-scroll-target="#extension"><span class="header-section-number">6.5</span> Extension</a>
   <ul class="collapse">
-  <li><a href="#extract-summary-tables" id="toc-extract-summary-tables" class="nav-link" data-scroll-target="#extract-summary-tables"><span class="header-section-number">7.1.1</span> Extract summary tables</a></li>
-  <li><a href="#extract-logcounts-per-million" id="toc-extract-logcounts-per-million" class="nav-link" data-scroll-target="#extract-logcounts-per-million"><span class="header-section-number">7.1.2</span> Extract log(counts per million)</a></li>
-  <li><a href="#extract-sample-groups" id="toc-extract-sample-groups" class="nav-link" data-scroll-target="#extract-sample-groups"><span class="header-section-number">7.1.3</span> Extract sample groups</a></li>
+  <li><a href="#ma-plot" id="toc-ma-plot" class="nav-link" data-scroll-target="#ma-plot"><span class="header-section-number">6.5.1</span> MA Plot</a></li>
   </ul></li>
-  <li><a href="#volcano-plot" id="toc-volcano-plot" class="nav-link" data-scroll-target="#volcano-plot"><span class="header-section-number">7.2</span> Volcano Plot</a></li>
-  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">7.3</span> Boxplots</a></li>
-  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">7.4</span> Heatmap</a></li>
-  </ul></li>
-  <li><a href="#saving-the-results" id="toc-saving-the-results" class="nav-link" data-scroll-target="#saving-the-results"><span class="header-section-number">8</span> Saving the results</a></li>
-  <li><a href="#extension" id="toc-extension" class="nav-link" data-scroll-target="#extension"><span class="header-section-number">9</span> Extension</a>
-  <ul class="collapse">
-  <li><a href="#ma-plot" id="toc-ma-plot" class="nav-link" data-scroll-target="#ma-plot"><span class="header-section-number">9.1</span> MA Plot</a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.6</span> References</a></li>
   </ul>
 </nav>
 </nav>
@@ -575,19 +570,19 @@ Up          4817      4778   2102</code></pre>
 </div>
 </div>
 </section>
-<section id="plotting-results" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Plotting Results</h1>
+<section id="plotting-results" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="plotting-results"><span class="header-section-number">6.3</span> Plotting Results</h2>
 <p>In this section we will make plots of both the summary statistics (topTable output), and the gene expression levels per sample, using log(counts per million) together with sample metadata from dge$samples.</p>
-<section id="data-extract" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="data-extract"><span class="header-section-number">7.1</span> Data extract</h2>
+<section id="data-extract" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="data-extract"><span class="header-section-number">6.3.1</span> Data extract</h3>
 <p>To start with we extract all the data required to make any of the the common RNAseq results plots. We will</p>
 <ol type="1">
 <li><p>extract the summary statistics for all three contrasts into separate tables</p></li>
 <li><p>extract the sample_ids and experimental group labels, and then</p></li>
 <li><p>extract the log(CPM) values for each sample</p></li>
 </ol>
-<section id="extract-summary-tables" class="level3" data-number="7.1.1">
-<h3 data-number="7.1.1" class="anchored" data-anchor-id="extract-summary-tables"><span class="header-section-number">7.1.1</span> Extract summary tables</h3>
+<section id="extract-summary-tables" class="level4" data-number="6.3.1.1">
+<h4 data-number="6.3.1.1" class="anchored" data-anchor-id="extract-summary-tables"><span class="header-section-number">6.3.1.1</span> Extract summary tables</h4>
 <p>Volcano plots and MA plots require differential expression summary statistics. We have the summary table for BasalvsLP already extracted to <code>top_bvl</code>, now for BasalvsML and LPvsML:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
@@ -600,24 +595,24 @@ Up          4817      4778   2102</code></pre>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'LPvsML'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="extract-logcounts-per-million" class="level3" data-number="7.1.2">
-<h3 data-number="7.1.2" class="anchored" data-anchor-id="extract-logcounts-per-million"><span class="header-section-number">7.1.2</span> Extract log(counts per million)</h3>
+<section id="extract-logcounts-per-million" class="level4" data-number="6.3.1.2">
+<h4 data-number="6.3.1.2" class="anchored" data-anchor-id="extract-logcounts-per-million"><span class="header-section-number">6.3.1.2</span> Extract log(counts per million)</h4>
 <p>Box plots and heatmaps require the gene expression data per sample, expressed as log(counts per million), or ‘log(CPM)’.</p>
 <p>To extract the logCPM to a tibble:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> <span class="fu">cpm</span>(dge, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'ENTREZID'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="extract-sample-groups" class="level3" data-number="7.1.3">
-<h3 data-number="7.1.3" class="anchored" data-anchor-id="extract-sample-groups"><span class="header-section-number">7.1.3</span> Extract sample groups</h3>
+<section id="extract-sample-groups" class="level4" data-number="6.3.1.3">
+<h4 data-number="6.3.1.3" class="anchored" data-anchor-id="extract-sample-groups"><span class="header-section-number">6.3.1.3</span> Extract sample groups</h4>
 <p>We will need the experimental group label for each sample to make boxplots and to annotate our heatmap. We can extract this from the <code>dge$samples</code> table as follows.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sample_group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'sample_id'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="volcano-plot" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="volcano-plot"><span class="header-section-number">7.2</span> Volcano Plot</h2>
+<section id="volcano-plot" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="volcano-plot"><span class="header-section-number">6.3.2</span> Volcano Plot</h3>
 <p>Volcano plots are very popular for visually summarizing results from RNA-seq analysis. The volcano plot is a scatter plot of the negative log10 p-value (y) against the log2 fold-change (x). This plot is useful for visualising the significance of the differentially expressed genes, as the more significant results are at the top left and right of the plot.</p>
 <p>To make a volcano plot for a single experimental contrast (BasalvsLP), we must first categorize the summary statistics for each gene with ‘Up’ ‘Down’ or ‘Not DE’, according to the adj.P.Val and logFC. The <code>case_when()</code> function is a good choice for binning continuous data (adj.P.Val) into categories.</p>
 <div class="cell">
@@ -682,8 +677,8 @@ Next steps
 </div>
 </div>
 </section>
-<section id="boxplots" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">7.3</span> Boxplots</h2>
+<section id="boxplots" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="boxplots"><span class="header-section-number">6.3.3</span> Boxplots</h3>
 <p>It’s important to create boxplots for a few differentially-expressed genes. This is a way of confirming that the results in our summary statistics tables and the underlying data agree, and that that our contrasts are set up correctly!</p>
 <p>In this case we’ll make boxplots from the log(CPM) values of individual samples, for the first 6 differentially-expressed genes in the BasalvsLP topTable <code>top_bvl_cat</code>. We will extract the first 6 rows of the tibble using <code>slice_head()</code>, then join the logCPM values per sample</p>
 <!-- for this to render, yaml header updated to error: true -->
@@ -744,8 +739,8 @@ Cross-check!
 </div>
 </div>
 </section>
-<section id="heatmap" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">7.4</span> Heatmap</h2>
+<section id="heatmap" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="heatmap"><span class="header-section-number">6.3.4</span> Heatmap</h3>
 <p>Next, we can create a heatmap of the differentially expressed genes. The heatmap is a useful way to visualise the expression of the differentially expressed genes in individual samples, especially when more than two conditions are being tested. We can use the <code>tidyheatmaps</code> <a href="https://jbengler.github.io/tidyheatmaps/">package</a> to create the heatmap.</p>
 <p>First we need to install the package if you haven’t already</p>
 <div class="cell">
@@ -826,8 +821,8 @@ Note
 </div>
 </section>
 </section>
-<section id="saving-the-results" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Saving the results</h1>
+<section id="saving-the-results" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="saving-the-results"><span class="header-section-number">6.4</span> Saving the results</h2>
 <p>Now that we have produced a series of plots and the top genes table, we can save these files to a directory. These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"output"</span>)</span>
@@ -847,10 +842,10 @@ Note
 </div>
 <p>With that we have come to the conclusion of the RNA-seq analysis and this course. You have now learned how to use various <code>tidyverse</code> packages to operate on data and create publication quality figures. You have also learned how to use the <code>limma</code> and <code>edgeR</code> packages to perform differential expression analysis on RNA-seq data. You should now be able to apply these skills to perform analysis on your own data.</p>
 </section>
-<section id="extension" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Extension</h1>
-<section id="ma-plot" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="ma-plot"><span class="header-section-number">9.1</span> MA Plot</h2>
+<section id="extension" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="extension"><span class="header-section-number">6.5</span> Extension</h2>
+<section id="ma-plot" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="ma-plot"><span class="header-section-number">6.5.1</span> MA Plot</h3>
 <p>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests. It can be created using the <code>plotMA()</code> from the <code>limma</code> package. Creating this plot requires 3 pieces of information:</p>
 <ul>
 <li><code>object = efit</code>: The the fitted object containing the log-fold-change and log-expression averages</li>
@@ -938,8 +933,8 @@ Next steps
 </div>
 </section>
 </section>
-<section id="references" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> References</h1>
+<section id="references" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="references"><span class="header-section-number">6.6</span> References</h2>
 
 
 <!-- -->
@@ -1680,11 +1675,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-266"><a href="#cb53-266" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top_bvl)</span>
 <span id="cb53-267"><a href="#cb53-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-268"><a href="#cb53-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-269"><a href="#cb53-269" aria-hidden="true" tabindex="-1"></a><span class="fu"># Plotting Results</span></span>
+<span id="cb53-269"><a href="#cb53-269" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plotting Results</span></span>
 <span id="cb53-270"><a href="#cb53-270" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-271"><a href="#cb53-271" aria-hidden="true" tabindex="-1"></a>In this section we will make plots of both the summary statistics (topTable output), and the gene expression levels per sample, using log(counts per million) together with sample metadata from dge\$samples.</span>
 <span id="cb53-272"><a href="#cb53-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-273"><a href="#cb53-273" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data extract</span></span>
+<span id="cb53-273"><a href="#cb53-273" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data extract</span></span>
 <span id="cb53-274"><a href="#cb53-274" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-275"><a href="#cb53-275" aria-hidden="true" tabindex="-1"></a>To start with we extract all the data required to make any of the the common RNAseq results plots.</span>
 <span id="cb53-276"><a href="#cb53-276" aria-hidden="true" tabindex="-1"></a>We will</span>
@@ -1695,7 +1690,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-281"><a href="#cb53-281" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-282"><a href="#cb53-282" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>extract the log(CPM) values for each sample</span>
 <span id="cb53-283"><a href="#cb53-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-284"><a href="#cb53-284" aria-hidden="true" tabindex="-1"></a><span class="fu">### Extract summary tables</span></span>
+<span id="cb53-284"><a href="#cb53-284" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Extract summary tables</span></span>
 <span id="cb53-285"><a href="#cb53-285" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-286"><a href="#cb53-286" aria-hidden="true" tabindex="-1"></a>Volcano plots and MA plots require differential expression summary statistics.</span>
 <span id="cb53-287"><a href="#cb53-287" aria-hidden="true" tabindex="-1"></a>We have the summary table for BasalvsLP already extracted to <span class="in">`top_bvl`</span>, now for BasalvsML and LPvsML:</span>
@@ -1712,7 +1707,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-300"><a href="#cb53-300" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-301"><a href="#cb53-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-302"><a href="#cb53-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-303"><a href="#cb53-303" aria-hidden="true" tabindex="-1"></a><span class="fu">### Extract log(counts per million)</span></span>
+<span id="cb53-303"><a href="#cb53-303" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Extract log(counts per million)</span></span>
 <span id="cb53-304"><a href="#cb53-304" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-305"><a href="#cb53-305" aria-hidden="true" tabindex="-1"></a>Box plots and heatmaps require the gene expression data per sample, expressed as log(counts per million), or 'log(CPM)'.</span>
 <span id="cb53-306"><a href="#cb53-306" aria-hidden="true" tabindex="-1"></a></span>
@@ -1723,7 +1718,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-313"><a href="#cb53-313" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-314"><a href="#cb53-314" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-315"><a href="#cb53-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-316"><a href="#cb53-316" aria-hidden="true" tabindex="-1"></a><span class="fu">### Extract sample groups</span></span>
+<span id="cb53-316"><a href="#cb53-316" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Extract sample groups</span></span>
 <span id="cb53-317"><a href="#cb53-317" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-318"><a href="#cb53-318" aria-hidden="true" tabindex="-1"></a>We will need the experimental group label for each sample to make boxplots and to annotate our heatmap.</span>
 <span id="cb53-319"><a href="#cb53-319" aria-hidden="true" tabindex="-1"></a>We can extract this from the <span class="in">`dge$samples`</span> table as follows.</span>
@@ -1732,7 +1727,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-324"><a href="#cb53-324" aria-hidden="true" tabindex="-1"></a>sample_group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'sample_id'</span>)</span>
 <span id="cb53-325"><a href="#cb53-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-326"><a href="#cb53-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-327"><a href="#cb53-327" aria-hidden="true" tabindex="-1"></a><span class="fu">## Volcano Plot</span></span>
+<span id="cb53-327"><a href="#cb53-327" aria-hidden="true" tabindex="-1"></a><span class="fu">### Volcano Plot</span></span>
 <span id="cb53-328"><a href="#cb53-328" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-329"><a href="#cb53-329" aria-hidden="true" tabindex="-1"></a>Volcano plots are very popular for visually summarizing results from RNA-seq analysis.</span>
 <span id="cb53-330"><a href="#cb53-330" aria-hidden="true" tabindex="-1"></a>The volcano plot is a scatter plot of the negative log10 p-value (y) against the log2 fold-change (x).</span>
@@ -1788,7 +1783,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-388"><a href="#cb53-388" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled volcano plots for the BasalvsML and LPvsML contrasts?</span>
 <span id="cb53-389"><a href="#cb53-389" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-390"><a href="#cb53-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-391"><a href="#cb53-391" aria-hidden="true" tabindex="-1"></a><span class="fu">## Boxplots</span></span>
+<span id="cb53-391"><a href="#cb53-391" aria-hidden="true" tabindex="-1"></a><span class="fu">### Boxplots</span></span>
 <span id="cb53-392"><a href="#cb53-392" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-393"><a href="#cb53-393" aria-hidden="true" tabindex="-1"></a>It's important to create boxplots for a few differentially-expressed genes.</span>
 <span id="cb53-394"><a href="#cb53-394" aria-hidden="true" tabindex="-1"></a>This is a way of confirming that the results in our summary statistics tables and the underlying data agree, and that that our contrasts are set up correctly!</span>
@@ -1848,7 +1843,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-458"><a href="#cb53-458" aria-hidden="true" tabindex="-1"></a>Are they labelled as expected in the volcano plot?</span>
 <span id="cb53-459"><a href="#cb53-459" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-460"><a href="#cb53-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-461"><a href="#cb53-461" aria-hidden="true" tabindex="-1"></a><span class="fu">## Heatmap</span></span>
+<span id="cb53-461"><a href="#cb53-461" aria-hidden="true" tabindex="-1"></a><span class="fu">### Heatmap</span></span>
 <span id="cb53-462"><a href="#cb53-462" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-463"><a href="#cb53-463" aria-hidden="true" tabindex="-1"></a>Next, we can create a heatmap of the differentially expressed genes.</span>
 <span id="cb53-464"><a href="#cb53-464" aria-hidden="true" tabindex="-1"></a>The heatmap is a useful way to visualise the expression of the differentially expressed genes in individual samples, especially when more than two conditions are being tested.</span>
@@ -1929,7 +1924,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-547"><a href="#cb53-547" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap</span></span>
 <span id="cb53-548"><a href="#cb53-548" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-549"><a href="#cb53-549" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-550"><a href="#cb53-550" aria-hidden="true" tabindex="-1"></a><span class="fu"># Saving the results</span></span>
+<span id="cb53-550"><a href="#cb53-550" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving the results</span></span>
 <span id="cb53-551"><a href="#cb53-551" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-552"><a href="#cb53-552" aria-hidden="true" tabindex="-1"></a>Now that we have produced a series of plots and the top genes table, we can save these files to a directory.</span>
 <span id="cb53-553"><a href="#cb53-553" aria-hidden="true" tabindex="-1"></a>These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</span>
@@ -1951,9 +1946,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-569"><a href="#cb53-569" aria-hidden="true" tabindex="-1"></a>You have also learned how to use the <span class="in">`limma`</span> and <span class="in">`edgeR`</span> packages to perform differential expression analysis on RNA-seq data.</span>
 <span id="cb53-570"><a href="#cb53-570" aria-hidden="true" tabindex="-1"></a>You should now be able to apply these skills to perform analysis on your own data.</span>
 <span id="cb53-571"><a href="#cb53-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-572"><a href="#cb53-572" aria-hidden="true" tabindex="-1"></a><span class="fu"># Extension</span></span>
+<span id="cb53-572"><a href="#cb53-572" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extension</span></span>
 <span id="cb53-573"><a href="#cb53-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-574"><a href="#cb53-574" aria-hidden="true" tabindex="-1"></a><span class="fu">## MA Plot</span></span>
+<span id="cb53-574"><a href="#cb53-574" aria-hidden="true" tabindex="-1"></a><span class="fu">### MA Plot</span></span>
 <span id="cb53-575"><a href="#cb53-575" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-576"><a href="#cb53-576" aria-hidden="true" tabindex="-1"></a>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests.</span>
 <span id="cb53-577"><a href="#cb53-577" aria-hidden="true" tabindex="-1"></a>It can be created using the <span class="in">`plotMA()`</span> from the <span class="in">`limma`</span> package.</span>
@@ -2023,7 +2018,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-649"><a href="#cb53-649" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-650"><a href="#cb53-650" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-651"><a href="#cb53-651" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-652"><a href="#cb53-652" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
+<span id="cb53-652"><a href="#cb53-652" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

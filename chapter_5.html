@@ -225,22 +225,18 @@ div.csl-indent {
    
   <ul>
   <li><a href="#data-files" id="toc-data-files" class="nav-link active" data-scroll-target="#data-files"><span class="header-section-number">5.1</span> Data files</a></li>
-  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">6</span> R Packages</a>
-  <ul class="collapse">
-  <li><a href="#loading-in-read-count-data-and-annotation" id="toc-loading-in-read-count-data-and-annotation" class="nav-link" data-scroll-target="#loading-in-read-count-data-and-annotation"><span class="header-section-number">6.1</span> Loading in read count data and annotation</a></li>
-  <li><a href="#a-brief-detour-to-factors" id="toc-a-brief-detour-to-factors" class="nav-link" data-scroll-target="#a-brief-detour-to-factors"><span class="header-section-number">6.2</span> A brief detour to factors</a></li>
-  <li><a href="#creating-the-dgelist-object" id="toc-creating-the-dgelist-object" class="nav-link" data-scroll-target="#creating-the-dgelist-object"><span class="header-section-number">6.3</span> Creating the DGEList object</a></li>
-  <li><a href="#alternative-construction-of-the-dgelist-object" id="toc-alternative-construction-of-the-dgelist-object" class="nav-link" data-scroll-target="#alternative-construction-of-the-dgelist-object"><span class="header-section-number">6.4</span> Alternative construction of the DGEList object</a></li>
-  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering"><span class="header-section-number">6.5</span> Filtering</a></li>
-  <li><a href="#library-size-normalisation" id="toc-library-size-normalisation" class="nav-link" data-scroll-target="#library-size-normalisation"><span class="header-section-number">6.6</span> Library-size normalisation</a></li>
-  <li><a href="#visualising-the-effect-of-normalisation" id="toc-visualising-the-effect-of-normalisation" class="nav-link" data-scroll-target="#visualising-the-effect-of-normalisation"><span class="header-section-number">6.7</span> Visualising the effect of normalisation</a></li>
-  <li><a href="#mds-plots" id="toc-mds-plots" class="nav-link" data-scroll-target="#mds-plots"><span class="header-section-number">6.8</span> MDS plots</a></li>
-  <li><a href="#mds-plot-using-ggplot2" id="toc-mds-plot-using-ggplot2" class="nav-link" data-scroll-target="#mds-plot-using-ggplot2"><span class="header-section-number">6.9</span> MDS plot using ggplot2</a></li>
-  </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">7</span> Summary</a>
-  <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.1</span> References</a></li>
-  </ul></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">5.2</span> R Packages</a></li>
+  <li><a href="#loading-in-read-count-data-and-annotation" id="toc-loading-in-read-count-data-and-annotation" class="nav-link" data-scroll-target="#loading-in-read-count-data-and-annotation"><span class="header-section-number">5.3</span> Loading in read count data and annotation</a></li>
+  <li><a href="#a-brief-detour-to-factors" id="toc-a-brief-detour-to-factors" class="nav-link" data-scroll-target="#a-brief-detour-to-factors"><span class="header-section-number">5.4</span> A brief detour to factors</a></li>
+  <li><a href="#creating-the-dgelist-object" id="toc-creating-the-dgelist-object" class="nav-link" data-scroll-target="#creating-the-dgelist-object"><span class="header-section-number">5.5</span> Creating the DGEList object</a></li>
+  <li><a href="#alternative-construction-of-the-dgelist-object" id="toc-alternative-construction-of-the-dgelist-object" class="nav-link" data-scroll-target="#alternative-construction-of-the-dgelist-object"><span class="header-section-number">5.6</span> Alternative construction of the DGEList object</a></li>
+  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering"><span class="header-section-number">5.7</span> Filtering</a></li>
+  <li><a href="#library-size-normalisation" id="toc-library-size-normalisation" class="nav-link" data-scroll-target="#library-size-normalisation"><span class="header-section-number">5.8</span> Library-size normalisation</a></li>
+  <li><a href="#visualising-the-effect-of-normalisation" id="toc-visualising-the-effect-of-normalisation" class="nav-link" data-scroll-target="#visualising-the-effect-of-normalisation"><span class="header-section-number">5.9</span> Visualising the effect of normalisation</a></li>
+  <li><a href="#mds-plots" id="toc-mds-plots" class="nav-link" data-scroll-target="#mds-plots"><span class="header-section-number">5.10</span> MDS plots</a></li>
+  <li><a href="#mds-plot-using-ggplot2" id="toc-mds-plot-using-ggplot2" class="nav-link" data-scroll-target="#mds-plot-using-ggplot2"><span class="header-section-number">5.11</span> MDS plot using ggplot2</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.12</span> Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">5.13</span> References</a></li>
   </ul>
 </nav>
 </nav>
@@ -309,8 +305,8 @@ Learning Objectives
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/Ses3_counts.zip"</span>, <span class="at">exdir =</span> <span class="st">"data/counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="r-packages" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> R Packages</h1>
+<section id="r-packages" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="r-packages"><span class="header-section-number">5.2</span> R Packages</h2>
 <p>Extra packages are required for later chapters, these can be downloaded by the following commands</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
@@ -318,8 +314,9 @@ Learning Objectives
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"RNAseq123"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="loading-in-read-count-data-and-annotation" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="loading-in-read-count-data-and-annotation"><span class="header-section-number">6.1</span> Loading in read count data and annotation</h2>
+</section>
+<section id="loading-in-read-count-data-and-annotation" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="loading-in-read-count-data-and-annotation"><span class="header-section-number">5.3</span> Loading in read count data and annotation</h2>
 <p>The data we are looking at comes from three cell populations (basal, luminal progenitor (LP) and mature luminal (ML)) sorted from the mammary glands of female virgin mice, each profiled in triplicate. These samples have been sequenced using Illumina RNAseq platforms and we will be using the <code>edgeR</code> package to analyse the data.</p>
 <p>To use the <code>edgeR</code> package we first need to construct a <code>DGEList</code> object. This object contains 3 key pieces of data:</p>
 <ul>
@@ -356,13 +353,13 @@ Data objects
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="a-brief-detour-to-factors" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="a-brief-detour-to-factors"><span class="header-section-number">6.2</span> A brief detour to factors</h2>
+<section id="a-brief-detour-to-factors" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="a-brief-detour-to-factors"><span class="header-section-number">5.4</span> A brief detour to factors</h2>
 <p>Note that when we declared the <code>group</code> variable, we used factors. Factors are a special data type that is used to encode categorical variables. They have multiple useful properties in comparison to regular character vectors: - They allow you to specify the order of the levels. - They are stored as integers but displayed as labels. - They encode all the valid levels of the factor, even if they are not present in the data.</p>
 <p>Specifying the order of the levels is useful because it allows you to re-arrange labels when used in plots. In this data we would have the “Basal” group first, followed by “LP” and then “ML”. Using <code>parse_factor()</code> also allows you to check that the values are all valid levels, for example if one of the samples was labelled “Bassal” instead of “Basal”, it would throw an error. You can read the R for Data Science <a href="https://r4ds.had.co.nz/factors.html">chapter on factors</a> for more information, as well as the <a href="https://forcats.tidyverse.org">forcats package</a> for many useful functions for working with factors.</p>
 </section>
-<section id="creating-the-dgelist-object" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="creating-the-dgelist-object"><span class="header-section-number">6.3</span> Creating the DGEList object</h2>
+<section id="creating-the-dgelist-object" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="creating-the-dgelist-object"><span class="header-section-number">5.5</span> Creating the DGEList object</h2>
 <p>We will create a <code>DGEList</code> object following the <code>RNAseq123</code> workflow. We use the <code>readDGE()</code> function to read in count data from files, and provide sample information to the <code>readDGE()</code> function and adding in the gene annotation information afterwards.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of file names</span></span>
@@ -382,8 +379,8 @@ Data objects
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>genes <span class="ot">&lt;-</span> gene_anno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="alternative-construction-of-the-dgelist-object" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="alternative-construction-of-the-dgelist-object"><span class="header-section-number">6.4</span> Alternative construction of the DGEList object</h2>
+<section id="alternative-construction-of-the-dgelist-object" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="alternative-construction-of-the-dgelist-object"><span class="header-section-number">5.6</span> Alternative construction of the DGEList object</h2>
 <p>A more common way to create a <code>DGEList</code> object is to read in the count data as a matrix and then create the <code>DGEList</code> object using the <code>DGEList()</code> function. We can pull apart our existing <code>DGEList</code> object and recreate it using this method.</p>
 <div class=".callout-info">
 <p>What you can do with data objects is determined by package that the object comes from. You will need to read the package documentation to find out how to access data from the object. Here <code>edgeR</code> informs us that the <code>DGEList</code> has data that can be accessed as if it was a list.</p>
@@ -398,8 +395,8 @@ Data objects
 </div>
 <p>Now we have a data object that can be used for downstream analysis.</p>
 </section>
-<section id="filtering" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="filtering"><span class="header-section-number">6.5</span> Filtering</h2>
+<section id="filtering" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="filtering"><span class="header-section-number">5.7</span> Filtering</h2>
 <p>The first step of our analysis is to filter out lowly expressed genes. There are two main problems with low abundant genes:</p>
 <ul>
 <li>Technical variation is more problematic for low abundance genes. This variation is thought to be due to two factors; insufficient mixing and low sampling fraction<span class="citation" data-cites="mcintyre2011"><sup><a href="#ref-mcintyre2011" role="doc-biblioref">1</a></sup></span>.
@@ -434,8 +431,8 @@ FALSE  TRUE
 </div>
 <p>We can see that we now have 16624 genes. We started with 27179 genes - meaning that ~40% of genes have been filtered out.</p>
 </section>
-<section id="library-size-normalisation" class="level2" data-number="6.6">
-<h2 data-number="6.6" class="anchored" data-anchor-id="library-size-normalisation"><span class="header-section-number">6.6</span> Library-size normalisation</h2>
+<section id="library-size-normalisation" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="library-size-normalisation"><span class="header-section-number">5.8</span> Library-size normalisation</h2>
 <p>After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias. This allows the data to be meaningfully compared across samples or experimental groups.</p>
 <p>There are two main factors that need to be normalised for in RNA-seq:</p>
 <ul>
@@ -488,8 +485,8 @@ JMS9-P8c               1</code></pre>
 </div>
 <p>These normalisation factors are all close to 1 for all samples, suggesting minimal difference in RNA composition between samples.</p>
 </section>
-<section id="visualising-the-effect-of-normalisation" class="level2" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="visualising-the-effect-of-normalisation"><span class="header-section-number">6.7</span> Visualising the effect of normalisation</h2>
+<section id="visualising-the-effect-of-normalisation" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="visualising-the-effect-of-normalisation"><span class="header-section-number">5.9</span> Visualising the effect of normalisation</h2>
 <p>To visualise the effect of TMM normalisation, we can plot the log-counts as a boxplot, and observe the effect of applying the normalisation. To create a boxplot of the log-counts, we can use <code>log(dge$counts + 0.5)</code> to create the log-count matrix. The addition of 0.5 is to avoid taking the log of zero. Then in order to use <code>ggplot2</code> for plotting, we must convert the matrix to a data frame. We can use the <code>as_tibble(rownames = "gene")</code> function to convert the matrix to a data frame where the rownames are converted to a column called “gene”. We can then use the <code>pivot_longer()</code> function to convert the data frame from wide format to long format, where each row represents a single observation. This is necessary for <code>ggplot2</code> to plot the data correctly.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">log</span>(dge<span class="sc">$</span>counts <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
@@ -526,8 +523,8 @@ JMS9-P8c               1</code></pre>
 </div>
 <p>We see that by performing normalisation on our data, the gene expression values of each sample now have similar medians and quantiles. This indicates that the relative expression values of each sample can be more meaningfully compared.</p>
 </section>
-<section id="mds-plots" class="level2" data-number="6.8">
-<h2 data-number="6.8" class="anchored" data-anchor-id="mds-plots"><span class="header-section-number">6.8</span> MDS plots</h2>
+<section id="mds-plots" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="mds-plots"><span class="header-section-number">5.10</span> MDS plots</h2>
 <p>Before we perform statistical tests, it’s useful to perform some exploratory visual analysis to get an overall idea of how our data is behaving.</p>
 <p>MDS is a way to visualise distances between sets of data points (samples in our case). It is a dimensionality reduction technique, similar to principal components analysis (PCA). We treat gene expression in samples as if they were coordinates in a high-dimensional coordinate system, then we can find “distances” between samples as we do between points in space. Then the goal of the algorithm is to find a representation in lower dimensional space such that points that the distance of two objects from each other in high dimensional space is preserved in lower dimensions.</p>
 <p>The <code>plotMDS()</code> from <code>limma</code> creates an MDS plot from a <code>DGEList</code> object.</p>
@@ -555,8 +552,8 @@ JMS9-P8c               1</code></pre>
 </div>
 <p>This shows us that the phenotype groups tend to cluster together, meaning that the gene expression profiles are similar for samples within a phenotype group. The ‘Basal’ type samples quite close together while the ‘LP’ (luminal progenitor) and ‘ML’ (mature luminal) type samples are further apart, signifying that their expression profiles are more variable.</p>
 </section>
-<section id="mds-plot-using-ggplot2" class="level2" data-number="6.9">
-<h2 data-number="6.9" class="anchored" data-anchor-id="mds-plot-using-ggplot2"><span class="header-section-number">6.9</span> MDS plot using ggplot2</h2>
+<section id="mds-plot-using-ggplot2" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="mds-plot-using-ggplot2"><span class="header-section-number">5.11</span> MDS plot using ggplot2</h2>
 <p>For more customisability and better consistency with the style of other plots, it’d be nice to be able to draw the MDS plot using <code>ggplot2</code>. In order to do this we would need the MDS coordinates calculated by <code>plotMDS()</code>. Luckily the documentation of <code>plotMDS()</code> shows that it returns multiple computed values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mds_result <span class="ot">&lt;-</span> <span class="fu">plotMDS</span>(dge, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
@@ -730,9 +727,8 @@ $y
 </div>
 </div>
 </section>
-</section>
-<section id="summary" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Summary</h1>
+<section id="summary" class="level2" data-number="5.12">
+<h2 data-number="5.12" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.12</span> Summary</h2>
 <p>Today we started on the early steps of the RNA-seq analysis workflow.</p>
 <ul>
 <li>We learned how to create a <code>DGEList</code> object, demonstrating how to create data objects required by specific packages.</li>
@@ -743,8 +739,9 @@ $y
 </ul>
 <p>This provides a good foundation for organising data to satisfy the requirements of specific packages, and how to pull data out of the objects created by those packages. The data we pulled out can then be organised into a tidy format to leverage the power of all the <code>tidyverse</code> functions that we have learned so far.</p>
 <p>In the next chapter we will continue the RNA-seq analysis workflow and complete our differential expression analysis.</p>
-<section id="references" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="references"><span class="header-section-number">7.1</span> References</h2>
+</section>
+<section id="references" class="level2" data-number="5.13">
+<h2 data-number="5.13" class="anchored" data-anchor-id="references"><span class="header-section-number">5.13</span> References</h2>
 
 
 <!-- -->
@@ -760,7 +757,6 @@ $y
 <div class="csl-left-margin">3. </div><div class="csl-right-inline">Robinson MD, Oshlack A. A scaling normalization method for differential expression analysis of RNA-seq data. Genome Biology [Internet]. 2010 Mar 2;11(3). Available from: <a href="http://dx.doi.org/10.1186/gb-2010-11-3-r25">http://dx.doi.org/10.1186/gb-2010-11-3-r25</a></div>
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1294,7 +1290,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/Ses3_counts.zip"</span>, <span class="at">exdir =</span> <span class="st">"data/counts"</span>)</span>
 <span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Packages</span></span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## R Packages</span></span>
 <span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>Extra packages are required for later chapters, these can be downloaded by the following commands</span>
 <span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a></span>
@@ -1582,7 +1578,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-368"><a href="#cb26-368" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb26-369"><a href="#cb26-369" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb26-370"><a href="#cb26-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-371"><a href="#cb26-371" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb26-371"><a href="#cb26-371" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
 <span id="cb26-372"><a href="#cb26-372" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-373"><a href="#cb26-373" aria-hidden="true" tabindex="-1"></a>Today we started on the early steps of the RNA-seq analysis workflow.</span>
 <span id="cb26-374"><a href="#cb26-374" aria-hidden="true" tabindex="-1"></a></span>
