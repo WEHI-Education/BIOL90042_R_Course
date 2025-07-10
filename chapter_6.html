@@ -272,12 +272,12 @@ window.Quarto = {
   <li><a href="#volcano-plot" id="toc-volcano-plot" class="nav-link" data-scroll-target="#volcano-plot"><span class="header-section-number">7.2</span> Volcano Plot</a></li>
   <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots"><span class="header-section-number">7.3</span> Boxplots</a></li>
   <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap"><span class="header-section-number">7.4</span> Heatmap</a></li>
-  <li><a href="#saving-all-the-results" id="toc-saving-all-the-results" class="nav-link" data-scroll-target="#saving-all-the-results"><span class="header-section-number">7.5</span> Saving all the results</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.6</span> References</a></li>
   </ul></li>
-  <li><a href="#extension" id="toc-extension" class="nav-link" data-scroll-target="#extension"><span class="header-section-number">8</span> Extension</a>
+  <li><a href="#saving-the-results" id="toc-saving-the-results" class="nav-link" data-scroll-target="#saving-the-results"><span class="header-section-number">8</span> Saving the results</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9</span> References</a></li>
+  <li><a href="#extension" id="toc-extension" class="nav-link" data-scroll-target="#extension"><span class="header-section-number">10</span> Extension</a>
   <ul class="collapse">
-  <li><a href="#ma-plot" id="toc-ma-plot" class="nav-link" data-scroll-target="#ma-plot"><span class="header-section-number">8.1</span> MA Plot</a></li>
+  <li><a href="#ma-plot" id="toc-ma-plot" class="nav-link" data-scroll-target="#ma-plot"><span class="header-section-number">10.1</span> MA Plot</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -820,8 +820,9 @@ Note
 </div>
 </div>
 </section>
-<section id="saving-all-the-results" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="saving-all-the-results"><span class="header-section-number">7.5</span> Saving all the results</h2>
+</section>
+<section id="saving-the-results" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Saving the results</h1>
 <p>Now that we have produced a series of plots and the top genes table, we can save these files to a directory. These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"output"</span>)</span>
@@ -846,14 +847,13 @@ Note
 </div>
 <p>With that we have come to the conclusion of the RNA-seq analysis and this course. You have now learned how to use various <code>tidyverse</code> packages to operate on data and create publication quality figures. You have also learned how to use the <code>limma</code> and <code>edgeR</code> packages to perform differential expression analysis on RNA-seq data. You should now be able to apply these skills to perform analysis on your own data.</p>
 </section>
-<section id="references" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="references"><span class="header-section-number">7.6</span> References</h2>
+<section id="references" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> References</h1>
 </section>
-</section>
-<section id="extension" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Extension</h1>
-<section id="ma-plot" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="ma-plot"><span class="header-section-number">8.1</span> MA Plot</h2>
+<section id="extension" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Extension</h1>
+<section id="ma-plot" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="ma-plot"><span class="header-section-number">10.1</span> MA Plot</h2>
 <p>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests. It can be created using the <code>plotMA()</code> from the <code>limma</code> package. Creating this plot requires 3 pieces of information:</p>
 <ul>
 <li><code>object = efit</code>: The the fitted object containing the log-fold-change and log-expression averages</li>
@@ -1929,7 +1929,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb60-545"><a href="#cb60-545" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb60-546"><a href="#cb60-546" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-547"><a href="#cb60-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-548"><a href="#cb60-548" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving all the results</span></span>
+<span id="cb60-548"><a href="#cb60-548" aria-hidden="true" tabindex="-1"></a><span class="fu"># Saving the results</span></span>
 <span id="cb60-549"><a href="#cb60-549" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-550"><a href="#cb60-550" aria-hidden="true" tabindex="-1"></a>Now that we have produced a series of plots and the top genes table, we can save these files to a directory.</span>
 <span id="cb60-551"><a href="#cb60-551" aria-hidden="true" tabindex="-1"></a>These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</span>
@@ -1951,7 +1951,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb60-567"><a href="#cb60-567" aria-hidden="true" tabindex="-1"></a>You have also learned how to use the <span class="in">`limma`</span> and <span class="in">`edgeR`</span> packages to perform differential expression analysis on RNA-seq data.</span>
 <span id="cb60-568"><a href="#cb60-568" aria-hidden="true" tabindex="-1"></a>You should now be able to apply these skills to perform analysis on your own data.</span>
 <span id="cb60-569"><a href="#cb60-569" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-570"><a href="#cb60-570" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb60-570"><a href="#cb60-570" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
 <span id="cb60-571"><a href="#cb60-571" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-572"><a href="#cb60-572" aria-hidden="true" tabindex="-1"></a><span class="fu"># Extension</span></span>
 <span id="cb60-573"><a href="#cb60-573" aria-hidden="true" tabindex="-1"></a></span>
