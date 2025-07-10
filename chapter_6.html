@@ -776,7 +776,7 @@ Note
 <pre><code>Joining with `by = join_by(ENTREZID)`</code></pre>
 </div>
 </div>
-<p>… and reshape the data to long format before joining in the sample group labels. This is very similar to how the data was prepared for our boxplots.</p>
+<p>…and reshape the data to long format before joining in the sample group labels. This is very similar to how the data was prepared for our boxplots.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">values_to =</span> <span class="st">"logcpm"</span>,</span>
@@ -799,18 +799,19 @@ Note
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rows =</span> SYMBOL,</span>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">columns =</span> sample_id,</span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">values =</span> logcpm,</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_col =</span> group,</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">'row'</span>,</span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_cols =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_rownames =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_colnames =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontsize_row =</span> <span class="dv">6</span>,</span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontsize_col =</span> <span class="dv">10</span></span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>heatmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">color_legend_n =</span> <span class="dv">100</span>,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_col =</span> group,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">'row'</span>,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_cols =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_rownames =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_colnames =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontsize_row =</span> <span class="dv">6</span>,</span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontsize_col =</span> <span class="dv">10</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>heatmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1799,226 +1800,225 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-406"><a href="#cb53-406" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-407"><a href="#cb53-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-408"><a href="#cb53-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-409"><a href="#cb53-409" aria-hidden="true" tabindex="-1"></a>Great!</span>
-<span id="cb53-410"><a href="#cb53-410" aria-hidden="true" tabindex="-1"></a>An error!</span>
-<span id="cb53-411"><a href="#cb53-411" aria-hidden="true" tabindex="-1"></a>...it seems that the ENTREZID column is not the same type between the <span class="in">`top_bvl_cat`</span> and the <span class="in">`sample_logcpm`</span> tibbles.</span>
-<span id="cb53-412"><a href="#cb53-412" aria-hidden="true" tabindex="-1"></a>We can fix this by changing the <span class="in">`sample_logcpm$ENTREZID`</span> into numeric data:</span>
-<span id="cb53-413"><a href="#cb53-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-416"><a href="#cb53-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-417"><a href="#cb53-417" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> sample_logcpm <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(ENTREZID))</span>
-<span id="cb53-418"><a href="#cb53-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-419"><a href="#cb53-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-420"><a href="#cb53-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-421"><a href="#cb53-421" aria-hidden="true" tabindex="-1"></a>Now we can rerun the <span class="in">`left_join()`</span> and reshape the data to long form as required for ggplot2.</span>
-<span id="cb53-422"><a href="#cb53-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-425"><a href="#cb53-425" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-426"><a href="#cb53-426" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">|&gt;</span></span>
-<span id="cb53-427"><a href="#cb53-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-428"><a href="#cb53-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-429"><a href="#cb53-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-430"><a href="#cb53-430" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>SYMBOL, <span class="at">names_to =</span> <span class="st">'sample_id'</span>, <span class="at">values_to =</span> <span class="st">'logCPM'</span>)</span>
-<span id="cb53-431"><a href="#cb53-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-432"><a href="#cb53-432" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-433"><a href="#cb53-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-434"><a href="#cb53-434" aria-hidden="true" tabindex="-1"></a>Next, we join the sample groupings to this reshaped data:</span>
-<span id="cb53-435"><a href="#cb53-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-438"><a href="#cb53-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-439"><a href="#cb53-439" aria-hidden="true" tabindex="-1"></a>top_gene_long_samples <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_gene_long, sample_group, <span class="at">by=</span><span class="st">'sample_id'</span>)</span>
-<span id="cb53-440"><a href="#cb53-440" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-441"><a href="#cb53-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-442"><a href="#cb53-442" aria-hidden="true" tabindex="-1"></a>...and plot the results</span>
-<span id="cb53-443"><a href="#cb53-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-446"><a href="#cb53-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-447"><a href="#cb53-447" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">|&gt;</span> </span>
-<span id="cb53-448"><a href="#cb53-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>logCPM, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
-<span id="cb53-449"><a href="#cb53-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb53-450"><a href="#cb53-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
-<span id="cb53-451"><a href="#cb53-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SYMBOL, <span class="at">scales=</span><span class="st">'free'</span>)</span>
-<span id="cb53-452"><a href="#cb53-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-453"><a href="#cb53-453" aria-hidden="true" tabindex="-1"></a>boxplots</span>
-<span id="cb53-454"><a href="#cb53-454" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-455"><a href="#cb53-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-456"><a href="#cb53-456" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Cross-check!"}</span>
-<span id="cb53-457"><a href="#cb53-457" aria-hidden="true" tabindex="-1"></a>To confirm your statistical contrasts are working as expected, note the gene names that are down-regulated in the Basal vs LP conditions in these boxplots.</span>
-<span id="cb53-458"><a href="#cb53-458" aria-hidden="true" tabindex="-1"></a>Are they labelled as expected in the volcano plot?</span>
-<span id="cb53-459"><a href="#cb53-459" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-460"><a href="#cb53-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-461"><a href="#cb53-461" aria-hidden="true" tabindex="-1"></a><span class="fu">### Heatmap</span></span>
-<span id="cb53-462"><a href="#cb53-462" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-463"><a href="#cb53-463" aria-hidden="true" tabindex="-1"></a>Next, we can create a heatmap of the differentially expressed genes.</span>
-<span id="cb53-464"><a href="#cb53-464" aria-hidden="true" tabindex="-1"></a>The heatmap is a useful way to visualise the expression of the differentially expressed genes in individual samples, especially when more than two conditions are being tested.</span>
-<span id="cb53-465"><a href="#cb53-465" aria-hidden="true" tabindex="-1"></a>We can use the <span class="in">`tidyheatmaps`</span> <span class="co">[</span><span class="ot">package</span><span class="co">](https://jbengler.github.io/tidyheatmaps/)</span> to create the heatmap.</span>
-<span id="cb53-466"><a href="#cb53-466" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-467"><a href="#cb53-467" aria-hidden="true" tabindex="-1"></a>First we need to install the package if you haven't already</span>
-<span id="cb53-468"><a href="#cb53-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-471"><a href="#cb53-471" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-472"><a href="#cb53-472" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb53-473"><a href="#cb53-473" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyheatmaps"</span>)</span>
-<span id="cb53-474"><a href="#cb53-474" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-475"><a href="#cb53-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-476"><a href="#cb53-476" aria-hidden="true" tabindex="-1"></a>The data we will use for the heatmap is going to be the log2 cpm expression values of the top differentially expressed genes, within the <span class="in">`sample_logcpm`</span> data, and the first 50 rows from each of the three top tables.</span>
-<span id="cb53-477"><a href="#cb53-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-478"><a href="#cb53-478" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Note"}</span>
-<span id="cb53-479"><a href="#cb53-479" aria-hidden="true" tabindex="-1"></a>Because genes may be differentially expressed in more than one contrast, the total number of unique genes may be less than 150.</span>
-<span id="cb53-480"><a href="#cb53-480" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-481"><a href="#cb53-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-482"><a href="#cb53-482" aria-hidden="true" tabindex="-1"></a>For more interpretable labels, we will use the gene symbols as the row names of the expression matrix.</span>
-<span id="cb53-483"><a href="#cb53-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-486"><a href="#cb53-486" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-487"><a href="#cb53-487" aria-hidden="true" tabindex="-1"></a>top_genes_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb53-488"><a href="#cb53-488" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb53-489"><a href="#cb53-489" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb53-490"><a href="#cb53-490" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb53-491"><a href="#cb53-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">|&gt;</span> </span>
-<span id="cb53-492"><a href="#cb53-492" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() </span>
+<span id="cb53-409"><a href="#cb53-409" aria-hidden="true" tabindex="-1"></a>Great! An error!</span>
+<span id="cb53-410"><a href="#cb53-410" aria-hidden="true" tabindex="-1"></a>...it seems that the ENTREZID column is not the same type between the <span class="in">`top_bvl_cat`</span> and the <span class="in">`sample_logcpm`</span> tibbles.</span>
+<span id="cb53-411"><a href="#cb53-411" aria-hidden="true" tabindex="-1"></a>We can fix this by changing the <span class="in">`sample_logcpm$ENTREZID`</span> into numeric data:</span>
+<span id="cb53-412"><a href="#cb53-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-415"><a href="#cb53-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-416"><a href="#cb53-416" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> sample_logcpm <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(ENTREZID))</span>
+<span id="cb53-417"><a href="#cb53-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-418"><a href="#cb53-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-419"><a href="#cb53-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-420"><a href="#cb53-420" aria-hidden="true" tabindex="-1"></a>Now we can rerun the <span class="in">`left_join()`</span> and reshape the data to long form as required for ggplot2.</span>
+<span id="cb53-421"><a href="#cb53-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-424"><a href="#cb53-424" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-425"><a href="#cb53-425" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">|&gt;</span></span>
+<span id="cb53-426"><a href="#cb53-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb53-427"><a href="#cb53-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb53-428"><a href="#cb53-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb53-429"><a href="#cb53-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>SYMBOL, <span class="at">names_to =</span> <span class="st">'sample_id'</span>, <span class="at">values_to =</span> <span class="st">'logCPM'</span>)</span>
+<span id="cb53-430"><a href="#cb53-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-431"><a href="#cb53-431" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-432"><a href="#cb53-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-433"><a href="#cb53-433" aria-hidden="true" tabindex="-1"></a>Next, we join the sample groupings to this reshaped data:</span>
+<span id="cb53-434"><a href="#cb53-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-437"><a href="#cb53-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-438"><a href="#cb53-438" aria-hidden="true" tabindex="-1"></a>top_gene_long_samples <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_gene_long, sample_group, <span class="at">by=</span><span class="st">'sample_id'</span>)</span>
+<span id="cb53-439"><a href="#cb53-439" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-440"><a href="#cb53-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-441"><a href="#cb53-441" aria-hidden="true" tabindex="-1"></a>...and plot the results</span>
+<span id="cb53-442"><a href="#cb53-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-445"><a href="#cb53-445" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-446"><a href="#cb53-446" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">|&gt;</span> </span>
+<span id="cb53-447"><a href="#cb53-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>logCPM, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
+<span id="cb53-448"><a href="#cb53-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb53-449"><a href="#cb53-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb53-450"><a href="#cb53-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SYMBOL, <span class="at">scales=</span><span class="st">'free'</span>)</span>
+<span id="cb53-451"><a href="#cb53-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-452"><a href="#cb53-452" aria-hidden="true" tabindex="-1"></a>boxplots</span>
+<span id="cb53-453"><a href="#cb53-453" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-454"><a href="#cb53-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-455"><a href="#cb53-455" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Cross-check!"}</span>
+<span id="cb53-456"><a href="#cb53-456" aria-hidden="true" tabindex="-1"></a>To confirm your statistical contrasts are working as expected, note the gene names that are down-regulated in the Basal vs LP conditions in these boxplots.</span>
+<span id="cb53-457"><a href="#cb53-457" aria-hidden="true" tabindex="-1"></a>Are they labelled as expected in the volcano plot?</span>
+<span id="cb53-458"><a href="#cb53-458" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-459"><a href="#cb53-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-460"><a href="#cb53-460" aria-hidden="true" tabindex="-1"></a><span class="fu">### Heatmap</span></span>
+<span id="cb53-461"><a href="#cb53-461" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-462"><a href="#cb53-462" aria-hidden="true" tabindex="-1"></a>Next, we can create a heatmap of the differentially expressed genes.</span>
+<span id="cb53-463"><a href="#cb53-463" aria-hidden="true" tabindex="-1"></a>The heatmap is a useful way to visualise the expression of the differentially expressed genes in individual samples, especially when more than two conditions are being tested.</span>
+<span id="cb53-464"><a href="#cb53-464" aria-hidden="true" tabindex="-1"></a>We can use the <span class="in">`tidyheatmaps`</span> <span class="co">[</span><span class="ot">package</span><span class="co">](https://jbengler.github.io/tidyheatmaps/)</span> to create the heatmap.</span>
+<span id="cb53-465"><a href="#cb53-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-466"><a href="#cb53-466" aria-hidden="true" tabindex="-1"></a>First we need to install the package if you haven't already</span>
+<span id="cb53-467"><a href="#cb53-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-470"><a href="#cb53-470" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-471"><a href="#cb53-471" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb53-472"><a href="#cb53-472" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyheatmaps"</span>)</span>
+<span id="cb53-473"><a href="#cb53-473" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-474"><a href="#cb53-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-475"><a href="#cb53-475" aria-hidden="true" tabindex="-1"></a>The data we will use for the heatmap is going to be the log2 cpm expression values of the top differentially expressed genes, within the <span class="in">`sample_logcpm`</span> data, and the first 50 rows from each of the three top tables.</span>
+<span id="cb53-476"><a href="#cb53-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-477"><a href="#cb53-477" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Note"}</span>
+<span id="cb53-478"><a href="#cb53-478" aria-hidden="true" tabindex="-1"></a>Because genes may be differentially expressed in more than one contrast, the total number of unique genes may be less than 150.</span>
+<span id="cb53-479"><a href="#cb53-479" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-480"><a href="#cb53-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-481"><a href="#cb53-481" aria-hidden="true" tabindex="-1"></a>For more interpretable labels, we will use the gene symbols as the row names of the expression matrix.</span>
+<span id="cb53-482"><a href="#cb53-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-485"><a href="#cb53-485" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-486"><a href="#cb53-486" aria-hidden="true" tabindex="-1"></a>top_genes_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb53-487"><a href="#cb53-487" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb53-488"><a href="#cb53-488" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb53-489"><a href="#cb53-489" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb53-490"><a href="#cb53-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">|&gt;</span> </span>
+<span id="cb53-491"><a href="#cb53-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() </span>
+<span id="cb53-492"><a href="#cb53-492" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-493"><a href="#cb53-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-494"><a href="#cb53-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-495"><a href="#cb53-495" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-496"><a href="#cb53-496" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-497"><a href="#cb53-497" aria-hidden="true" tabindex="-1"></a>We now join the logCPM values for the top_genes:</span>
-<span id="cb53-498"><a href="#cb53-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-501"><a href="#cb53-501" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-502"><a href="#cb53-502" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> top_genes_all <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_logcpm)</span>
-<span id="cb53-503"><a href="#cb53-503" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-504"><a href="#cb53-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-505"><a href="#cb53-505" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb53-506"><a href="#cb53-506" aria-hidden="true" tabindex="-1"></a>and reshape the data to long format before joining in the sample group labels.</span>
-<span id="cb53-507"><a href="#cb53-507" aria-hidden="true" tabindex="-1"></a>This is very similar to how the data was prepared for our boxplots.</span>
-<span id="cb53-508"><a href="#cb53-508" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-511"><a href="#cb53-511" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-512"><a href="#cb53-512" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
-<span id="cb53-513"><a href="#cb53-513" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">values_to =</span> <span class="st">"logcpm"</span>,</span>
-<span id="cb53-514"><a href="#cb53-514" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(ENTREZID,SYMBOL))</span>
-<span id="cb53-515"><a href="#cb53-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-494"><a href="#cb53-494" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-495"><a href="#cb53-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-496"><a href="#cb53-496" aria-hidden="true" tabindex="-1"></a>We now join the logCPM values for the top_genes:</span>
+<span id="cb53-497"><a href="#cb53-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-500"><a href="#cb53-500" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-501"><a href="#cb53-501" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> top_genes_all <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_logcpm)</span>
+<span id="cb53-502"><a href="#cb53-502" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-503"><a href="#cb53-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-504"><a href="#cb53-504" aria-hidden="true" tabindex="-1"></a>...and reshape the data to long format before joining in the sample group labels.</span>
+<span id="cb53-505"><a href="#cb53-505" aria-hidden="true" tabindex="-1"></a>This is very similar to how the data was prepared for our boxplots.</span>
+<span id="cb53-506"><a href="#cb53-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-509"><a href="#cb53-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-510"><a href="#cb53-510" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
+<span id="cb53-511"><a href="#cb53-511" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">values_to =</span> <span class="st">"logcpm"</span>,</span>
+<span id="cb53-512"><a href="#cb53-512" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(ENTREZID,SYMBOL))</span>
+<span id="cb53-513"><a href="#cb53-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-514"><a href="#cb53-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-515"><a href="#cb53-515" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> top_genes_lcpm_long <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_group)</span>
 <span id="cb53-516"><a href="#cb53-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-517"><a href="#cb53-517" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> top_genes_lcpm_long <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_group)</span>
+<span id="cb53-517"><a href="#cb53-517" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-518"><a href="#cb53-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-519"><a href="#cb53-519" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-520"><a href="#cb53-520" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-521"><a href="#cb53-521" aria-hidden="true" tabindex="-1"></a>To create the heatmap we will use the <span class="in">`tidyheatmaps()`</span> function with the logCPM values.</span>
-<span id="cb53-522"><a href="#cb53-522" aria-hidden="true" tabindex="-1"></a>We will add in arguments to scale the data colours along the rows with a z-score, adding in sample annotation, and using a dendrogram (tree-based clustering) to order the data by rows and columns.</span>
-<span id="cb53-523"><a href="#cb53-523" aria-hidden="true" tabindex="-1"></a>We will also add in the option to show the row names and column names, and set the font size.</span>
+<span id="cb53-519"><a href="#cb53-519" aria-hidden="true" tabindex="-1"></a>To create the heatmap we will use the <span class="in">`tidyheatmaps()`</span> function with the logCPM values.</span>
+<span id="cb53-520"><a href="#cb53-520" aria-hidden="true" tabindex="-1"></a>We will add in arguments to scale the data colours along the rows with a z-score, adding in sample annotation, and using a dendrogram (tree-based clustering) to order the data by rows and columns.</span>
+<span id="cb53-521"><a href="#cb53-521" aria-hidden="true" tabindex="-1"></a>We will also add in the option to show the row names and column names, and set the font size.</span>
+<span id="cb53-522"><a href="#cb53-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-523"><a href="#cb53-523" aria-hidden="true" tabindex="-1"></a>You can experiment with removing each of these options to see how they affect the heatmap, as well as investigate additional options in the <span class="in">`tidyheatmaps()`</span> documentation.</span>
 <span id="cb53-524"><a href="#cb53-524" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-525"><a href="#cb53-525" aria-hidden="true" tabindex="-1"></a>You can experiment with removing each of these options to see how they affect the heatmap, as well as investigate additional options in the <span class="in">`tidyheatmaps()`</span> documentation.</span>
-<span id="cb53-526"><a href="#cb53-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-527"><a href="#cb53-527" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height = 9}</span></span>
-<span id="cb53-528"><a href="#cb53-528" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyheatmaps)</span></span>
-<span id="cb53-529"><a href="#cb53-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-530"><a href="#cb53-530" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-531"><a href="#cb53-531" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap &lt;- tidyheatmap(</span></span>
-<span id="cb53-532"><a href="#cb53-532" aria-hidden="true" tabindex="-1"></a><span class="in">  df = top_genes_lcpm_gp,</span></span>
-<span id="cb53-533"><a href="#cb53-533" aria-hidden="true" tabindex="-1"></a><span class="in">  rows = SYMBOL,</span></span>
-<span id="cb53-534"><a href="#cb53-534" aria-hidden="true" tabindex="-1"></a><span class="in">  columns = sample_id,</span></span>
-<span id="cb53-535"><a href="#cb53-535" aria-hidden="true" tabindex="-1"></a><span class="in">  values = logcpm,</span></span>
-<span id="cb53-536"><a href="#cb53-536" aria-hidden="true" tabindex="-1"></a><span class="in">  annotation_col = group,</span></span>
-<span id="cb53-537"><a href="#cb53-537" aria-hidden="true" tabindex="-1"></a><span class="in">  scale = 'row',</span></span>
-<span id="cb53-538"><a href="#cb53-538" aria-hidden="true" tabindex="-1"></a><span class="in">  border_color = NA,</span></span>
-<span id="cb53-539"><a href="#cb53-539" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_rows = TRUE,</span></span>
-<span id="cb53-540"><a href="#cb53-540" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_cols = TRUE,</span></span>
-<span id="cb53-541"><a href="#cb53-541" aria-hidden="true" tabindex="-1"></a><span class="in">  show_rownames = TRUE,</span></span>
-<span id="cb53-542"><a href="#cb53-542" aria-hidden="true" tabindex="-1"></a><span class="in">  show_colnames = TRUE,</span></span>
-<span id="cb53-543"><a href="#cb53-543" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_row = 6,</span></span>
-<span id="cb53-544"><a href="#cb53-544" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_col = 10</span></span>
-<span id="cb53-545"><a href="#cb53-545" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb53-546"><a href="#cb53-546" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-547"><a href="#cb53-547" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap</span></span>
-<span id="cb53-548"><a href="#cb53-548" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-549"><a href="#cb53-549" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-550"><a href="#cb53-550" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving the results</span></span>
-<span id="cb53-551"><a href="#cb53-551" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-552"><a href="#cb53-552" aria-hidden="true" tabindex="-1"></a>Now that we have produced a series of plots and the top genes table, we can save these files to a directory.</span>
-<span id="cb53-553"><a href="#cb53-553" aria-hidden="true" tabindex="-1"></a>These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</span>
-<span id="cb53-554"><a href="#cb53-554" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-555"><a href="#cb53-555" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
-<span id="cb53-556"><a href="#cb53-556" aria-hidden="true" tabindex="-1"></a><span class="in">dir.create("output")</span></span>
-<span id="cb53-557"><a href="#cb53-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-558"><a href="#cb53-558" aria-hidden="true" tabindex="-1"></a><span class="in">write_csv(top_bvl_cat, "output/top_genes_BasalvsLP.csv")</span></span>
-<span id="cb53-559"><a href="#cb53-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-560"><a href="#cb53-560" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/volcano_plot_BasalvsLP.png", volcano_bvl)</span></span>
-<span id="cb53-561"><a href="#cb53-561" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-562"><a href="#cb53-562" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/heatmap.png", heatmap, width=9, height=9)</span></span>
-<span id="cb53-563"><a href="#cb53-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-564"><a href="#cb53-564" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/boxplots.png", boxplots)</span></span>
-<span id="cb53-565"><a href="#cb53-565" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-566"><a href="#cb53-566" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-567"><a href="#cb53-567" aria-hidden="true" tabindex="-1"></a>With that we have come to the conclusion of the RNA-seq analysis and this course.</span>
-<span id="cb53-568"><a href="#cb53-568" aria-hidden="true" tabindex="-1"></a>You have now learned how to use various <span class="in">`tidyverse`</span> packages to operate on data and create publication quality figures.</span>
-<span id="cb53-569"><a href="#cb53-569" aria-hidden="true" tabindex="-1"></a>You have also learned how to use the <span class="in">`limma`</span> and <span class="in">`edgeR`</span> packages to perform differential expression analysis on RNA-seq data.</span>
-<span id="cb53-570"><a href="#cb53-570" aria-hidden="true" tabindex="-1"></a>You should now be able to apply these skills to perform analysis on your own data.</span>
-<span id="cb53-571"><a href="#cb53-571" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-572"><a href="#cb53-572" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extension</span></span>
-<span id="cb53-573"><a href="#cb53-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-574"><a href="#cb53-574" aria-hidden="true" tabindex="-1"></a><span class="fu">### MA Plot</span></span>
-<span id="cb53-575"><a href="#cb53-575" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-576"><a href="#cb53-576" aria-hidden="true" tabindex="-1"></a>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests.</span>
-<span id="cb53-577"><a href="#cb53-577" aria-hidden="true" tabindex="-1"></a>It can be created using the <span class="in">`plotMA()`</span> from the <span class="in">`limma`</span> package.</span>
-<span id="cb53-578"><a href="#cb53-578" aria-hidden="true" tabindex="-1"></a>Creating this plot requires 3 pieces of information:</span>
-<span id="cb53-579"><a href="#cb53-579" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-580"><a href="#cb53-580" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`object = efit`</span>: The the fitted object containing the log-fold-change and log-expression averages</span>
-<span id="cb53-581"><a href="#cb53-581" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`coef = 1`</span>: The column number of the contrast to plot since there are 3 different contrasts fitted within the object.</span>
-<span id="cb53-582"><a href="#cb53-582" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`status = dt[, 1]`</span>: A vector of numerics denoting whether a gene is up-regulated or down-regulated.</span>
-<span id="cb53-583"><a href="#cb53-583" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-586"><a href="#cb53-586" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-587"><a href="#cb53-587" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
-<span id="cb53-588"><a href="#cb53-588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-589"><a href="#cb53-589" aria-hidden="true" tabindex="-1"></a><span class="co">#If you get an error with the above code, try:</span></span>
-<span id="cb53-590"><a href="#cb53-590" aria-hidden="true" tabindex="-1"></a>limma<span class="sc">::</span><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
-<span id="cb53-591"><a href="#cb53-591" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-592"><a href="#cb53-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-593"><a href="#cb53-593" aria-hidden="true" tabindex="-1"></a>As before, we can try to re-create this plot using <span class="in">`ggplot2`</span> to give us more flexibility in plotting.</span>
-<span id="cb53-594"><a href="#cb53-594" aria-hidden="true" tabindex="-1"></a>The information we'll need is in the <span class="in">`top_bvl_cat`</span> tibble that we extracted for the volcano plot.</span>
-<span id="cb53-595"><a href="#cb53-595" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-598"><a href="#cb53-598" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-599"><a href="#cb53-599" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span></span>
-<span id="cb53-600"><a href="#cb53-600" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
-<span id="cb53-601"><a href="#cb53-601" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
-<span id="cb53-602"><a href="#cb53-602" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-603"><a href="#cb53-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-604"><a href="#cb53-604" aria-hidden="true" tabindex="-1"></a>While the coordinates of the points are the same, there is still quite a bit of work to do to make this plot look like the one produced by <span class="in">`plotMA()`</span>.</span>
-<span id="cb53-605"><a href="#cb53-605" aria-hidden="true" tabindex="-1"></a>First we have the fix up the colours of the points.</span>
-<span id="cb53-606"><a href="#cb53-606" aria-hidden="true" tabindex="-1"></a>We also have to make it such that the non-significant points are plotted below the other points.</span>
-<span id="cb53-607"><a href="#cb53-607" aria-hidden="true" tabindex="-1"></a>To do this we would need to make it so that the non-significant points are plotted first.</span>
-<span id="cb53-608"><a href="#cb53-608" aria-hidden="true" tabindex="-1"></a>We can do this by reordering the levels of the <span class="in">`status`</span> factor so that the non-significant points are plotted first.</span>
-<span id="cb53-609"><a href="#cb53-609" aria-hidden="true" tabindex="-1"></a>Labels can also be added using <span class="in">`ggrepel`</span> for the top 10 DE genes in each direction.</span>
-<span id="cb53-610"><a href="#cb53-610" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-613"><a href="#cb53-613" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-614"><a href="#cb53-614" aria-hidden="true" tabindex="-1"></a>top_bvl_cat_fct <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
-<span id="cb53-615"><a href="#cb53-615" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">fct_relevel</span>(status,<span class="st">'Non DE'</span>)) </span>
-<span id="cb53-616"><a href="#cb53-616" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-617"><a href="#cb53-617" aria-hidden="true" tabindex="-1"></a>scale_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb53-618"><a href="#cb53-618" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Not DE"</span> <span class="ot">=</span> <span class="st">"#595959"</span>,</span>
-<span id="cb53-619"><a href="#cb53-619" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Down"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
-<span id="cb53-620"><a href="#cb53-620" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Up"</span> <span class="ot">=</span> <span class="st">"red"</span></span>
-<span id="cb53-621"><a href="#cb53-621" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb53-622"><a href="#cb53-622" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-623"><a href="#cb53-623" aria-hidden="true" tabindex="-1"></a>ma_bvl <span class="ot">&lt;-</span> top_bvl_cat_fct <span class="sc">%&gt;%</span></span>
-<span id="cb53-624"><a href="#cb53-624" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
-<span id="cb53-625"><a href="#cb53-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb53-626"><a href="#cb53-626" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">!=</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb53-627"><a href="#cb53-627" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(</span>
-<span id="cb53-628"><a href="#cb53-628" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_deg_bvl,</span>
-<span id="cb53-629"><a href="#cb53-629" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> SYMBOL, <span class="at">col =</span> <span class="cn">NULL</span>),</span>
-<span id="cb53-630"><a href="#cb53-630" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
-<span id="cb53-631"><a href="#cb53-631" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
-<span id="cb53-632"><a href="#cb53-632" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb53-633"><a href="#cb53-633" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> scale_cols) <span class="sc">+</span></span>
-<span id="cb53-634"><a href="#cb53-634" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Basal vs LP'</span>)</span>
-<span id="cb53-635"><a href="#cb53-635" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-636"><a href="#cb53-636" aria-hidden="true" tabindex="-1"></a>ma_bvl</span>
-<span id="cb53-637"><a href="#cb53-637" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-638"><a href="#cb53-638" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-639"><a href="#cb53-639" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Next steps"}</span>
-<span id="cb53-640"><a href="#cb53-640" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled MA plots for the BasalvsML and LPvsML contrasts?</span>
-<span id="cb53-641"><a href="#cb53-641" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-642"><a href="#cb53-642" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-643"><a href="#cb53-643" aria-hidden="true" tabindex="-1"></a>Now we can save the MA plot to our output:</span>
-<span id="cb53-644"><a href="#cb53-644" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-647"><a href="#cb53-647" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-648"><a href="#cb53-648" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"output/ma_plot_BasalvsLP.png"</span>, ma_bvl)</span>
-<span id="cb53-649"><a href="#cb53-649" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-650"><a href="#cb53-650" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-651"><a href="#cb53-651" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-652"><a href="#cb53-652" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb53-525"><a href="#cb53-525" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height = 9}</span></span>
+<span id="cb53-526"><a href="#cb53-526" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyheatmaps)</span></span>
+<span id="cb53-527"><a href="#cb53-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-528"><a href="#cb53-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-529"><a href="#cb53-529" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap &lt;- tidyheatmap(</span></span>
+<span id="cb53-530"><a href="#cb53-530" aria-hidden="true" tabindex="-1"></a><span class="in">  df = top_genes_lcpm_gp,</span></span>
+<span id="cb53-531"><a href="#cb53-531" aria-hidden="true" tabindex="-1"></a><span class="in">  rows = SYMBOL,</span></span>
+<span id="cb53-532"><a href="#cb53-532" aria-hidden="true" tabindex="-1"></a><span class="in">  columns = sample_id,</span></span>
+<span id="cb53-533"><a href="#cb53-533" aria-hidden="true" tabindex="-1"></a><span class="in">  values = logcpm,</span></span>
+<span id="cb53-534"><a href="#cb53-534" aria-hidden="true" tabindex="-1"></a><span class="in">  color_legend_n = 100,</span></span>
+<span id="cb53-535"><a href="#cb53-535" aria-hidden="true" tabindex="-1"></a><span class="in">  annotation_col = group,</span></span>
+<span id="cb53-536"><a href="#cb53-536" aria-hidden="true" tabindex="-1"></a><span class="in">  scale = 'row',</span></span>
+<span id="cb53-537"><a href="#cb53-537" aria-hidden="true" tabindex="-1"></a><span class="in">  border_color = NA,</span></span>
+<span id="cb53-538"><a href="#cb53-538" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_rows = TRUE,</span></span>
+<span id="cb53-539"><a href="#cb53-539" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_cols = TRUE,</span></span>
+<span id="cb53-540"><a href="#cb53-540" aria-hidden="true" tabindex="-1"></a><span class="in">  show_rownames = TRUE,</span></span>
+<span id="cb53-541"><a href="#cb53-541" aria-hidden="true" tabindex="-1"></a><span class="in">  show_colnames = TRUE,</span></span>
+<span id="cb53-542"><a href="#cb53-542" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_row = 6,</span></span>
+<span id="cb53-543"><a href="#cb53-543" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_col = 10</span></span>
+<span id="cb53-544"><a href="#cb53-544" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb53-545"><a href="#cb53-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-546"><a href="#cb53-546" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap</span></span>
+<span id="cb53-547"><a href="#cb53-547" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-548"><a href="#cb53-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-549"><a href="#cb53-549" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving the results</span></span>
+<span id="cb53-550"><a href="#cb53-550" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-551"><a href="#cb53-551" aria-hidden="true" tabindex="-1"></a>Now that we have produced a series of plots and the top genes table, we can save these files to a directory.</span>
+<span id="cb53-552"><a href="#cb53-552" aria-hidden="true" tabindex="-1"></a>These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</span>
+<span id="cb53-553"><a href="#cb53-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-554"><a href="#cb53-554" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb53-555"><a href="#cb53-555" aria-hidden="true" tabindex="-1"></a><span class="in">dir.create("output")</span></span>
+<span id="cb53-556"><a href="#cb53-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-557"><a href="#cb53-557" aria-hidden="true" tabindex="-1"></a><span class="in">write_csv(top_bvl_cat, "output/top_genes_BasalvsLP.csv")</span></span>
+<span id="cb53-558"><a href="#cb53-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-559"><a href="#cb53-559" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/volcano_plot_BasalvsLP.png", volcano_bvl)</span></span>
+<span id="cb53-560"><a href="#cb53-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-561"><a href="#cb53-561" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/heatmap.png", heatmap, width=9, height=9)</span></span>
+<span id="cb53-562"><a href="#cb53-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-563"><a href="#cb53-563" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/boxplots.png", boxplots)</span></span>
+<span id="cb53-564"><a href="#cb53-564" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-565"><a href="#cb53-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-566"><a href="#cb53-566" aria-hidden="true" tabindex="-1"></a>With that we have come to the conclusion of the RNA-seq analysis and this course.</span>
+<span id="cb53-567"><a href="#cb53-567" aria-hidden="true" tabindex="-1"></a>You have now learned how to use various <span class="in">`tidyverse`</span> packages to operate on data and create publication quality figures.</span>
+<span id="cb53-568"><a href="#cb53-568" aria-hidden="true" tabindex="-1"></a>You have also learned how to use the <span class="in">`limma`</span> and <span class="in">`edgeR`</span> packages to perform differential expression analysis on RNA-seq data.</span>
+<span id="cb53-569"><a href="#cb53-569" aria-hidden="true" tabindex="-1"></a>You should now be able to apply these skills to perform analysis on your own data.</span>
+<span id="cb53-570"><a href="#cb53-570" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-571"><a href="#cb53-571" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extension</span></span>
+<span id="cb53-572"><a href="#cb53-572" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-573"><a href="#cb53-573" aria-hidden="true" tabindex="-1"></a><span class="fu">### MA Plot</span></span>
+<span id="cb53-574"><a href="#cb53-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-575"><a href="#cb53-575" aria-hidden="true" tabindex="-1"></a>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests.</span>
+<span id="cb53-576"><a href="#cb53-576" aria-hidden="true" tabindex="-1"></a>It can be created using the <span class="in">`plotMA()`</span> from the <span class="in">`limma`</span> package.</span>
+<span id="cb53-577"><a href="#cb53-577" aria-hidden="true" tabindex="-1"></a>Creating this plot requires 3 pieces of information:</span>
+<span id="cb53-578"><a href="#cb53-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-579"><a href="#cb53-579" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`object = efit`</span>: The the fitted object containing the log-fold-change and log-expression averages</span>
+<span id="cb53-580"><a href="#cb53-580" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`coef = 1`</span>: The column number of the contrast to plot since there are 3 different contrasts fitted within the object.</span>
+<span id="cb53-581"><a href="#cb53-581" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`status = dt[, 1]`</span>: A vector of numerics denoting whether a gene is up-regulated or down-regulated.</span>
+<span id="cb53-582"><a href="#cb53-582" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-585"><a href="#cb53-585" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-586"><a href="#cb53-586" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
+<span id="cb53-587"><a href="#cb53-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-588"><a href="#cb53-588" aria-hidden="true" tabindex="-1"></a><span class="co">#If you get an error with the above code, try:</span></span>
+<span id="cb53-589"><a href="#cb53-589" aria-hidden="true" tabindex="-1"></a>limma<span class="sc">::</span><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
+<span id="cb53-590"><a href="#cb53-590" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-591"><a href="#cb53-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-592"><a href="#cb53-592" aria-hidden="true" tabindex="-1"></a>As before, we can try to re-create this plot using <span class="in">`ggplot2`</span> to give us more flexibility in plotting.</span>
+<span id="cb53-593"><a href="#cb53-593" aria-hidden="true" tabindex="-1"></a>The information we'll need is in the <span class="in">`top_bvl_cat`</span> tibble that we extracted for the volcano plot.</span>
+<span id="cb53-594"><a href="#cb53-594" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-597"><a href="#cb53-597" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-598"><a href="#cb53-598" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb53-599"><a href="#cb53-599" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
+<span id="cb53-600"><a href="#cb53-600" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb53-601"><a href="#cb53-601" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-602"><a href="#cb53-602" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-603"><a href="#cb53-603" aria-hidden="true" tabindex="-1"></a>While the coordinates of the points are the same, there is still quite a bit of work to do to make this plot look like the one produced by <span class="in">`plotMA()`</span>.</span>
+<span id="cb53-604"><a href="#cb53-604" aria-hidden="true" tabindex="-1"></a>First we have the fix up the colours of the points.</span>
+<span id="cb53-605"><a href="#cb53-605" aria-hidden="true" tabindex="-1"></a>We also have to make it such that the non-significant points are plotted below the other points.</span>
+<span id="cb53-606"><a href="#cb53-606" aria-hidden="true" tabindex="-1"></a>To do this we would need to make it so that the non-significant points are plotted first.</span>
+<span id="cb53-607"><a href="#cb53-607" aria-hidden="true" tabindex="-1"></a>We can do this by reordering the levels of the <span class="in">`status`</span> factor so that the non-significant points are plotted first.</span>
+<span id="cb53-608"><a href="#cb53-608" aria-hidden="true" tabindex="-1"></a>Labels can also be added using <span class="in">`ggrepel`</span> for the top 10 DE genes in each direction.</span>
+<span id="cb53-609"><a href="#cb53-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-612"><a href="#cb53-612" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-613"><a href="#cb53-613" aria-hidden="true" tabindex="-1"></a>top_bvl_cat_fct <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb53-614"><a href="#cb53-614" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">fct_relevel</span>(status,<span class="st">'Non DE'</span>)) </span>
+<span id="cb53-615"><a href="#cb53-615" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-616"><a href="#cb53-616" aria-hidden="true" tabindex="-1"></a>scale_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb53-617"><a href="#cb53-617" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Not DE"</span> <span class="ot">=</span> <span class="st">"#595959"</span>,</span>
+<span id="cb53-618"><a href="#cb53-618" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Down"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
+<span id="cb53-619"><a href="#cb53-619" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Up"</span> <span class="ot">=</span> <span class="st">"red"</span></span>
+<span id="cb53-620"><a href="#cb53-620" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-621"><a href="#cb53-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-622"><a href="#cb53-622" aria-hidden="true" tabindex="-1"></a>ma_bvl <span class="ot">&lt;-</span> top_bvl_cat_fct <span class="sc">%&gt;%</span></span>
+<span id="cb53-623"><a href="#cb53-623" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
+<span id="cb53-624"><a href="#cb53-624" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb53-625"><a href="#cb53-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">!=</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb53-626"><a href="#cb53-626" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(</span>
+<span id="cb53-627"><a href="#cb53-627" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_deg_bvl,</span>
+<span id="cb53-628"><a href="#cb53-628" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> SYMBOL, <span class="at">col =</span> <span class="cn">NULL</span>),</span>
+<span id="cb53-629"><a href="#cb53-629" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
+<span id="cb53-630"><a href="#cb53-630" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
+<span id="cb53-631"><a href="#cb53-631" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb53-632"><a href="#cb53-632" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> scale_cols) <span class="sc">+</span></span>
+<span id="cb53-633"><a href="#cb53-633" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Basal vs LP'</span>)</span>
+<span id="cb53-634"><a href="#cb53-634" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-635"><a href="#cb53-635" aria-hidden="true" tabindex="-1"></a>ma_bvl</span>
+<span id="cb53-636"><a href="#cb53-636" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-637"><a href="#cb53-637" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-638"><a href="#cb53-638" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Next steps"}</span>
+<span id="cb53-639"><a href="#cb53-639" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled MA plots for the BasalvsML and LPvsML contrasts?</span>
+<span id="cb53-640"><a href="#cb53-640" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-641"><a href="#cb53-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-642"><a href="#cb53-642" aria-hidden="true" tabindex="-1"></a>Now we can save the MA plot to our output:</span>
+<span id="cb53-643"><a href="#cb53-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-646"><a href="#cb53-646" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-647"><a href="#cb53-647" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"output/ma_plot_BasalvsLP.png"</span>, ma_bvl)</span>
+<span id="cb53-648"><a href="#cb53-648" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-649"><a href="#cb53-649" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-650"><a href="#cb53-650" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-651"><a href="#cb53-651" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
