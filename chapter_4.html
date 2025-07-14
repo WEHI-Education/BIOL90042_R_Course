@@ -271,18 +271,18 @@ Learning Objectives
 </div>
 <section id="introduction-to-the-dataset" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="introduction-to-the-dataset"><span class="header-section-number">4.1</span> Introduction to the dataset</h2>
-<p>In this chapter we will use the <code>mousezempic_dosage_data</code> and <code>mousezempic_expression_data</code> data frames, which contain information about the mice and their gene expression levels, respectively.</p>
+<p>In this chapter we will use the mousezempic dosage data <code>m_dose</code> and mouse expression data <code>m_exp</code> data frames, which contain information about the mice including mousezempic dose, and their gene expression levels, respectively.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"data"</span>) <span class="co"># create data directory if it doesn't exist</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://raw.githubusercontent.com/kzeglinski/new_wehi_r_course/refs/heads/main/data/mousezempic_expression_data.tsv"</span>, <span class="st">"data/mousezempic_expression_data.tsv"</span>) <span class="co"># download data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://raw.githubusercontent.com/kzeglinski/new_wehi_r_course/refs/heads/main/data/m_exp.tsv"</span>, <span class="st">"data/m_exp.tsv"</span>) <span class="co"># download data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read in dosage data</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/mousezempic_dosage_data.csv"</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>m_dose <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/mousezempic_dosage_data.csv"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>m_dose</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 9
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -304,8 +304,8 @@ Learning Objectives
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in expression data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mousezempic_expression_data <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/mousezempic_expression_data.tsv"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>mousezempic_expression_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>m_exp <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/mousezempic_expression_data.tsv"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>m_exp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 453 × 11
    id_num Th_rep1 Th_rep2 Th_rep3 Prlh_rep1 Prlh_rep2 Prlh_rep3 Hprt1_rep1
@@ -399,7 +399,7 @@ Note
 <p>A common use case for <code>pivot_wider()</code> is to make a <a href="https://en.wikipedia.org/wiki/Contingency_table">contingency table</a>, which shows the number of observations for each combination of two variables. This is often easier to read than the same information in long format.</p>
 <p>For example, let’s say we want to create a table that shows how many mice there are of each strain, in each cage number. We can achieve this in a long format using <code>summarise()</code> as we learned in the previous section:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_mice =</span> <span class="fu">n</span>(),</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(cage_number, mouse_strain))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -416,7 +416,7 @@ Note
 </div>
 <p>For the specific task of counting, we can achieve the same effect using the <code>count()</code> tidyverse function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cage_number, mouse_strain, <span class="at">name =</span> <span class="st">"n_mice"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 3
@@ -432,7 +432,7 @@ Note
 <p>This summarises by each combination of <code>cage_number</code> and <code>mouse_strain</code>, with the <code>n()</code> function giving the count of data belonging to that combination.</p>
 <p>To get a contingency table, we wish to have the information in the <code>mouse_strain</code> column displayed along the column names and the values of <code>n_mice</code> becoming the values of the cells in the new table. Since the goal is to make the table wider, we use the <code>pivot_wider()</code> function. To achieve this, we instruct the <code>pivot_wider()</code> function to take names from the <code>mouse_strain</code> column and the values from the <code>n_mice</code> column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cage_number, mouse_strain, <span class="at">name =</span> <span class="st">"n_mice"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> mouse_strain, <span class="at">values_from =</span> n_mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -447,7 +447,7 @@ Note
 <p>This has transformed our data into a contingency table, with <code>NA</code> where no data corresponding data exists for the specific <code>cage_number</code> and <code>mouse_strain</code> combination.</p>
 <p>We can do the same thing to see how many of each mouse strains is in each of our experiment replicates.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(replicate, mouse_strain, <span class="at">name =</span> <span class="st">"n_mice"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> mouse_strain, <span class="at">values_from =</span> n_mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -463,9 +463,9 @@ Note
 <section id="pivot-longer" class="level4" data-number="4.3.1.2">
 <h4 data-number="4.3.1.2" class="anchored" data-anchor-id="pivot-longer"><span class="header-section-number">4.3.1.2</span> Pivot longer</h4>
 <p>Data can often arrive in the form similar to the contingency table we constructed. Although this data is easy to read, it is difficult to operate on using tidyverse functions because the <code>mouse_strain</code> data is now stored in the column names and not inside a column we can use as a variable. In order to make this kind of data tidy, we use the <code>pivot_longer()</code> function, which will create a pair of columns from the column names and the value of the corresponding cell.</p>
-<p>To demonstrate <code>pivot_longer()</code>, we will use the <code>mousezempic_expression_data</code> that we downloaded earlier. This data frame contains the expression levels of two genes (TH and PRLH) suspected to be upregulated in mice taking MouseZempic, as well as one housekeeping gene (HPRT1), all measured in triplicate.</p>
+<p>To demonstrate <code>pivot_longer()</code>, we will use the <code>m_exp</code> that we downloaded earlier. This data frame contains the expression levels of two genes (TH and PRLH) suspected to be upregulated in mice taking MouseZempic, as well as one housekeeping gene (HPRT1), all measured in triplicate.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mousezempic_expression_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m_exp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 453 × 11
    id_num Th_rep1 Th_rep2 Th_rep3 Prlh_rep1 Prlh_rep2 Prlh_rep3 Hprt1_rep1
@@ -492,7 +492,7 @@ Note
 </ol>
 <p>In this particular case here’s what the code would look like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long <span class="ot">&lt;-</span> mousezempic_expression_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long <span class="ot">&lt;-</span> m_exp <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"_rep"</span>),</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measurement"</span>,</span>
@@ -670,9 +670,9 @@ Practice exercise
 </figure>
 </div>
 <p>A common and basic join is the <code>left_join()</code>. It takes two data frame as arguments and optionally a vector of common columns to perform the join on. The reason it’s called a left-join because it retains all rows from the left data frame while adding on columns from the right data frame only when the data in the designed joining column(s) match.</p>
-<p>For example, we can join the <code>mousezempic_dosage_data</code> data frame with the <code>mz_expr_rep_summed_wide</code> data frame based on the <code>id_num</code> column, which is common to both data frames:</p>
+<p>For example, we can join the <code>m_dose</code> data frame with the <code>mz_expr_rep_summed_wide</code> data frame based on the <code>id_num</code> column, which is common to both data frames:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(mousezempic_dosage_data, mz_expr_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(m_dose, mz_expr_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 13
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -692,7 +692,7 @@ Practice exercise
 #   id_num &lt;dbl&gt;, group &lt;chr&gt;, Th &lt;dbl&gt;, Prlh &lt;dbl&gt;, Hprt1 &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>The <code>mousezempic_dosage_data</code> contains information about characteristics of each mouse, while the <code>mz_expr_rep_summed_wide</code> contains the replicate-summed gene expressions of the mice. Each data frame has an <code>id_num</code> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</p>
+<p>The <code>m_dose</code> contains information about characteristics of each mouse, while the <code>mz_expr_rep_summed_wide</code> contains the replicate-summed gene expressions of the mice. Each data frame has an <code>id_num</code> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</p>
 <p>With the <code>left_join()</code>, if there is a <code>id_num</code> value that exists in the right data frame but not found in the left, then that data will not be present in the joined table. For any <code>id_num</code> that appears only in the left but not the right data frame, the values in the newly created columns will be <code>NA</code>.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -710,10 +710,10 @@ Caution
 <section id="joining-with-mismatched-column-names" class="level4" data-number="4.3.5.1">
 <h4 data-number="4.3.5.1" class="anchored" data-anchor-id="joining-with-mismatched-column-names"><span class="header-section-number">4.3.5.1</span> Joining with mismatched column names</h4>
 <p>Often the column containing the matching information has different names in different data frames. For example what might be called “id_num” in one data frame could also be called “mouse_id” in another data frame. In those cases the <code>by</code> argument of <code>left_join()</code> can be formatted to let the function know which column in the left data frame matches to which column on the right.</p>
-<p>We will demonstrate this by renaming the <code>id_num</code> column in the <code>mousezempic_dosage_data</code> to <code>mouse_id</code> and using it to perform the join instead. We will use the <code>join_by(mouse_id == id_num)</code> helper function for the <code>by</code> argument to specify the different columns we wish to join by.</p>
+<p>We will demonstrate this by renaming the <code>id_num</code> column in the <code>m_dose</code> to <code>mouse_id</code> and using it to perform the join instead. We will use the <code>join_by(mouse_id == id_num)</code> helper function for the <code>by</code> argument to specify the different columns we wish to join by.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rename id_num to mouse_id</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new <span class="ot">&lt;-</span> mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mouse_id =</span> id_num)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1224,7 +1224,7 @@ Note
 <!-- 1\. What does the following code do? -->
 <!-- ```{r} -->
 <!-- #| eval: false -->
-<!-- mousezempic_dosage_data %>% -->
+<!-- m_dose %>% -->
 <!--   summarise( -->
 <!--     med_tail = median(tail_length_mm, na.rm = TRUE), -->
 <!--     .by = c(mouse_strain, sex)) %>% -->
@@ -1235,19 +1235,19 @@ Note
 <!-- Pivots data into a wide format where there is a column for each sex. -->
 <!-- ::: -->
 <!-- ::: {.choice .correct-choice} -->
-<!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `mousezempic_dosage_data` data frame, then pivots into a wide format where there is a column for each sex. -->
+<!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `m_dose` data frame, then pivots into a wide format where there is a column for each sex. -->
 <!-- ::: -->
 <!-- ::: choice -->
-<!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `mousezempic_dosage_data` data frame, then pivots into a wide format where there is a column for each mouse strain. -->
+<!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `m_dose` data frame, then pivots into a wide format where there is a column for each mouse strain. -->
 <!-- ::: -->
 <!-- ::: choice -->
 <!-- It just gives an error -->
 <!-- ::: -->
 <!-- ::::::: -->
 <!-- :::::::: -->
-<!-- 2\. I have run the following code to create a new column in the `mousezempic_dosage_data` data frame that gives the weight of the mice at the end of the experiment. -->
+<!-- 2\. I have run the following code to create a new column in the `m_dose` data frame that gives the weight of the mice at the end of the experiment. -->
 <!-- ```{r} -->
-<!-- mousezempic_dosage_data %>% -->
+<!-- m_dose %>% -->
 <!--   # add a column for the weight at the end of the experiment -->
 <!--   mutate(final_weight_g = initial_weight_g - weight_lost_g) %>% -->
 <!--   # select the relevant columns only -->
@@ -1269,42 +1269,42 @@ Note
 <!-- ::: -->
 <!-- ::::::: -->
 <!-- :::::::: question -->
-<!-- 3\. Which of the following is NOT a valid way to join the `mousezempic_dosage_data` data frame with the `mousezempic_expression_data` data frame based on the `id_num` column? -->
+<!-- 3\. Which of the following is NOT a valid way to join the `m_dose` data frame with the `m_exp` data frame based on the `id_num` column? -->
 <!-- ::::::: choices -->
 <!-- ::: choice -->
-<!-- `mousezempic_dosage_data %>% left_join(mousezempic_expression_data, by = "id_num")` -->
+<!-- `m_dose %>% left_join(m_exp, by = "id_num")` -->
 <!-- ::: -->
 <!-- ::: choice -->
-<!-- `left_join(mousezempic_dosage_data, mousezempic_expression_data, by = "id_num")` -->
+<!-- `left_join(m_dose, m_exp, by = "id_num")` -->
 <!-- ::: -->
 <!-- ::: {.choice .correct-choice} -->
-<!-- `mousezempic_dosage_data %>% left_join(mousezempic_expression_data, .by = "id_num")` -->
+<!-- `m_dose %>% left_join(m_exp, .by = "id_num")` -->
 <!-- ::: -->
 <!-- ::: choice -->
-<!-- `mousezempic_dosage_data %>% left_join(mousezempic_expression_data, by = ("id_num" = "id_num"))` -->
+<!-- `m_dose %>% left_join(m_exp, by = ("id_num" = "id_num"))` -->
 <!-- ::: -->
 <!-- ::::::: -->
 <!-- :::::::: -->
 <!-- <details> -->
 <!-- <summary>Solutions</summary> -->
-<!-- 1\. The code first calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `mousezempic_dosage_data` data frame, then pivots the data into a wide format where there is a column for each sex in the dataset (because of the argument `names_from = sex` ) -->
+<!-- 1\. The code first calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `m_dose` data frame, then pivots the data into a wide format where there is a column for each sex in the dataset (because of the argument `names_from = sex` ) -->
 <!-- 2\. The correct pivot function call to take the data from a wide format to a long format is `pivot_longer(cols = c(initial_weight_g, final_weight_g), names_to = "timepoint", values_to = "weight")`. This code tells R to pivot the `initial_weight_g` and `final_weight_g` columns into a long format, where there is a row for each mouse and each weight measurement. The `names_to` argument specifies to make a column called 'timepoint' that tells us whether the measurement is initial or final, and the `values_to` argument specifies the name of the new column that will contain these measurements. -->
-<!-- 3\. The line of code that is NOT a valid way to join the `mousezempic_dosage_data` data frame with the `mousezempic_expression_data` data frame based on the `id_num` column is `mousezempic_dosage_data %>% left_join(mousezempic_expression_data, .by = "id_num")`. This line of code is incorrect because the `.by` argument is not used in the `left_join()` function (this can be confusing! it's `.by` when grouping by `by` when joining). The other options are valid ways to join the two data frames based on the `id_num` column: remember that we don't have to use pipes to join data frames, we can use the `left_join()` function directly, and we can use a named vector to specify the columns to join on (although here it's a bit redundant as the columns have the same name). -->
+<!-- 3\. The line of code that is NOT a valid way to join the `m_dose` data frame with the `m_exp` data frame based on the `id_num` column is `m_dose %>% left_join(m_exp, .by = "id_num")`. This line of code is incorrect because the `.by` argument is not used in the `left_join()` function (this can be confusing! it's `.by` when grouping by `by` when joining). The other options are valid ways to join the two data frames based on the `id_num` column: remember that we don't have to use pipes to join data frames, we can use the `left_join()` function directly, and we can use a named vector to specify the columns to join on (although here it's a bit redundant as the columns have the same name). -->
 <!-- </details> -->
 <!-- :::::::::::::::::::: -->
 <!-- summary - Reshaping data with `pivot_longer()` and `pivot_wider()` to change the structure of your data frame. -->
 <!-- -   Combining data with `left_join()` to merge two data frames based on a common column. -->
 <!-- questions etc -->
-<!-- 4.  Using the `mousezempic_dosage_data` data frame, write R code to: -->
+<!-- 4.  Using the `m_dose` data frame, write R code to: -->
 <!--     a.  Make a data frame that shows the number of mice of each strain, in each replicate. -->
 <!--     b.  Pivot this data frame into a wide format to create a contingency table. -->
 <!--     c.  Pivot the wide data frame from (b) back into a long format. -->
 <!-- 5.  Let's say I have two data frames, `df1` and `df2`, that I want to join based a shared 'key' column, that is called 'key' in `df1` and 'item_key' in `df2`. Write R code to join these two data frames using the `left_join()` function. -->
 <!-- solutions -->
 <!-- 4.  Here's how you could write R code to achieve the tasks: -->
-<!--     a.  `mousezempic_dosage_data %>% summarise(n_mice = n(), .by = c(mouse_strain, replicate))` -->
-<!--     b.  `mousezempic_dosage_data %>% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %>% pivot_wider(names_from = replicate, values_from = n_mice)` -->
-<!--     c.  `mousezempic_dosage_data %>% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %>% pivot_wider(names_from = replicate, values_from = n_mice) %>% pivot_longer(cols = starts_with("rep"), names_to = "replicate", values_to = "n_mice")` -->
+<!--     a.  `m_dose %>% summarise(n_mice = n(), .by = c(mouse_strain, replicate))` -->
+<!--     b.  `m_dose %>% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %>% pivot_wider(names_from = replicate, values_from = n_mice)` -->
+<!--     c.  `m_dose %>% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %>% pivot_wider(names_from = replicate, values_from = n_mice) %>% pivot_longer(cols = starts_with("rep"), names_to = "replicate", values_to = "n_mice")` -->
 <!-- 5.  To join the two data frames you could use `df1 %>% left_join(df2, by = c("key" = "item_key"))` (with pipe) or `left_join(df1, df2, by = c("key" = "item_key"))` (without pipe). -->
 
 
@@ -1817,12 +1817,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction to the dataset</span></span>
 <span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>In this chapter we will use the <span class="in">`mousezempic_dosage_data`</span> and <span class="in">`mousezempic_expression_data`</span> data frames, which contain information about the mice and their gene expression levels, respectively.</span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>In this chapter we will use the mousezempic dosage data <span class="in">`m_dose`</span> and mouse expression data <span class="in">`m_exp`</span> data frames, which contain information about the mice including mousezempic dose, and their gene expression levels, respectively.</span>
 <span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
 <span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"data"</span>) <span class="co"># create data directory if it doesn't exist</span></span>
-<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://raw.githubusercontent.com/kzeglinski/new_wehi_r_course/refs/heads/main/data/mousezempic_expression_data.tsv"</span>, <span class="st">"data/mousezempic_expression_data.tsv"</span>) <span class="co"># download data</span></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://raw.githubusercontent.com/kzeglinski/new_wehi_r_course/refs/heads/main/data/m_exp.tsv"</span>, <span class="st">"data/m_exp.tsv"</span>) <span class="co"># download data</span></span>
 <span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -1831,16 +1831,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-42"><a href="#cb61-42" aria-hidden="true" tabindex="-1"></a><span class="co"># read in dosage data</span></span>
-<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/mousezempic_dosage_data.csv"</span>)</span>
-<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data</span>
+<span id="cb61-43"><a href="#cb61-43" aria-hidden="true" tabindex="-1"></a>m_dose <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/mousezempic_dosage_data.csv"</span>)</span>
+<span id="cb61-44"><a href="#cb61-44" aria-hidden="true" tabindex="-1"></a>m_dose</span>
 <span id="cb61-45"><a href="#cb61-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb61-46"><a href="#cb61-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-49"><a href="#cb61-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb61-50"><a href="#cb61-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
 <span id="cb61-51"><a href="#cb61-51" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-52"><a href="#cb61-52" aria-hidden="true" tabindex="-1"></a><span class="co"># read in expression data</span></span>
-<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>mousezempic_expression_data <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/mousezempic_expression_data.tsv"</span>)</span>
-<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>mousezempic_expression_data</span>
+<span id="cb61-53"><a href="#cb61-53" aria-hidden="true" tabindex="-1"></a>m_exp <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/mousezempic_expression_data.tsv"</span>)</span>
+<span id="cb61-54"><a href="#cb61-54" aria-hidden="true" tabindex="-1"></a>m_exp</span>
 <span id="cb61-55"><a href="#cb61-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb61-56"><a href="#cb61-56" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-57"><a href="#cb61-57" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
@@ -1894,7 +1894,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-105"><a href="#cb61-105" aria-hidden="true" tabindex="-1"></a>For example, let's say we want to create a table that shows how many mice there are of each strain, in each cage number. We can achieve this in a long format using <span class="in">`summarise()`</span> as we learned in the previous section:</span>
 <span id="cb61-106"><a href="#cb61-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-109"><a href="#cb61-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-110"><a href="#cb61-110" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-110"><a href="#cb61-110" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb61-111"><a href="#cb61-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb61-112"><a href="#cb61-112" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_mice =</span> <span class="fu">n</span>(),</span>
 <span id="cb61-113"><a href="#cb61-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(cage_number, mouse_strain))</span>
@@ -1903,7 +1903,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-116"><a href="#cb61-116" aria-hidden="true" tabindex="-1"></a>For the specific task of counting, we can achieve the same effect using the <span class="in">`count()`</span> tidyverse function.</span>
 <span id="cb61-117"><a href="#cb61-117" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-120"><a href="#cb61-120" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-121"><a href="#cb61-121" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-121"><a href="#cb61-121" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb61-122"><a href="#cb61-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cage_number, mouse_strain, <span class="at">name =</span> <span class="st">"n_mice"</span>)</span>
 <span id="cb61-123"><a href="#cb61-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb61-124"><a href="#cb61-124" aria-hidden="true" tabindex="-1"></a></span>
@@ -1912,7 +1912,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-127"><a href="#cb61-127" aria-hidden="true" tabindex="-1"></a>To get a contingency table, we wish to have the information in the <span class="in">`mouse_strain`</span> column displayed along the column names and the values of <span class="in">`n_mice`</span> becoming the values of the cells in the new table. Since the goal is to make the table wider, we use the <span class="in">`pivot_wider()`</span> function. To achieve this, we instruct the <span class="in">`pivot_wider()`</span> function to take names from the <span class="in">`mouse_strain`</span> column and the values from the <span class="in">`n_mice`</span> column.</span>
 <span id="cb61-128"><a href="#cb61-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-131"><a href="#cb61-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-132"><a href="#cb61-132" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-132"><a href="#cb61-132" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb61-133"><a href="#cb61-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(cage_number, mouse_strain, <span class="at">name =</span> <span class="st">"n_mice"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb61-134"><a href="#cb61-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> mouse_strain, <span class="at">values_from =</span> n_mice)</span>
 <span id="cb61-135"><a href="#cb61-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1922,7 +1922,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-139"><a href="#cb61-139" aria-hidden="true" tabindex="-1"></a>We can do the same thing to see how many of each mouse strains is in each of our experiment replicates.</span>
 <span id="cb61-140"><a href="#cb61-140" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-143"><a href="#cb61-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-144"><a href="#cb61-144" aria-hidden="true" tabindex="-1"></a>mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-144"><a href="#cb61-144" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb61-145"><a href="#cb61-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(replicate, mouse_strain, <span class="at">name =</span> <span class="st">"n_mice"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb61-146"><a href="#cb61-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> mouse_strain, <span class="at">values_from =</span> n_mice)</span>
 <span id="cb61-147"><a href="#cb61-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1931,10 +1931,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-150"><a href="#cb61-150" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-151"><a href="#cb61-151" aria-hidden="true" tabindex="-1"></a>Data can often arrive in the form similar to the contingency table we constructed. Although this data is easy to read, it is difficult to operate on using tidyverse functions because the <span class="in">`mouse_strain`</span> data is now stored in the column names and not inside a column we can use as a variable. In order to make this kind of data tidy, we use the <span class="in">`pivot_longer()`</span> function, which will create a pair of columns from the column names and the value of the corresponding cell.</span>
 <span id="cb61-152"><a href="#cb61-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-153"><a href="#cb61-153" aria-hidden="true" tabindex="-1"></a>To demonstrate <span class="in">`pivot_longer()`</span>, we will use the <span class="in">`mousezempic_expression_data`</span> that we downloaded earlier. This data frame contains the expression levels of two genes (TH and PRLH) suspected to be upregulated in mice taking MouseZempic, as well as one housekeeping gene (HPRT1), all measured in triplicate.</span>
+<span id="cb61-153"><a href="#cb61-153" aria-hidden="true" tabindex="-1"></a>To demonstrate <span class="in">`pivot_longer()`</span>, we will use the <span class="in">`m_exp`</span> that we downloaded earlier. This data frame contains the expression levels of two genes (TH and PRLH) suspected to be upregulated in mice taking MouseZempic, as well as one housekeeping gene (HPRT1), all measured in triplicate.</span>
 <span id="cb61-154"><a href="#cb61-154" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-157"><a href="#cb61-157" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-158"><a href="#cb61-158" aria-hidden="true" tabindex="-1"></a>mousezempic_expression_data</span>
+<span id="cb61-158"><a href="#cb61-158" aria-hidden="true" tabindex="-1"></a>m_exp</span>
 <span id="cb61-159"><a href="#cb61-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb61-160"><a href="#cb61-160" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-161"><a href="#cb61-161" aria-hidden="true" tabindex="-1"></a>The data is currently in wide format, with each row representing a different mouse (identified by its <span class="in">`id_num`</span>) and each column representing a different measurement of a gene. To reshape this data into a long format (where each measurement is contained on a separate row), we can use <span class="in">`pivot_longer()`</span>, specifying three arguments:</span>
@@ -1946,7 +1946,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-167"><a href="#cb61-167" aria-hidden="true" tabindex="-1"></a>In this particular case here's what the code would look like:</span>
 <span id="cb61-168"><a href="#cb61-168" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-171"><a href="#cb61-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-172"><a href="#cb61-172" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long <span class="ot">&lt;-</span> mousezempic_expression_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-172"><a href="#cb61-172" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long <span class="ot">&lt;-</span> m_exp <span class="sc">%&gt;%</span></span>
 <span id="cb61-173"><a href="#cb61-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb61-174"><a href="#cb61-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"_rep"</span>),</span>
 <span id="cb61-175"><a href="#cb61-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measurement"</span>,</span>
@@ -2035,13 +2035,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-268"><a href="#cb61-268" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-269"><a href="#cb61-269" aria-hidden="true" tabindex="-1"></a>A common and basic join is the <span class="in">`left_join()`</span>. It takes two data frame as arguments and optionally a vector of common columns to perform the join on. The reason it's called a left-join because it retains all rows from the left data frame while adding on columns from the right data frame only when the data in the designed joining column(s) match.</span>
 <span id="cb61-270"><a href="#cb61-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-271"><a href="#cb61-271" aria-hidden="true" tabindex="-1"></a>For example, we can join the <span class="in">`mousezempic_dosage_data`</span> data frame with the <span class="in">`mz_expr_rep_summed_wide`</span> data frame based on the <span class="in">`id_num`</span> column, which is common to both data frames:</span>
+<span id="cb61-271"><a href="#cb61-271" aria-hidden="true" tabindex="-1"></a>For example, we can join the <span class="in">`m_dose`</span> data frame with the <span class="in">`mz_expr_rep_summed_wide`</span> data frame based on the <span class="in">`id_num`</span> column, which is common to both data frames:</span>
 <span id="cb61-272"><a href="#cb61-272" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-275"><a href="#cb61-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb61-276"><a href="#cb61-276" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(mousezempic_dosage_data, mz_expr_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span>
+<span id="cb61-276"><a href="#cb61-276" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(m_dose, mz_expr_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span>
 <span id="cb61-277"><a href="#cb61-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb61-278"><a href="#cb61-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-279"><a href="#cb61-279" aria-hidden="true" tabindex="-1"></a>The <span class="in">`mousezempic_dosage_data`</span> contains information about characteristics of each mouse, while the <span class="in">`mz_expr_rep_summed_wide`</span> contains the replicate-summed gene expressions of the mice. Each data frame has an <span class="in">`id_num`</span> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</span>
+<span id="cb61-279"><a href="#cb61-279" aria-hidden="true" tabindex="-1"></a>The <span class="in">`m_dose`</span> contains information about characteristics of each mouse, while the <span class="in">`mz_expr_rep_summed_wide`</span> contains the replicate-summed gene expressions of the mice. Each data frame has an <span class="in">`id_num`</span> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</span>
 <span id="cb61-280"><a href="#cb61-280" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-281"><a href="#cb61-281" aria-hidden="true" tabindex="-1"></a>With the <span class="in">`left_join()`</span>, if there is a <span class="in">`id_num`</span> value that exists in the right data frame but not found in the left, then that data will not be present in the joined table. For any <span class="in">`id_num`</span> that appears only in the left but not the right data frame, the values in the newly created columns will be <span class="in">`NA`</span>.</span>
 <span id="cb61-282"><a href="#cb61-282" aria-hidden="true" tabindex="-1"></a></span>
@@ -2053,11 +2053,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-288"><a href="#cb61-288" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-289"><a href="#cb61-289" aria-hidden="true" tabindex="-1"></a>Often the column containing the matching information has different names in different data frames. For example what might be called "id_num" in one data frame could also be called "mouse_id" in another data frame. In those cases the <span class="in">`by`</span> argument of <span class="in">`left_join()`</span> can be formatted to let the function know which column in the left data frame matches to which column on the right.</span>
 <span id="cb61-290"><a href="#cb61-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-291"><a href="#cb61-291" aria-hidden="true" tabindex="-1"></a>We will demonstrate this by renaming the <span class="in">`id_num`</span> column in the <span class="in">`mousezempic_dosage_data`</span> to <span class="in">`mouse_id`</span> and using it to perform the join instead. We will use the <span class="in">`join_by(mouse_id == id_num)`</span> helper function for the <span class="in">`by`</span> argument to specify the different columns we wish to join by.</span>
+<span id="cb61-291"><a href="#cb61-291" aria-hidden="true" tabindex="-1"></a>We will demonstrate this by renaming the <span class="in">`id_num`</span> column in the <span class="in">`m_dose`</span> to <span class="in">`mouse_id`</span> and using it to perform the join instead. We will use the <span class="in">`join_by(mouse_id == id_num)`</span> helper function for the <span class="in">`by`</span> argument to specify the different columns we wish to join by.</span>
 <span id="cb61-292"><a href="#cb61-292" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-295"><a href="#cb61-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb61-296"><a href="#cb61-296" aria-hidden="true" tabindex="-1"></a><span class="co"># rename id_num to mouse_id</span></span>
-<span id="cb61-297"><a href="#cb61-297" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new <span class="ot">&lt;-</span> mousezempic_dosage_data <span class="sc">%&gt;%</span></span>
+<span id="cb61-297"><a href="#cb61-297" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb61-298"><a href="#cb61-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mouse_id =</span> id_num)</span>
 <span id="cb61-299"><a href="#cb61-299" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-300"><a href="#cb61-300" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new</span>
@@ -2315,7 +2315,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-586"><a href="#cb61-586" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-587"><a href="#cb61-587" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
 <span id="cb61-588"><a href="#cb61-588" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- #| eval: false --&gt;</span></span>
-<span id="cb61-589"><a href="#cb61-589" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- mousezempic_dosage_data %&gt;% --&gt;</span></span>
+<span id="cb61-589"><a href="#cb61-589" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- m_dose %&gt;% --&gt;</span></span>
 <span id="cb61-590"><a href="#cb61-590" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   summarise( --&gt;</span></span>
 <span id="cb61-591"><a href="#cb61-591" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     med_tail = median(tail_length_mm, na.rm = TRUE), --&gt;</span></span>
 <span id="cb61-592"><a href="#cb61-592" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     .by = c(mouse_strain, sex)) %&gt;% --&gt;</span></span>
@@ -2328,11 +2328,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-599"><a href="#cb61-599" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-600"><a href="#cb61-600" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-601"><a href="#cb61-601" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: {.choice .correct-choice} --&gt;</span></span>
-<span id="cb61-602"><a href="#cb61-602" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `mousezempic_dosage_data` data frame, then pivots into a wide format where there is a column for each sex. --&gt;</span></span>
+<span id="cb61-602"><a href="#cb61-602" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `m_dose` data frame, then pivots into a wide format where there is a column for each sex. --&gt;</span></span>
 <span id="cb61-603"><a href="#cb61-603" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-604"><a href="#cb61-604" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-605"><a href="#cb61-605" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: choice --&gt;</span></span>
-<span id="cb61-606"><a href="#cb61-606" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `mousezempic_dosage_data` data frame, then pivots into a wide format where there is a column for each mouse strain. --&gt;</span></span>
+<span id="cb61-606"><a href="#cb61-606" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `m_dose` data frame, then pivots into a wide format where there is a column for each mouse strain. --&gt;</span></span>
 <span id="cb61-607"><a href="#cb61-607" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-608"><a href="#cb61-608" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-609"><a href="#cb61-609" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: choice --&gt;</span></span>
@@ -2341,10 +2341,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-612"><a href="#cb61-612" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::::::: --&gt;</span></span>
 <span id="cb61-613"><a href="#cb61-613" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- :::::::: --&gt;</span></span>
 <span id="cb61-614"><a href="#cb61-614" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-615"><a href="#cb61-615" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 2\. I have run the following code to create a new column in the `mousezempic_dosage_data` data frame that gives the weight of the mice at the end of the experiment. --&gt;</span></span>
+<span id="cb61-615"><a href="#cb61-615" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 2\. I have run the following code to create a new column in the `m_dose` data frame that gives the weight of the mice at the end of the experiment. --&gt;</span></span>
 <span id="cb61-616"><a href="#cb61-616" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-617"><a href="#cb61-617" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r} --&gt;</span></span>
-<span id="cb61-618"><a href="#cb61-618" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- mousezempic_dosage_data %&gt;% --&gt;</span></span>
+<span id="cb61-618"><a href="#cb61-618" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- m_dose %&gt;% --&gt;</span></span>
 <span id="cb61-619"><a href="#cb61-619" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # add a column for the weight at the end of the experiment --&gt;</span></span>
 <span id="cb61-620"><a href="#cb61-620" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   mutate(final_weight_g = initial_weight_g - weight_lost_g) %&gt;% --&gt;</span></span>
 <span id="cb61-621"><a href="#cb61-621" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--   # select the relevant columns only --&gt;</span></span>
@@ -2372,23 +2372,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-643"><a href="#cb61-643" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::::::: --&gt;</span></span>
 <span id="cb61-644"><a href="#cb61-644" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-645"><a href="#cb61-645" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- :::::::: question --&gt;</span></span>
-<span id="cb61-646"><a href="#cb61-646" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 3\. Which of the following is NOT a valid way to join the `mousezempic_dosage_data` data frame with the `mousezempic_expression_data` data frame based on the `id_num` column? --&gt;</span></span>
+<span id="cb61-646"><a href="#cb61-646" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 3\. Which of the following is NOT a valid way to join the `m_dose` data frame with the `m_exp` data frame based on the `id_num` column? --&gt;</span></span>
 <span id="cb61-647"><a href="#cb61-647" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-648"><a href="#cb61-648" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::::::: choices --&gt;</span></span>
 <span id="cb61-649"><a href="#cb61-649" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: choice --&gt;</span></span>
-<span id="cb61-650"><a href="#cb61-650" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `mousezempic_dosage_data %&gt;% left_join(mousezempic_expression_data, by = "id_num")` --&gt;</span></span>
+<span id="cb61-650"><a href="#cb61-650" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `m_dose %&gt;% left_join(m_exp, by = "id_num")` --&gt;</span></span>
 <span id="cb61-651"><a href="#cb61-651" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-652"><a href="#cb61-652" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-653"><a href="#cb61-653" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: choice --&gt;</span></span>
-<span id="cb61-654"><a href="#cb61-654" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `left_join(mousezempic_dosage_data, mousezempic_expression_data, by = "id_num")` --&gt;</span></span>
+<span id="cb61-654"><a href="#cb61-654" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `left_join(m_dose, m_exp, by = "id_num")` --&gt;</span></span>
 <span id="cb61-655"><a href="#cb61-655" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-656"><a href="#cb61-656" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-657"><a href="#cb61-657" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: {.choice .correct-choice} --&gt;</span></span>
-<span id="cb61-658"><a href="#cb61-658" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `mousezempic_dosage_data %&gt;% left_join(mousezempic_expression_data, .by = "id_num")` --&gt;</span></span>
+<span id="cb61-658"><a href="#cb61-658" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `m_dose %&gt;% left_join(m_exp, .by = "id_num")` --&gt;</span></span>
 <span id="cb61-659"><a href="#cb61-659" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-660"><a href="#cb61-660" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-661"><a href="#cb61-661" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: choice --&gt;</span></span>
-<span id="cb61-662"><a href="#cb61-662" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `mousezempic_dosage_data %&gt;% left_join(mousezempic_expression_data, by = ("id_num" = "id_num"))` --&gt;</span></span>
+<span id="cb61-662"><a href="#cb61-662" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- `m_dose %&gt;% left_join(m_exp, by = ("id_num" = "id_num"))` --&gt;</span></span>
 <span id="cb61-663"><a href="#cb61-663" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::: --&gt;</span></span>
 <span id="cb61-664"><a href="#cb61-664" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ::::::: --&gt;</span></span>
 <span id="cb61-665"><a href="#cb61-665" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- :::::::: --&gt;</span></span>
@@ -2397,11 +2397,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-668"><a href="#cb61-668" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-669"><a href="#cb61-669" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- &lt;summary&gt;Solutions&lt;/summary&gt; --&gt;</span></span>
 <span id="cb61-670"><a href="#cb61-670" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-671"><a href="#cb61-671" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 1\. The code first calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `mousezempic_dosage_data` data frame, then pivots the data into a wide format where there is a column for each sex in the dataset (because of the argument `names_from = sex` ) --&gt;</span></span>
+<span id="cb61-671"><a href="#cb61-671" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 1\. The code first calculates the median tail length for each unique combination of `mouse_strain` and `sex` in the `m_dose` data frame, then pivots the data into a wide format where there is a column for each sex in the dataset (because of the argument `names_from = sex` ) --&gt;</span></span>
 <span id="cb61-672"><a href="#cb61-672" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-673"><a href="#cb61-673" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 2\. The correct pivot function call to take the data from a wide format to a long format is `pivot_longer(cols = c(initial_weight_g, final_weight_g), names_to = "timepoint", values_to = "weight")`. This code tells R to pivot the `initial_weight_g` and `final_weight_g` columns into a long format, where there is a row for each mouse and each weight measurement. The `names_to` argument specifies to make a column called 'timepoint' that tells us whether the measurement is initial or final, and the `values_to` argument specifies the name of the new column that will contain these measurements. --&gt;</span></span>
 <span id="cb61-674"><a href="#cb61-674" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-675"><a href="#cb61-675" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 3\. The line of code that is NOT a valid way to join the `mousezempic_dosage_data` data frame with the `mousezempic_expression_data` data frame based on the `id_num` column is `mousezempic_dosage_data %&gt;% left_join(mousezempic_expression_data, .by = "id_num")`. This line of code is incorrect because the `.by` argument is not used in the `left_join()` function (this can be confusing! it's `.by` when grouping by `by` when joining). The other options are valid ways to join the two data frames based on the `id_num` column: remember that we don't have to use pipes to join data frames, we can use the `left_join()` function directly, and we can use a named vector to specify the columns to join on (although here it's a bit redundant as the columns have the same name). --&gt;</span></span>
+<span id="cb61-675"><a href="#cb61-675" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 3\. The line of code that is NOT a valid way to join the `m_dose` data frame with the `m_exp` data frame based on the `id_num` column is `m_dose %&gt;% left_join(m_exp, .by = "id_num")`. This line of code is incorrect because the `.by` argument is not used in the `left_join()` function (this can be confusing! it's `.by` when grouping by `by` when joining). The other options are valid ways to join the two data frames based on the `id_num` column: remember that we don't have to use pipes to join data frames, we can use the `left_join()` function directly, and we can use a named vector to specify the columns to join on (although here it's a bit redundant as the columns have the same name). --&gt;</span></span>
 <span id="cb61-676"><a href="#cb61-676" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-677"><a href="#cb61-677" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- &lt;/details&gt; --&gt;</span></span>
 <span id="cb61-678"><a href="#cb61-678" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- :::::::::::::::::::: --&gt;</span></span>
@@ -2412,7 +2412,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-683"><a href="#cb61-683" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-684"><a href="#cb61-684" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- questions etc --&gt;</span></span>
 <span id="cb61-685"><a href="#cb61-685" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-686"><a href="#cb61-686" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 4.  Using the `mousezempic_dosage_data` data frame, write R code to: --&gt;</span></span>
+<span id="cb61-686"><a href="#cb61-686" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 4.  Using the `m_dose` data frame, write R code to: --&gt;</span></span>
 <span id="cb61-687"><a href="#cb61-687" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-688"><a href="#cb61-688" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     a.  Make a data frame that shows the number of mice of each strain, in each replicate. --&gt;</span></span>
 <span id="cb61-689"><a href="#cb61-689" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     b.  Pivot this data frame into a wide format to create a contingency table. --&gt;</span></span>
@@ -2424,9 +2424,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb61-695"><a href="#cb61-695" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-696"><a href="#cb61-696" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 4.  Here's how you could write R code to achieve the tasks: --&gt;</span></span>
 <span id="cb61-697"><a href="#cb61-697" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-698"><a href="#cb61-698" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     a.  `mousezempic_dosage_data %&gt;% summarise(n_mice = n(), .by = c(mouse_strain, replicate))` --&gt;</span></span>
-<span id="cb61-699"><a href="#cb61-699" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     b.  `mousezempic_dosage_data %&gt;% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %&gt;% pivot_wider(names_from = replicate, values_from = n_mice)` --&gt;</span></span>
-<span id="cb61-700"><a href="#cb61-700" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     c.  `mousezempic_dosage_data %&gt;% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %&gt;% pivot_wider(names_from = replicate, values_from = n_mice) %&gt;% pivot_longer(cols = starts_with("rep"), names_to = "replicate", values_to = "n_mice")` --&gt;</span></span>
+<span id="cb61-698"><a href="#cb61-698" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     a.  `m_dose %&gt;% summarise(n_mice = n(), .by = c(mouse_strain, replicate))` --&gt;</span></span>
+<span id="cb61-699"><a href="#cb61-699" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     b.  `m_dose %&gt;% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %&gt;% pivot_wider(names_from = replicate, values_from = n_mice)` --&gt;</span></span>
+<span id="cb61-700"><a href="#cb61-700" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--     c.  `m_dose %&gt;% summarise(n_mice = n(), .by = c(mouse_strain, replicate)) %&gt;% pivot_wider(names_from = replicate, values_from = n_mice) %&gt;% pivot_longer(cols = starts_with("rep"), names_to = "replicate", values_to = "n_mice")` --&gt;</span></span>
 <span id="cb61-701"><a href="#cb61-701" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-702"><a href="#cb61-702" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- 5.  To join the two data frames you could use `df1 %&gt;% left_join(df2, by = c("key" = "item_key"))` (with pipe) or `left_join(df1, df2, by = c("key" = "item_key"))` (without pipe). --&gt;</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
