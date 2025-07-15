@@ -169,31 +169,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Working with data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with data - Part 1</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Chapter 3: Plotting with ggplot2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Working with data - Part 2</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Chapter 4: Putting it all together</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Plotting with ggplot2</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Chapter 5: RNA-seq part 1</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Putting it all together</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_6.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Chapter 6: RNA-seq part 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">RNA-seq - Part 1</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNA-seq - Part 2</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -2364,7 +2376,7 @@ Click here to print <code>iris</code> as a data frame!
 </div>
 <p>No matter which function you use to read in your data, R simply prints the values out in the console. To actually work with data in R, we need assign our data frame to a variable:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>dosage_data <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
@@ -3071,8 +3083,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_2.html" class="pagination-link" aria-label="Chapter 2: Working with data">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Chapter 2: Working with data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter_2.html" class="pagination-link" aria-label="Working with data - Part 1">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with data - Part 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -4628,13 +4640,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb154-1670"><a href="#cb154-1670" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb154-1673"><a href="#cb154-1673" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb154-1674"><a href="#cb154-1674" aria-hidden="true" tabindex="-1"></a><span class="st">#| eval: false</span></span>
-<span id="cb154-1675"><a href="#cb154-1675" aria-hidden="true" tabindex="-1"></a><span class="st">dosage_data &lt;- read_delim("</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>R_course<span class="sc">/</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
+<span id="cb154-1675"><a href="#cb154-1675" aria-hidden="true" tabindex="-1"></a><span class="st">m_dose &lt;- read_delim("</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>R_course<span class="sc">/</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
 <span id="cb154-1676"><a href="#cb154-1676" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb154-1677"><a href="#cb154-1677" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb154-1680"><a href="#cb154-1680" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb154-1681"><a href="#cb154-1681" aria-hidden="true" tabindex="-1"></a><span class="st">#| echo: false</span></span>
 <span id="cb154-1682"><a href="#cb154-1682" aria-hidden="true" tabindex="-1"></a><span class="st"># this is for rendering the book, path is different for learners so don't show this chunk</span></span>
-<span id="cb154-1683"><a href="#cb154-1683" aria-hidden="true" tabindex="-1"></a><span class="st">dosage_data &lt;- read_delim("</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
+<span id="cb154-1683"><a href="#cb154-1683" aria-hidden="true" tabindex="-1"></a><span class="st">m_dose &lt;- read_delim("</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
 <span id="cb154-1684"><a href="#cb154-1684" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb154-1685"><a href="#cb154-1685" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb154-1686"><a href="#cb154-1686" aria-hidden="true" tabindex="-1"></a><span class="st">### Reading data through RStudio's graphical interface {#sec-readinGUI}</span></span>
