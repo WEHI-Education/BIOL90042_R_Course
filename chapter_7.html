@@ -564,8 +564,8 @@ Up          4817      4778   2102</code></pre>
 <li><code>B</code> - log-odds that the gene is differentially expressed.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>top_bvl <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsLP"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>top_bvl <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsLP"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsLP'</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top_bvl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -597,13 +597,13 @@ Up          4817      4778   2102</code></pre>
 <h4 data-number="7.3.1.1" class="anchored" data-anchor-id="extract-summary-tables"><span class="header-section-number">7.3.1.1</span> Extract summary tables</h4>
 <p>Volcano plots and MA plots require differential expression summary statistics. We have the summary table for BasalvsLP already extracted to <code>top_bvl</code>, now for BasalvsML and LPvsML:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsML'</span>)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>top_lvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"LPvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>top_lvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"LPvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'LPvsML'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -612,14 +612,14 @@ Up          4817      4778   2102</code></pre>
 <p>Box plots and heatmaps require the gene expression data per sample, expressed as log(counts per million), or ‘log(CPM)’.</p>
 <p>To extract the logCPM to a tibble:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> <span class="fu">cpm</span>(dge, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'ENTREZID'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> <span class="fu">cpm</span>(dge, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'ENTREZID'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="extract-sample-groups" class="level4" data-number="7.3.1.3">
 <h4 data-number="7.3.1.3" class="anchored" data-anchor-id="extract-sample-groups"><span class="header-section-number">7.3.1.3</span> Extract sample groups</h4>
 <p>We will need the experimental group label for each sample to make boxplots and to annotate our heatmap. We can extract this from the <code>dge$samples</code> table as follows.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sample_group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'sample_id'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sample_group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'sample_id'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -628,7 +628,7 @@ Up          4817      4778   2102</code></pre>
 <p>Volcano plots are very popular for visually summarizing results from RNA-seq analysis. The volcano plot is a scatter plot of the negative log10 p-value (y) against the log2 fold-change (x). This plot is useful for visualising the significance of the differentially expressed genes, as the more significant results are at the top left and right of the plot.</p>
 <p>To make a volcano plot for a single experimental contrast (BasalvsLP), we must first categorize the summary statistics for each gene with ‘Up’ ‘Down’ or ‘Not DE’, according to the adj.P.Val and logFC. The <code>case_when()</code> function is a good choice for binning continuous data (adj.P.Val) into categories.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="ot">&lt;-</span> top_bvl <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="ot">&lt;-</span> top_bvl <span class="sc">%&gt;%</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">case_when</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Up'</span>,</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                            adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Down'</span>,</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">.default=</span><span class="st">'Non DE'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -656,8 +656,8 @@ Up          4817      4778   2102</code></pre>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>top_deg_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(status) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(P.Value) <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>top_deg_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(status) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(P.Value) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(status<span class="sc">!=</span><span class="st">'Non DE'</span>)</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>volcano_bvl <span class="sc">+</span></span>
@@ -695,7 +695,7 @@ Next steps
 <p>In this case we’ll make boxplots from the log(CPM) values of individual samples, for the first 6 differentially-expressed genes in the BasalvsLP topTable <code>top_bvl_cat</code>. We will extract the first 6 rows of the tibble using <code>slice_head()</code>, then join the logCPM values per sample</p>
 <!-- for this to render, yaml header updated to error: true -->
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `left_join()`:
@@ -706,14 +706,14 @@ Next steps
 </div>
 <p>Great! An error! …it seems that the ENTREZID column is not the same type between the <code>top_bvl_cat</code> and the <code>sample_logcpm</code> tibbles. We can fix this by changing the <code>sample_logcpm$ENTREZID</code> into numeric data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> sample_logcpm <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(ENTREZID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> sample_logcpm <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(ENTREZID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can rerun the <code>left_join()</code> and reshape the data to long form as required for ggplot2.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>SYMBOL, <span class="at">names_to =</span> <span class="st">'sample_id'</span>, <span class="at">values_to =</span> <span class="st">'logCPM'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we join the sample groupings to this reshaped data:</p>
@@ -722,7 +722,7 @@ Next steps
 </div>
 <p>…and plot the results</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">%&gt;%</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>logCPM, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
@@ -775,27 +775,27 @@ Note
 <p>For more interpretable labels, we will use the gene symbols as the row names of the expression matrix.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>top_genes_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">%&gt;%</span> </span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We now join the logCPM values for the top_genes:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> top_genes_all <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_logcpm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> top_genes_all <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(sample_logcpm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(ENTREZID)`</code></pre>
 </div>
 </div>
 <p>…and reshape the data to long format before joining in the sample group labels. This is very similar to how the data was prepared for our boxplots.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">values_to =</span> <span class="st">"logcpm"</span>,</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(ENTREZID,SYMBOL))</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> top_genes_lcpm_long <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> top_genes_lcpm_long <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(sample_group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(sample_id)`</code></pre>
 </div>
@@ -1681,8 +1681,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-257"><a href="#cb53-257" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`B`</span> - log-odds that the gene is differentially expressed.</span>
 <span id="cb53-258"><a href="#cb53-258" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-261"><a href="#cb53-261" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-262"><a href="#cb53-262" aria-hidden="true" tabindex="-1"></a>top_bvl <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsLP"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-263"><a href="#cb53-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb53-262"><a href="#cb53-262" aria-hidden="true" tabindex="-1"></a>top_bvl <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsLP"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-263"><a href="#cb53-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb53-264"><a href="#cb53-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsLP'</span>)</span>
 <span id="cb53-265"><a href="#cb53-265" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-266"><a href="#cb53-266" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top_bvl)</span>
@@ -1709,13 +1709,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-287"><a href="#cb53-287" aria-hidden="true" tabindex="-1"></a>We have the summary table for BasalvsLP already extracted to <span class="in">`top_bvl`</span>, now for BasalvsML and LPvsML:</span>
 <span id="cb53-288"><a href="#cb53-288" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-291"><a href="#cb53-291" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-292"><a href="#cb53-292" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-293"><a href="#cb53-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb53-292"><a href="#cb53-292" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-293"><a href="#cb53-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb53-294"><a href="#cb53-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsML'</span>)</span>
 <span id="cb53-295"><a href="#cb53-295" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-296"><a href="#cb53-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-297"><a href="#cb53-297" aria-hidden="true" tabindex="-1"></a>top_lvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"LPvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-298"><a href="#cb53-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb53-297"><a href="#cb53-297" aria-hidden="true" tabindex="-1"></a>top_lvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"LPvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-298"><a href="#cb53-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb53-299"><a href="#cb53-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'LPvsML'</span>)</span>
 <span id="cb53-300"><a href="#cb53-300" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-301"><a href="#cb53-301" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1727,7 +1727,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-307"><a href="#cb53-307" aria-hidden="true" tabindex="-1"></a>To extract the logCPM to a tibble:</span>
 <span id="cb53-308"><a href="#cb53-308" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-311"><a href="#cb53-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-312"><a href="#cb53-312" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> <span class="fu">cpm</span>(dge, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'ENTREZID'</span>)</span>
+<span id="cb53-312"><a href="#cb53-312" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> <span class="fu">cpm</span>(dge, <span class="at">log =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'ENTREZID'</span>)</span>
 <span id="cb53-313"><a href="#cb53-313" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-314"><a href="#cb53-314" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-315"><a href="#cb53-315" aria-hidden="true" tabindex="-1"></a></span>
@@ -1737,7 +1737,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-319"><a href="#cb53-319" aria-hidden="true" tabindex="-1"></a>We can extract this from the <span class="in">`dge$samples`</span> table as follows.</span>
 <span id="cb53-320"><a href="#cb53-320" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-323"><a href="#cb53-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-324"><a href="#cb53-324" aria-hidden="true" tabindex="-1"></a>sample_group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'sample_id'</span>)</span>
+<span id="cb53-324"><a href="#cb53-324" aria-hidden="true" tabindex="-1"></a>sample_group <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>(<span class="at">rownames=</span><span class="st">'sample_id'</span>)</span>
 <span id="cb53-325"><a href="#cb53-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-326"><a href="#cb53-326" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-327"><a href="#cb53-327" aria-hidden="true" tabindex="-1"></a><span class="fu">### Volcano Plot</span></span>
@@ -1750,7 +1750,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-334"><a href="#cb53-334" aria-hidden="true" tabindex="-1"></a>The <span class="in">`case_when()`</span> function is a good choice for binning continuous data (adj.P.Val) into categories.</span>
 <span id="cb53-335"><a href="#cb53-335" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-338"><a href="#cb53-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-339"><a href="#cb53-339" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="ot">&lt;-</span> top_bvl <span class="sc">|&gt;</span> </span>
+<span id="cb53-339"><a href="#cb53-339" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="ot">&lt;-</span> top_bvl <span class="sc">%&gt;%</span> </span>
 <span id="cb53-340"><a href="#cb53-340" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">case_when</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Up'</span>,</span>
 <span id="cb53-341"><a href="#cb53-341" aria-hidden="true" tabindex="-1"></a>                            adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Down'</span>,</span>
 <span id="cb53-342"><a href="#cb53-342" aria-hidden="true" tabindex="-1"></a>                            <span class="at">.default=</span><span class="st">'Non DE'</span>))</span>
@@ -1778,8 +1778,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-368"><a href="#cb53-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-369"><a href="#cb53-369" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-372"><a href="#cb53-372" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-373"><a href="#cb53-373" aria-hidden="true" tabindex="-1"></a>top_deg_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">|&gt;</span> <span class="fu">group_by</span>(status) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(P.Value) <span class="sc">|&gt;</span> </span>
-<span id="cb53-374"><a href="#cb53-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb53-373"><a href="#cb53-373" aria-hidden="true" tabindex="-1"></a>top_deg_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(status) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(P.Value) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-374"><a href="#cb53-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb53-375"><a href="#cb53-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(status<span class="sc">!=</span><span class="st">'Non DE'</span>)</span>
 <span id="cb53-376"><a href="#cb53-376" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-377"><a href="#cb53-377" aria-hidden="true" tabindex="-1"></a>volcano_bvl <span class="sc">+</span></span>
@@ -1807,7 +1807,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-399"><a href="#cb53-399" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for this to render, yaml header updated to error: true --&gt;</span></span>
 <span id="cb53-400"><a href="#cb53-400" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-403"><a href="#cb53-403" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-404"><a href="#cb53-404" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb53-404"><a href="#cb53-404" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb53-405"><a href="#cb53-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>)</span>
 <span id="cb53-406"><a href="#cb53-406" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-407"><a href="#cb53-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1817,17 +1817,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-411"><a href="#cb53-411" aria-hidden="true" tabindex="-1"></a>We can fix this by changing the <span class="in">`sample_logcpm$ENTREZID`</span> into numeric data:</span>
 <span id="cb53-412"><a href="#cb53-412" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-415"><a href="#cb53-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-416"><a href="#cb53-416" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> sample_logcpm <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(ENTREZID))</span>
+<span id="cb53-416"><a href="#cb53-416" aria-hidden="true" tabindex="-1"></a>sample_logcpm <span class="ot">&lt;-</span> sample_logcpm <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(ENTREZID))</span>
 <span id="cb53-417"><a href="#cb53-417" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-418"><a href="#cb53-418" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-419"><a href="#cb53-419" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-420"><a href="#cb53-420" aria-hidden="true" tabindex="-1"></a>Now we can rerun the <span class="in">`left_join()`</span> and reshape the data to long form as required for ggplot2.</span>
 <span id="cb53-421"><a href="#cb53-421" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-424"><a href="#cb53-424" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-425"><a href="#cb53-425" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">|&gt;</span></span>
-<span id="cb53-426"><a href="#cb53-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-427"><a href="#cb53-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb53-428"><a href="#cb53-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb53-425"><a href="#cb53-425" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb53-426"><a href="#cb53-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-427"><a href="#cb53-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sample_logcpm, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-428"><a href="#cb53-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb53-429"><a href="#cb53-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>SYMBOL, <span class="at">names_to =</span> <span class="st">'sample_id'</span>, <span class="at">values_to =</span> <span class="st">'logCPM'</span>)</span>
 <span id="cb53-430"><a href="#cb53-430" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-431"><a href="#cb53-431" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1841,7 +1841,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-441"><a href="#cb53-441" aria-hidden="true" tabindex="-1"></a>...and plot the results</span>
 <span id="cb53-442"><a href="#cb53-442" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-445"><a href="#cb53-445" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-446"><a href="#cb53-446" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">|&gt;</span> </span>
+<span id="cb53-446"><a href="#cb53-446" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">%&gt;%</span> </span>
 <span id="cb53-447"><a href="#cb53-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>logCPM, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
 <span id="cb53-448"><a href="#cb53-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb53-449"><a href="#cb53-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
@@ -1878,10 +1878,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-482"><a href="#cb53-482" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-485"><a href="#cb53-485" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb53-486"><a href="#cb53-486" aria-hidden="true" tabindex="-1"></a>top_genes_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb53-487"><a href="#cb53-487" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb53-488"><a href="#cb53-488" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb53-489"><a href="#cb53-489" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb53-490"><a href="#cb53-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">|&gt;</span> </span>
+<span id="cb53-487"><a href="#cb53-487" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb53-488"><a href="#cb53-488" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb53-489"><a href="#cb53-489" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-490"><a href="#cb53-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">%&gt;%</span> </span>
 <span id="cb53-491"><a href="#cb53-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() </span>
 <span id="cb53-492"><a href="#cb53-492" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-493"><a href="#cb53-493" aria-hidden="true" tabindex="-1"></a></span>
@@ -1890,19 +1890,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb53-496"><a href="#cb53-496" aria-hidden="true" tabindex="-1"></a>We now join the logCPM values for the top_genes:</span>
 <span id="cb53-497"><a href="#cb53-497" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-500"><a href="#cb53-500" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-501"><a href="#cb53-501" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> top_genes_all <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_logcpm)</span>
+<span id="cb53-501"><a href="#cb53-501" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> top_genes_all <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(sample_logcpm)</span>
 <span id="cb53-502"><a href="#cb53-502" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-503"><a href="#cb53-503" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-504"><a href="#cb53-504" aria-hidden="true" tabindex="-1"></a>...and reshape the data to long format before joining in the sample group labels.</span>
 <span id="cb53-505"><a href="#cb53-505" aria-hidden="true" tabindex="-1"></a>This is very similar to how the data was prepared for our boxplots.</span>
 <span id="cb53-506"><a href="#cb53-506" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-509"><a href="#cb53-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-510"><a href="#cb53-510" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
+<span id="cb53-510"><a href="#cb53-510" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"sample_id"</span>, </span>
 <span id="cb53-511"><a href="#cb53-511" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">values_to =</span> <span class="st">"logcpm"</span>,</span>
 <span id="cb53-512"><a href="#cb53-512" aria-hidden="true" tabindex="-1"></a>                                                    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(ENTREZID,SYMBOL))</span>
 <span id="cb53-513"><a href="#cb53-513" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-514"><a href="#cb53-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-515"><a href="#cb53-515" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> top_genes_lcpm_long <span class="sc">|&gt;</span> <span class="fu">left_join</span>(sample_group)</span>
+<span id="cb53-515"><a href="#cb53-515" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> top_genes_lcpm_long <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(sample_group)</span>
 <span id="cb53-516"><a href="#cb53-516" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-517"><a href="#cb53-517" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb53-518"><a href="#cb53-518" aria-hidden="true" tabindex="-1"></a></span>
