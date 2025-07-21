@@ -44,7 +44,7 @@
     "href": "setup.html#data-files",
     "title": "Setup",
     "section": "Data files",
-    "text": "Data files\nCommands to download the data files used in this course directly to your working directory will be provided during workshops. Download buttons for the files also appear in this ebook when they are first introduced. For convenience, the files are also provided below:\n Download mousezempic_dosage_data.csv \n Download mousezempic_expression_data.tsv",
+    "text": "Data files\nCommands to download the data files used in this course directly to your working directory will be provided during workshops. Download buttons for the files also appear in this ebook when they are first introduced. For convenience, the files are also provided below:\n Download mousezempic_dosage_data.csv \n Download mousezempic_expression_data.tsv \n Download RNAseq workshop data",
     "crumbs": [
       "Setup"
     ]
@@ -414,7 +414,7 @@
     "href": "chapter_6.html",
     "title": "6  RNA-seq - Part 1",
     "section": "",
-    "text": "6.1 Data files\nIn this chapter we will run through the basic steps for analysing a simple RNA-seq experiment using the limma-voom workflow. This includes:\nThe aim of this chapter is to give you experience with a real-world RNA-seq analysis, and making extensive use of an external library. We will not cover the statistics in any depth. Instead, the goal is to understand how to construct data structures required for specific packages and how to use the functions in those packages to perform the analysis.\nMuch of the materials here are explained in greater detail in the limma user’s guide. You can view this by typing help(\"limma\") and following the links.\nYou can download and unzip the files using the following commands\ndownload.file(\"https://github.com/Shians/BaseR_Intro/raw/master/data/workshop_data.zip\", \"workshop_data.zip\")\nunzip(\"workshop_data.zip\", exdir = \"data\")\nunzip(\"data/Ses3_counts.zip\", exdir = \"data/counts\")",
+    "text": "6.1 Data files\nIn this chapter we will run through the basic steps for analysing a simple RNA-seq experiment using the limma-voom workflow. This includes:\nThe aim of this chapter is to give you experience with a real-world RNA-seq analysis, and making extensive use of an external library. We will not cover the statistics in any depth. Instead, the goal is to understand how to construct data structures required for specific packages and how to use the functions in those packages to perform the analysis.\nMuch of the materials here are explained in greater detail in the limma user’s guide. You can view this by typing help(\"limma\") and following the links.\nIf you haven’t already downloaded the RNAseq data for this workshop into the data/ directory, you can run the following command:\nif (!dir.exists(\"data\")) {\n  dir.create(\"data\")\n}\n\ndownload.file(\"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/main/data/rnaseq_workshop_data.zip\",\n              \"data/rnaseq_workshop_data.zip\")\nNow to unzip the files into a new directory data/rnaseq/:\nunzip('data/rnaseq_workshop_data.zip', exdir = 'data/rnaseq')\nunzip(\"data/rnaseq/Ses3_counts.zip\",   exdir = \"data/rnaseq/counts\")",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>RNA-seq - Part 1</span>"
     ]
@@ -424,7 +424,7 @@
     "href": "chapter_6.html#r-packages",
     "title": "6  RNA-seq - Part 1",
     "section": "6.2 R Packages",
-    "text": "6.2 R Packages\nExtra packages are required for later chapters, these can be downloaded by the following commands\n\nif (!requireNamespace(\"BiocManager\", quietly = TRUE))\n    install.packages(\"BiocManager\")\n\nBiocManager::install(\"RNAseq123\")",
+    "text": "6.2 R Packages\nCheck if the RNAseq analysis package is already installed\n\nlibrary(RNAseq123)\n\nIf you get an error, the package can be downloaded by the following commands.\n\nif (!requireNamespace(\"BiocManager\", quietly = TRUE))\n    install.packages(\"BiocManager\")\n\nBiocManager::install(\"RNAseq123\")",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>RNA-seq - Part 1</span>"
     ]
@@ -454,7 +454,7 @@
     "href": "chapter_6.html#creating-the-dgelist-object",
     "title": "6  RNA-seq - Part 1",
     "section": "6.5 Creating the DGEList object",
-    "text": "6.5 Creating the DGEList object\nWe will create a DGEList object following the RNAseq123 workflow. We use the readDGE() function to read in count data from files, and provide sample information to the readDGE() function and adding in the gene annotation information afterwards.\n\n# vector of file names\nfiles &lt;- dir(path = \"data/counts\", pattern = \"GSM*\")\n\n# create DGEList object\ndge &lt;- readDGE(\n  files,\n  path = \"data/counts\",\n  columns = c(1, 3),\n  group = group,\n  labels = samplenames\n)\n\n# add gene annotation information\ngene_anno &lt;- read_tsv(\"data/Ses3_geneAnnot.tsv\")\ndge$genes &lt;- gene_anno",
+    "text": "6.5 Creating the DGEList object\nWe will create a DGEList object following the RNAseq123 workflow. We use the readDGE() function to read in count data from files, and provide sample information to the readDGE() function and adding in the gene annotation information afterwards.\n\n# vector of file names\nfiles &lt;- dir(path = \"data/rnaseq/counts\", pattern = \"GSM*\")\n\n# create DGEList object\ndge &lt;- readDGE(\n  files,\n  path = \"data/rnaseq/counts\",\n  columns = c(1, 3),\n  group = group,\n  labels = samplenames\n)\n\n# add gene annotation information\ngene_anno &lt;- read_tsv(\"data/rnaseq/Ses3_geneAnnot.tsv\")\ndge$genes &lt;- gene_anno",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>RNA-seq - Part 1</span>"
     ]

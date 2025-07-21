@@ -310,21 +310,33 @@ Learning Objectives
 </div>
 <section id="data-files" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="data-files"><span class="header-section-number">6.1</span> Data files</h2>
-<p>You can download and unzip the files using the following commands</p>
+<p>If you haven’t already downloaded the RNAseq data for this workshop into the <code>data/</code> directory, you can run the following command:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/Shians/BaseR_Intro/raw/master/data/workshop_data.zip"</span>, <span class="st">"workshop_data.zip"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"workshop_data.zip"</span>, <span class="at">exdir =</span> <span class="st">"data"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/Ses3_counts.zip"</span>, <span class="at">exdir =</span> <span class="st">"data/counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="st">"data"</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="st">"data"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/main/data/rnaseq_workshop_data.zip"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"data/rnaseq_workshop_data.zip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now to unzip the files into a new directory <code>data/rnaseq/</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">'data/rnaseq_workshop_data.zip'</span>, <span class="at">exdir =</span> <span class="st">'data/rnaseq'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/rnaseq/Ses3_counts.zip"</span>,   <span class="at">exdir =</span> <span class="st">"data/rnaseq/counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r-packages" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="r-packages"><span class="header-section-number">6.2</span> R Packages</h2>
-<p>Extra packages are required for later chapters, these can be downloaded by the following commands</p>
+<p>Check if the RNAseq analysis package is already installed</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"RNAseq123"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RNAseq123)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you get an error, the package can be downloaded by the following commands.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"RNAseq123"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="loading-in-read-count-data-and-annotation" class="level2" data-number="6.3">
@@ -350,19 +362,19 @@ Data objects
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load required packages</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">parse_factor</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"LP"</span>, <span class="st">"ML"</span>, <span class="st">"Basal"</span>, <span class="st">"Basal"</span>, <span class="st">"ML"</span>, <span class="st">"LP"</span>, <span class="st">"Basal"</span>, <span class="st">"ML"</span>, <span class="st">"LP"</span>),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Basal"</span>, <span class="st">"LP"</span>, <span class="st">"ML"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>samplenames <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"10_6_5_11"</span>, <span class="st">"9_6_5_11"</span>, <span class="st">"purep53"</span>, <span class="st">"JMS8-2"</span>, <span class="st">"JMS8-3"</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"JMS8-4"</span>, <span class="st">"JMS8-5"</span>, <span class="st">"JMS9-P7c"</span>, <span class="st">"JMS9-P8c"</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load required packages</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">parse_factor</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"LP"</span>, <span class="st">"ML"</span>, <span class="st">"Basal"</span>, <span class="st">"Basal"</span>, <span class="st">"ML"</span>, <span class="st">"LP"</span>, <span class="st">"Basal"</span>, <span class="st">"ML"</span>, <span class="st">"LP"</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Basal"</span>, <span class="st">"LP"</span>, <span class="st">"ML"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>samplenames <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"10_6_5_11"</span>, <span class="st">"9_6_5_11"</span>, <span class="st">"purep53"</span>, <span class="st">"JMS8-2"</span>, <span class="st">"JMS8-3"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"JMS8-4"</span>, <span class="st">"JMS8-5"</span>, <span class="st">"JMS9-P7c"</span>, <span class="st">"JMS9-P8c"</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="a-brief-detour-to-factors" class="level2" data-number="6.4">
@@ -374,21 +386,21 @@ Data objects
 <h2 data-number="6.5" class="anchored" data-anchor-id="creating-the-dgelist-object"><span class="header-section-number">6.5</span> Creating the DGEList object</h2>
 <p>We will create a <code>DGEList</code> object following the <code>RNAseq123</code> workflow. We use the <code>readDGE()</code> function to read in count data from files, and provide sample information to the <code>readDGE()</code> function and adding in the gene annotation information afterwards.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of file names</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> <span class="st">"data/counts"</span>, <span class="at">pattern =</span> <span class="st">"GSM*"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create DGEList object</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">readDGE</span>(</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  files,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"data/counts"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> group,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> samplenames</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># add gene annotation information</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>gene_anno <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/Ses3_geneAnnot.tsv"</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>genes <span class="ot">&lt;-</span> gene_anno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of file names</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="at">path =</span> <span class="st">"data/rnaseq/counts"</span>, <span class="at">pattern =</span> <span class="st">"GSM*"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create DGEList object</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">readDGE</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  files,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"data/rnaseq/counts"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> group,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> samplenames</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># add gene annotation information</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>gene_anno <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/rnaseq/Ses3_geneAnnot.tsv"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>genes <span class="ot">&lt;-</span> gene_anno</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="alternative-construction-of-the-dgelist-object" class="level2" data-number="6.6">
@@ -398,12 +410,12 @@ Data objects
 <p>What you can do with data objects is determined by package that the object comes from. You will need to read the package documentation to find out how to access data from the object. Here <code>edgeR</code> informs us that the <code>DGEList</code> has data that can be accessed as if it was a list.</p>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> dge<span class="sc">$</span>counts</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> dge<span class="sc">$</span>genes</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create DGEList object</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="at">counts =</span> counts, <span class="at">samples =</span> samples, <span class="at">genes =</span> genes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> dge<span class="sc">$</span>counts</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> dge<span class="sc">$</span>genes</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create DGEList object</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="at">counts =</span> counts, <span class="at">samples =</span> samples, <span class="at">genes =</span> genes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we have a data object that can be used for downstream analysis.</p>
 </section>
@@ -422,21 +434,21 @@ Data objects
 <p>The <code>edgeR</code> provides the <code>filterByExpr()</code> function to automate gene filtering. By default, it aims to keep genes with a count of 10 or more, in at least as many samples as the smallest experimental group. In our experiment, there are 3 phenotype groups each with 3 samples. Therefore we retain only genes that have 10 or more counts in 3 or more samples. The actual filtering is done on counts per million, prevent bias against samples with small library sizes. This complex procedure is the reason why the package provides a function to perform the filtering for you.</p>
 <p>The output of this function is a vector of logicals, indicating which genes (rows) should be kept and which filtered.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">filterByExpr</span>(dge)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(keep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">filterByExpr</span>(dge)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(keep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>keep
 FALSE  TRUE 
 10555 16624 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proportions</span>(<span class="fu">table</span>(keep))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proportions</span>(<span class="fu">table</span>(keep))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>keep
     FALSE      TRUE 
 0.3883513 0.6116487 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[keep, , keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dge<span class="sc">$</span>counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[keep, , keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dge<span class="sc">$</span>counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 16624     9</code></pre>
 </div>
@@ -466,12 +478,12 @@ FALSE  TRUE
 <p>Subsequent steps in this analysis will use log-cpm values, calculated using the normalisation factors, which scales each library size.</p>
 <p>We can calculate the normalisation factors, specifying that we want to use the <code>"TMM"</code> method:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge, <span class="at">method =</span> <span class="st">"TMM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge, <span class="at">method =</span> <span class="st">"TMM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This function calculates the normalisation factors for each library (sample) and puts this information in the <code>samples</code> data frame. Note that it takes dge (our <code>DGEList</code> object as input) and returns a <code>DGEList</code> object as well.</p>
 <p>Let’s take a look at our normalisation factors:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>samples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>samples</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          group lib.size norm.factors                    files lib.size.1
 10_6_5_11    LP 32857304    0.8943956 GSM1545535_10_6_5_11.txt   32863052
@@ -501,34 +513,34 @@ JMS9-P8c               1</code></pre>
 <h2 data-number="6.9" class="anchored" data-anchor-id="visualising-the-effect-of-normalisation"><span class="header-section-number">6.9</span> Visualising the effect of normalisation</h2>
 <p>To visualise the effect of TMM normalisation, we can plot the log-counts as a boxplot, and observe the effect of applying the normalisation. To create a boxplot of the log-counts, we can use <code>log(dge$counts + 0.5)</code> to create the log-count matrix. The addition of 0.5 is to avoid taking the log of zero. Then in order to use <code>ggplot2</code> for plotting, we must convert the matrix to a data frame. We can use the <code>as_tibble(rownames = "gene")</code> function to convert the matrix to a data frame where the rownames are converted to a column called “gene”. We can then use the <code>pivot_longer()</code> function to convert the data frame from wide format to long format, where each row represents a single observation. This is necessary for <code>ggplot2</code> to plot the data correctly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">log</span>(dge<span class="sc">$</span>counts <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">log</span>(dge<span class="sc">$</span>counts <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter_6_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="2000"></p>
+<p><img src="chapter_6_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="2000"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>We can compare this to the cpm values which when calculated using the <code>cpm()</code> function, automatically applies normalisation factors if they are present.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">cpm</span>(dge<span class="sc">$</span>counts, <span class="at">log =</span> <span class="cn">TRUE</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">cpm</span>(dge<span class="sc">$</span>counts, <span class="at">log =</span> <span class="cn">TRUE</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter_6_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="2000"></p>
+<p><img src="chapter_6_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2000"></p>
 </figure>
 </div>
 </div>
@@ -541,11 +553,11 @@ JMS9-P8c               1</code></pre>
 <p>MDS is a way to visualise distances between sets of data points (samples in our case). It is a dimensionality reduction technique, similar to principal components analysis (PCA). We treat gene expression in samples as if they were coordinates in a high-dimensional coordinate system, then we can find “distances” between samples as we do between points in space. Then the goal of the algorithm is to find a representation in lower dimensional space such that points that the distance of two objects from each other in high dimensional space is preserved in lower dimensions.</p>
 <p>The <code>plotMDS()</code> from <code>limma</code> creates an MDS plot from a <code>DGEList</code> object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter_6_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="2000"></p>
+<p><img src="chapter_6_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2000"></p>
 </figure>
 </div>
 </div>
@@ -553,11 +565,11 @@ JMS9-P8c               1</code></pre>
 <p>Each point on the plot represents one sample and is ‘labelled’ using the sample name. The distances between each sample in the resulting plot can be interpreted as the typical log2-fold-change between the samples, for the most differentially expressed genes.</p>
 <p>We can change the labelling to use the name of the group the sample belongs to instead:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge, <span class="at">labels =</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge, <span class="at">labels =</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter_6_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2000"></p>
+<p><img src="chapter_6_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="2000"></p>
 </figure>
 </div>
 </div>
@@ -568,8 +580,8 @@ JMS9-P8c               1</code></pre>
 <h2 data-number="6.11" class="anchored" data-anchor-id="mds-plot-using-ggplot2"><span class="header-section-number">6.11</span> MDS plot using ggplot2</h2>
 <p>For more customisability and better consistency with the style of other plots, it’d be nice to be able to draw the MDS plot using <code>ggplot2</code>. In order to do this we would need the MDS coordinates calculated by <code>plotMDS()</code>. Luckily the documentation of <code>plotMDS()</code> shows that it returns multiple computed values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mds_result <span class="ot">&lt;-</span> <span class="fu">plotMDS</span>(dge, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mds_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mds_result <span class="ot">&lt;-</span> <span class="fu">plotMDS</span>(dge, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mds_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>An object of class MDS
 $eigen.values
@@ -647,55 +659,13 @@ $y
 </div>
 <p>We see that there’s are <code>x</code> and <code>y</code> values in the list returned by the <code>plotMDS()</code> function, we can put these into a table and see if they match up to the positions plotted by the function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter_6_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="2000"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just <code>ggplot2</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">colnames</span>(dge),</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>dim1_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>dim2_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> group)) <span class="sc">+</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter_6_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2000"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Now that we have our data in a nice tidy format we can use with ggplot, it’s easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -704,14 +674,24 @@ $y
 </div>
 </div>
 </div>
-<p>Alternatively we can also use the labels to identify the individual samples while colouring them by their group.</p>
+<p>The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just <code>ggplot2</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">colnames</span>(dge),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>dim1_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>dim2_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> group)) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -720,20 +700,52 @@ $y
 </div>
 </div>
 </div>
-<p>We see that some labels are very hard to read due to the overlapping, so we can use the <code>ggrepel</code> package to fix this. The <code>ggrepel</code> package creates labels that repel each other in order to avoid overlap. It’s a good idea to use it in conjunction with <code>geom_point()</code> in order to keep track of exact coordinate of the data point.</p>
+<p>Now that we have our data in a nice tidy format we can use with ggplot, it’s easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="chapter_6_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="2000"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Alternatively we can also use the labels to identify the individual samples while colouring them by their group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter_6_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="2000"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see that some labels are very hard to read due to the overlapping, so we can use the <code>ggrepel</code> package to fix this. The <code>ggrepel</code> package creates labels that repel each other in order to avoid overlap. It’s a good idea to use it in conjunction with <code>geom_point()</code> in order to keep track of exact coordinate of the data point.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter_6_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="2000"></p>
 </figure>
 </div>
 </div>
@@ -1252,359 +1264,382 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb26" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">  - naquiz</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "In this chapter:"</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># RNA-seq - Part 1 {#sec-chapter06}</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=FALSE}</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="in">library(magrittr)</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="in">library(knitr)</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="in">library(kableExtra)</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="in">options(readr.show_col_types = FALSE)</span></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>In this chapter we will run through the basic steps for analysing a simple RNA-seq experiment using the <span class="co">[</span><span class="ot">limma-voom workflow</span><span class="co">](https://f1000research.com/articles/5-1408)</span>. This includes:</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>filtering out lowly expressed genes</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>normalisation</span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating a multidimensional scaling (MDS) plot</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating a design matrix</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>fitting gene-wise linear models (with empirical Bayes moderation to more accurately estimate gene-wise variability)</span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>performing statistical testing for differential expression</span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>The aim of this chapter is to give you experience with a real-world RNA-seq analysis, and making extensive use of an external library. We will not cover the statistics in any depth. Instead, the goal is to understand how to construct data structures required for specific packages and how to use the functions in those packages to perform the analysis.</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>Much of the materials here are explained in greater detail in the limma user's guide. You can view this by typing <span class="in">`help("limma")`</span> and following the links.</span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Learning Objectives"}</span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Constructing a <span class="in">`DGEList`</span> object to use with the <span class="in">`edgeR`</span> package</span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Performing filtering of lowly expressed genes</span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Normalising RNA-seq data to account for library size and RNA composition</span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Performing exploratory data analysis using MDS plots</span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pulling data out of <span class="in">`edgeR`</span> package objects and re-organising it into a tidy format for use with <span class="in">`ggplot2`</span>.</span>
-<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data files</span></span>
-<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>You can download and unzip the files using the following commands</span>
-<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/Shians/BaseR_Intro/raw/master/data/workshop_data.zip"</span>, <span class="st">"workshop_data.zip"</span>)</span>
-<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"workshop_data.zip"</span>, <span class="at">exdir =</span> <span class="st">"data"</span>)</span>
-<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/Ses3_counts.zip"</span>, <span class="at">exdir =</span> <span class="st">"data/counts"</span>)</span>
-<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## R Packages</span></span>
-<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>Extra packages are required for later chapters, these can be downloaded by the following commands</span>
-<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"RNAseq123"</span>)</span>
-<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a><span class="fu">## Loading in read count data and annotation</span></span>
-<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a>The data we are looking at comes from three cell populations (basal, luminal progenitor (LP) and mature luminal (ML)) sorted from the mammary glands of female virgin mice, each profiled in triplicate. These samples have been sequenced using Illumina RNAseq platforms and we will be using the <span class="in">`edgeR`</span> package to analyse the data.</span>
-<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a>To use the <span class="in">`edgeR`</span> package we first need to construct a <span class="in">`DGEList`</span> object. This object contains 3 key pieces of data:</span>
-<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`counts`</span>: the main data of this object, a matrix of count values with samples along the columns and features/genes along the rows.</span>
-<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`samples`</span>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.</span>
-<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`genes`</span>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.</span>
-<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Data objects"}</span>
-<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a>Data objects in general are a way to store related pieces of information together. Often they provide features to maintain the relationships between the pieces of information. For example, in a <span class="in">`DGEList`</span> object, the <span class="in">`counts`</span> are stored as a matrix while <span class="in">`samples`</span> and <span class="in">`genes`</span> are stored as data frames. When you subset the <span class="in">`DGEList`</span> object, the rows and columns of the <span class="in">`counts`</span> matrix are subset along with the corresponding rows of the <span class="in">`samples`</span> and <span class="in">`genes`</span> data frames. This prevents errors that can occur if the user tries to manually subset all three pieces of information separately.</span>
-<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE, message=FALSE}</span></span>
-<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a><span class="in"># load required packages</span></span>
-<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse)</span></span>
-<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a><span class="in">library(edgeR)</span></span>
-<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a><span class="in">group &lt;- parse_factor(</span></span>
-<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a><span class="in">  c("LP", "ML", "Basal", "Basal", "ML", "LP", "Basal", "ML", "LP"),</span></span>
-<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a><span class="in">  levels = c("Basal", "LP", "ML")</span></span>
-<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a><span class="in">samplenames &lt;- c(</span></span>
-<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a><span class="in">  "10_6_5_11", "9_6_5_11", "purep53", "JMS8-2", "JMS8-3",</span></span>
-<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a><span class="in">  "JMS8-4", "JMS8-5", "JMS9-P7c", "JMS9-P8c"</span></span>
-<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a><span class="fu">## A brief detour to factors</span></span>
-<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>Note that when we declared the <span class="in">`group`</span> variable, we used factors. Factors are a special data type that is used to encode categorical variables. They have multiple useful properties in comparison to regular character vectors:</span>
-<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>They allow you to specify the order of the levels.</span>
-<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>They are stored as integers but displayed as labels.</span>
-<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>They encode all the valid levels of the factor, even if they are not present in the data.</span>
-<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>Specifying the order of the levels is useful because it allows you to re-arrange labels when used in plots. In this data we would have the "Basal" group first, followed by "LP" and then "ML". Using <span class="in">`parse_factor()`</span> also allows you to check that the values are all valid levels, for example if one of the samples was labelled "Bassal" instead of "Basal", it would throw an error. You can read the R for Data Science <span class="co">[</span><span class="ot">chapter on factors</span><span class="co">](https://r4ds.had.co.nz/factors.html)</span> for more information, as well as the <span class="co">[</span><span class="ot">forcats package</span><span class="co">](https://forcats.tidyverse.org)</span> for many useful functions for working with factors.</span>
-<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating the DGEList object</span></span>
-<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a>We will create a <span class="in">`DGEList`</span> object following the <span class="in">`RNAseq123`</span> workflow. We use the <span class="in">`readDGE()`</span> function to read in count data from files, and provide sample information to the <span class="in">`readDGE()`</span> function and adding in the gene annotation information afterwards.</span>
-<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE, message=FALSE}</span></span>
-<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a><span class="in"># vector of file names</span></span>
-<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a><span class="in">files &lt;- dir(path = "data/counts", pattern = "GSM*")</span></span>
-<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a><span class="in"># create DGEList object</span></span>
-<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a><span class="in">dge &lt;- readDGE(</span></span>
-<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a><span class="in">  files,</span></span>
-<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a><span class="in">  path = "data/counts",</span></span>
-<span id="cb26-122"><a href="#cb26-122" aria-hidden="true" tabindex="-1"></a><span class="in">  columns = c(1, 3),</span></span>
-<span id="cb26-123"><a href="#cb26-123" aria-hidden="true" tabindex="-1"></a><span class="in">  group = group,</span></span>
-<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a><span class="in">  labels = samplenames</span></span>
-<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb26-126"><a href="#cb26-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-127"><a href="#cb26-127" aria-hidden="true" tabindex="-1"></a><span class="in"># add gene annotation information</span></span>
-<span id="cb26-128"><a href="#cb26-128" aria-hidden="true" tabindex="-1"></a><span class="in">gene_anno &lt;- read_tsv("data/Ses3_geneAnnot.tsv")</span></span>
-<span id="cb26-129"><a href="#cb26-129" aria-hidden="true" tabindex="-1"></a><span class="in">dge$genes &lt;- gene_anno</span></span>
-<span id="cb26-130"><a href="#cb26-130" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-131"><a href="#cb26-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-132"><a href="#cb26-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alternative construction of the DGEList object</span></span>
-<span id="cb26-133"><a href="#cb26-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-134"><a href="#cb26-134" aria-hidden="true" tabindex="-1"></a>A more common way to create a <span class="in">`DGEList`</span> object is to read in the count data as a matrix and then create the <span class="in">`DGEList`</span> object using the <span class="in">`DGEList()`</span> function. We can pull apart our existing <span class="in">`DGEList`</span> object and recreate it using this method.</span>
-<span id="cb26-135"><a href="#cb26-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-136"><a href="#cb26-136" aria-hidden="true" tabindex="-1"></a>::: .callout-info</span>
-<span id="cb26-137"><a href="#cb26-137" aria-hidden="true" tabindex="-1"></a>What you can do with data objects is determined by package that the object comes from. You will need to read the package documentation to find out how to access data from the object. Here <span class="in">`edgeR`</span> informs us that the <span class="in">`DGEList`</span> has data that can be accessed as if it was a list.</span>
-<span id="cb26-138"><a href="#cb26-138" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb26-139"><a href="#cb26-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-142"><a href="#cb26-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-143"><a href="#cb26-143" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> dge<span class="sc">$</span>counts</span>
-<span id="cb26-144"><a href="#cb26-144" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples</span>
-<span id="cb26-145"><a href="#cb26-145" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> dge<span class="sc">$</span>genes</span>
-<span id="cb26-146"><a href="#cb26-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-147"><a href="#cb26-147" aria-hidden="true" tabindex="-1"></a><span class="co"># create DGEList object</span></span>
-<span id="cb26-148"><a href="#cb26-148" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="at">counts =</span> counts, <span class="at">samples =</span> samples, <span class="at">genes =</span> genes)</span>
-<span id="cb26-149"><a href="#cb26-149" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-150"><a href="#cb26-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-151"><a href="#cb26-151" aria-hidden="true" tabindex="-1"></a>Now we have a data object that can be used for downstream analysis.</span>
-<span id="cb26-152"><a href="#cb26-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-153"><a href="#cb26-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## Filtering</span></span>
-<span id="cb26-154"><a href="#cb26-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-155"><a href="#cb26-155" aria-hidden="true" tabindex="-1"></a>The first step of our analysis is to filter out lowly expressed genes. There are two main problems with low abundant genes:</span>
-<span id="cb26-156"><a href="#cb26-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-157"><a href="#cb26-157" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Technical variation is more problematic for low abundance genes. This variation is thought to be due to two factors; insufficient mixing and low sampling fraction <span class="co">[</span><span class="ot">@mcintyre2011</span><span class="co">]</span>.</span>
-<span id="cb26-158"><a href="#cb26-158" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Insufficient mixing of solutions during library preparation can result in uneven distribution of reads.</span>
-<span id="cb26-159"><a href="#cb26-159" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>RNA sequencing can be thought of as sampling. Measurement errors will occur simply due to the random nature of the sampling process. This problem affects lowly abundant RNA species more because the relative error for small count values is larger than it would be for more highly abundant RNA species.</span>
-<span id="cb26-160"><a href="#cb26-160" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Genes that are very lowly expressed do not produce sufficient information to be useful for biological interpretation. For example, it is very hard to believe the biological significance of genes that have counts ranging from 0 to 3 across samples even if come up as statistically significant.</span>
-<span id="cb26-161"><a href="#cb26-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-162"><a href="#cb26-162" aria-hidden="true" tabindex="-1"></a>Removing these highly variable, lowly expressed genes increases your 'power' to detect differentially expressed genes <span class="co">[</span><span class="ot">@bourgon2010</span><span class="co">]</span>, where 'power' is your ability to detect true positives. In testing for differential expression, a statistical test is conducted for each gene. When a high number of statistical tests are performed, a portion of them will be significant purely due to random chance. A common procedure to control for the number of false positive is to perform 'multiple testing correction' on the p-values. This adjusts the p-value in a way that reduces the number of false positives but comes at the cost of reduced power to detect true positives. If we filter out uninteresting, lowly expressed genes, we need to perform fewer statistical tests and reduce the impact that multiple testing adjustment has on detection power.</span>
-<span id="cb26-163"><a href="#cb26-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-164"><a href="#cb26-164" aria-hidden="true" tabindex="-1"></a>The <span class="in">`edgeR`</span> provides the <span class="in">`filterByExpr()`</span> function to automate gene filtering. By default, it aims to keep genes with a count of 10 or more, in at least as many samples as the smallest experimental group. In our experiment, there are 3 phenotype groups each with 3 samples. Therefore we retain only genes that have 10 or more counts in 3 or more samples. The actual filtering is done on counts per million, prevent bias against samples with small library sizes. This complex procedure is the reason why the package provides a function to perform the filtering for you.</span>
-<span id="cb26-165"><a href="#cb26-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-166"><a href="#cb26-166" aria-hidden="true" tabindex="-1"></a>The output of this function is a vector of logicals, indicating which genes (rows) should be kept and which filtered.</span>
-<span id="cb26-167"><a href="#cb26-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-170"><a href="#cb26-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-171"><a href="#cb26-171" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">filterByExpr</span>(dge)</span>
-<span id="cb26-172"><a href="#cb26-172" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(keep)</span>
-<span id="cb26-173"><a href="#cb26-173" aria-hidden="true" tabindex="-1"></a><span class="fu">proportions</span>(<span class="fu">table</span>(keep))</span>
-<span id="cb26-174"><a href="#cb26-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-175"><a href="#cb26-175" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[keep, , keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
-<span id="cb26-176"><a href="#cb26-176" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dge<span class="sc">$</span>counts)</span>
-<span id="cb26-177"><a href="#cb26-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-178"><a href="#cb26-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-179"><a href="#cb26-179" aria-hidden="true" tabindex="-1"></a>We can see that we now have 16624 genes. We started with 27179 genes - meaning that ~40% of genes have been filtered out.</span>
-<span id="cb26-180"><a href="#cb26-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-181"><a href="#cb26-181" aria-hidden="true" tabindex="-1"></a><span class="fu">## Library-size normalisation</span></span>
-<span id="cb26-182"><a href="#cb26-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-183"><a href="#cb26-183" aria-hidden="true" tabindex="-1"></a>After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias. This allows the data to be meaningfully compared across samples or experimental groups.</span>
-<span id="cb26-184"><a href="#cb26-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-185"><a href="#cb26-185" aria-hidden="true" tabindex="-1"></a>There are two main factors that need to be normalised for in RNA-seq:</span>
-<span id="cb26-186"><a href="#cb26-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-187"><a href="#cb26-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sequencing depth/library size - technically, sequencing a sample to half the depth will give, on average, half the number of reads mapping to each gene <span class="co">[</span><span class="ot">@robinson2010</span><span class="co">]</span>.</span>
-<span id="cb26-188"><a href="#cb26-188" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>RNA composition - if a large number of genes are unique to, or highly expressed in, only one experimental condition, the sequencing capacity available for the remaining genes in that sample is decreased. For example, if there are only five genes being studied in two experimental groups, if one gene is particularly high in group A, then with limited sequencing depth, that gene will reduce the counts of the remaining four genes. The effect of this is that the remaining four genes appear under-expressed in group A compared to group B when the true amount of gene product is actually equal for these 4 genes <span class="co">[</span><span class="ot">@robinson2010</span><span class="co">]</span>.</span>
-<span id="cb26-189"><a href="#cb26-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-190"><a href="#cb26-190" aria-hidden="true" tabindex="-1"></a>Sequencing depth is accounted for by calculating the counts per million (cpm). This metric is calculated by:</span>
-<span id="cb26-191"><a href="#cb26-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-192"><a href="#cb26-192" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>taking the library size (sum of all counts for a sample),</span>
-<span id="cb26-193"><a href="#cb26-193" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>dividing this by 1,000,000 to get the 'per million' scaling factor,</span>
-<span id="cb26-194"><a href="#cb26-194" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>then dividing all read counts for each gene in that sample by the 'per million' scaling factor</span>
-<span id="cb26-195"><a href="#cb26-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-196"><a href="#cb26-196" aria-hidden="true" tabindex="-1"></a>RNA composition can be accounted for by using more sophisticated normalisation methodologies. We will use 'trimmed mean of M-values' (TMM), which estimates relative RNA levels from RNA-seq data <span class="co">[</span><span class="ot">@robinson2010</span><span class="co">]</span>. Under the assumption that most genes are not differentially expressed, TMM calculates a library size scaling factor for each library (sample). This is done using the following steps:</span>
-<span id="cb26-197"><a href="#cb26-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-198"><a href="#cb26-198" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>calculate the gene expression log fold changes and absolute expression values for pair-wise samples (selecting one sample from the experiment as a reference)</span>
-<span id="cb26-199"><a href="#cb26-199" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>remove the genes with the highest and lowest fold changes and absolute expression values</span>
-<span id="cb26-200"><a href="#cb26-200" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>take a weighted mean of the remaining genes (where the weight is the inverse of the approximate asymptotic variances). This gives the normalisation factor for each library (sample)</span>
-<span id="cb26-201"><a href="#cb26-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-202"><a href="#cb26-202" aria-hidden="true" tabindex="-1"></a>Subsequent steps in this analysis will use log-cpm values, calculated using the normalisation factors, which scales each library size.</span>
-<span id="cb26-203"><a href="#cb26-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-204"><a href="#cb26-204" aria-hidden="true" tabindex="-1"></a>We can calculate the normalisation factors, specifying that we want to use the <span class="in">`"TMM"`</span> method:</span>
-<span id="cb26-205"><a href="#cb26-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-208"><a href="#cb26-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-209"><a href="#cb26-209" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge, <span class="at">method =</span> <span class="st">"TMM"</span>)</span>
-<span id="cb26-210"><a href="#cb26-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-211"><a href="#cb26-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-212"><a href="#cb26-212" aria-hidden="true" tabindex="-1"></a>This function calculates the normalisation factors for each library (sample) and puts this information in the <span class="in">`samples`</span> data frame. Note that it takes dge (our <span class="in">`DGEList`</span> object as input) and returns a <span class="in">`DGEList`</span> object as well.</span>
-<span id="cb26-213"><a href="#cb26-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-214"><a href="#cb26-214" aria-hidden="true" tabindex="-1"></a>Let's take a look at our normalisation factors:</span>
-<span id="cb26-215"><a href="#cb26-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-218"><a href="#cb26-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-219"><a href="#cb26-219" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>samples</span>
-<span id="cb26-220"><a href="#cb26-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-221"><a href="#cb26-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-222"><a href="#cb26-222" aria-hidden="true" tabindex="-1"></a>These normalisation factors are all close to 1 for all samples, suggesting minimal difference in RNA composition between samples.</span>
-<span id="cb26-223"><a href="#cb26-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-224"><a href="#cb26-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising the effect of normalisation</span></span>
-<span id="cb26-225"><a href="#cb26-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-226"><a href="#cb26-226" aria-hidden="true" tabindex="-1"></a>To visualise the effect of TMM normalisation, we can plot the log-counts as a boxplot, and observe the effect of applying the normalisation. To create a boxplot of the log-counts, we can use <span class="in">`log(dge$counts + 0.5)`</span> to create the log-count matrix. The addition of 0.5 is to avoid taking the log of zero. Then in order to use <span class="in">`ggplot2`</span> for plotting, we must convert the matrix to a data frame. We can use the <span class="in">`as_tibble(rownames = "gene")`</span> function to convert the matrix to a data frame where the rownames are converted to a column called "gene". We can then use the <span class="in">`pivot_longer()`</span> function to convert the data frame from wide format to long format, where each row represents a single observation. This is necessary for <span class="in">`ggplot2`</span> to plot the data correctly.</span>
-<span id="cb26-227"><a href="#cb26-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-230"><a href="#cb26-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-231"><a href="#cb26-231" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">log</span>(dge<span class="sc">$</span>counts <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb26-232"><a href="#cb26-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb26-233"><a href="#cb26-233" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
-<span id="cb26-234"><a href="#cb26-234" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
-<span id="cb26-235"><a href="#cb26-235" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb26-236"><a href="#cb26-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
-<span id="cb26-237"><a href="#cb26-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
-<span id="cb26-238"><a href="#cb26-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-239"><a href="#cb26-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-240"><a href="#cb26-240" aria-hidden="true" tabindex="-1"></a>We can compare this to the cpm values which when calculated using the <span class="in">`cpm()`</span> function, automatically applies normalisation factors if they are present.</span>
-<span id="cb26-241"><a href="#cb26-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-244"><a href="#cb26-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-245"><a href="#cb26-245" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">cpm</span>(dge<span class="sc">$</span>counts, <span class="at">log =</span> <span class="cn">TRUE</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb26-246"><a href="#cb26-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb26-247"><a href="#cb26-247" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
-<span id="cb26-248"><a href="#cb26-248" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
-<span id="cb26-249"><a href="#cb26-249" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb26-250"><a href="#cb26-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
-<span id="cb26-251"><a href="#cb26-251" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
-<span id="cb26-252"><a href="#cb26-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-253"><a href="#cb26-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-254"><a href="#cb26-254" aria-hidden="true" tabindex="-1"></a>We see that by performing normalisation on our data, the gene expression values of each sample now have similar medians and quantiles. This indicates that the relative expression values of each sample can be more meaningfully compared.</span>
-<span id="cb26-255"><a href="#cb26-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-256"><a href="#cb26-256" aria-hidden="true" tabindex="-1"></a><span class="fu">## MDS plots</span></span>
-<span id="cb26-257"><a href="#cb26-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-258"><a href="#cb26-258" aria-hidden="true" tabindex="-1"></a>Before we perform statistical tests, it's useful to perform some exploratory visual analysis to get an overall idea of how our data is behaving.</span>
-<span id="cb26-259"><a href="#cb26-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-260"><a href="#cb26-260" aria-hidden="true" tabindex="-1"></a>MDS is a way to visualise distances between sets of data points (samples in our case). It is a dimensionality reduction technique, similar to principal components analysis (PCA). We treat gene expression in samples as if they were coordinates in a high-dimensional coordinate system, then we can find "distances" between samples as we do between points in space. Then the goal of the algorithm is to find a representation in lower dimensional space such that points that the distance of two objects from each other in high dimensional space is preserved in lower dimensions.</span>
-<span id="cb26-261"><a href="#cb26-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-262"><a href="#cb26-262" aria-hidden="true" tabindex="-1"></a>The <span class="in">`plotMDS()`</span> from <span class="in">`limma`</span> creates an MDS plot from a <span class="in">`DGEList`</span> object.</span>
-<span id="cb26-263"><a href="#cb26-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-266"><a href="#cb26-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-267"><a href="#cb26-267" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge)</span>
-<span id="cb26-268"><a href="#cb26-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-269"><a href="#cb26-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-270"><a href="#cb26-270" aria-hidden="true" tabindex="-1"></a>Each point on the plot represents one sample and is 'labelled' using the sample name. The distances between each sample in the resulting plot can be interpreted as the typical log2-fold-change between the samples, for the most differentially expressed genes.</span>
-<span id="cb26-271"><a href="#cb26-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-272"><a href="#cb26-272" aria-hidden="true" tabindex="-1"></a>We can change the labelling to use the name of the group the sample belongs to instead:</span>
-<span id="cb26-273"><a href="#cb26-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-276"><a href="#cb26-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-277"><a href="#cb26-277" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge, <span class="at">labels =</span> group)</span>
-<span id="cb26-278"><a href="#cb26-278" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-279"><a href="#cb26-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-280"><a href="#cb26-280" aria-hidden="true" tabindex="-1"></a>This shows us that the phenotype groups tend to cluster together, meaning that the gene expression profiles are similar for samples within a phenotype group. The 'Basal' type samples quite close together while the 'LP' (luminal progenitor) and 'ML' (mature luminal) type samples are further apart, signifying that their expression profiles are more variable.</span>
-<span id="cb26-281"><a href="#cb26-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-282"><a href="#cb26-282" aria-hidden="true" tabindex="-1"></a><span class="fu">## MDS plot using ggplot2</span></span>
-<span id="cb26-283"><a href="#cb26-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-284"><a href="#cb26-284" aria-hidden="true" tabindex="-1"></a>For more customisability and better consistency with the style of other plots, it'd be nice to be able to draw the MDS plot using <span class="in">`ggplot2`</span>. In order to do this we would need the MDS coordinates calculated by <span class="in">`plotMDS()`</span>. Luckily the documentation of <span class="in">`plotMDS()`</span> shows that it returns multiple computed values.</span>
-<span id="cb26-285"><a href="#cb26-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-288"><a href="#cb26-288" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-289"><a href="#cb26-289" aria-hidden="true" tabindex="-1"></a>mds_result <span class="ot">&lt;-</span> <span class="fu">plotMDS</span>(dge, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-290"><a href="#cb26-290" aria-hidden="true" tabindex="-1"></a>mds_result</span>
-<span id="cb26-291"><a href="#cb26-291" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-292"><a href="#cb26-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-293"><a href="#cb26-293" aria-hidden="true" tabindex="-1"></a>We see that there's are <span class="in">`x`</span> and <span class="in">`y`</span> values in the list returned by the <span class="in">`plotMDS()`</span> function, we can put these into a table and see if they match up to the positions plotted by the function.</span>
-<span id="cb26-294"><a href="#cb26-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-297"><a href="#cb26-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-298"><a href="#cb26-298" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb26-299"><a href="#cb26-299" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
-<span id="cb26-300"><a href="#cb26-300" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y</span>
-<span id="cb26-301"><a href="#cb26-301" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-302"><a href="#cb26-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-303"><a href="#cb26-303" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb26-304"><a href="#cb26-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
-<span id="cb26-305"><a href="#cb26-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-306"><a href="#cb26-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-307"><a href="#cb26-307" aria-hidden="true" tabindex="-1"></a>The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just <span class="in">`ggplot2`</span>.</span>
-<span id="cb26-308"><a href="#cb26-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-311"><a href="#cb26-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-312"><a href="#cb26-312" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb26-313"><a href="#cb26-313" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
-<span id="cb26-314"><a href="#cb26-314" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y,</span>
-<span id="cb26-315"><a href="#cb26-315" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">colnames</span>(dge),</span>
-<span id="cb26-316"><a href="#cb26-316" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
-<span id="cb26-317"><a href="#cb26-317" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-318"><a href="#cb26-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-319"><a href="#cb26-319" aria-hidden="true" tabindex="-1"></a>dim1_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb26-320"><a href="#cb26-320" aria-hidden="true" tabindex="-1"></a>dim2_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb26-321"><a href="#cb26-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-322"><a href="#cb26-322" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb26-323"><a href="#cb26-323" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> group)) <span class="sc">+</span></span>
-<span id="cb26-324"><a href="#cb26-324" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb26-325"><a href="#cb26-325" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb26-326"><a href="#cb26-326" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb26-327"><a href="#cb26-327" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-328"><a href="#cb26-328" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-329"><a href="#cb26-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-330"><a href="#cb26-330" aria-hidden="true" tabindex="-1"></a>Now that we have our data in a nice tidy format we can use with ggplot, it's easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.</span>
-<span id="cb26-331"><a href="#cb26-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-334"><a href="#cb26-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-335"><a href="#cb26-335" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
-<span id="cb26-336"><a href="#cb26-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb26-337"><a href="#cb26-337" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb26-338"><a href="#cb26-338" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb26-339"><a href="#cb26-339" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb26-340"><a href="#cb26-340" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-341"><a href="#cb26-341" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-342"><a href="#cb26-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-343"><a href="#cb26-343" aria-hidden="true" tabindex="-1"></a>Alternatively we can also use the labels to identify the individual samples while colouring them by their group.</span>
-<span id="cb26-344"><a href="#cb26-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-347"><a href="#cb26-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-348"><a href="#cb26-348" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
-<span id="cb26-349"><a href="#cb26-349" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
-<span id="cb26-350"><a href="#cb26-350" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb26-351"><a href="#cb26-351" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb26-352"><a href="#cb26-352" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb26-353"><a href="#cb26-353" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-354"><a href="#cb26-354" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-355"><a href="#cb26-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-356"><a href="#cb26-356" aria-hidden="true" tabindex="-1"></a>We see that some labels are very hard to read due to the overlapping, so we can use the <span class="in">`ggrepel`</span> package to fix this. The <span class="in">`ggrepel`</span> package creates labels that repel each other in order to avoid overlap. It's a good idea to use it in conjunction with <span class="in">`geom_point()`</span> in order to keep track of exact coordinate of the data point.</span>
-<span id="cb26-357"><a href="#cb26-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-360"><a href="#cb26-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb26-361"><a href="#cb26-361" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb26-362"><a href="#cb26-362" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
-<span id="cb26-363"><a href="#cb26-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb26-364"><a href="#cb26-364" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
-<span id="cb26-365"><a href="#cb26-365" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb26-366"><a href="#cb26-366" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
-<span id="cb26-367"><a href="#cb26-367" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
-<span id="cb26-368"><a href="#cb26-368" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-369"><a href="#cb26-369" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb26-370"><a href="#cb26-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-371"><a href="#cb26-371" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb26-372"><a href="#cb26-372" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-373"><a href="#cb26-373" aria-hidden="true" tabindex="-1"></a>Today we started on the early steps of the RNA-seq analysis workflow.</span>
-<span id="cb26-374"><a href="#cb26-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-375"><a href="#cb26-375" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to create a <span class="in">`DGEList`</span> object, demonstrating how to create data objects required by specific packages.</span>
-<span id="cb26-376"><a href="#cb26-376" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to use edgeR's <span class="in">`filterByExpr()`</span> function to filter out lowly expressed genes.</span>
-<span id="cb26-377"><a href="#cb26-377" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to normalise the data using TMM normalisation.</span>
-<span id="cb26-378"><a href="#cb26-378" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to create MDS plots using both <span class="in">`plotMDS()`</span> and <span class="in">`ggplot2`</span>.</span>
-<span id="cb26-379"><a href="#cb26-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to use <span class="in">`ggrepel`</span> to create non-overlapping labels in <span class="in">`ggplot2`</span> plots.</span>
-<span id="cb26-380"><a href="#cb26-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-381"><a href="#cb26-381" aria-hidden="true" tabindex="-1"></a>This provides a good foundation for organising data to satisfy the requirements of specific packages, and how to pull data out of the objects created by those packages. The data we pulled out can then be organised into a tidy format to leverage the power of all the <span class="in">`tidyverse`</span> functions that we have learned so far.</span>
-<span id="cb26-382"><a href="#cb26-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-383"><a href="#cb26-383" aria-hidden="true" tabindex="-1"></a>In the next chapter we will continue the RNA-seq analysis workflow and complete our differential expression analysis.</span>
-<span id="cb26-384"><a href="#cb26-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-385"><a href="#cb26-385" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<div class="sourceCode" id="cb28" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="an">filters:</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">  - naquiz</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "In this chapter:"</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># RNA-seq - Part 1 {#sec-chapter06}</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=FALSE}</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="in">library(magrittr)</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="in">library(knitr)</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="in">library(kableExtra)</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="in">options(readr.show_col_types = FALSE)</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>In this chapter we will run through the basic steps for analysing a simple RNA-seq experiment using the <span class="co">[</span><span class="ot">limma-voom workflow</span><span class="co">](https://f1000research.com/articles/5-1408)</span>. This includes:</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>filtering out lowly expressed genes</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>normalisation</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating a multidimensional scaling (MDS) plot</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>creating a design matrix</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>fitting gene-wise linear models (with empirical Bayes moderation to more accurately estimate gene-wise variability)</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>performing statistical testing for differential expression</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>The aim of this chapter is to give you experience with a real-world RNA-seq analysis, and making extensive use of an external library. We will not cover the statistics in any depth. Instead, the goal is to understand how to construct data structures required for specific packages and how to use the functions in those packages to perform the analysis.</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>Much of the materials here are explained in greater detail in the limma user's guide. You can view this by typing <span class="in">`help("limma")`</span> and following the links.</span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Learning Objectives"}</span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Constructing a <span class="in">`DGEList`</span> object to use with the <span class="in">`edgeR`</span> package</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Performing filtering of lowly expressed genes</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Normalising RNA-seq data to account for library size and RNA composition</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Performing exploratory data analysis using MDS plots</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pulling data out of <span class="in">`edgeR`</span> package objects and re-organising it into a tidy format for use with <span class="in">`ggplot2`</span>.</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data files</span></span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>If you haven't already downloaded the RNAseq data for this workshop into the <span class="in">`data/`</span> directory, you can run the following command:</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="st">"data"</span>)) {</span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(<span class="st">"data"</span>)</span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/main/data/rnaseq_workshop_data.zip"</span>,</span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>              <span class="st">"data/rnaseq_workshop_data.zip"</span>)</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>Now to unzip the files into a new directory <span class="in">`data/rnaseq/`</span>:</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">'data/rnaseq_workshop_data.zip'</span>, <span class="at">exdir =</span> <span class="st">'data/rnaseq'</span>)</span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/rnaseq/Ses3_counts.zip"</span>,   <span class="at">exdir =</span> <span class="st">"data/rnaseq/counts"</span>)</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## R Packages</span></span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>Check if the RNAseq analysis package is already installed</span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RNAseq123)</span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a>If you get an error, the package can be downloaded by the following commands. </span>
+<span id="cb28-85"><a href="#cb28-85" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-86"><a href="#cb28-86" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb28-87"><a href="#cb28-87" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb28-88"><a href="#cb28-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb28-89"><a href="#cb28-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-90"><a href="#cb28-90" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb28-91"><a href="#cb28-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb28-92"><a href="#cb28-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-93"><a href="#cb28-93" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"RNAseq123"</span>)</span>
+<span id="cb28-94"><a href="#cb28-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-95"><a href="#cb28-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-96"><a href="#cb28-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Loading in read count data and annotation</span></span>
+<span id="cb28-97"><a href="#cb28-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-98"><a href="#cb28-98" aria-hidden="true" tabindex="-1"></a>The data we are looking at comes from three cell populations (basal, luminal progenitor (LP) and mature luminal (ML)) sorted from the mammary glands of female virgin mice, each profiled in triplicate. These samples have been sequenced using Illumina RNAseq platforms and we will be using the <span class="in">`edgeR`</span> package to analyse the data.</span>
+<span id="cb28-99"><a href="#cb28-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-100"><a href="#cb28-100" aria-hidden="true" tabindex="-1"></a>To use the <span class="in">`edgeR`</span> package we first need to construct a <span class="in">`DGEList`</span> object. This object contains 3 key pieces of data:</span>
+<span id="cb28-101"><a href="#cb28-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-102"><a href="#cb28-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`counts`</span>: the main data of this object, a matrix of count values with samples along the columns and features/genes along the rows.</span>
+<span id="cb28-103"><a href="#cb28-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`samples`</span>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.</span>
+<span id="cb28-104"><a href="#cb28-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`genes`</span>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.</span>
+<span id="cb28-105"><a href="#cb28-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-106"><a href="#cb28-106" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Data objects"}</span>
+<span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a>Data objects in general are a way to store related pieces of information together. Often they provide features to maintain the relationships between the pieces of information. For example, in a <span class="in">`DGEList`</span> object, the <span class="in">`counts`</span> are stored as a matrix while <span class="in">`samples`</span> and <span class="in">`genes`</span> are stored as data frames. When you subset the <span class="in">`DGEList`</span> object, the rows and columns of the <span class="in">`counts`</span> matrix are subset along with the corresponding rows of the <span class="in">`samples`</span> and <span class="in">`genes`</span> data frames. This prevents errors that can occur if the user tries to manually subset all three pieces of information separately.</span>
+<span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-110"><a href="#cb28-110" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb28-111"><a href="#cb28-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-112"><a href="#cb28-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE, message=FALSE}</span></span>
+<span id="cb28-113"><a href="#cb28-113" aria-hidden="true" tabindex="-1"></a><span class="in"># load required packages</span></span>
+<span id="cb28-114"><a href="#cb28-114" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse)</span></span>
+<span id="cb28-115"><a href="#cb28-115" aria-hidden="true" tabindex="-1"></a><span class="in">library(edgeR)</span></span>
+<span id="cb28-116"><a href="#cb28-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-117"><a href="#cb28-117" aria-hidden="true" tabindex="-1"></a><span class="in">group &lt;- parse_factor(</span></span>
+<span id="cb28-118"><a href="#cb28-118" aria-hidden="true" tabindex="-1"></a><span class="in">  c("LP", "ML", "Basal", "Basal", "ML", "LP", "Basal", "ML", "LP"),</span></span>
+<span id="cb28-119"><a href="#cb28-119" aria-hidden="true" tabindex="-1"></a><span class="in">  levels = c("Basal", "LP", "ML")</span></span>
+<span id="cb28-120"><a href="#cb28-120" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb28-121"><a href="#cb28-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-122"><a href="#cb28-122" aria-hidden="true" tabindex="-1"></a><span class="in">samplenames &lt;- c(</span></span>
+<span id="cb28-123"><a href="#cb28-123" aria-hidden="true" tabindex="-1"></a><span class="in">  "10_6_5_11", "9_6_5_11", "purep53", "JMS8-2", "JMS8-3",</span></span>
+<span id="cb28-124"><a href="#cb28-124" aria-hidden="true" tabindex="-1"></a><span class="in">  "JMS8-4", "JMS8-5", "JMS9-P7c", "JMS9-P8c"</span></span>
+<span id="cb28-125"><a href="#cb28-125" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb28-126"><a href="#cb28-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-127"><a href="#cb28-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-128"><a href="#cb28-128" aria-hidden="true" tabindex="-1"></a><span class="fu">## A brief detour to factors</span></span>
+<span id="cb28-129"><a href="#cb28-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-130"><a href="#cb28-130" aria-hidden="true" tabindex="-1"></a>Note that when we declared the <span class="in">`group`</span> variable, we used factors. Factors are a special data type that is used to encode categorical variables. They have multiple useful properties in comparison to regular character vectors:</span>
+<span id="cb28-131"><a href="#cb28-131" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>They allow you to specify the order of the levels.</span>
+<span id="cb28-132"><a href="#cb28-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>They are stored as integers but displayed as labels.</span>
+<span id="cb28-133"><a href="#cb28-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>They encode all the valid levels of the factor, even if they are not present in the data.</span>
+<span id="cb28-134"><a href="#cb28-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-135"><a href="#cb28-135" aria-hidden="true" tabindex="-1"></a>Specifying the order of the levels is useful because it allows you to re-arrange labels when used in plots. In this data we would have the "Basal" group first, followed by "LP" and then "ML". Using <span class="in">`parse_factor()`</span> also allows you to check that the values are all valid levels, for example if one of the samples was labelled "Bassal" instead of "Basal", it would throw an error. You can read the R for Data Science <span class="co">[</span><span class="ot">chapter on factors</span><span class="co">](https://r4ds.had.co.nz/factors.html)</span> for more information, as well as the <span class="co">[</span><span class="ot">forcats package</span><span class="co">](https://forcats.tidyverse.org)</span> for many useful functions for working with factors.</span>
+<span id="cb28-136"><a href="#cb28-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-137"><a href="#cb28-137" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating the DGEList object</span></span>
+<span id="cb28-138"><a href="#cb28-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-139"><a href="#cb28-139" aria-hidden="true" tabindex="-1"></a>We will create a <span class="in">`DGEList`</span> object following the <span class="in">`RNAseq123`</span> workflow. We use the <span class="in">`readDGE()`</span> function to read in count data from files, and provide sample information to the <span class="in">`readDGE()`</span> function and adding in the gene annotation information afterwards.</span>
+<span id="cb28-140"><a href="#cb28-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-141"><a href="#cb28-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE, message=FALSE}</span></span>
+<span id="cb28-142"><a href="#cb28-142" aria-hidden="true" tabindex="-1"></a><span class="in"># vector of file names</span></span>
+<span id="cb28-143"><a href="#cb28-143" aria-hidden="true" tabindex="-1"></a><span class="in">files &lt;- dir(path = "data/rnaseq/counts", pattern = "GSM*")</span></span>
+<span id="cb28-144"><a href="#cb28-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-145"><a href="#cb28-145" aria-hidden="true" tabindex="-1"></a><span class="in"># create DGEList object</span></span>
+<span id="cb28-146"><a href="#cb28-146" aria-hidden="true" tabindex="-1"></a><span class="in">dge &lt;- readDGE(</span></span>
+<span id="cb28-147"><a href="#cb28-147" aria-hidden="true" tabindex="-1"></a><span class="in">  files,</span></span>
+<span id="cb28-148"><a href="#cb28-148" aria-hidden="true" tabindex="-1"></a><span class="in">  path = "data/rnaseq/counts",</span></span>
+<span id="cb28-149"><a href="#cb28-149" aria-hidden="true" tabindex="-1"></a><span class="in">  columns = c(1, 3),</span></span>
+<span id="cb28-150"><a href="#cb28-150" aria-hidden="true" tabindex="-1"></a><span class="in">  group = group,</span></span>
+<span id="cb28-151"><a href="#cb28-151" aria-hidden="true" tabindex="-1"></a><span class="in">  labels = samplenames</span></span>
+<span id="cb28-152"><a href="#cb28-152" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb28-153"><a href="#cb28-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-154"><a href="#cb28-154" aria-hidden="true" tabindex="-1"></a><span class="in"># add gene annotation information</span></span>
+<span id="cb28-155"><a href="#cb28-155" aria-hidden="true" tabindex="-1"></a><span class="in">gene_anno &lt;- read_tsv("data/rnaseq/Ses3_geneAnnot.tsv")</span></span>
+<span id="cb28-156"><a href="#cb28-156" aria-hidden="true" tabindex="-1"></a><span class="in">dge$genes &lt;- gene_anno</span></span>
+<span id="cb28-157"><a href="#cb28-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-158"><a href="#cb28-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-159"><a href="#cb28-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alternative construction of the DGEList object</span></span>
+<span id="cb28-160"><a href="#cb28-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-161"><a href="#cb28-161" aria-hidden="true" tabindex="-1"></a>A more common way to create a <span class="in">`DGEList`</span> object is to read in the count data as a matrix and then create the <span class="in">`DGEList`</span> object using the <span class="in">`DGEList()`</span> function. We can pull apart our existing <span class="in">`DGEList`</span> object and recreate it using this method.</span>
+<span id="cb28-162"><a href="#cb28-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-163"><a href="#cb28-163" aria-hidden="true" tabindex="-1"></a>::: .callout-info</span>
+<span id="cb28-164"><a href="#cb28-164" aria-hidden="true" tabindex="-1"></a>What you can do with data objects is determined by package that the object comes from. You will need to read the package documentation to find out how to access data from the object. Here <span class="in">`edgeR`</span> informs us that the <span class="in">`DGEList`</span> has data that can be accessed as if it was a list.</span>
+<span id="cb28-165"><a href="#cb28-165" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb28-166"><a href="#cb28-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-169"><a href="#cb28-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-170"><a href="#cb28-170" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> dge<span class="sc">$</span>counts</span>
+<span id="cb28-171"><a href="#cb28-171" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> dge<span class="sc">$</span>samples</span>
+<span id="cb28-172"><a href="#cb28-172" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> dge<span class="sc">$</span>genes</span>
+<span id="cb28-173"><a href="#cb28-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-174"><a href="#cb28-174" aria-hidden="true" tabindex="-1"></a><span class="co"># create DGEList object</span></span>
+<span id="cb28-175"><a href="#cb28-175" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(<span class="at">counts =</span> counts, <span class="at">samples =</span> samples, <span class="at">genes =</span> genes)</span>
+<span id="cb28-176"><a href="#cb28-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-177"><a href="#cb28-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-178"><a href="#cb28-178" aria-hidden="true" tabindex="-1"></a>Now we have a data object that can be used for downstream analysis.</span>
+<span id="cb28-179"><a href="#cb28-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-180"><a href="#cb28-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Filtering</span></span>
+<span id="cb28-181"><a href="#cb28-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-182"><a href="#cb28-182" aria-hidden="true" tabindex="-1"></a>The first step of our analysis is to filter out lowly expressed genes. There are two main problems with low abundant genes:</span>
+<span id="cb28-183"><a href="#cb28-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-184"><a href="#cb28-184" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Technical variation is more problematic for low abundance genes. This variation is thought to be due to two factors; insufficient mixing and low sampling fraction <span class="co">[</span><span class="ot">@mcintyre2011</span><span class="co">]</span>.</span>
+<span id="cb28-185"><a href="#cb28-185" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Insufficient mixing of solutions during library preparation can result in uneven distribution of reads.</span>
+<span id="cb28-186"><a href="#cb28-186" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>RNA sequencing can be thought of as sampling. Measurement errors will occur simply due to the random nature of the sampling process. This problem affects lowly abundant RNA species more because the relative error for small count values is larger than it would be for more highly abundant RNA species.</span>
+<span id="cb28-187"><a href="#cb28-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Genes that are very lowly expressed do not produce sufficient information to be useful for biological interpretation. For example, it is very hard to believe the biological significance of genes that have counts ranging from 0 to 3 across samples even if come up as statistically significant.</span>
+<span id="cb28-188"><a href="#cb28-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-189"><a href="#cb28-189" aria-hidden="true" tabindex="-1"></a>Removing these highly variable, lowly expressed genes increases your 'power' to detect differentially expressed genes <span class="co">[</span><span class="ot">@bourgon2010</span><span class="co">]</span>, where 'power' is your ability to detect true positives. In testing for differential expression, a statistical test is conducted for each gene. When a high number of statistical tests are performed, a portion of them will be significant purely due to random chance. A common procedure to control for the number of false positive is to perform 'multiple testing correction' on the p-values. This adjusts the p-value in a way that reduces the number of false positives but comes at the cost of reduced power to detect true positives. If we filter out uninteresting, lowly expressed genes, we need to perform fewer statistical tests and reduce the impact that multiple testing adjustment has on detection power.</span>
+<span id="cb28-190"><a href="#cb28-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-191"><a href="#cb28-191" aria-hidden="true" tabindex="-1"></a>The <span class="in">`edgeR`</span> provides the <span class="in">`filterByExpr()`</span> function to automate gene filtering. By default, it aims to keep genes with a count of 10 or more, in at least as many samples as the smallest experimental group. In our experiment, there are 3 phenotype groups each with 3 samples. Therefore we retain only genes that have 10 or more counts in 3 or more samples. The actual filtering is done on counts per million, prevent bias against samples with small library sizes. This complex procedure is the reason why the package provides a function to perform the filtering for you.</span>
+<span id="cb28-192"><a href="#cb28-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-193"><a href="#cb28-193" aria-hidden="true" tabindex="-1"></a>The output of this function is a vector of logicals, indicating which genes (rows) should be kept and which filtered.</span>
+<span id="cb28-194"><a href="#cb28-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-197"><a href="#cb28-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-198"><a href="#cb28-198" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">filterByExpr</span>(dge)</span>
+<span id="cb28-199"><a href="#cb28-199" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(keep)</span>
+<span id="cb28-200"><a href="#cb28-200" aria-hidden="true" tabindex="-1"></a><span class="fu">proportions</span>(<span class="fu">table</span>(keep))</span>
+<span id="cb28-201"><a href="#cb28-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-202"><a href="#cb28-202" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> dge[keep, , keep.lib.sizes <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb28-203"><a href="#cb28-203" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dge<span class="sc">$</span>counts)</span>
+<span id="cb28-204"><a href="#cb28-204" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-205"><a href="#cb28-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-206"><a href="#cb28-206" aria-hidden="true" tabindex="-1"></a>We can see that we now have 16624 genes. We started with 27179 genes - meaning that ~40% of genes have been filtered out.</span>
+<span id="cb28-207"><a href="#cb28-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-208"><a href="#cb28-208" aria-hidden="true" tabindex="-1"></a><span class="fu">## Library-size normalisation</span></span>
+<span id="cb28-209"><a href="#cb28-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-210"><a href="#cb28-210" aria-hidden="true" tabindex="-1"></a>After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias. This allows the data to be meaningfully compared across samples or experimental groups.</span>
+<span id="cb28-211"><a href="#cb28-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-212"><a href="#cb28-212" aria-hidden="true" tabindex="-1"></a>There are two main factors that need to be normalised for in RNA-seq:</span>
+<span id="cb28-213"><a href="#cb28-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-214"><a href="#cb28-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sequencing depth/library size - technically, sequencing a sample to half the depth will give, on average, half the number of reads mapping to each gene <span class="co">[</span><span class="ot">@robinson2010</span><span class="co">]</span>.</span>
+<span id="cb28-215"><a href="#cb28-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>RNA composition - if a large number of genes are unique to, or highly expressed in, only one experimental condition, the sequencing capacity available for the remaining genes in that sample is decreased. For example, if there are only five genes being studied in two experimental groups, if one gene is particularly high in group A, then with limited sequencing depth, that gene will reduce the counts of the remaining four genes. The effect of this is that the remaining four genes appear under-expressed in group A compared to group B when the true amount of gene product is actually equal for these 4 genes <span class="co">[</span><span class="ot">@robinson2010</span><span class="co">]</span>.</span>
+<span id="cb28-216"><a href="#cb28-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-217"><a href="#cb28-217" aria-hidden="true" tabindex="-1"></a>Sequencing depth is accounted for by calculating the counts per million (cpm). This metric is calculated by:</span>
+<span id="cb28-218"><a href="#cb28-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-219"><a href="#cb28-219" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>taking the library size (sum of all counts for a sample),</span>
+<span id="cb28-220"><a href="#cb28-220" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>dividing this by 1,000,000 to get the 'per million' scaling factor,</span>
+<span id="cb28-221"><a href="#cb28-221" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>then dividing all read counts for each gene in that sample by the 'per million' scaling factor</span>
+<span id="cb28-222"><a href="#cb28-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-223"><a href="#cb28-223" aria-hidden="true" tabindex="-1"></a>RNA composition can be accounted for by using more sophisticated normalisation methodologies. We will use 'trimmed mean of M-values' (TMM), which estimates relative RNA levels from RNA-seq data <span class="co">[</span><span class="ot">@robinson2010</span><span class="co">]</span>. Under the assumption that most genes are not differentially expressed, TMM calculates a library size scaling factor for each library (sample). This is done using the following steps:</span>
+<span id="cb28-224"><a href="#cb28-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-225"><a href="#cb28-225" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>calculate the gene expression log fold changes and absolute expression values for pair-wise samples (selecting one sample from the experiment as a reference)</span>
+<span id="cb28-226"><a href="#cb28-226" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>remove the genes with the highest and lowest fold changes and absolute expression values</span>
+<span id="cb28-227"><a href="#cb28-227" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>take a weighted mean of the remaining genes (where the weight is the inverse of the approximate asymptotic variances). This gives the normalisation factor for each library (sample)</span>
+<span id="cb28-228"><a href="#cb28-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-229"><a href="#cb28-229" aria-hidden="true" tabindex="-1"></a>Subsequent steps in this analysis will use log-cpm values, calculated using the normalisation factors, which scales each library size.</span>
+<span id="cb28-230"><a href="#cb28-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-231"><a href="#cb28-231" aria-hidden="true" tabindex="-1"></a>We can calculate the normalisation factors, specifying that we want to use the <span class="in">`"TMM"`</span> method:</span>
+<span id="cb28-232"><a href="#cb28-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-235"><a href="#cb28-235" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-236"><a href="#cb28-236" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge, <span class="at">method =</span> <span class="st">"TMM"</span>)</span>
+<span id="cb28-237"><a href="#cb28-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-238"><a href="#cb28-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-239"><a href="#cb28-239" aria-hidden="true" tabindex="-1"></a>This function calculates the normalisation factors for each library (sample) and puts this information in the <span class="in">`samples`</span> data frame. Note that it takes dge (our <span class="in">`DGEList`</span> object as input) and returns a <span class="in">`DGEList`</span> object as well.</span>
+<span id="cb28-240"><a href="#cb28-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-241"><a href="#cb28-241" aria-hidden="true" tabindex="-1"></a>Let's take a look at our normalisation factors:</span>
+<span id="cb28-242"><a href="#cb28-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-245"><a href="#cb28-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-246"><a href="#cb28-246" aria-hidden="true" tabindex="-1"></a>dge<span class="sc">$</span>samples</span>
+<span id="cb28-247"><a href="#cb28-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-248"><a href="#cb28-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-249"><a href="#cb28-249" aria-hidden="true" tabindex="-1"></a>These normalisation factors are all close to 1 for all samples, suggesting minimal difference in RNA composition between samples.</span>
+<span id="cb28-250"><a href="#cb28-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-251"><a href="#cb28-251" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising the effect of normalisation</span></span>
+<span id="cb28-252"><a href="#cb28-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-253"><a href="#cb28-253" aria-hidden="true" tabindex="-1"></a>To visualise the effect of TMM normalisation, we can plot the log-counts as a boxplot, and observe the effect of applying the normalisation. To create a boxplot of the log-counts, we can use <span class="in">`log(dge$counts + 0.5)`</span> to create the log-count matrix. The addition of 0.5 is to avoid taking the log of zero. Then in order to use <span class="in">`ggplot2`</span> for plotting, we must convert the matrix to a data frame. We can use the <span class="in">`as_tibble(rownames = "gene")`</span> function to convert the matrix to a data frame where the rownames are converted to a column called "gene". We can then use the <span class="in">`pivot_longer()`</span> function to convert the data frame from wide format to long format, where each row represents a single observation. This is necessary for <span class="in">`ggplot2`</span> to plot the data correctly.</span>
+<span id="cb28-254"><a href="#cb28-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-257"><a href="#cb28-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-258"><a href="#cb28-258" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">log</span>(dge<span class="sc">$</span>counts <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-259"><a href="#cb28-259" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb28-260"><a href="#cb28-260" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
+<span id="cb28-261"><a href="#cb28-261" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
+<span id="cb28-262"><a href="#cb28-262" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-263"><a href="#cb28-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
+<span id="cb28-264"><a href="#cb28-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb28-265"><a href="#cb28-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-266"><a href="#cb28-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-267"><a href="#cb28-267" aria-hidden="true" tabindex="-1"></a>We can compare this to the cpm values which when calculated using the <span class="in">`cpm()`</span> function, automatically applies normalisation factors if they are present.</span>
+<span id="cb28-268"><a href="#cb28-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-271"><a href="#cb28-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-272"><a href="#cb28-272" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">cpm</span>(dge<span class="sc">$</span>counts, <span class="at">log =</span> <span class="cn">TRUE</span>), <span class="at">rownames =</span> <span class="st">"gene"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-273"><a href="#cb28-273" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb28-274"><a href="#cb28-274" aria-hidden="true" tabindex="-1"></a>    <span class="fu">where</span>(is.numeric),</span>
+<span id="cb28-275"><a href="#cb28-275" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"sample"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span></span>
+<span id="cb28-276"><a href="#cb28-276" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-277"><a href="#cb28-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sample, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
+<span id="cb28-278"><a href="#cb28-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span>
+<span id="cb28-279"><a href="#cb28-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-280"><a href="#cb28-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-281"><a href="#cb28-281" aria-hidden="true" tabindex="-1"></a>We see that by performing normalisation on our data, the gene expression values of each sample now have similar medians and quantiles. This indicates that the relative expression values of each sample can be more meaningfully compared.</span>
+<span id="cb28-282"><a href="#cb28-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-283"><a href="#cb28-283" aria-hidden="true" tabindex="-1"></a><span class="fu">## MDS plots</span></span>
+<span id="cb28-284"><a href="#cb28-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-285"><a href="#cb28-285" aria-hidden="true" tabindex="-1"></a>Before we perform statistical tests, it's useful to perform some exploratory visual analysis to get an overall idea of how our data is behaving.</span>
+<span id="cb28-286"><a href="#cb28-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-287"><a href="#cb28-287" aria-hidden="true" tabindex="-1"></a>MDS is a way to visualise distances between sets of data points (samples in our case). It is a dimensionality reduction technique, similar to principal components analysis (PCA). We treat gene expression in samples as if they were coordinates in a high-dimensional coordinate system, then we can find "distances" between samples as we do between points in space. Then the goal of the algorithm is to find a representation in lower dimensional space such that points that the distance of two objects from each other in high dimensional space is preserved in lower dimensions.</span>
+<span id="cb28-288"><a href="#cb28-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-289"><a href="#cb28-289" aria-hidden="true" tabindex="-1"></a>The <span class="in">`plotMDS()`</span> from <span class="in">`limma`</span> creates an MDS plot from a <span class="in">`DGEList`</span> object.</span>
+<span id="cb28-290"><a href="#cb28-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-293"><a href="#cb28-293" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-294"><a href="#cb28-294" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge)</span>
+<span id="cb28-295"><a href="#cb28-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-296"><a href="#cb28-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-297"><a href="#cb28-297" aria-hidden="true" tabindex="-1"></a>Each point on the plot represents one sample and is 'labelled' using the sample name. The distances between each sample in the resulting plot can be interpreted as the typical log2-fold-change between the samples, for the most differentially expressed genes.</span>
+<span id="cb28-298"><a href="#cb28-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-299"><a href="#cb28-299" aria-hidden="true" tabindex="-1"></a>We can change the labelling to use the name of the group the sample belongs to instead:</span>
+<span id="cb28-300"><a href="#cb28-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-303"><a href="#cb28-303" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-304"><a href="#cb28-304" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge, <span class="at">labels =</span> group)</span>
+<span id="cb28-305"><a href="#cb28-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-306"><a href="#cb28-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-307"><a href="#cb28-307" aria-hidden="true" tabindex="-1"></a>This shows us that the phenotype groups tend to cluster together, meaning that the gene expression profiles are similar for samples within a phenotype group. The 'Basal' type samples quite close together while the 'LP' (luminal progenitor) and 'ML' (mature luminal) type samples are further apart, signifying that their expression profiles are more variable.</span>
+<span id="cb28-308"><a href="#cb28-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-309"><a href="#cb28-309" aria-hidden="true" tabindex="-1"></a><span class="fu">## MDS plot using ggplot2</span></span>
+<span id="cb28-310"><a href="#cb28-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-311"><a href="#cb28-311" aria-hidden="true" tabindex="-1"></a>For more customisability and better consistency with the style of other plots, it'd be nice to be able to draw the MDS plot using <span class="in">`ggplot2`</span>. In order to do this we would need the MDS coordinates calculated by <span class="in">`plotMDS()`</span>. Luckily the documentation of <span class="in">`plotMDS()`</span> shows that it returns multiple computed values.</span>
+<span id="cb28-312"><a href="#cb28-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-315"><a href="#cb28-315" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-316"><a href="#cb28-316" aria-hidden="true" tabindex="-1"></a>mds_result <span class="ot">&lt;-</span> <span class="fu">plotMDS</span>(dge, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-317"><a href="#cb28-317" aria-hidden="true" tabindex="-1"></a>mds_result</span>
+<span id="cb28-318"><a href="#cb28-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-319"><a href="#cb28-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-320"><a href="#cb28-320" aria-hidden="true" tabindex="-1"></a>We see that there's are <span class="in">`x`</span> and <span class="in">`y`</span> values in the list returned by the <span class="in">`plotMDS()`</span> function, we can put these into a table and see if they match up to the positions plotted by the function.</span>
+<span id="cb28-321"><a href="#cb28-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-324"><a href="#cb28-324" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-325"><a href="#cb28-325" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb28-326"><a href="#cb28-326" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
+<span id="cb28-327"><a href="#cb28-327" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y</span>
+<span id="cb28-328"><a href="#cb28-328" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-329"><a href="#cb28-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-330"><a href="#cb28-330" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb28-331"><a href="#cb28-331" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb28-332"><a href="#cb28-332" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-333"><a href="#cb28-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-334"><a href="#cb28-334" aria-hidden="true" tabindex="-1"></a>The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just <span class="in">`ggplot2`</span>.</span>
+<span id="cb28-335"><a href="#cb28-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-338"><a href="#cb28-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-339"><a href="#cb28-339" aria-hidden="true" tabindex="-1"></a>mds_tibble <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb28-340"><a href="#cb28-340" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> mds_result<span class="sc">$</span>x,</span>
+<span id="cb28-341"><a href="#cb28-341" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> mds_result<span class="sc">$</span>y,</span>
+<span id="cb28-342"><a href="#cb28-342" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">colnames</span>(dge),</span>
+<span id="cb28-343"><a href="#cb28-343" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group</span>
+<span id="cb28-344"><a href="#cb28-344" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-345"><a href="#cb28-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-346"><a href="#cb28-346" aria-hidden="true" tabindex="-1"></a>dim1_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb28-347"><a href="#cb28-347" aria-hidden="true" tabindex="-1"></a>dim2_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(mds_result<span class="sc">$</span>var.explained[<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb28-348"><a href="#cb28-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-349"><a href="#cb28-349" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb28-350"><a href="#cb28-350" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> group)) <span class="sc">+</span></span>
+<span id="cb28-351"><a href="#cb28-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-352"><a href="#cb28-352" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb28-353"><a href="#cb28-353" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb28-354"><a href="#cb28-354" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-355"><a href="#cb28-355" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-356"><a href="#cb28-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-357"><a href="#cb28-357" aria-hidden="true" tabindex="-1"></a>Now that we have our data in a nice tidy format we can use with ggplot, it's easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.</span>
+<span id="cb28-358"><a href="#cb28-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-361"><a href="#cb28-361" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-362"><a href="#cb28-362" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb28-363"><a href="#cb28-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb28-364"><a href="#cb28-364" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-365"><a href="#cb28-365" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb28-366"><a href="#cb28-366" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb28-367"><a href="#cb28-367" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-368"><a href="#cb28-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-369"><a href="#cb28-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-370"><a href="#cb28-370" aria-hidden="true" tabindex="-1"></a>Alternatively we can also use the labels to identify the individual samples while colouring them by their group.</span>
+<span id="cb28-371"><a href="#cb28-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-374"><a href="#cb28-374" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-375"><a href="#cb28-375" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb28-376"><a href="#cb28-376" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
+<span id="cb28-377"><a href="#cb28-377" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-378"><a href="#cb28-378" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb28-379"><a href="#cb28-379" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb28-380"><a href="#cb28-380" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-381"><a href="#cb28-381" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-382"><a href="#cb28-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-383"><a href="#cb28-383" aria-hidden="true" tabindex="-1"></a>We see that some labels are very hard to read due to the overlapping, so we can use the <span class="in">`ggrepel`</span> package to fix this. The <span class="in">`ggrepel`</span> package creates labels that repel each other in order to avoid overlap. It's a good idea to use it in conjunction with <span class="in">`geom_point()`</span> in order to keep track of exact coordinate of the data point.</span>
+<span id="cb28-384"><a href="#cb28-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-387"><a href="#cb28-387" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb28-388"><a href="#cb28-388" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb28-389"><a href="#cb28-389" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mds_tibble, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb28-390"><a href="#cb28-390" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb28-391"><a href="#cb28-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="fu">aes</span>(<span class="at">label =</span> sample)) <span class="sc">+</span></span>
+<span id="cb28-392"><a href="#cb28-392" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-393"><a href="#cb28-393" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 1 "</span>, <span class="st">"("</span>, dim1_var_explained, <span class="st">"%)"</span>),</span>
+<span id="cb28-394"><a href="#cb28-394" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">"Leading logFC dim 2 "</span>, <span class="st">"("</span>, dim2_var_explained, <span class="st">"%)"</span>)</span>
+<span id="cb28-395"><a href="#cb28-395" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-396"><a href="#cb28-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb28-397"><a href="#cb28-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-398"><a href="#cb28-398" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb28-399"><a href="#cb28-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-400"><a href="#cb28-400" aria-hidden="true" tabindex="-1"></a>Today we started on the early steps of the RNA-seq analysis workflow.</span>
+<span id="cb28-401"><a href="#cb28-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-402"><a href="#cb28-402" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to create a <span class="in">`DGEList`</span> object, demonstrating how to create data objects required by specific packages.</span>
+<span id="cb28-403"><a href="#cb28-403" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to use edgeR's <span class="in">`filterByExpr()`</span> function to filter out lowly expressed genes.</span>
+<span id="cb28-404"><a href="#cb28-404" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to normalise the data using TMM normalisation.</span>
+<span id="cb28-405"><a href="#cb28-405" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to create MDS plots using both <span class="in">`plotMDS()`</span> and <span class="in">`ggplot2`</span>.</span>
+<span id="cb28-406"><a href="#cb28-406" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We learned how to use <span class="in">`ggrepel`</span> to create non-overlapping labels in <span class="in">`ggplot2`</span> plots.</span>
+<span id="cb28-407"><a href="#cb28-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-408"><a href="#cb28-408" aria-hidden="true" tabindex="-1"></a>This provides a good foundation for organising data to satisfy the requirements of specific packages, and how to pull data out of the objects created by those packages. The data we pulled out can then be organised into a tidy format to leverage the power of all the <span class="in">`tidyverse`</span> functions that we have learned so far.</span>
+<span id="cb28-409"><a href="#cb28-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-410"><a href="#cb28-410" aria-hidden="true" tabindex="-1"></a>In the next chapter we will continue the RNA-seq analysis workflow and complete our differential expression analysis.</span>
+<span id="cb28-411"><a href="#cb28-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-412"><a href="#cb28-412" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
