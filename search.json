@@ -34,17 +34,87 @@
     "href": "setup.html",
     "title": "Setup",
     "section": "",
-    "text": "Installing R and RStudio\nYou can download and install R/RStudio from the posit website.",
+    "text": "Installing Software",
     "crumbs": [
       "Setup"
     ]
   },
   {
-    "objectID": "setup.html#data-files",
-    "href": "setup.html#data-files",
+    "objectID": "setup.html#installing-software",
+    "href": "setup.html#installing-software",
     "title": "Setup",
-    "section": "Data files",
-    "text": "Data files\nCommands to download the data files used in this course directly to your working directory will be provided during workshops. Download buttons for the files also appear in this ebook when they are first introduced. For convenience, the files are also provided below:\n Download mousezempic_dosage_data.csv \n Download mousezempic_expression_data.tsv \n Download RNAseq workshop data",
+    "section": "",
+    "text": "R and RStudio\nYou can download and install R and RStudio through the posit.co website.\n\n\n\nInstall both R and RStudio\n\n\n\n\nLockdown Browser\nFor BIOL90042 Masters Students Only: Install Lockdown Browser using this link https://download.respondus.com/lockdown/download.php?id=113132090",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#new-desktop-folder",
+    "href": "setup.html#new-desktop-folder",
+    "title": "Setup",
+    "section": "New Desktop Folder",
+    "text": "New Desktop Folder\nCreate a new folder on your Desktop named BIOL90042_workshops",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#download-data-files",
+    "href": "setup.html#download-data-files",
+    "title": "Setup",
+    "section": "Download data files",
+    "text": "Download data files\nDownload the .zip file via this link, and save inside BIOL90042_workshops\n Download workshop data",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#unzip-data-files",
+    "href": "setup.html#unzip-data-files",
+    "title": "Setup",
+    "section": "Unzip data files",
+    "text": "Unzip data files\nUnzip the data.zip directory. You should see 4 files. Do not unzip any other files at this stage.",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#open-rstudio",
+    "href": "setup.html#open-rstudio",
+    "title": "Setup",
+    "section": "Open RStudio",
+    "text": "Open RStudio",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#create-new-.r-file",
+    "href": "setup.html#create-new-.r-file",
+    "title": "Setup",
+    "section": "Create new .R file",
+    "text": "Create new .R file\nFile &gt; New File &gt; R Script\n\nCopy & Paste\nCopy the code block below and paste into the new file:\n\n\n\n\n\n\nCopy icon\n\n\n\nHint - Click the clipboard icon at top right in the code block below!\n\n\n\n## Setting up R for workshops \n\n## Install tidyverse \ninstall.packages(\"tidyverse\") \n\n## Install readxl & writexl\ninstall.packages(\"readxl\")\ninstall.packages(\"writexl\")\n\n## Install ggrepel  \ninstall.packages(\"ggrepel\") \n\n## Install tidyrstats \ninstall.packages(\"tidyrstats\") \n\n##Install patchwork\ninstall.packages(\"patchwork\") \n\n\n## Install and Load packages required for RNAseq \n\nif (!requireNamespace(\"BiocManager\", quietly = TRUE)) \n\n  install.packages(\"BiocManager\") \n\nBiocManager::install(\"RNAseq123\") \n\n\n## Install tidyheatmaps \ninstall.packages(\"tidyheatmaps\") \n\n## Install tidymodels\ninstall.packages(\"tidymodels\") \n\n## Install ggridges\ninstall.packages(\"ggridges\")\n\n## Load all libraries\n\nlibrary(tidyverse)\nlibrary(readxl)\nlibrary(writexl)\n\nlibrary(ggrepel) \nlibrary(tidyrstats) \nlibrary(patchwork) \n\nlibrary(edgeR) \nlibrary(limma) \n\nlibrary(tidyheatmaps) \nlibrary(tidymodels)\n\nlibrary(ggridges)",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#save-the-new-file",
+    "href": "setup.html#save-the-new-file",
+    "title": "Setup",
+    "section": "Save the new file",
+    "text": "Save the new file\nFile &gt; Save the new file inside your BIOL90042_workshops folder, with name setup.R",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#run-the-code",
+    "href": "setup.html#run-the-code",
+    "title": "Setup",
+    "section": "Run the code",
+    "text": "Run the code\nSelect all the code with mouse click & drag, or CMD A (mac) / CTRL A (pc), and clicking ‘Run’.\n\nNote this will take some time and there may be errors, so let us know and we can assist.",
     "crumbs": [
       "Setup"
     ]
@@ -354,7 +424,7 @@
     "href": "chapter_5.html#tidy-data",
     "title": "5  Putting it all together",
     "section": "5.2 Tidy Data",
-    "text": "5.2 Tidy Data\nThe tidyverse revolves around an important concept called “tidy data”. This is a specific representation of tabular data that is considered easy to work with. Tidy data is roughly defined as tabular data that contains:\n\nIndividual variables in columns\nIndividual observations in rows\nOne data value in each cell\n\nHaving individual variables in columns makes then accessible for performing tidyverse operations like select(), mutate(), filter() and arrange(). If variables were not stored as columns then these functions would not be able to access them by name.\nHaving individual observations in rows is important because it associates all variables of each observation with the same row. If the data from one observation is spread across multiple rows then it is easy to incorrect summaries from the summarise() function. When using the filter() function with tidy data, you can expect to keep all the data for an observation or none at all. When the data for observations is split over different rows, it’s possible to unknowingly lose partial data from observations.\nHaving a single value in each cell makes it possible to perform meaningful computations for the values, for example you cannot take a mean() of a column of values that contain multiple different values.\nAlthough tidy data is the easiest to work with, it’s often necessary to alter the format of your data for plotting or table displays. It’s a good idea to keep your core data in a tidy format and treating plot or table outputs as representations of that tidy data.\n\n\n\n\n\n\nNote\n\n\n\nMost data you encounter will not be tidy, the first part of data analysis is usually called “data-wranging” and involves tidying up your data so it is easier to use for downstream analysis.",
+    "text": "5.2 Tidy Data\nThe tidyverse revolves around an important concept called “tidy data”. This is a specific representation of tabular data that is considered easy to work with. Tidy data is roughly defined as tabular data that contains:\n\nIndividual variables in columns\nIndividual observations in rows\nOne data value in each cell\n\nHaving individual variables in columns makes then accessible for performing tidyverse operations like select(), mutate(), filter() and arrange(). If variables were not stored as columns, then these functions would not be able to access them by name.\nHaving individual observations in rows is important because it associates all variables of each observation with the same row. If the data from one observation is spread across multiple rows then it is easy to incorrect summaries from the summarise() function. When using the filter() function with tidy data, you can expect to keep all the data for an observation or none at all. When the data for observations is split over different rows, it’s possible to unknowingly lose partial data from observations.\nHaving a single value in each cell makes it possible to perform meaningful computations for the values, for example you cannot take a mean() of a column of values that contain multiple different values.\nAlthough tidy data is the easiest to work with, it’s often necessary to alter the format of your data for plotting or table displays. It’s a good idea to keep your core data in a tidy format and treating plot or table outputs as representations of that tidy data.\n\n\n\n\n\n\nNote\n\n\n\nMost data you encounter will not be tidy, the first part of data analysis is usually called “data-wranging” and involves tidying up your data so it is easier to use for downstream analysis.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Putting it all together</span>"
     ]
@@ -414,7 +484,7 @@
     "href": "chapter_6.html",
     "title": "6  RNA-seq - Part 1",
     "section": "",
-    "text": "6.1 Data files\nIn this chapter we will run through the basic steps for analysing a simple RNA-seq experiment using the limma-voom workflow. This includes:\nThe aim of this chapter is to give you experience with a real-world RNA-seq analysis, and making extensive use of an external library. We will not cover the statistics in any depth. Instead, the goal is to understand how to construct data structures required for specific packages and how to use the functions in those packages to perform the analysis.\nMuch of the materials here are explained in greater detail in the limma user’s guide. You can view this by typing help(\"limma\") and following the links.\nIf you haven’t already downloaded the RNAseq data for this workshop into the data/ directory, you can run the following command:\nif (!dir.exists(\"data\")) {\n  dir.create(\"data\")\n}\n\ndownload.file(\"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/main/data/rnaseq_workshop_data.zip\",\n              \"data/rnaseq_workshop_data.zip\")\nNow to unzip the files into a new directory data/rnaseq/:\nunzip('data/rnaseq_workshop_data.zip', exdir = 'data/rnaseq')\nunzip(\"data/rnaseq/Ses3_counts.zip\",   exdir = \"data/rnaseq/counts\")",
+    "text": "6.1 Data files\nIn this chapter we will run through the basic steps for analysing a simple RNA-seq experiment using the limma-voom workflow. This includes:\nThe aim of this chapter is to give you experience with a real-world RNA-seq analysis, and making extensive use of an external library. We will not cover the statistics in any depth. Instead, the goal is to understand how to construct data structures required for specific packages and how to use the functions in those packages to perform the analysis.\nMuch of the materials here are explained in greater detail in the limma user’s guide. You can view this by typing help(\"limma\") and following the links.\nIf you haven’t already downloaded the RNAseq data for this workshop into the data/ directory, you can do so via the Setup section at the start of this ebook.\nNow to unzip the files into a new directory data/rnaseq/:\nunzip('data/rnaseq_workshop_data.zip', exdir = 'data/rnaseq')\nunzip(\"data/rnaseq/Ses3_counts.zip\",   exdir = \"data/rnaseq/counts\")",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>RNA-seq - Part 1</span>"
     ]

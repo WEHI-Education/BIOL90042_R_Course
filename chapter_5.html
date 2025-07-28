@@ -377,7 +377,7 @@ Caution
 <li>Individual observations in rows</li>
 <li>One data value in each cell</li>
 </ol>
-<p>Having individual variables in columns makes then accessible for performing tidyverse operations like <code>select()</code>, <code>mutate()</code>, <code>filter()</code> and <code>arrange()</code>. If variables were not stored as columns then these functions would not be able to access them by name.</p>
+<p>Having individual variables in columns makes then accessible for performing tidyverse operations like <code>select()</code>, <code>mutate()</code>, <code>filter()</code> and <code>arrange()</code>. If variables were not stored as columns, then these functions would not be able to access them by name.</p>
 <p>Having individual observations in rows is important because it associates all variables of each observation with the same row. If the data from one observation is spread across multiple rows then it is easy to incorrect summaries from the <code>summarise()</code> function. When using the <code>filter()</code> function with tidy data, you can expect to keep all the data for an observation or none at all. When the data for observations is split over different rows, it’s possible to unknowingly lose partial data from observations.</p>
 <p>Having a single value in each cell makes it possible to perform meaningful computations for the values, for example you cannot take a <code>mean()</code> of a column of values that contain multiple different values.</p>
 <p>Although tidy data is the easiest to work with, it’s often necessary to alter the format of your data for plotting or table displays. It’s a good idea to keep your core data in a tidy format and treating plot or table outputs as representations of that tidy data.</p>
@@ -1959,7 +1959,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-76"><a href="#cb68-76" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>One data value in each cell</span>
 <span id="cb68-77"><a href="#cb68-77" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-78"><a href="#cb68-78" aria-hidden="true" tabindex="-1"></a>Having individual variables in columns makes then accessible for performing tidyverse operations like <span class="in">`select()`</span>, <span class="in">`mutate()`</span>, <span class="in">`filter()`</span> and <span class="in">`arrange()`</span>.</span>
-<span id="cb68-79"><a href="#cb68-79" aria-hidden="true" tabindex="-1"></a>If variables were not stored as columns then these functions would not be able to access them by name.</span>
+<span id="cb68-79"><a href="#cb68-79" aria-hidden="true" tabindex="-1"></a>If variables were not stored as columns, then these functions would not be able to access them by name.</span>
 <span id="cb68-80"><a href="#cb68-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-81"><a href="#cb68-81" aria-hidden="true" tabindex="-1"></a>Having individual observations in rows is important because it associates all variables of each observation with the same row.</span>
 <span id="cb68-82"><a href="#cb68-82" aria-hidden="true" tabindex="-1"></a>If the data from one observation is spread across multiple rows then it is easy to incorrect summaries from the <span class="in">`summarise()`</span> function.</span>
