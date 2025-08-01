@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "WEHI R Course",
+    "title": "BIOL90042 R Course",
     "section": "",
     "text": "Preface\nCode-based data analysis is an increasingly important skill for modern biomedical research. The R coding language enables user-friendly data tidying and transformation, and creation of publication-ready graphics. R is also core to bioinformatics research, supporting all types of ’omics data analysis, classical statistical analysis, and machine learning.\nDesigned for complete coding beginners, this book will introduce data wrangling, data visualisation, and bioinformatics analysis, and machine learning in R.",
     "crumbs": [
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#how-to-use-this-book",
     "href": "index.html#how-to-use-this-book",
-    "title": "WEHI R Course",
+    "title": "BIOL90042 R Course",
     "section": "How to use this book",
     "text": "How to use this book\nThis book is divided into 8 chapters sessions, focusing on the basics of R and the ‘tidyverse’ (Chapters 1-5), bioinformatics analysis of RNA sequencing data (Chapters 6-7) and machine learning (Chapter 8). Each chapter is divided into sections containing a mix of text, code and exercises, which are designed to be completed in order.\nThroughout the book, R code is displayed in code blocks as per the output below it in grey below. This appears similarly to code typed into the RStudio console.\n\n# This is an R code block\n# You can run this code by copying it into the R console\n1 + 1\n\n[1] 2\n\n\nYou can run the code yourself by copying it (using the copy button in the top right of the code block) and pasting it into R on your computer.",
     "crumbs": [
@@ -22,7 +22,7 @@
   {
     "objectID": "index.html#acknowledgements",
     "href": "index.html#acknowledgements",
-    "title": "WEHI R Course",
+    "title": "BIOL90042 R Course",
     "section": "Acknowledgements",
     "text": "Acknowledgements\nThis course material for Chapters 6 and 7 was originally produced by Lucy Liu and modified for this book.\nWe acknowledge that this course is prepared and delivered on the unceded land of the Wurundjeri people of the Kulin Nation. We pay our respects to their Elders past, present, and emerging. We also acknowledge that sovereignty was never ceded, and that this always was and always will be Aboriginal land.",
     "crumbs": [
