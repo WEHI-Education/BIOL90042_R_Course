@@ -700,6 +700,378 @@
     ]
   },
   {
+    "objectID": "chapter_8.html",
+    "href": "chapter_8.html",
+    "title": "8 Machine learning",
+    "section": "",
+    "text": "Background\n‘Machine learning’ (ML) is an umbrella term that encompasses classical statistical methods, linear models (both simple and generalized), and non-parametric techniques such as decision trees, support vector machines, autoencoders, and neural networks. Each of these methods are called machine learning ‘engines’ when used to train a model.\nML forms the foundation of artificial intelligence. For instance, large language models such as chatGPT, are trained using deep neural networks.\nMachine learning refers to the use of computers (machines) to identify statistical trends in data and store those trends/relationships in a ‘model’. The process of identifying trends (‘learning’) and then predicting features of newly provided data (‘predicting’) is common to all ML workflows.",
+    "crumbs": [
+      "8 Machine learning"
+    ]
+  },
+  {
+    "objectID": "chapter_8.html#terminology",
+    "href": "chapter_8.html#terminology",
+    "title": "8 Machine learning",
+    "section": "Terminology",
+    "text": "Terminology\nIn training ML models, the machine ‘learns from the training data set’ and ‘predicts the validation data set’. The accuracy of the predictions on the validation data is used to update the model (known as ‘reinforcement learning’).\nOnce the model has been trained, it is tested on a ‘hold-out’ or ‘test’ dataset, which has not been used at any point in training or validation. The accuracy of performance on the test set is the ultimate test of the ‘predictive value’ of a model, that is, how valuable it is for informing real-world decisions.",
+    "crumbs": [
+      "8 Machine learning"
+    ]
+  },
+  {
+    "objectID": "ch8_section_1.html",
+    "href": "ch8_section_1.html",
+    "title": "Part 1",
+    "section": "",
+    "text": "Setup\nlibrary(tidyverse)\nlibrary(readxl)\nlibrary(broom)\nlibrary(ggridges)\n\nlibrary(tidyrstats)\n\ntheme_set(theme_minimal())",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 1"
+    ]
+  },
+  {
+    "objectID": "ch8_section_1.html#read-data",
+    "href": "ch8_section_1.html#read-data",
+    "title": "Part 1",
+    "section": "Read data",
+    "text": "Read data\n\ntumor_data &lt;- readxl::read_xlsx('data/tumor_data.xlsx')\n\ntumor_data\n\n# A tibble: 300 × 42\n   donorid status    cell_size cell_density nuclear_area membrane_curvature\n   &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n 1 d001    malignant     0.170        0.654        0.877              2.50 \n 2 d002    malignant     2.95         1.42         0.677              4.78 \n 3 d003    malignant     4.79         4.66         0.593              6.96 \n 4 d004    benign        4.67         1.74         0.423              0.928\n 5 d005    malignant    13.0          0.887        0.489              3.01 \n 6 d006    benign        3.78         1.02         0.486              0.580\n 7 d007    malignant     0.663        8.53         1.03               2.17 \n 8 d008    benign        0.950        1.09         0.581              5.10 \n 9 d009    malignant     8.39         3.64         0.955              8.78 \n10 d010    benign        9.82         7.39         0.403             15.3  \n# ℹ 290 more rows\n# ℹ 36 more variables: granularity &lt;dbl&gt;, border_diffuseness &lt;dbl&gt;,\n#   vascular_density &lt;dbl&gt;, necrosis_extent &lt;dbl&gt;, stromal_thickness &lt;dbl&gt;,\n#   mitotic_count &lt;dbl&gt;, texture_1 &lt;dbl&gt;, texture_2 &lt;dbl&gt;, texture_3 &lt;dbl&gt;,\n#   texture_4 &lt;dbl&gt;, texture_5 &lt;dbl&gt;, texture_6 &lt;dbl&gt;, texture_7 &lt;dbl&gt;,\n#   texture_8 &lt;dbl&gt;, texture_9 &lt;dbl&gt;, texture_10 &lt;dbl&gt;, intensity_1 &lt;dbl&gt;,\n#   intensity_2 &lt;dbl&gt;, intensity_3 &lt;dbl&gt;, intensity_4 &lt;dbl&gt;, …\n\n\nThe data contains 300 tissue samples which have been imaged in a histology lab, as referenced in this chapter Background. Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).\nAutomatic quantification of image features produces 40 ‘features’ including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 1"
+    ]
+  },
+  {
+    "objectID": "ch8_section_1.html#explore-the-data",
+    "href": "ch8_section_1.html#explore-the-data",
+    "title": "Part 1",
+    "section": "Explore the data",
+    "text": "Explore the data\n\nReshape for plotting\n\ndat_long &lt;- tumor_data |&gt; \n  pivot_longer(names_to = \"key\", values_to = \"value\", \n               cols = -c(donorid, status))\n\n\n\nCheck distributions\n\ndat_long |&gt;   ggplot(aes(x=value,group=key)) + geom_density()\n\n\n\n\n\n\n\n\nThe data doesnt look normally distributed, but there is a big over-plotting problem here. Let’s use the ggridges package to produce a single density plot for each feature:\n\ndat_long |&gt;  ggplot(aes(x=value)) + \n  geom_density_ridges(aes(y=key))\n\nPicking joint bandwidth of 0.646\n\n\n\n\n\n\n\n\n\nThe measurements in the dataset have a positive skew, meaning they are non-normal. For best results in machine learning (and data analysis more generally) its usually best to transform the data into a normal distribution where possible.\n\n\nLog transform\n\ndat_long_log &lt;- dat_long |&gt;\n  mutate(value=log10(value))\n\nPlot transformed data\n\ndat_long_log |&gt;  ggplot(aes(x=value)) + \n  geom_density_ridges(aes(y=key))\n\nPicking joint bandwidth of 0.0993\n\n\n\n\n\n\n\n\n\nThe data looks more normal now. Note that the mean values are different. This can be addressed by scaling data, which we return to later.\n\n\nCluster analysis\nLet’s run an unsupervised machine learning method to explore how the samples group together using a ‘data-driven’ approach. pr_comp() gives us principal components analysis, and requires wide-format data.\nReshape log-transformed data to wide format, and calculate principal components using the quantitative features (i.e., everything except donorid and malignancy status).\n\ndat_wide_log &lt;- dat_long_log |&gt; \n  pivot_wider(names_from = \"key\", values_from=\"value\") \n  \npc_dat &lt;- dat_wide_log |&gt; select(-c(donorid,status)) |&gt; \n        #principal components function\n  prcomp()\n\nWe can access the principal components for each sample by using the broom::augment() function. The primary PCs 9e.g. 1 thru 5) encode the majority of the variation between samples. as such we focus on primary PCs (or dimension in MDS), when clustering samples\nPlot first 2 PCs, coloured by tumor status\n\npcs_fitted &lt;- pc_dat |&gt; augment() \n  \n#Join the sample labels to the fitted PCs\npc_plot_dat &lt;- bind_cols(tumor_data |&gt; select(status), \n                         pcs_fitted) \n\n#Scatter plot\npc_plot_dat |&gt; \n  ggplot(aes(.fittedPC1, .fittedPC2)) + \n  geom_point(aes(col=status), size=2)\n\n\n\n\n\n\n\n\nThere is certainly not a clear separation between malignant and benign. This indicates we will need to try a more sensitive/advanced method to reliably predict the tissue status.\n\n\nLinear model\nLets try one of the simplest ML engines - the linear model, to see whether any of the imaging features are significantly associated with tissue status.\nIf we define a model where imaging feature is the outcome (y) and tumor status is the predictor (x) we can test for associations quite easily, using lm_test().\nOur experimental question is ‘Are any features (y) significantly different between benign (x = 0 ) and malignant (x=1)?’\n\n#marginal effects\ndat_long_log |&gt; group_by(key) |&gt; \n  lm_test( value ~  status  ) |&gt; filter(term!='intercept') \n\nResults for linear model: value ~ status\n\n\n# A tibble: 40 × 6\n   key                term            estimate std.error statistic       p.value\n   &lt;chr&gt;              &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n 1 granularity        statusmalignant   0.280     0.0446      6.28 0.00000000121\n 2 intensity_8        statusmalignant   0.146     0.0240      6.10 0.00000000325\n 3 membrane_curvature statusmalignant   0.228     0.0481      4.75 0.00000317   \n 4 shape_metric_4     statusmalignant  -0.229     0.0486     -4.72 0.00000361   \n 5 vascular_density   statusmalignant   0.108     0.0244      4.43 0.0000133    \n 6 stromal_thickness  statusmalignant   0.172     0.0470      3.65 0.000305     \n 7 intensity_5        statusmalignant   0.0773    0.0247      3.13 0.00193      \n 8 intensity_4        statusmalignant   0.0691    0.0274      2.52 0.0123       \n 9 texture_2          statusmalignant  -0.0657    0.0350     -1.88 0.0617       \n10 texture_10         statusmalignant  -0.0791    0.0452     -1.75 0.0811       \n# ℹ 30 more rows\n\n\nWe can see several features do have significant associations with tissue status! This means that, although those feature associations are not large/strong enough to drive sample separation in PCA, the should be able to be combined to build a good predictive model.\n\n\nConfirm LM results graphically\n\n#features_of_interest (FOI)\nfoi &lt;- c('granularity','intensity_8','membrane_curvature')\n\ndat_long_log |&gt; \n  filter(key %in% foi) |&gt; \n  ggplot(aes(x=status , y=value)) + geom_boxplot() +\n  geom_jitter(aes(group=status), width=0.2,size=0.5) +\n  facet_wrap(~key)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 1"
+    ]
+  },
+  {
+    "objectID": "ch8_section_1.html#save-output",
+    "href": "ch8_section_1.html#save-output",
+    "title": "Part 1",
+    "section": "Save output",
+    "text": "Save output\nFor the next steps, we will save the log-transformed, wide-format data (used for the PC analysis).\n\nwritexl::write_xlsx(dat_wide_log,\n                    'data_processed/tumor_data_log_wide.xlsx')",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 1"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html",
+    "href": "ch8_section_2.html",
+    "title": "Part 2",
+    "section": "",
+    "text": "Background\nWe loaded and explored the histology imaging-derived data in ML Part 1. Through this process we found:\nGiven these findings, we have reason to believe that a machine learning algorithm may be successful in predicting malignant vs benign tumor status.\nBy contrast, if no differences are seen in PCA or simple testing of linear models, the chance of building a reliable classification model is much lower.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#background",
+    "href": "ch8_section_2.html#background",
+    "title": "Part 2",
+    "section": "",
+    "text": "the data requires log-transformation\nthere is little separation in malignant vs benign samples when clustering via principal components analysis\nusing linear modeling, several imaging features show significant correlation with tumor status (benign vs malignant)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#aim",
+    "href": "ch8_section_2.html#aim",
+    "title": "Part 2",
+    "section": "Aim",
+    "text": "Aim\nTo train a classification model using the ‘xgboost’ algorithm (extreme gradient boosting), which is a class of algorithms that uses decision trees (similar to ‘random forest’).\nNote, our primary aim here is not to understand the individual features that contribute to the benign vs malignant classification, but simply to build a robust classification tool.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#load-libraries",
+    "href": "ch8_section_2.html#load-libraries",
+    "title": "Part 2",
+    "section": "Load libraries",
+    "text": "Load libraries\n\nlibrary(tidyverse)\nlibrary(readxl)\nlibrary(tidymodels)\nlibrary(xgboost)\n\ntheme_set(theme_minimal())",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#load-data",
+    "href": "ch8_section_2.html#load-data",
+    "title": "Part 2",
+    "section": "Load data",
+    "text": "Load data\nPreprocessed data from ML Part 1 is stored in data_processed/\n\ndat_wide_log &lt;- read_xlsx('data_processed/tumor_data_log_wide.xlsx')",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#set-seed",
+    "href": "ch8_section_2.html#set-seed",
+    "title": "Part 2",
+    "section": "Set seed",
+    "text": "Set seed\n‘Reproducible randomness’. This ensures everyone using this tutorial gets the same results.\n\nset.seed(42)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#format-data",
+    "href": "ch8_section_2.html#format-data",
+    "title": "Part 2",
+    "section": "Format data",
+    "text": "Format data\nTraining the ML model requires the outcome (malignant status) encoded as a factor.\n\n\n\n\n\n\nData types and file types\n\n\n\nData types aren’t preserved in Excel, csv or tsv format files. They are however preserved in .Rdata and .Rds files.\n\n\n\ndat_wide_log %&gt;% select(1:5) %&gt;%  str()\n\ntibble [300 × 5] (S3: tbl_df/tbl/data.frame)\n $ donorid     : chr [1:300] \"d001\" \"d002\" \"d003\" \"d004\" ...\n $ status      : chr [1:300] \"malignant\" \"malignant\" \"malignant\" \"benign\" ...\n $ cell_size   : num [1:300] -0.769 0.469 0.68 0.669 1.113 ...\n $ cell_density: num [1:300] -0.1844 0.1517 0.6682 0.2399 -0.0523 ...\n $ nuclear_area: num [1:300] -0.0568 -0.1693 -0.2268 -0.3735 -0.3104 ...\n\n\nRe-establish status as a factor:\n\ndat_wide_log &lt;- dat_wide_log %&gt;% \n  mutate(status=factor(status))\n\nDrop donorid from the training data. It encodes no useful infromation for training a model.\n\ndata_final &lt;- dat_wide_log %&gt;% select(-c(donorid))",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#split-test-train",
+    "href": "ch8_section_2.html#split-test-train",
+    "title": "Part 2",
+    "section": "Split test & train",
+    "text": "Split test & train\nThe default is to split the data into training (75%) and test/hold-out (25%). We stratify by status, to ensure roughly equal numbers of benign and malignant samples in the test and training data\n\nsplit_cl &lt;- initial_split(data_final, strata = status)\n\nExtract the test and training data to separate objects\n\ntrain_cl &lt;- training(split_cl)\n\ntest_cl  &lt;- testing(split_cl)\n\nCheck the balance of the status classes (malignant vs benign), remembering that ROC curves are more reliable when classes are balanced.\n\ntrain_cl %&gt;% count(status)\n\n# A tibble: 2 × 2\n  status        n\n  &lt;fct&gt;     &lt;int&gt;\n1 benign      104\n2 malignant   120\n\ntest_cl  %&gt;% count(status)\n\n# A tibble: 2 × 2\n  status        n\n  &lt;fct&gt;     &lt;int&gt;\n1 benign       35\n2 malignant    41\n\n\nEven splits!",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#recipe",
+    "href": "ch8_section_2.html#recipe",
+    "title": "Part 2",
+    "section": "Recipe",
+    "text": "Recipe\nThe data recipe stores the model parameters, and the data pre-processing steps. These steps will be performed on any data input to the ML training process.\n\nrec_cl &lt;- recipe(status ~ .  , data = train_cl ) %&gt;% \n  step_zv(all_numeric_predictors()) %&gt;% \n  step_normalize(all_numeric_predictors()) %&gt;% \n  step_dummy(all_nominal_predictors()) \n\nThe model algebra indicates we want to predict the status column (aka ‘y’ / ‘outcome’) using all available columns (denoted by . ). The data argument train_cl is provided to define the structure of the data (i.e., the colnames for all the features we have available).\nThe tidymodels package has a number of step_() functions that allow us to chain data transformation instructions together using the pipe %&gt;%, similar to a dplyr ‘chain’.\nstep_zv() - step_zero_variance removes any features that have 0 variance, and therefore encode no information that can help to predict the outcome (which is ‘status’, in this case).\nstep_normalize() performs a scaling normalization. First it centres the data each feature by subtracting the mean from every value, and then transforms the centred data into z scores (i.e., dividing each value by the standard deviation for that feature).\nstep_dummy() - converts nominal (character) data such as sex, into ‘dummy’ numeric variables, to allow their use in the ML training data, which is strictly numeric.\nNote we have already log-transformed the data in our exploratory data analysis steps in ML Part 1. However, if we had not done this, we could use step_log() before step_normalize().",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#hyper-parameters",
+    "href": "ch8_section_2.html#hyper-parameters",
+    "title": "Part 2",
+    "section": "Hyper-parameters",
+    "text": "Hyper-parameters\nHyper-parameters are pre-determined settings that govern how the model learns, and the model ‘architecture’ - akin to the depth and breadth of parameters that can be modified during training. Different model classes have different types of hyper-parameters. In this case for the xgboost algorithm, we pre-determine the number of decision trees that are ‘grown’ during the training steps, the depth ( = maximum number of branch-points) of those trees, and the ‘learning rate’ - which governs the magnitude of updates to the model during training.\nWe also determine the machine learning engine (‘xgboost’) and the mode (‘classification’) as opposed to ‘regression’.\n\nxgb_params &lt;- boost_tree(trees = 500, \n                           tree_depth = 20, \n                          learn_rate = 0.01) %&gt;%\n  set_engine(\"xgboost\") %&gt;%\n  set_mode(\"classification\")\n\nOne of the great features about tidymodels is the simplicity of using different model classes. All that is required is to edit the set_engine() command to your model of choice! The pre-processing and evaluation steps remain unchanged, and this removes the need to learn a separate R library for each ML engine!",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#workflow",
+    "href": "ch8_section_2.html#workflow",
+    "title": "Part 2",
+    "section": "Workflow",
+    "text": "Workflow\nNow we package the data pre-processing recipe and the hyper-parameters into a workflow, ready for training. This workflow construct ensures that all steps - data pre-processing, model specification and tuning, are pre-defined in a single object.\n\nwf_xgb &lt;- workflow() %&gt;%\n  # model outcome and features & pre-processing steps:\n  add_recipe(rec_cl) %&gt;%  \n  #hyper-parameters, machine learning model type, and mode:\n  add_model(xgb_params) \n\n\n\n\n\n\n\nHyper-parameter tuning\n\n\n\nEven though we are not tuning hyper-parameters in this simple workflow, the tuning process can be captured in the workflow object, as we will see later.\n\n\n\n\n\n\n\n\nModels within models?\n\n\n\nIn this tutorial ‘models’ appear in two contexts\n\nThe model algebra (similar to a linear model equation), that specifies what our outcome is (y), and the predictor features we want to use. This is specified in the recipe() step.\nThe machine learning model (in this case xgboost), which is specified in the workflow using add_model().",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#train-your-model",
+    "href": "ch8_section_2.html#train-your-model",
+    "title": "Part 2",
+    "section": "Train your model!",
+    "text": "Train your model!\nWe provide the workflow and the input data. fit() performs the model training steps. This should take ~30-60 seconds on a standard laptop.\n\nfit_cl &lt;- fit(wf_xgb, data = train_cl)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#predict-the-test-set",
+    "href": "ch8_section_2.html#predict-the-test-set",
+    "title": "Part 2",
+    "section": "Predict the test set!",
+    "text": "Predict the test set!\nApply the newly trained model to predict the malignant status in the original train_cl training data, and the hold-out test_cl dataset. Here we set the type argument to ‘prob’, to generate probabilities of each class, rather than discrete labels (0 or 1).\nThese probabilities will be used directly for plotting ROC and PR curves (below), and rounded for other diagnostic values.\n\npred_train &lt;- predict(fit_cl, train_cl, type = 'prob') %&gt;%\n  bind_cols(train_cl)\n\npred_test &lt;- predict(fit_cl, test_cl, 'prob') %&gt;%\n  bind_cols(test_cl)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#evaluate",
+    "href": "ch8_section_2.html#evaluate",
+    "title": "Part 2",
+    "section": "Evaluate",
+    "text": "Evaluate\n\nRound probabilities\nFirst a column of predicted class (discrete) values are generated by rounding the predicted probability of the malignant class\n\npred_train &lt;- pred_train |&gt; \n  mutate(.pred_class=if_else(round(.pred_malignant)==1,\n                             'malignant',\n                             'benign')) |&gt; \n  relocate(.pred_class, .before = status) |&gt; \n  mutate(.pred_class=factor(.pred_class))\n\n\npred_test &lt;- pred_test |&gt; \n  mutate(.pred_class=if_else(round(.pred_malignant)==1,\n                             'malignant',\n                             'benign')) |&gt; \n  relocate(.pred_class, .before = status) |&gt; \n  mutate(.pred_class=factor(.pred_class))\n\n\n\n\n\n\n\nThe rounding decision threshold\n\n\n\nCreating PR and ROC curves requires varying the probability threshold at which a sample is labelled as TRUE (malignant) or FALSE (benign). What is the default decision threshold for the round() function?\n\n\n\n\nBoxplot\nCompare the predicted probability of malignancy to the true sample labels\n\npred_train |&gt; \n  ggplot(aes(y=.pred_malignant, x=status)) + \n  geom_boxplot() + geom_jitter(width=0.2, height=0) +\n  ylab('Predicted probability of malignancy') +\n  xlab('True sample label') +\n  ggtitle('Training data')\n\n\n\n\n\n\n\npred_test |&gt; \n  ggplot(aes(y=.pred_malignant, x=status)) + \n  geom_boxplot() + geom_jitter(width=0.2, height=0) +\n  ylab('Predicted probability of malignancy') +\n  xlab('True sample label') +\n  ggtitle('Test data')\n\n\n\n\n\n\n\n\n\n\nConfusion matrix\n\npred_train %&gt;% conf_mat(truth = status, \n                        estimate = .pred_class, \n                        dnn = c('Predicted','Truth (TRAINING Data)')) \n\n           Truth (TRAINING Data)\nPredicted   benign malignant\n  benign       104         0\n  malignant      0       120\n\npred_test  %&gt;% conf_mat(truth=status, \n                        estimate = .pred_class, \n                        dnn = c('Predicted','Truth (TEST Data)'))\n\n           Truth (TEST Data)\nPredicted   benign malignant\n  benign        21         6\n  malignant     14        35\n\n\nWhat do you notice about the performance of the model on the training, vs the test data?\n\n\nAccuracy\nThe accuracy is the sum of the correct predictions divided by the total number of samples, where 1 = perfect accuracy.\n\npred_train %&gt;% metrics(truth = status, estimate = .pred_class)\n\n# A tibble: 2 × 3\n  .metric  .estimator .estimate\n  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;\n1 accuracy binary             1\n2 kap      binary             1\n\npred_test  %&gt;% metrics(truth = status, estimate = .pred_class)\n\n# A tibble: 2 × 3\n  .metric  .estimator .estimate\n  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;\n1 accuracy binary         0.737\n2 kap      binary         0.461\n\n\n\n\nCurves\nCreating ROC and PR curves require the predicted class probabilities rather than discrete labels.\nThe roc_curve() and pr_curve() functions from the yardstick package (part of the tidymodels stable) are very handy for calculating the true-positive and false-positive rates as the decision threshold decreases.\n\nroc_tbl &lt;- roc_curve(pred_test, truth = status, .pred_malignant, \n                     event_level = 'second')\n\npr_tbl &lt;- pr_curve(pred_test, truth = status, .pred_malignant, \n                     event_level = 'second')\n\nFor a quick look at performance, ROC and PR curves can be plotted using the autoplot() function (ggplot2 geoms can be added on for customization):\n\nroc_tbl %&gt;% autoplot() \n\n\n\n\n\n\n\npr_tbl %&gt;% autoplot() + geom_hline(yintercept = 0.5,lty=2)\n\n\n\n\n\n\n\n\n\n\nArea under the curve\nyardstick also contains roc_auc() and pr_auc to calculate the area under each curve type. Note that the ‘event_level’ argument is the category that we consider ‘TRUE’ (in this case ‘malignant’, which is the second level in the status factor).\n\n# AUROCC\nroc_auc(data = pred_test, truth = status,  .pred_malignant, event_level = 'second') \n\n# A tibble: 1 × 3\n  .metric .estimator .estimate\n  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;\n1 roc_auc binary         0.804\n\n# AUPRC\npr_auc( data = pred_test, truth = status, .pred_malignant, event_level = 'second') \n\n# A tibble: 1 × 3\n  .metric .estimator .estimate\n  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;\n1 pr_auc  binary         0.827\n\n\n\n\nFeature Gain\n‘Gain’ is a measure of the contribution of each feature for the accuracy of an xgboost model. Understanding the relative contribution of each feature is helpful if we want to create a smaller / lighter model using only the most important predictors, for example. The vip package (‘variable importance plot’) has a vip() function for creating the characteristic horizontal bar charts:\n\n#Extract fitted xgboost model\nxgb_fit &lt;- extract_fit_parsnip(fit_cl)$fit\n\n# Plot Gain  ('variable importance plot' - vip)\nvip::vip(xgb_fit, num_features = 20)\n\n\n\n\n\n\n\n\nWhat do you notice about the most important features in this model, when compared to our original data exploration work in ML Part 1 using lm_test()?",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_2.html#save-output",
+    "href": "ch8_section_2.html#save-output",
+    "title": "Part 2",
+    "section": "Save output",
+    "text": "Save output\nLet’s save the recipe rec_cl, and pred_test output from the model, to compare with a ‘tuned’ model in the next step.\n\nsave(\n  #training & testing data:\n  train_cl, test_cl, \n     #recipe object:\n     rec_cl, \n     #predictions on test data:\n     pred_test, file='data_processed/ml_pt2_objects.Rda')",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 2"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html",
+    "href": "ch8_section_3.html",
+    "title": "Part 3",
+    "section": "",
+    "text": "Background\nUsing a dataset containing imaging-derived histology features, and tumor status (benign vs malignant), so far we have run ML Part 1 to explore and transform the data, and ML Part 2 to build an XGBoost model with pre-defined hyper-parameters.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#aim",
+    "href": "ch8_section_3.html#aim",
+    "title": "Part 3",
+    "section": "Aim",
+    "text": "Aim\nIn this final section, we will use the same input data to create an XGBoost classifier, but instead of pre-defining the model hyper-parameters, we will perform a ‘grid search’ to identify the combination of hyper-parameter values that produce the most accurate classifier.\nWe will then compare the tuned model to that created using pre-defined hyper-parameters in ML Part 2.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#load-libraries",
+    "href": "ch8_section_3.html#load-libraries",
+    "title": "Part 3",
+    "section": "Load libraries",
+    "text": "Load libraries\n\nlibrary(tidyverse)\nlibrary(readxl)\nlibrary(tidymodels)\nlibrary(xgboost)\n\ntheme_set(theme_minimal())",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#load-data",
+    "href": "ch8_section_3.html#load-data",
+    "title": "Part 3",
+    "section": "Load data",
+    "text": "Load data\nFirst, we load the data created in ML Part 2\n\nload('data_processed/ml_pt2_objects.Rda')",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#set-seed",
+    "href": "ch8_section_3.html#set-seed",
+    "title": "Part 3",
+    "section": "Set seed",
+    "text": "Set seed\nReproducible ‘randomness’. This ensures everyone using this tutorial gets the same results.\n\n set.seed(165)\n# set.seed(42)\n #withr::with_seed(seed = 165)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#cross-training",
+    "href": "ch8_section_3.html#cross-training",
+    "title": "Part 3",
+    "section": "Cross training",
+    "text": "Cross training\nCross-fold validation requires the training data to be split into sub-sets of roughly equal size. The model is trained on N-1 sets and tested on he remaining ‘unseen’ data subset. Here we determine the folds for cross-validation during tuning, using vfold_cv().\n\nfolds &lt;- vfold_cv(train_cl, v = 5, strata = status)\nfolds\n\n#  5-fold cross-validation using stratification \n# A tibble: 5 × 2\n  splits           id   \n  &lt;list&gt;           &lt;chr&gt;\n1 &lt;split [179/45]&gt; Fold1\n2 &lt;split [179/45]&gt; Fold2\n3 &lt;split [179/45]&gt; Fold3\n4 &lt;split [179/45]&gt; Fold4\n5 &lt;split [180/44]&gt; Fold5",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#hyper-parameter-tuning",
+    "href": "ch8_section_3.html#hyper-parameter-tuning",
+    "title": "Part 3",
+    "section": "Hyper-parameter tuning",
+    "text": "Hyper-parameter tuning\nCompared with the single model with defined hyper-parameters in ML Part 2, here we allow the tree_depth and learn_rate to be tuned, using a range of values across a ‘grid’.\nIn the previous section we set the exact parameters for the boost_tree() function. Here we allow the tree depth and the learning rate to be tuned for optimal performance, by running multiple models across a range of tree depth and learning rate parameters. Note that these arguments are now set to tune().\n\nxgb_spec_tune_cl &lt;- boost_tree(trees = 500, \n                               tree_depth = tune(), \n                               learn_rate = tune()) %&gt;%\n  set_engine(\"xgboost\") %&gt;%\n  set_mode(\"classification\")",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#tuning-workflow",
+    "href": "ch8_section_3.html#tuning-workflow",
+    "title": "Part 3",
+    "section": "Tuning workflow",
+    "text": "Tuning workflow\nWe construct a workflow where the xgboost model now includes the original recipe from ML Part 2, and the tuning steps defined above.\n\nwf_xgb_tune  &lt;- workflow() |&gt; \n  # model outcome and features & pre-processing steps:\n  add_recipe(rec_cl) |&gt; \n  #hyper-parameters, machine learning model type, and mode:\n  add_model(xgb_spec_tune_cl)\n\nRunning the tune_grid() command iterates through the hyper-parameter values in grid, and determines the optimal combinations via cross-fold validation (using the folds object). We also set the evaluation metrics as area under the ROC curve, and mean log loss. Note that log-loss for classification tasks, is similar to RMSE for regression. It measures the accuracy by penalizing false predictions. The lower the log-loss the better.\n\ngrid &lt;- grid_regular(tree_depth(), learn_rate(), levels = 5)\n\n\nxgb_tune_res &lt;- tune_grid(\n  wf_xgb_tune,\n  resamples = folds,\n  grid = grid,\n  metrics = metric_set(roc_auc, mn_log_loss),\n  control = control_grid(save_pred = TRUE)\n)\n\nNB this step can take 30-60 seconds on a standard laptop with the current data.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#train-your-model",
+    "href": "ch8_section_3.html#train-your-model",
+    "title": "Part 3",
+    "section": "Train your model!",
+    "text": "Train your model!\n\nfinal_fit &lt;- fit(final_wf, data = train_cl)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#predict-the-test-set",
+    "href": "ch8_section_3.html#predict-the-test-set",
+    "title": "Part 3",
+    "section": "Predict the test set!",
+    "text": "Predict the test set!\nApply the model trained using optimal hyper-parameters, to predict the malignant status in the hold-out test_cl dataset.\n\npred_tuned &lt;- predict(final_fit, test_cl, type = \"prob\") %&gt;%\n  bind_cols(test_cl)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#evaluate",
+    "href": "ch8_section_3.html#evaluate",
+    "title": "Part 3",
+    "section": "Evaluate",
+    "text": "Evaluate\nHere we generate performance curves and metrics for ROC and PR, for both the original and the tuned models.\n\nOriginal hyper-parameters\nAssign the original model results to pred_orig, then extract the ROC and PR data for the original model:\n\npred_orig &lt;- pred_test\n\n\nroc_orig &lt;- roc_curve(pred_orig, truth = status, .pred_malignant, \n                      event_level = \"second\") %&gt;%\n  mutate(model = \"Original\") \n\n\npr_orig &lt;- pr_curve(pred_orig, truth = status, .pred_malignant, \n                    event_level = \"second\") %&gt;%\n  mutate(model = \"Original\") \n\n\n\nTuned hyper-parameters\nExtract the ROC and PR results for the tuned model\n\nroc_tuned &lt;- roc_curve(pred_tuned, truth = status, .pred_malignant, \n                       event_level = \"second\") %&gt;%\n  mutate(model = \"Tuned\") \n\n\npr_tuned &lt;- pr_curve(pred_tuned, truth = status, .pred_malignant, \n                     event_level = \"second\") %&gt;%\n  mutate(model = \"Tuned\")",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#statistics",
+    "href": "ch8_section_3.html#statistics",
+    "title": "Part 3",
+    "section": "Statistics",
+    "text": "Statistics\n\nOriginal hyper-parameters\nCalculate the AUC for the original model:\n\naurocc_orig &lt;- roc_auc(pred_orig,  truth = status, .pred_malignant, \n                       event_level = \"second\") |&gt; \n  pull(.estimate) |&gt; round(3)\n\nauprc_orig &lt;- pr_auc(pred_orig,  truth = status, .pred_malignant, \n                     event_level = \"second\") |&gt; \n  pull(.estimate) |&gt; round(3)\n\n\n\nTuned parameters\n\naurocc_tuned &lt;- roc_auc(pred_tuned, truth = status, .pred_malignant,\n                        event_level = \"second\") |&gt; \n  pull(.estimate) |&gt; round(3)\n\n\nauprc_tuned &lt;- pr_auc(pred_tuned, truth = status, .pred_malignant, \n                      event_level = \"second\") |&gt; \n  pull(.estimate) |&gt; round(3)",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
+    "objectID": "ch8_section_3.html#plots",
+    "href": "ch8_section_3.html#plots",
+    "title": "Part 3",
+    "section": "Plots",
+    "text": "Plots\nHere we create ROC and PR curves using ggplot, to directly compare the performance of the original vs the tuned classifiers. (We sort the data by sensitivity, and precision respectively, to avoid unwanted extra lines in the geom_step() geom)\n\nROC\n\nroc_origVtuned &lt;- bind_rows(\n  roc_orig  |&gt; arrange(sensitivity), \n  roc_tuned |&gt; arrange(sensitivity) ) \n  \nroc_origVtuned |&gt; ggplot(aes(x = 1-specificity, y = sensitivity)) +\n  geom_step(aes(color=model), lwd=2) +\n  geom_abline(linetype = \"dashed\", color = \"grey\") +\n  annotate(\"text\", x = 0.6, y = 0.2, \n           label = paste0(\"AUROC (orig): \",  aurocc_orig) ) +\n  annotate(\"text\", x = 0.6, y = 0.1, \n           label = paste0(\"AUROC (tuned): \", aurocc_tuned)) +\n  labs(title = \"ROC Curve Comparison\",\n       x = \"False Positive Rate\",\n       y = \"True Positive Rate\",\n       color = \"Model\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nPR\n\npr_origVtuned &lt;- bind_rows(\n  pr_orig  |&gt; arrange(desc(precision)),\n  pr_tuned |&gt; arrange(desc(precision)))\n  \npr_origVtuned |&gt; \n  ggplot(aes(x = recall, y = precision)) +\n  geom_step(aes(color=model), lwd=2) +\n  geom_hline(linetype = \"dashed\", color = \"grey\",yintercept = 0.5) +\n  annotate(\"text\", x = 0.6, y = 0.2, \n           label = paste0(\"AUROC (orig): \",  auprc_orig) ) +\n  annotate(\"text\", x = 0.6, y = 0.1, \n           label = paste0(\"AUROC (tuned): \", auprc_tuned)) +\n  labs(title = \"PR Curve Comparison\",\n       x = \"Recall\",\n       y = \"Precision\",\n       color = \"Model\") +\n  theme_minimal()",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 3"
+    ]
+  },
+  {
     "objectID": "further_reading.html",
     "href": "further_reading.html",
     "title": "Further reading",
