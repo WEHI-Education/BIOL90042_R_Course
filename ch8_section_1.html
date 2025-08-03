@@ -400,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">#principal components function</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prcomp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can access the principal components for each sample by using the <code>broom::augment()</code> function. The primary PCs 9e.g. 1 thru 5) encode the majority of the variation between samples. as such we focus on primary PCs (or dimension in MDS), when clustering samples</p>
+<p>We can access the principal components for each sample by using the <code>broom::augment()</code> function. The primary PCs (e.g.&nbsp;1 thru 5) encode the majority of the variation between samples. As such we focus on primary PCs (or dimension in MDS), when clustering samples</p>
 <p>Plot first 2 PCs, coloured by tumor status</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pcs_fitted <span class="ot">&lt;-</span> pc_dat <span class="sc">|&gt;</span> <span class="fu">augment</span>() </span>
@@ -1083,7 +1083,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>We can access the principal components for each sample by using the <span class="in">`broom::augment()`</span> function. The primary PCs 9e.g. 1 thru 5) encode the majority of the variation between samples. as such we focus on primary PCs (or dimension in MDS), when clustering samples</span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>We can access the principal components for each sample by using the <span class="in">`broom::augment()`</span> function. The primary PCs (e.g. 1 thru 5) encode the majority of the variation between samples. As such we focus on primary PCs (or dimension in MDS), when clustering samples</span>
 <span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>Plot first 2 PCs, coloured by tumor status</span>
 <span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a></span>

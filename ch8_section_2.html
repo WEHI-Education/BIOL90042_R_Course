@@ -401,7 +401,7 @@ Data types and file types
 2 malignant    41</code></pre>
 </div>
 </div>
-<p>Even splits!</p>
+<p>This gives reasonably even splits.</p>
 </section>
 <section id="recipe" class="level2">
 <h2 class="anchored" data-anchor-id="recipe">Recipe</h2>
@@ -660,7 +660,7 @@ Predicted   benign malignant
 </section>
 <section id="feature-gain" class="level3">
 <h3 class="anchored" data-anchor-id="feature-gain">Feature Gain</h3>
-<p>‘Gain’ is a measure of the contribution of each feature for the accuracy of an xgboost model. Understanding the relative contribution of each feature is helpful if we want to create a smaller / lighter model using only the most important predictors, for example. The <code>vip</code> package (‘variable importance plot’) has a <code>vip()</code> function for creating the characteristic horizontal bar charts:</p>
+<p>‘Gain’ is a measure of the contribution of each feature to the accuracy of an xgboost model. Understanding the relative contribution of each feature is helpful if we want to create a smaller / lighter model using only the most important predictors, for example. This is also an important aspect of ‘explainable AI’ (xAI) /‘interpretable machine learning’. The <code>vip</code> package (‘variable importance plot’) has a <code>vip()</code> function for creating the characteristic horizontal bar charts:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract fitted xgboost model</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>xgb_fit <span class="ot">&lt;-</span> <span class="fu">extract_fit_parsnip</span>(fit_cl)<span class="sc">$</span>fit</span>
@@ -1289,7 +1289,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb39-128"><a href="#cb39-128" aria-hidden="true" tabindex="-1"></a>test_cl  <span class="sc">%&gt;%</span> <span class="fu">count</span>(status)</span>
 <span id="cb39-129"><a href="#cb39-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb39-130"><a href="#cb39-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-131"><a href="#cb39-131" aria-hidden="true" tabindex="-1"></a>Even splits!</span>
+<span id="cb39-131"><a href="#cb39-131" aria-hidden="true" tabindex="-1"></a>This gives reasonably even splits.</span>
 <span id="cb39-132"><a href="#cb39-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-133"><a href="#cb39-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recipe</span></span>
 <span id="cb39-134"><a href="#cb39-134" aria-hidden="true" tabindex="-1"></a></span>
@@ -1498,34 +1498,35 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb39-361"><a href="#cb39-361" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-362"><a href="#cb39-362" aria-hidden="true" tabindex="-1"></a><span class="fu">### Feature Gain</span></span>
 <span id="cb39-363"><a href="#cb39-363" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-364"><a href="#cb39-364" aria-hidden="true" tabindex="-1"></a>'Gain' is a measure of the contribution of each feature for the accuracy of an xgboost model. </span>
-<span id="cb39-365"><a href="#cb39-365" aria-hidden="true" tabindex="-1"></a>Understanding the relative contribution of each feature is helpful if we want to create a smaller / lighter model using only the most important predictors, for example. The <span class="in">`vip`</span> package ('variable importance plot') has a <span class="in">`vip()`</span> function for creating the characteristic horizontal bar charts: </span>
-<span id="cb39-366"><a href="#cb39-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-369"><a href="#cb39-369" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb39-370"><a href="#cb39-370" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract fitted xgboost model</span></span>
-<span id="cb39-371"><a href="#cb39-371" aria-hidden="true" tabindex="-1"></a>xgb_fit <span class="ot">&lt;-</span> <span class="fu">extract_fit_parsnip</span>(fit_cl)<span class="sc">$</span>fit</span>
-<span id="cb39-372"><a href="#cb39-372" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-373"><a href="#cb39-373" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Gain  ('variable importance plot' - vip)</span></span>
-<span id="cb39-374"><a href="#cb39-374" aria-hidden="true" tabindex="-1"></a>vip<span class="sc">::</span><span class="fu">vip</span>(xgb_fit, <span class="at">num_features =</span> <span class="dv">20</span>)</span>
-<span id="cb39-375"><a href="#cb39-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-376"><a href="#cb39-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb39-377"><a href="#cb39-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-378"><a href="#cb39-378" aria-hidden="true" tabindex="-1"></a>What do you notice about the most important features in this model, when compared to our original data exploration work in <span class="co">[</span><span class="ot">ML Part 1</span><span class="co">](ch8_section_1.qmd)</span> using <span class="in">`lm_test()`</span>?</span>
-<span id="cb39-379"><a href="#cb39-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-380"><a href="#cb39-380" aria-hidden="true" tabindex="-1"></a><span class="fu">## Save output</span></span>
-<span id="cb39-381"><a href="#cb39-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-382"><a href="#cb39-382" aria-hidden="true" tabindex="-1"></a>Let's save the recipe <span class="in">`rec_cl`</span>, and <span class="in">`pred_test`</span> output from the model, to compare with a 'tuned' model in the next step.</span>
-<span id="cb39-383"><a href="#cb39-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-386"><a href="#cb39-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb39-387"><a href="#cb39-387" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(</span>
-<span id="cb39-388"><a href="#cb39-388" aria-hidden="true" tabindex="-1"></a>  <span class="co">#training &amp; testing data:</span></span>
-<span id="cb39-389"><a href="#cb39-389" aria-hidden="true" tabindex="-1"></a>  train_cl, test_cl, </span>
-<span id="cb39-390"><a href="#cb39-390" aria-hidden="true" tabindex="-1"></a>     <span class="co">#recipe object:</span></span>
-<span id="cb39-391"><a href="#cb39-391" aria-hidden="true" tabindex="-1"></a>     rec_cl, </span>
-<span id="cb39-392"><a href="#cb39-392" aria-hidden="true" tabindex="-1"></a>     <span class="co">#predictions on test data:</span></span>
-<span id="cb39-393"><a href="#cb39-393" aria-hidden="true" tabindex="-1"></a>     pred_test, <span class="at">file=</span><span class="st">'data_processed/ml_pt2_objects.Rda'</span>)</span>
-<span id="cb39-394"><a href="#cb39-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-395"><a href="#cb39-395" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb39-364"><a href="#cb39-364" aria-hidden="true" tabindex="-1"></a>'Gain' is a measure of the contribution of each feature to the accuracy of an xgboost model. </span>
+<span id="cb39-365"><a href="#cb39-365" aria-hidden="true" tabindex="-1"></a>Understanding the relative contribution of each feature is helpful if we want to create a smaller / lighter model using only the most important predictors, for example. This is also an important aspect of 'explainable AI' (xAI) /'interpretable machine learning'.</span>
+<span id="cb39-366"><a href="#cb39-366" aria-hidden="true" tabindex="-1"></a>The <span class="in">`vip`</span> package ('variable importance plot') has a <span class="in">`vip()`</span> function for creating the characteristic horizontal bar charts: </span>
+<span id="cb39-367"><a href="#cb39-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-370"><a href="#cb39-370" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb39-371"><a href="#cb39-371" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract fitted xgboost model</span></span>
+<span id="cb39-372"><a href="#cb39-372" aria-hidden="true" tabindex="-1"></a>xgb_fit <span class="ot">&lt;-</span> <span class="fu">extract_fit_parsnip</span>(fit_cl)<span class="sc">$</span>fit</span>
+<span id="cb39-373"><a href="#cb39-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-374"><a href="#cb39-374" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Gain  ('variable importance plot' - vip)</span></span>
+<span id="cb39-375"><a href="#cb39-375" aria-hidden="true" tabindex="-1"></a>vip<span class="sc">::</span><span class="fu">vip</span>(xgb_fit, <span class="at">num_features =</span> <span class="dv">20</span>)</span>
+<span id="cb39-376"><a href="#cb39-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-377"><a href="#cb39-377" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb39-378"><a href="#cb39-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-379"><a href="#cb39-379" aria-hidden="true" tabindex="-1"></a>What do you notice about the most important features in this model, when compared to our original data exploration work in <span class="co">[</span><span class="ot">ML Part 1</span><span class="co">](ch8_section_1.qmd)</span> using <span class="in">`lm_test()`</span>?</span>
+<span id="cb39-380"><a href="#cb39-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-381"><a href="#cb39-381" aria-hidden="true" tabindex="-1"></a><span class="fu">## Save output</span></span>
+<span id="cb39-382"><a href="#cb39-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-383"><a href="#cb39-383" aria-hidden="true" tabindex="-1"></a>Let's save the recipe <span class="in">`rec_cl`</span>, and <span class="in">`pred_test`</span> output from the model, to compare with a 'tuned' model in the next step.</span>
+<span id="cb39-384"><a href="#cb39-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-387"><a href="#cb39-387" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb39-388"><a href="#cb39-388" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(</span>
+<span id="cb39-389"><a href="#cb39-389" aria-hidden="true" tabindex="-1"></a>  <span class="co">#training &amp; testing data:</span></span>
+<span id="cb39-390"><a href="#cb39-390" aria-hidden="true" tabindex="-1"></a>  train_cl, test_cl, </span>
+<span id="cb39-391"><a href="#cb39-391" aria-hidden="true" tabindex="-1"></a>     <span class="co">#recipe object:</span></span>
+<span id="cb39-392"><a href="#cb39-392" aria-hidden="true" tabindex="-1"></a>     rec_cl, </span>
+<span id="cb39-393"><a href="#cb39-393" aria-hidden="true" tabindex="-1"></a>     <span class="co">#predictions on test data:</span></span>
+<span id="cb39-394"><a href="#cb39-394" aria-hidden="true" tabindex="-1"></a>     pred_test, <span class="at">file=</span><span class="st">'data_processed/ml_pt2_objects.Rda'</span>)</span>
+<span id="cb39-395"><a href="#cb39-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-396"><a href="#cb39-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
