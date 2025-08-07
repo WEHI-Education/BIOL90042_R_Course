@@ -191,6 +191,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./stats_primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics in R Primer</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">RNA-seq - Part 1</span></span></a>
   </div>
@@ -2006,7 +2012,7 @@ Solutions
 </figure>
 </div>
 <p>This will copy the path to the folder to your clipboard, which you can then paste into your R script. Then, you just need to add a <code>/</code> followed by the name of the file to the end of the path.</p>
-<p>For example, the path to the folder in the above image is <code>~/Desktop/R_course/data</code>, so the path to the <code>mousezempic_dosage_data.csv</code> file is <code>~/Desktop/R_course/data/mousezempic_dosage_data.csv</code>.</p>
+<p>For example, the path to the folder in the above image is <code>~/Desktop/BIOL90042_workshops/data</code>, so the path to the <code>mousezempic_dosage_data.csv</code> file is <code>~/Desktop/BIOL90042_workshops/data/mousezempic_dosage_data.csv</code>.</p>
 </section>
 <section id="sec-readinFunctions" class="level3" data-number="1.8.2">
 <h3 data-number="1.8.2" class="anchored" data-anchor-id="sec-readinFunctions"><span class="header-section-number">1.8.2</span> Reading data with functions</h3>
@@ -2051,7 +2057,7 @@ Packages in R
 </div>
 <p>To read in our data, we’ll use the <code>read_delim()</code> function from the <code>readr</code> package. This function takes in the path to the file you want to read in (in quotation marks <code>""</code>, as this is a character string) and returns as output a tibble.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"~/Desktop/BIOL90042_workshops/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="Delimiters">
 <div class="callout-header d-flex align-content-center">
@@ -2090,7 +2096,7 @@ What happens if we use the wrong delimiter?
 </summary>
 <p>As an example, let’s try reading in our comma-separated file with <code>read_tsv()</code>, which is specifically for tab-separated files:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"~/Desktop/BIOL90042_workshops/data/mousezempic_dosage_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
@@ -2137,6 +2143,7 @@ Using RStudio to autocomplete paths
 </div>
 <div class="callout-body-container callout-body">
 <p>Another conveninent way to get the path of your file (so long as you are working within an R project) is to use a feature called ‘tab completion’. Within R projects, R can discover any files sitting in, or downstream of the project directory. So, assuming our <code>mousezempic_dosage_data.csv</code> file is located within a folder called ‘data’, if we start typing <code>read_delim("data/mouse</code> then press <kbd aria-hidden="true">Tab</kbd><span class="visually-hidden">Tab</span>, R will auto-complete the full file path and close the quotes and bracket for us!</p>
+<p>Even better, we need only type <code>read_delim('mouse</code> and RStudio will find all files within the project beginning with that word, and automatically fill in the required file path!</p>
 </div>
 </div>
 <p>Now, let’s take a look at the output of <code>read_delim()</code>:</p>
@@ -4494,7 +4501,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb153-1497"><a href="#cb153-1497" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1498"><a href="#cb153-1498" aria-hidden="true" tabindex="-1"></a><span class="at">This will copy the path to the folder to your clipboard, which you can then paste into your R script. Then, you just need to add a </span><span class="st">`</span><span class="sc">/</span><span class="st">`</span><span class="at"> followed by the name of the file to the end of the path.</span></span>
 <span id="cb153-1499"><a href="#cb153-1499" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1500"><a href="#cb153-1500" aria-hidden="true" tabindex="-1"></a><span class="at">For example, the path to the folder in the above image is </span><span class="st">`</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>R_course<span class="sc">/</span>data<span class="st">`</span><span class="at">, so the path to the </span><span class="st">`</span>mousezempic_dosage_data.csv<span class="st">`</span><span class="at"> file is </span><span class="st">`</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>R_course<span class="sc">/</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">`</span><span class="at">.</span></span>
+<span id="cb153-1500"><a href="#cb153-1500" aria-hidden="true" tabindex="-1"></a><span class="at">For example, the path to the folder in the above image is </span><span class="st">`</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>BIOL90042_workshops<span class="sc">/</span>data<span class="st">`</span><span class="at">, so the path to the </span><span class="st">`</span>mousezempic_dosage_data.csv<span class="st">`</span><span class="at"> file is </span><span class="st">`</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>BIOL90042_workshops<span class="sc">/</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">`</span><span class="at">.</span></span>
 <span id="cb153-1501"><a href="#cb153-1501" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1502"><a href="#cb153-1502" aria-hidden="true" tabindex="-1"></a><span class="at">### Reading data with functions {#sec-readinFunctions}</span></span>
 <span id="cb153-1503"><a href="#cb153-1503" aria-hidden="true" tabindex="-1"></a></span>
@@ -4527,7 +4534,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb153-1534"><a href="#cb153-1534" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1537"><a href="#cb153-1537" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb153-1538"><a href="#cb153-1538" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb153-1539"><a href="#cb153-1539" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span>
+<span id="cb153-1539"><a href="#cb153-1539" aria-hidden="true" tabindex="-1"></a><span class="fu">read_delim</span>(<span class="st">"~/Desktop/BIOL90042_workshops/data/mousezempic_dosage_data.csv"</span>)</span>
 <span id="cb153-1540"><a href="#cb153-1540" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1541"><a href="#cb153-1541" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1542"><a href="#cb153-1542" aria-hidden="true" tabindex="-1"></a><span class="at">::: {.callout-note title="Delimiters"}</span></span>
@@ -4559,12 +4566,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb153-1568"><a href="#cb153-1568" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1571"><a href="#cb153-1571" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb153-1572"><a href="#cb153-1572" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb153-1573"><a href="#cb153-1573" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"~/Desktop/R_course/data/mousezempic_dosage_data.csv"</span>)</span>
+<span id="cb153-1573"><a href="#cb153-1573" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"~/Desktop/BIOL90042_workshops/data/mousezempic_dosage_data.csv"</span>)</span>
 <span id="cb153-1574"><a href="#cb153-1574" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1575"><a href="#cb153-1575" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1578"><a href="#cb153-1578" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb153-1579"><a href="#cb153-1579" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb153-1580"><a href="#cb153-1580" aria-hidden="true" tabindex="-1"></a><span class="co"># this is for rendering the book, path is different for learners so don't show this chunk</span></span>
+<span id="cb153-1580"><a href="#cb153-1580" aria-hidden="true" tabindex="-1"></a><span class="co"># this is for rendering the book</span></span>
 <span id="cb153-1581"><a href="#cb153-1581" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"data/mousezempic_dosage_data.csv"</span>)</span>
 <span id="cb153-1582"><a href="#cb153-1582" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1583"><a href="#cb153-1583" aria-hidden="true" tabindex="-1"></a></span>
@@ -4577,276 +4584,278 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb153-1590"><a href="#cb153-1590" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb153-1591"><a href="#cb153-1591" aria-hidden="true" tabindex="-1"></a><span class="at">::: {.callout-note title="Using RStudio to autocomplete paths"}</span></span>
 <span id="cb153-1592"><a href="#cb153-1592" aria-hidden="true" tabindex="-1"></a><span class="at">Another conveninent way to get the path of your file (so long as you are working within an R project) is to use a feature called 'tab completion'. Within R projects, R can discover any files sitting in, or downstream of the project directory. So, assuming our </span><span class="st">`</span>mousezempic_dosage_data.csv<span class="st">`</span><span class="at"> file is located within a folder called 'data', if we start typing </span><span class="st">`</span><span class="fu">read_delim</span>(<span class="st">"data/mouse` then press {{&lt; kbd Tab &gt;}}, R will auto-complete the full file path and close the quotes and bracket for us!</span></span>
-<span id="cb153-1593"><a href="#cb153-1593" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1594"><a href="#cb153-1594" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1595"><a href="#cb153-1595" aria-hidden="true" tabindex="-1"></a><span class="st">Now, let's take a look at the output of `read_delim()`:</span></span>
+<span id="cb153-1593"><a href="#cb153-1593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1594"><a href="#cb153-1594" aria-hidden="true" tabindex="-1"></a><span class="st">Even better, we need only type `read_delim('mouse` and RStudio will find all files within the project beginning with that word, and automatically fill in the required file path!</span></span>
+<span id="cb153-1595"><a href="#cb153-1595" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
 <span id="cb153-1596"><a href="#cb153-1596" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1599"><a href="#cb153-1599" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1600"><a href="#cb153-1600" aria-hidden="true" tabindex="-1"></a><span class="st">#| echo: false</span></span>
-<span id="cb153-1601"><a href="#cb153-1601" aria-hidden="true" tabindex="-1"></a><span class="st"># this is for rendering the book, path is maybe different for learners so don't show this chunk</span></span>
-<span id="cb153-1602"><a href="#cb153-1602" aria-hidden="true" tabindex="-1"></a><span class="st">read_delim("</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
-<span id="cb153-1603"><a href="#cb153-1603" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1604"><a href="#cb153-1604" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1605"><a href="#cb153-1605" aria-hidden="true" tabindex="-1"></a><span class="st">The first line tells us how many rows and columns are in the data. Then, the `Column specification` section tells you:</span></span>
+<span id="cb153-1597"><a href="#cb153-1597" aria-hidden="true" tabindex="-1"></a><span class="st">Now, let's take a look at the output of `read_delim()`:</span></span>
+<span id="cb153-1598"><a href="#cb153-1598" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1601"><a href="#cb153-1601" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1602"><a href="#cb153-1602" aria-hidden="true" tabindex="-1"></a><span class="st">#| echo: false</span></span>
+<span id="cb153-1603"><a href="#cb153-1603" aria-hidden="true" tabindex="-1"></a><span class="st"># this is for rendering the book, path is maybe different for learners so don't show this chunk</span></span>
+<span id="cb153-1604"><a href="#cb153-1604" aria-hidden="true" tabindex="-1"></a><span class="st">read_delim("</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
+<span id="cb153-1605"><a href="#cb153-1605" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1606"><a href="#cb153-1606" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1607"><a href="#cb153-1607" aria-hidden="true" tabindex="-1"></a><span class="st">-   What delimiter was used to separate values.</span></span>
+<span id="cb153-1607"><a href="#cb153-1607" aria-hidden="true" tabindex="-1"></a><span class="st">The first line tells us how many rows and columns are in the data. Then, the `Column specification` section tells you:</span></span>
 <span id="cb153-1608"><a href="#cb153-1608" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1609"><a href="#cb153-1609" aria-hidden="true" tabindex="-1"></a><span class="st">-   Which columns belong to each type. `read_delim()` is quite clever and will guess this for us, but it's useful to check and make sure it's correct.</span></span>
+<span id="cb153-1609"><a href="#cb153-1609" aria-hidden="true" tabindex="-1"></a><span class="st">-   What delimiter was used to separate values.</span></span>
 <span id="cb153-1610"><a href="#cb153-1610" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1611"><a href="#cb153-1611" aria-hidden="true" tabindex="-1"></a><span class="st">Then, the data will be printed out as a tibble.</span></span>
+<span id="cb153-1611"><a href="#cb153-1611" aria-hidden="true" tabindex="-1"></a><span class="st">-   Which columns belong to each type. `read_delim()` is quite clever and will guess this for us, but it's useful to check and make sure it's correct.</span></span>
 <span id="cb153-1612"><a href="#cb153-1612" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1613"><a href="#cb153-1613" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.callout-note title="</span>Tibbles and data frames<span class="st">"}</span></span>
-<span id="cb153-1614"><a href="#cb153-1614" aria-hidden="true" tabindex="-1"></a><span class="st">Tibbles are a more modern version of data frames introduced in the [tidyverse](https://www.tidyverse.org/). They are very similar to data frames, but have some additional features like printing more nicely in the console.</span></span>
-<span id="cb153-1615"><a href="#cb153-1615" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1616"><a href="#cb153-1616" aria-hidden="true" tabindex="-1"></a><span class="st">Let's use `iris` to highlight the advantages of tibbles:</span></span>
+<span id="cb153-1613"><a href="#cb153-1613" aria-hidden="true" tabindex="-1"></a><span class="st">Then, the data will be printed out as a tibble.</span></span>
+<span id="cb153-1614"><a href="#cb153-1614" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1615"><a href="#cb153-1615" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.callout-note title="</span>Tibbles and data frames<span class="st">"}</span></span>
+<span id="cb153-1616"><a href="#cb153-1616" aria-hidden="true" tabindex="-1"></a><span class="st">Tibbles are a more modern version of data frames introduced in the [tidyverse](https://www.tidyverse.org/). They are very similar to data frames, but have some additional features like printing more nicely in the console.</span></span>
 <span id="cb153-1617"><a href="#cb153-1617" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1620"><a href="#cb153-1620" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1621"><a href="#cb153-1621" aria-hidden="true" tabindex="-1"></a><span class="st">#| message: false</span></span>
-<span id="cb153-1622"><a href="#cb153-1622" aria-hidden="true" tabindex="-1"></a><span class="st"># need to load the tidyverse package to use tibbles</span></span>
-<span id="cb153-1623"><a href="#cb153-1623" aria-hidden="true" tabindex="-1"></a><span class="st"># see below for more information on loading packages</span></span>
-<span id="cb153-1624"><a href="#cb153-1624" aria-hidden="true" tabindex="-1"></a><span class="st">library(tidyverse)</span></span>
-<span id="cb153-1625"><a href="#cb153-1625" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1626"><a href="#cb153-1626" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1627"><a href="#cb153-1627" aria-hidden="true" tabindex="-1"></a><span class="st">When we print a data frame, it shows every single row and column, which can be overwhelming if the data frame is large:</span></span>
+<span id="cb153-1618"><a href="#cb153-1618" aria-hidden="true" tabindex="-1"></a><span class="st">Let's use `iris` to highlight the advantages of tibbles:</span></span>
+<span id="cb153-1619"><a href="#cb153-1619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1622"><a href="#cb153-1622" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1623"><a href="#cb153-1623" aria-hidden="true" tabindex="-1"></a><span class="st">#| message: false</span></span>
+<span id="cb153-1624"><a href="#cb153-1624" aria-hidden="true" tabindex="-1"></a><span class="st"># need to load the tidyverse package to use tibbles</span></span>
+<span id="cb153-1625"><a href="#cb153-1625" aria-hidden="true" tabindex="-1"></a><span class="st"># see below for more information on loading packages</span></span>
+<span id="cb153-1626"><a href="#cb153-1626" aria-hidden="true" tabindex="-1"></a><span class="st">library(tidyverse)</span></span>
+<span id="cb153-1627"><a href="#cb153-1627" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1628"><a href="#cb153-1628" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1629"><a href="#cb153-1629" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
+<span id="cb153-1629"><a href="#cb153-1629" aria-hidden="true" tabindex="-1"></a><span class="st">When we print a data frame, it shows every single row and column, which can be overwhelming if the data frame is large:</span></span>
 <span id="cb153-1630"><a href="#cb153-1630" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1631"><a href="#cb153-1631" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;Click here to print `iris` as a data frame!&lt;/summary&gt;</span></span>
+<span id="cb153-1631"><a href="#cb153-1631" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
 <span id="cb153-1632"><a href="#cb153-1632" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1635"><a href="#cb153-1635" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1636"><a href="#cb153-1636" aria-hidden="true" tabindex="-1"></a><span class="st"># print iris</span></span>
-<span id="cb153-1637"><a href="#cb153-1637" aria-hidden="true" tabindex="-1"></a><span class="st">iris</span></span>
-<span id="cb153-1638"><a href="#cb153-1638" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1639"><a href="#cb153-1639" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1640"><a href="#cb153-1640" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
+<span id="cb153-1633"><a href="#cb153-1633" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;Click here to print `iris` as a data frame!&lt;/summary&gt;</span></span>
+<span id="cb153-1634"><a href="#cb153-1634" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1637"><a href="#cb153-1637" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1638"><a href="#cb153-1638" aria-hidden="true" tabindex="-1"></a><span class="st"># print iris</span></span>
+<span id="cb153-1639"><a href="#cb153-1639" aria-hidden="true" tabindex="-1"></a><span class="st">iris</span></span>
+<span id="cb153-1640"><a href="#cb153-1640" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1641"><a href="#cb153-1641" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1642"><a href="#cb153-1642" aria-hidden="true" tabindex="-1"></a><span class="st">But when we print a tibble, only a small preview is shown, which is much easier to read:</span></span>
+<span id="cb153-1642"><a href="#cb153-1642" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
 <span id="cb153-1643"><a href="#cb153-1643" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1646"><a href="#cb153-1646" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1647"><a href="#cb153-1647" aria-hidden="true" tabindex="-1"></a><span class="st"># print iris as a tibble</span></span>
-<span id="cb153-1648"><a href="#cb153-1648" aria-hidden="true" tabindex="-1"></a><span class="st">as_tibble(iris)</span></span>
-<span id="cb153-1649"><a href="#cb153-1649" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1650"><a href="#cb153-1650" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1651"><a href="#cb153-1651" aria-hidden="true" tabindex="-1"></a><span class="st">It also tells us the number of rows (150) and columns (5) in the data, as well as the types of each column (`&lt;dbl&gt;` is short for `double`, which is a type of numeric data). Unlike data frames, tibbles can not include row names that sit 'outside' the cells.</span></span>
+<span id="cb153-1644"><a href="#cb153-1644" aria-hidden="true" tabindex="-1"></a><span class="st">But when we print a tibble, only a small preview is shown, which is much easier to read:</span></span>
+<span id="cb153-1645"><a href="#cb153-1645" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1648"><a href="#cb153-1648" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1649"><a href="#cb153-1649" aria-hidden="true" tabindex="-1"></a><span class="st"># print iris as a tibble</span></span>
+<span id="cb153-1650"><a href="#cb153-1650" aria-hidden="true" tabindex="-1"></a><span class="st">as_tibble(iris)</span></span>
+<span id="cb153-1651"><a href="#cb153-1651" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1652"><a href="#cb153-1652" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1653"><a href="#cb153-1653" aria-hidden="true" tabindex="-1"></a><span class="st">For the purpose of this course, we can treat tibbles and data frames as the same thing. However, if you're interested in learning more about tibbles, you can read about them [here](https://r4ds.had.co.nz/tibbles.html#tibbles-vs.-data.frame).</span></span>
-<span id="cb153-1654"><a href="#cb153-1654" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1655"><a href="#cb153-1655" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1656"><a href="#cb153-1656" aria-hidden="true" tabindex="-1"></a><span class="st">No matter which function you use to read in your data, R simply prints the values out in the console. To actually work with data in R, we need assign our data frame to a variable:</span></span>
+<span id="cb153-1653"><a href="#cb153-1653" aria-hidden="true" tabindex="-1"></a><span class="st">It also tells us the number of rows (150) and columns (5) in the data, as well as the types of each column (`&lt;dbl&gt;` is short for `double`, which is a type of numeric data). Unlike data frames, tibbles can not include row names that sit 'outside' the cells.</span></span>
+<span id="cb153-1654"><a href="#cb153-1654" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1655"><a href="#cb153-1655" aria-hidden="true" tabindex="-1"></a><span class="st">For the purpose of this course, we can treat tibbles and data frames as the same thing. However, if you're interested in learning more about tibbles, you can read about them [here](https://r4ds.had.co.nz/tibbles.html#tibbles-vs.-data.frame).</span></span>
+<span id="cb153-1656"><a href="#cb153-1656" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
 <span id="cb153-1657"><a href="#cb153-1657" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1660"><a href="#cb153-1660" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1661"><a href="#cb153-1661" aria-hidden="true" tabindex="-1"></a><span class="st">#| eval: false</span></span>
-<span id="cb153-1662"><a href="#cb153-1662" aria-hidden="true" tabindex="-1"></a><span class="st">m_dose &lt;- read_delim("</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>R_course<span class="sc">/</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
-<span id="cb153-1663"><a href="#cb153-1663" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1664"><a href="#cb153-1664" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1667"><a href="#cb153-1667" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1668"><a href="#cb153-1668" aria-hidden="true" tabindex="-1"></a><span class="st">#| echo: false</span></span>
-<span id="cb153-1669"><a href="#cb153-1669" aria-hidden="true" tabindex="-1"></a><span class="st"># this is for rendering the book, path is different for learners so don't show this chunk</span></span>
-<span id="cb153-1670"><a href="#cb153-1670" aria-hidden="true" tabindex="-1"></a><span class="st">m_dose &lt;- read_delim("</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
-<span id="cb153-1671"><a href="#cb153-1671" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1672"><a href="#cb153-1672" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1673"><a href="#cb153-1673" aria-hidden="true" tabindex="-1"></a><span class="st">### Reading data through RStudio's graphical interface {#sec-readinGUI}</span></span>
+<span id="cb153-1658"><a href="#cb153-1658" aria-hidden="true" tabindex="-1"></a><span class="st">No matter which function you use to read in your data, R simply prints the values out in the console. To actually work with data in R, we need assign our data frame to a variable:</span></span>
+<span id="cb153-1659"><a href="#cb153-1659" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1662"><a href="#cb153-1662" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1663"><a href="#cb153-1663" aria-hidden="true" tabindex="-1"></a><span class="st">#| eval: false</span></span>
+<span id="cb153-1664"><a href="#cb153-1664" aria-hidden="true" tabindex="-1"></a><span class="st">m_dose &lt;- read_delim("</span><span class="sc">~</span><span class="er">/</span>Desktop<span class="sc">/</span>R_course<span class="sc">/</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
+<span id="cb153-1665"><a href="#cb153-1665" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
+<span id="cb153-1666"><a href="#cb153-1666" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1669"><a href="#cb153-1669" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1670"><a href="#cb153-1670" aria-hidden="true" tabindex="-1"></a><span class="st">#| echo: false</span></span>
+<span id="cb153-1671"><a href="#cb153-1671" aria-hidden="true" tabindex="-1"></a><span class="st"># this is for rendering the book, path is different for learners so don't show this chunk</span></span>
+<span id="cb153-1672"><a href="#cb153-1672" aria-hidden="true" tabindex="-1"></a><span class="st">m_dose &lt;- read_delim("</span>data<span class="sc">/</span>mousezempic_dosage_data.csv<span class="st">")</span></span>
+<span id="cb153-1673"><a href="#cb153-1673" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1674"><a href="#cb153-1674" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1675"><a href="#cb153-1675" aria-hidden="true" tabindex="-1"></a><span class="st">You can also read in data through RStudio's graphical interface. This is a good way to get the code to read in data if you're not sure how to do it yourself.</span></span>
+<span id="cb153-1675"><a href="#cb153-1675" aria-hidden="true" tabindex="-1"></a><span class="st">### Reading data through RStudio's graphical interface {#sec-readinGUI}</span></span>
 <span id="cb153-1676"><a href="#cb153-1676" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1677"><a href="#cb153-1677" aria-hidden="true" tabindex="-1"></a><span class="st">To do this, click on the 'Import Dataset' button in the environment panel (for our data, we will use the 'from Text (readr)' option):</span></span>
+<span id="cb153-1677"><a href="#cb153-1677" aria-hidden="true" tabindex="-1"></a><span class="st">You can also read in data through RStudio's graphical interface. This is a good way to get the code to read in data if you're not sure how to do it yourself.</span></span>
 <span id="cb153-1678"><a href="#cb153-1678" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1679"><a href="#cb153-1679" aria-hidden="true" tabindex="-1"></a><span class="st">![The import dataset button in the environment panel](images/S01F23_import_dataset_button.png){width="</span><span class="dv">800</span><span class="st">"}</span></span>
+<span id="cb153-1679"><a href="#cb153-1679" aria-hidden="true" tabindex="-1"></a><span class="st">To do this, click on the 'Import Dataset' button in the environment panel (for our data, we will use the 'from Text (readr)' option):</span></span>
 <span id="cb153-1680"><a href="#cb153-1680" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1681"><a href="#cb153-1681" aria-hidden="true" tabindex="-1"></a><span class="st">This will open a window where you can select the file you want to read in, like so:</span></span>
+<span id="cb153-1681"><a href="#cb153-1681" aria-hidden="true" tabindex="-1"></a><span class="st">![The import dataset button in the environment panel](images/S01F23_import_dataset_button.png){width="</span><span class="dv">800</span><span class="st">"}</span></span>
 <span id="cb153-1682"><a href="#cb153-1682" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1683"><a href="#cb153-1683" aria-hidden="true" tabindex="-1"></a><span class="st">![The import dataset window in RStudio](images/S01F24_import_dataset_window.png){width="</span><span class="dv">800</span><span class="st">"}</span></span>
+<span id="cb153-1683"><a href="#cb153-1683" aria-hidden="true" tabindex="-1"></a><span class="st">This will open a window where you can select the file you want to read in, like so:</span></span>
 <span id="cb153-1684"><a href="#cb153-1684" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1685"><a href="#cb153-1685" aria-hidden="true" tabindex="-1"></a><span class="st">R will then generate the code to read in the data for you, and you can use the preview to check that it has worked ok:</span></span>
+<span id="cb153-1685"><a href="#cb153-1685" aria-hidden="true" tabindex="-1"></a><span class="st">![The import dataset window in RStudio](images/S01F24_import_dataset_window.png){width="</span><span class="dv">800</span><span class="st">"}</span></span>
 <span id="cb153-1686"><a href="#cb153-1686" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1687"><a href="#cb153-1687" aria-hidden="true" tabindex="-1"></a><span class="st">![RStudio will then read in the data, and give you the code that it used](images/S01F25_import_dataset_code.png){width="</span><span class="dv">800</span><span class="st">"}</span></span>
+<span id="cb153-1687"><a href="#cb153-1687" aria-hidden="true" tabindex="-1"></a><span class="st">R will then generate the code to read in the data for you, and you can use the preview to check that it has worked ok:</span></span>
 <span id="cb153-1688"><a href="#cb153-1688" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1689"><a href="#cb153-1689" aria-hidden="true" tabindex="-1"></a><span class="st">You can then copy this code and paste it into your script. This step is really important because not only does it helps you to learn how to read in data yourself, **it keeps a record in the script of how you read in the data so that you can reproduce your analysis later.**</span></span>
+<span id="cb153-1689"><a href="#cb153-1689" aria-hidden="true" tabindex="-1"></a><span class="st">![RStudio will then read in the data, and give you the code that it used](images/S01F25_import_dataset_code.png){width="</span><span class="dv">800</span><span class="st">"}</span></span>
 <span id="cb153-1690"><a href="#cb153-1690" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1691"><a href="#cb153-1691" aria-hidden="true" tabindex="-1"></a><span class="st">![Don't forget to paste the code into the script!!!](images/S01F26_paste_code.png){width="</span><span class="dv">1000</span><span class="st">"}</span></span>
+<span id="cb153-1691"><a href="#cb153-1691" aria-hidden="true" tabindex="-1"></a><span class="st">You can then copy this code and paste it into your script. This step is really important because not only does it helps you to learn how to read in data yourself, **it keeps a record in the script of how you read in the data so that you can reproduce your analysis later.**</span></span>
 <span id="cb153-1692"><a href="#cb153-1692" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1693"><a href="#cb153-1693" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::::::::::::::: {.callout-important title="</span>Practice exercises<span class="st">"}</span></span>
-<span id="cb153-1694"><a href="#cb153-1694" aria-hidden="true" tabindex="-1"></a><span class="st">Try these practice questions to test your understanding</span></span>
-<span id="cb153-1695"><a href="#cb153-1695" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1696"><a href="#cb153-1696" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::: question</span></span>
-<span id="cb153-1697"><a href="#cb153-1697" aria-hidden="true" tabindex="-1"></a><span class="st">1\. What is a path?</span></span>
-<span id="cb153-1698"><a href="#cb153-1698" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1699"><a href="#cb153-1699" aria-hidden="true" tabindex="-1"></a><span class="st">::::::: choices</span></span>
-<span id="cb153-1700"><a href="#cb153-1700" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1701"><a href="#cb153-1701" aria-hidden="true" tabindex="-1"></a><span class="st">A type of data in R</span></span>
-<span id="cb153-1702"><a href="#cb153-1702" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1703"><a href="#cb153-1703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1704"><a href="#cb153-1704" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1705"><a href="#cb153-1705" aria-hidden="true" tabindex="-1"></a><span class="st">The data you want to analyse</span></span>
-<span id="cb153-1706"><a href="#cb153-1706" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1707"><a href="#cb153-1707" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1708"><a href="#cb153-1708" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.choice .correct-choice}</span></span>
-<span id="cb153-1709"><a href="#cb153-1709" aria-hidden="true" tabindex="-1"></a><span class="st">A string of characters that tells R where to find a file</span></span>
-<span id="cb153-1710"><a href="#cb153-1710" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1711"><a href="#cb153-1711" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1712"><a href="#cb153-1712" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1713"><a href="#cb153-1713" aria-hidden="true" tabindex="-1"></a><span class="st">A function in R</span></span>
-<span id="cb153-1714"><a href="#cb153-1714" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1715"><a href="#cb153-1715" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::</span></span>
-<span id="cb153-1716"><a href="#cb153-1716" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::</span></span>
-<span id="cb153-1717"><a href="#cb153-1717" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1718"><a href="#cb153-1718" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::: question</span></span>
-<span id="cb153-1719"><a href="#cb153-1719" aria-hidden="true" tabindex="-1"></a><span class="st">2\. What is NOT a way to read in a file called `my_data.tsv` in R?</span></span>
-<span id="cb153-1720"><a href="#cb153-1720" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1721"><a href="#cb153-1721" aria-hidden="true" tabindex="-1"></a><span class="st">::::::: choices</span></span>
-<span id="cb153-1722"><a href="#cb153-1722" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1723"><a href="#cb153-1723" aria-hidden="true" tabindex="-1"></a><span class="st">Using the `read_delim()` function</span></span>
-<span id="cb153-1724"><a href="#cb153-1724" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1725"><a href="#cb153-1725" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1726"><a href="#cb153-1726" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1727"><a href="#cb153-1727" aria-hidden="true" tabindex="-1"></a><span class="st">Using the 'Import Dataset' button in RStudio</span></span>
-<span id="cb153-1728"><a href="#cb153-1728" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1729"><a href="#cb153-1729" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1730"><a href="#cb153-1730" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1731"><a href="#cb153-1731" aria-hidden="true" tabindex="-1"></a><span class="st">Using the `read_tsv()` function</span></span>
-<span id="cb153-1732"><a href="#cb153-1732" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1733"><a href="#cb153-1733" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1734"><a href="#cb153-1734" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.choice .correct-choice}</span></span>
-<span id="cb153-1735"><a href="#cb153-1735" aria-hidden="true" tabindex="-1"></a><span class="st">Using the `read_csv()` function</span></span>
-<span id="cb153-1736"><a href="#cb153-1736" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1737"><a href="#cb153-1737" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::</span></span>
-<span id="cb153-1738"><a href="#cb153-1738" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::</span></span>
-<span id="cb153-1739"><a href="#cb153-1739" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1740"><a href="#cb153-1740" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::: question</span></span>
-<span id="cb153-1741"><a href="#cb153-1741" aria-hidden="true" tabindex="-1"></a><span class="st">3\. What do we need to do before we can use functions from `readr` or any other R package?</span></span>
-<span id="cb153-1742"><a href="#cb153-1742" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1743"><a href="#cb153-1743" aria-hidden="true" tabindex="-1"></a><span class="st">::::::: choices</span></span>
-<span id="cb153-1744"><a href="#cb153-1744" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1745"><a href="#cb153-1745" aria-hidden="true" tabindex="-1"></a><span class="st">Install it</span></span>
-<span id="cb153-1746"><a href="#cb153-1746" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1747"><a href="#cb153-1747" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1748"><a href="#cb153-1748" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.choice .correct-choice}</span></span>
-<span id="cb153-1749"><a href="#cb153-1749" aria-hidden="true" tabindex="-1"></a><span class="st">Install it, then load it into our R session using the `library()` function</span></span>
-<span id="cb153-1750"><a href="#cb153-1750" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1751"><a href="#cb153-1751" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1752"><a href="#cb153-1752" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1753"><a href="#cb153-1753" aria-hidden="true" tabindex="-1"></a><span class="st">Download it</span></span>
-<span id="cb153-1754"><a href="#cb153-1754" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1755"><a href="#cb153-1755" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1756"><a href="#cb153-1756" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
-<span id="cb153-1757"><a href="#cb153-1757" aria-hidden="true" tabindex="-1"></a><span class="st">Look at the help page for the functions we want to use</span></span>
-<span id="cb153-1758"><a href="#cb153-1758" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
-<span id="cb153-1759"><a href="#cb153-1759" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::</span></span>
-<span id="cb153-1760"><a href="#cb153-1760" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::</span></span>
-<span id="cb153-1761"><a href="#cb153-1761" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1762"><a href="#cb153-1762" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
+<span id="cb153-1693"><a href="#cb153-1693" aria-hidden="true" tabindex="-1"></a><span class="st">![Don't forget to paste the code into the script!!!](images/S01F26_paste_code.png){width="</span><span class="dv">1000</span><span class="st">"}</span></span>
+<span id="cb153-1694"><a href="#cb153-1694" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1695"><a href="#cb153-1695" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::::::::::::::: {.callout-important title="</span>Practice exercises<span class="st">"}</span></span>
+<span id="cb153-1696"><a href="#cb153-1696" aria-hidden="true" tabindex="-1"></a><span class="st">Try these practice questions to test your understanding</span></span>
+<span id="cb153-1697"><a href="#cb153-1697" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1698"><a href="#cb153-1698" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::: question</span></span>
+<span id="cb153-1699"><a href="#cb153-1699" aria-hidden="true" tabindex="-1"></a><span class="st">1\. What is a path?</span></span>
+<span id="cb153-1700"><a href="#cb153-1700" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1701"><a href="#cb153-1701" aria-hidden="true" tabindex="-1"></a><span class="st">::::::: choices</span></span>
+<span id="cb153-1702"><a href="#cb153-1702" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1703"><a href="#cb153-1703" aria-hidden="true" tabindex="-1"></a><span class="st">A type of data in R</span></span>
+<span id="cb153-1704"><a href="#cb153-1704" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1705"><a href="#cb153-1705" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1706"><a href="#cb153-1706" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1707"><a href="#cb153-1707" aria-hidden="true" tabindex="-1"></a><span class="st">The data you want to analyse</span></span>
+<span id="cb153-1708"><a href="#cb153-1708" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1709"><a href="#cb153-1709" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1710"><a href="#cb153-1710" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.choice .correct-choice}</span></span>
+<span id="cb153-1711"><a href="#cb153-1711" aria-hidden="true" tabindex="-1"></a><span class="st">A string of characters that tells R where to find a file</span></span>
+<span id="cb153-1712"><a href="#cb153-1712" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1713"><a href="#cb153-1713" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1714"><a href="#cb153-1714" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1715"><a href="#cb153-1715" aria-hidden="true" tabindex="-1"></a><span class="st">A function in R</span></span>
+<span id="cb153-1716"><a href="#cb153-1716" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1717"><a href="#cb153-1717" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::</span></span>
+<span id="cb153-1718"><a href="#cb153-1718" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::</span></span>
+<span id="cb153-1719"><a href="#cb153-1719" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1720"><a href="#cb153-1720" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::: question</span></span>
+<span id="cb153-1721"><a href="#cb153-1721" aria-hidden="true" tabindex="-1"></a><span class="st">2\. What is NOT a way to read in a file called `my_data.tsv` in R?</span></span>
+<span id="cb153-1722"><a href="#cb153-1722" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1723"><a href="#cb153-1723" aria-hidden="true" tabindex="-1"></a><span class="st">::::::: choices</span></span>
+<span id="cb153-1724"><a href="#cb153-1724" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1725"><a href="#cb153-1725" aria-hidden="true" tabindex="-1"></a><span class="st">Using the `read_delim()` function</span></span>
+<span id="cb153-1726"><a href="#cb153-1726" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1727"><a href="#cb153-1727" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1728"><a href="#cb153-1728" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1729"><a href="#cb153-1729" aria-hidden="true" tabindex="-1"></a><span class="st">Using the 'Import Dataset' button in RStudio</span></span>
+<span id="cb153-1730"><a href="#cb153-1730" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1731"><a href="#cb153-1731" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1732"><a href="#cb153-1732" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1733"><a href="#cb153-1733" aria-hidden="true" tabindex="-1"></a><span class="st">Using the `read_tsv()` function</span></span>
+<span id="cb153-1734"><a href="#cb153-1734" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1735"><a href="#cb153-1735" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1736"><a href="#cb153-1736" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.choice .correct-choice}</span></span>
+<span id="cb153-1737"><a href="#cb153-1737" aria-hidden="true" tabindex="-1"></a><span class="st">Using the `read_csv()` function</span></span>
+<span id="cb153-1738"><a href="#cb153-1738" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1739"><a href="#cb153-1739" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::</span></span>
+<span id="cb153-1740"><a href="#cb153-1740" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::</span></span>
+<span id="cb153-1741"><a href="#cb153-1741" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1742"><a href="#cb153-1742" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::: question</span></span>
+<span id="cb153-1743"><a href="#cb153-1743" aria-hidden="true" tabindex="-1"></a><span class="st">3\. What do we need to do before we can use functions from `readr` or any other R package?</span></span>
+<span id="cb153-1744"><a href="#cb153-1744" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1745"><a href="#cb153-1745" aria-hidden="true" tabindex="-1"></a><span class="st">::::::: choices</span></span>
+<span id="cb153-1746"><a href="#cb153-1746" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1747"><a href="#cb153-1747" aria-hidden="true" tabindex="-1"></a><span class="st">Install it</span></span>
+<span id="cb153-1748"><a href="#cb153-1748" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1749"><a href="#cb153-1749" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1750"><a href="#cb153-1750" aria-hidden="true" tabindex="-1"></a><span class="st">::: {.choice .correct-choice}</span></span>
+<span id="cb153-1751"><a href="#cb153-1751" aria-hidden="true" tabindex="-1"></a><span class="st">Install it, then load it into our R session using the `library()` function</span></span>
+<span id="cb153-1752"><a href="#cb153-1752" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1753"><a href="#cb153-1753" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1754"><a href="#cb153-1754" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1755"><a href="#cb153-1755" aria-hidden="true" tabindex="-1"></a><span class="st">Download it</span></span>
+<span id="cb153-1756"><a href="#cb153-1756" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1757"><a href="#cb153-1757" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1758"><a href="#cb153-1758" aria-hidden="true" tabindex="-1"></a><span class="st">::: choice</span></span>
+<span id="cb153-1759"><a href="#cb153-1759" aria-hidden="true" tabindex="-1"></a><span class="st">Look at the help page for the functions we want to use</span></span>
+<span id="cb153-1760"><a href="#cb153-1760" aria-hidden="true" tabindex="-1"></a><span class="st">:::</span></span>
+<span id="cb153-1761"><a href="#cb153-1761" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::</span></span>
+<span id="cb153-1762"><a href="#cb153-1762" aria-hidden="true" tabindex="-1"></a><span class="st">::::::::</span></span>
 <span id="cb153-1763"><a href="#cb153-1763" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1764"><a href="#cb153-1764" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;Solutions&lt;/summary&gt;</span></span>
+<span id="cb153-1764"><a href="#cb153-1764" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
 <span id="cb153-1765"><a href="#cb153-1765" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1766"><a href="#cb153-1766" aria-hidden="true" tabindex="-1"></a><span class="st">1\. A path is a string of characters that tells R where to find a file. Note that it isn't the data itself, but rather the location of the data.</span></span>
+<span id="cb153-1766"><a href="#cb153-1766" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;Solutions&lt;/summary&gt;</span></span>
 <span id="cb153-1767"><a href="#cb153-1767" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1768"><a href="#cb153-1768" aria-hidden="true" tabindex="-1"></a><span class="st">2\. The `read_csv()` function is not a way to read in a file called `my_data.tsv`, because it is specifically for reading in comma-separated files, so it would not work for a tab-separated file like `my_data.tsv`.</span></span>
+<span id="cb153-1768"><a href="#cb153-1768" aria-hidden="true" tabindex="-1"></a><span class="st">1\. A path is a string of characters that tells R where to find a file. Note that it isn't the data itself, but rather the location of the data.</span></span>
 <span id="cb153-1769"><a href="#cb153-1769" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1770"><a href="#cb153-1770" aria-hidden="true" tabindex="-1"></a><span class="st">3\. Before we can use functions from `readr` or any other R package, we need to install it, then load it into our R session using the `library()` function. Otherwise we will get an error message when we try to use the functions.</span></span>
+<span id="cb153-1770"><a href="#cb153-1770" aria-hidden="true" tabindex="-1"></a><span class="st">2\. The `read_csv()` function is not a way to read in a file called `my_data.tsv`, because it is specifically for reading in comma-separated files, so it would not work for a tab-separated file like `my_data.tsv`.</span></span>
 <span id="cb153-1771"><a href="#cb153-1771" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1772"><a href="#cb153-1772" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
-<span id="cb153-1773"><a href="#cb153-1773" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::::::::::::::::</span></span>
-<span id="cb153-1774"><a href="#cb153-1774" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1775"><a href="#cb153-1775" aria-hidden="true" tabindex="-1"></a><span class="st">## Summary</span></span>
+<span id="cb153-1772"><a href="#cb153-1772" aria-hidden="true" tabindex="-1"></a><span class="st">3\. Before we can use functions from `readr` or any other R package, we need to install it, then load it into our R session using the `library()` function. Otherwise we will get an error message when we try to use the functions.</span></span>
+<span id="cb153-1773"><a href="#cb153-1773" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1774"><a href="#cb153-1774" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
+<span id="cb153-1775"><a href="#cb153-1775" aria-hidden="true" tabindex="-1"></a><span class="st">:::::::::::::::::::::</span></span>
 <span id="cb153-1776"><a href="#cb153-1776" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1777"><a href="#cb153-1777" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;!-- TO DO: make a nicely formatted PDF cheat sheet for printing --&gt;</span></span>
+<span id="cb153-1777"><a href="#cb153-1777" aria-hidden="true" tabindex="-1"></a><span class="st">## Summary</span></span>
 <span id="cb153-1778"><a href="#cb153-1778" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1779"><a href="#cb153-1779" aria-hidden="true" tabindex="-1"></a><span class="st">Here's what we've learnt in this chapter:</span></span>
+<span id="cb153-1779"><a href="#cb153-1779" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;!-- TO DO: make a nicely formatted PDF cheat sheet for printing --&gt;</span></span>
 <span id="cb153-1780"><a href="#cb153-1780" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1781"><a href="#cb153-1781" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to create an R project (to keep our files organised) and how to write and run code from an R script (so that the code is saved as a record of our work)</span></span>
+<span id="cb153-1781"><a href="#cb153-1781" aria-hidden="true" tabindex="-1"></a><span class="st">Here's what we've learnt in this chapter:</span></span>
 <span id="cb153-1782"><a href="#cb153-1782" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1783"><a href="#cb153-1783" aria-hidden="true" tabindex="-1"></a><span class="st">-   The operators for basic maths (`*`, `/`, `+` and `-`) and comparisons (`==`, `&lt;`, `&lt;=` and `!`)</span></span>
+<span id="cb153-1783"><a href="#cb153-1783" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to create an R project (to keep our files organised) and how to write and run code from an R script (so that the code is saved as a record of our work)</span></span>
 <span id="cb153-1784"><a href="#cb153-1784" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1785"><a href="#cb153-1785" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to use functions and specify their arguments, as well as how to get help</span></span>
+<span id="cb153-1785"><a href="#cb153-1785" aria-hidden="true" tabindex="-1"></a><span class="st">-   The operators for basic maths (`*`, `/`, `+` and `-`) and comparisons (`==`, `&lt;`, `&lt;=` and `!`)</span></span>
 <span id="cb153-1786"><a href="#cb153-1786" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1787"><a href="#cb153-1787" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to assign variables using the `&lt;-` operator, and how to name them appropriately</span></span>
+<span id="cb153-1787"><a href="#cb153-1787" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to use functions and specify their arguments, as well as how to get help</span></span>
 <span id="cb153-1788"><a href="#cb153-1788" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1789"><a href="#cb153-1789" aria-hidden="true" tabindex="-1"></a><span class="st">-   The three basic atomic data types in R (character, numeric and logical)</span></span>
+<span id="cb153-1789"><a href="#cb153-1789" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to assign variables using the `&lt;-` operator, and how to name them appropriately</span></span>
 <span id="cb153-1790"><a href="#cb153-1790" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1791"><a href="#cb153-1791" aria-hidden="true" tabindex="-1"></a><span class="st">-   Three different data structures in R (vectors, matrices and data frames/tibbles)</span></span>
+<span id="cb153-1791"><a href="#cb153-1791" aria-hidden="true" tabindex="-1"></a><span class="st">-   The three basic atomic data types in R (character, numeric and logical)</span></span>
 <span id="cb153-1792"><a href="#cb153-1792" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1793"><a href="#cb153-1793" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to find file paths using RStudio</span></span>
+<span id="cb153-1793"><a href="#cb153-1793" aria-hidden="true" tabindex="-1"></a><span class="st">-   Three different data structures in R (vectors, matrices and data frames/tibbles)</span></span>
 <span id="cb153-1794"><a href="#cb153-1794" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1795"><a href="#cb153-1795" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to load the `readr` package and use it to read in files</span></span>
+<span id="cb153-1795"><a href="#cb153-1795" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to find file paths using RStudio</span></span>
 <span id="cb153-1796"><a href="#cb153-1796" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1797"><a href="#cb153-1797" aria-hidden="true" tabindex="-1"></a><span class="st">Try the practice questions below to test your understanding!</span></span>
+<span id="cb153-1797"><a href="#cb153-1797" aria-hidden="true" tabindex="-1"></a><span class="st">-   How to load the `readr` package and use it to read in files</span></span>
 <span id="cb153-1798"><a href="#cb153-1798" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1799"><a href="#cb153-1799" aria-hidden="true" tabindex="-1"></a><span class="st">### Practice questions</span></span>
+<span id="cb153-1799"><a href="#cb153-1799" aria-hidden="true" tabindex="-1"></a><span class="st">Try the practice questions below to test your understanding!</span></span>
 <span id="cb153-1800"><a href="#cb153-1800" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1801"><a href="#cb153-1801" aria-hidden="true" tabindex="-1"></a><span class="st">1.  What would be the result of evaluating the following expressions? You don't need to know these off the top of your head, use R to help! (Hint: some expressions might give an error. Try to think about why)</span></span>
+<span id="cb153-1801"><a href="#cb153-1801" aria-hidden="true" tabindex="-1"></a><span class="st">### Practice questions</span></span>
 <span id="cb153-1802"><a href="#cb153-1802" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1803"><a href="#cb153-1803" aria-hidden="true" tabindex="-1"></a><span class="st">    a.  `5 + 10`</span></span>
-<span id="cb153-1804"><a href="#cb153-1804" aria-hidden="true" tabindex="-1"></a><span class="st">    b.  `100 &gt;= (5 + 2) ^ 2`</span></span>
-<span id="cb153-1805"><a href="#cb153-1805" aria-hidden="true" tabindex="-1"></a><span class="st">    c.  `!(100 &gt; 1)`</span></span>
-<span id="cb153-1806"><a href="#cb153-1806" aria-hidden="true" tabindex="-1"></a><span class="st">    d.  `500 = 5 * 100`</span></span>
-<span id="cb153-1807"><a href="#cb153-1807" aria-hidden="true" tabindex="-1"></a><span class="st">    e.  `2fast &lt;- "</span>zoom<span class="st">"`</span></span>
-<span id="cb153-1808"><a href="#cb153-1808" aria-hidden="true" tabindex="-1"></a><span class="st">    f.  `round(428.195721, 2)`</span></span>
-<span id="cb153-1809"><a href="#cb153-1809" aria-hidden="true" tabindex="-1"></a><span class="st">    g.  `?t.test`</span></span>
-<span id="cb153-1810"><a href="#cb153-1810" aria-hidden="true" tabindex="-1"></a><span class="st">    h.  `class("</span>banana<span class="st">")`</span></span>
-<span id="cb153-1811"><a href="#cb153-1811" aria-hidden="true" tabindex="-1"></a><span class="st">    i.  `class(as.numeric("</span><span class="dv">500</span><span class="st">"))`</span></span>
-<span id="cb153-1812"><a href="#cb153-1812" aria-hidden="true" tabindex="-1"></a><span class="st">    j.  `"</span><span class="dv">1</span><span class="st">" + "</span><span class="dv">10</span><span class="st">"`</span></span>
-<span id="cb153-1813"><a href="#cb153-1813" aria-hidden="true" tabindex="-1"></a><span class="st">    k.  `length(1:100)`</span></span>
-<span id="cb153-1814"><a href="#cb153-1814" aria-hidden="true" tabindex="-1"></a><span class="st">    l.  `sum(c(1, 2, 3, 4))`</span></span>
-<span id="cb153-1815"><a href="#cb153-1815" aria-hidden="true" tabindex="-1"></a><span class="st">    m.  `head(iris)`</span></span>
-<span id="cb153-1816"><a href="#cb153-1816" aria-hidden="true" tabindex="-1"></a><span class="st">    n.  `mean(iris$Sepal.Width)`</span></span>
-<span id="cb153-1817"><a href="#cb153-1817" aria-hidden="true" tabindex="-1"></a><span class="st">    o.  `read_tsv("</span>gene_counts.csv<span class="st">")`</span></span>
-<span id="cb153-1818"><a href="#cb153-1818" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1819"><a href="#cb153-1819" aria-hidden="true" tabindex="-1"></a><span class="st">2.  Write some R code to complete the right-hand side of this comparison: `as.numeric("</span><span class="dv">100</span><span class="st">") * 3 ==`</span></span>
+<span id="cb153-1803"><a href="#cb153-1803" aria-hidden="true" tabindex="-1"></a><span class="st">1.  What would be the result of evaluating the following expressions? You don't need to know these off the top of your head, use R to help! (Hint: some expressions might give an error. Try to think about why)</span></span>
+<span id="cb153-1804"><a href="#cb153-1804" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1805"><a href="#cb153-1805" aria-hidden="true" tabindex="-1"></a><span class="st">    a.  `5 + 10`</span></span>
+<span id="cb153-1806"><a href="#cb153-1806" aria-hidden="true" tabindex="-1"></a><span class="st">    b.  `100 &gt;= (5 + 2) ^ 2`</span></span>
+<span id="cb153-1807"><a href="#cb153-1807" aria-hidden="true" tabindex="-1"></a><span class="st">    c.  `!(100 &gt; 1)`</span></span>
+<span id="cb153-1808"><a href="#cb153-1808" aria-hidden="true" tabindex="-1"></a><span class="st">    d.  `500 = 5 * 100`</span></span>
+<span id="cb153-1809"><a href="#cb153-1809" aria-hidden="true" tabindex="-1"></a><span class="st">    e.  `2fast &lt;- "</span>zoom<span class="st">"`</span></span>
+<span id="cb153-1810"><a href="#cb153-1810" aria-hidden="true" tabindex="-1"></a><span class="st">    f.  `round(428.195721, 2)`</span></span>
+<span id="cb153-1811"><a href="#cb153-1811" aria-hidden="true" tabindex="-1"></a><span class="st">    g.  `?t.test`</span></span>
+<span id="cb153-1812"><a href="#cb153-1812" aria-hidden="true" tabindex="-1"></a><span class="st">    h.  `class("</span>banana<span class="st">")`</span></span>
+<span id="cb153-1813"><a href="#cb153-1813" aria-hidden="true" tabindex="-1"></a><span class="st">    i.  `class(as.numeric("</span><span class="dv">500</span><span class="st">"))`</span></span>
+<span id="cb153-1814"><a href="#cb153-1814" aria-hidden="true" tabindex="-1"></a><span class="st">    j.  `"</span><span class="dv">1</span><span class="st">" + "</span><span class="dv">10</span><span class="st">"`</span></span>
+<span id="cb153-1815"><a href="#cb153-1815" aria-hidden="true" tabindex="-1"></a><span class="st">    k.  `length(1:100)`</span></span>
+<span id="cb153-1816"><a href="#cb153-1816" aria-hidden="true" tabindex="-1"></a><span class="st">    l.  `sum(c(1, 2, 3, 4))`</span></span>
+<span id="cb153-1817"><a href="#cb153-1817" aria-hidden="true" tabindex="-1"></a><span class="st">    m.  `head(iris)`</span></span>
+<span id="cb153-1818"><a href="#cb153-1818" aria-hidden="true" tabindex="-1"></a><span class="st">    n.  `mean(iris$Sepal.Width)`</span></span>
+<span id="cb153-1819"><a href="#cb153-1819" aria-hidden="true" tabindex="-1"></a><span class="st">    o.  `read_tsv("</span>gene_counts.csv<span class="st">")`</span></span>
 <span id="cb153-1820"><a href="#cb153-1820" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1821"><a href="#cb153-1821" aria-hidden="true" tabindex="-1"></a><span class="st">3.  I wrote the following R code, and got an error. How can I fix it?</span></span>
+<span id="cb153-1821"><a href="#cb153-1821" aria-hidden="true" tabindex="-1"></a><span class="st">2.  Write some R code to complete the right-hand side of this comparison: `as.numeric("</span><span class="dv">100</span><span class="st">") * 3 ==`</span></span>
 <span id="cb153-1822"><a href="#cb153-1822" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1823"><a href="#cb153-1823" aria-hidden="true" tabindex="-1"></a><span class="st">    ```{r}</span></span>
-<span id="cb153-1824"><a href="#cb153-1824" aria-hidden="true" tabindex="-1"></a><span class="st">    #| error: true</span></span>
-<span id="cb153-1825"><a href="#cb153-1825" aria-hidden="true" tabindex="-1"></a><span class="st">    # the number of frogs I counted</span></span>
-<span id="cb153-1826"><a href="#cb153-1826" aria-hidden="true" tabindex="-1"></a><span class="st">    Frog_counts &lt;- c(11, 2, 4, 9, 10)</span></span>
-<span id="cb153-1827"><a href="#cb153-1827" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1828"><a href="#cb153-1828" aria-hidden="true" tabindex="-1"></a><span class="st">    # convert to a proportion: divide by the sum</span></span>
-<span id="cb153-1829"><a href="#cb153-1829" aria-hidden="true" tabindex="-1"></a><span class="st">    frog_counts / sum(Frog_counts)</span></span>
-<span id="cb153-1830"><a href="#cb153-1830" aria-hidden="true" tabindex="-1"></a><span class="st">    ```</span></span>
-<span id="cb153-1831"><a href="#cb153-1831" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1832"><a href="#cb153-1832" aria-hidden="true" tabindex="-1"></a><span class="st">4.  Load the `iris` dataframe into your R session using `data(iris)`. What is the median petal length? Show the code you used to calculate this.</span></span>
+<span id="cb153-1823"><a href="#cb153-1823" aria-hidden="true" tabindex="-1"></a><span class="st">3.  I wrote the following R code, and got an error. How can I fix it?</span></span>
+<span id="cb153-1824"><a href="#cb153-1824" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1825"><a href="#cb153-1825" aria-hidden="true" tabindex="-1"></a><span class="st">    ```{r}</span></span>
+<span id="cb153-1826"><a href="#cb153-1826" aria-hidden="true" tabindex="-1"></a><span class="st">    #| error: true</span></span>
+<span id="cb153-1827"><a href="#cb153-1827" aria-hidden="true" tabindex="-1"></a><span class="st">    # the number of frogs I counted</span></span>
+<span id="cb153-1828"><a href="#cb153-1828" aria-hidden="true" tabindex="-1"></a><span class="st">    Frog_counts &lt;- c(11, 2, 4, 9, 10)</span></span>
+<span id="cb153-1829"><a href="#cb153-1829" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1830"><a href="#cb153-1830" aria-hidden="true" tabindex="-1"></a><span class="st">    # convert to a proportion: divide by the sum</span></span>
+<span id="cb153-1831"><a href="#cb153-1831" aria-hidden="true" tabindex="-1"></a><span class="st">    frog_counts / sum(Frog_counts)</span></span>
+<span id="cb153-1832"><a href="#cb153-1832" aria-hidden="true" tabindex="-1"></a><span class="st">    ```</span></span>
 <span id="cb153-1833"><a href="#cb153-1833" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1834"><a href="#cb153-1834" aria-hidden="true" tabindex="-1"></a><span class="st">5.  Imagine I have a file called `mouse_survival.tsv` located in a folder with the path `~/Downloads/experimental_data/latest`. Write a line of R code to read in this file and assign it to a variable called `mouse_survival`</span></span>
+<span id="cb153-1834"><a href="#cb153-1834" aria-hidden="true" tabindex="-1"></a><span class="st">4.  Load the `iris` dataframe into your R session using `data(iris)`. What is the median petal length? Show the code you used to calculate this.</span></span>
 <span id="cb153-1835"><a href="#cb153-1835" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1836"><a href="#cb153-1836" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
+<span id="cb153-1836"><a href="#cb153-1836" aria-hidden="true" tabindex="-1"></a><span class="st">5.  Imagine I have a file called `mouse_survival.tsv` located in a folder with the path `~/Downloads/experimental_data/latest`. Write a line of R code to read in this file and assign it to a variable called `mouse_survival`</span></span>
 <span id="cb153-1837"><a href="#cb153-1837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1838"><a href="#cb153-1838" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;Solutions&lt;/summary&gt;</span></span>
+<span id="cb153-1838"><a href="#cb153-1838" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
 <span id="cb153-1839"><a href="#cb153-1839" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1840"><a href="#cb153-1840" aria-hidden="true" tabindex="-1"></a><span class="st">1.  The results of evaluating the expressions are:</span></span>
+<span id="cb153-1840"><a href="#cb153-1840" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;Solutions&lt;/summary&gt;</span></span>
 <span id="cb153-1841"><a href="#cb153-1841" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1842"><a href="#cb153-1842" aria-hidden="true" tabindex="-1"></a><span class="st">    a.  `5 + 10` is `15`</span></span>
-<span id="cb153-1843"><a href="#cb153-1843" aria-hidden="true" tabindex="-1"></a><span class="st">    b.  `100 &gt;= (5 + 2) ^ 2` is `TRUE`</span></span>
-<span id="cb153-1844"><a href="#cb153-1844" aria-hidden="true" tabindex="-1"></a><span class="st">    c.  `!(100 &gt; 1)` is `FALSE` (although 100 is greater than 1, the `!` operator negates this)</span></span>
-<span id="cb153-1845"><a href="#cb153-1845" aria-hidden="true" tabindex="-1"></a><span class="st">    d.  `500 = 5 * 100` gives an error because we need two equals signs `==` to check for equality in R. Actually this code is trying to assign the value of `5 * 100` to the variable `500`, which is not allowed, because variable names can't start with a number.</span></span>
-<span id="cb153-1846"><a href="#cb153-1846" aria-hidden="true" tabindex="-1"></a><span class="st">    e.  `2fast &lt;- "</span>zoom<span class="st">"` gives an error because variable names can't start with a number</span></span>
-<span id="cb153-1847"><a href="#cb153-1847" aria-hidden="true" tabindex="-1"></a><span class="st">    f.  `round(428.195721, 2)` is `428.2`</span></span>
-<span id="cb153-1848"><a href="#cb153-1848" aria-hidden="true" tabindex="-1"></a><span class="st">    g.  `?t.test` opens the help page for the `t.test()` function</span></span>
-<span id="cb153-1849"><a href="#cb153-1849" aria-hidden="true" tabindex="-1"></a><span class="st">    h.  `class("</span>banana<span class="st">")` is `"</span>character<span class="st">"`</span></span>
-<span id="cb153-1850"><a href="#cb153-1850" aria-hidden="true" tabindex="-1"></a><span class="st">    i.  `class(as.numeric("</span><span class="dv">500</span><span class="st">"))` is `"</span>numeric<span class="st">"`</span></span>
-<span id="cb153-1851"><a href="#cb153-1851" aria-hidden="true" tabindex="-1"></a><span class="st">    j.  `"</span><span class="dv">1</span><span class="st">" + "</span><span class="dv">10</span><span class="st">"` gives an error because you can't add two character strings together</span></span>
-<span id="cb153-1852"><a href="#cb153-1852" aria-hidden="true" tabindex="-1"></a><span class="st">    k.  `length(1:100)` is `100`</span></span>
-<span id="cb153-1853"><a href="#cb153-1853" aria-hidden="true" tabindex="-1"></a><span class="st">    l.  `sum(c(1, 2, 3, 4))` is `10`</span></span>
-<span id="cb153-1854"><a href="#cb153-1854" aria-hidden="true" tabindex="-1"></a><span class="st">    m.  `head(iris)` shows the first 6 rows of the `iris` data frame</span></span>
-<span id="cb153-1855"><a href="#cb153-1855" aria-hidden="true" tabindex="-1"></a><span class="st">    n.  `mean(iris$Sepal.Width)` is the average of the `Sepal.Width` column in the `iris` data frame</span></span>
-<span id="cb153-1856"><a href="#cb153-1856" aria-hidden="true" tabindex="-1"></a><span class="st">    o.  `read_tsv("</span>gene_counts.csv<span class="st">")` will try to read in `gene_counts.csv` as if it were tab-separated, which will result in all the data being in one column</span></span>
-<span id="cb153-1857"><a href="#cb153-1857" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1858"><a href="#cb153-1858" aria-hidden="true" tabindex="-1"></a><span class="st">2.  The right-hand side of the comparison `as.numeric("</span><span class="dv">100</span><span class="st">") * 3 ==` can be anything that results in 300 e.g. `300` or `299 + 1`, for example</span></span>
+<span id="cb153-1842"><a href="#cb153-1842" aria-hidden="true" tabindex="-1"></a><span class="st">1.  The results of evaluating the expressions are:</span></span>
+<span id="cb153-1843"><a href="#cb153-1843" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1844"><a href="#cb153-1844" aria-hidden="true" tabindex="-1"></a><span class="st">    a.  `5 + 10` is `15`</span></span>
+<span id="cb153-1845"><a href="#cb153-1845" aria-hidden="true" tabindex="-1"></a><span class="st">    b.  `100 &gt;= (5 + 2) ^ 2` is `TRUE`</span></span>
+<span id="cb153-1846"><a href="#cb153-1846" aria-hidden="true" tabindex="-1"></a><span class="st">    c.  `!(100 &gt; 1)` is `FALSE` (although 100 is greater than 1, the `!` operator negates this)</span></span>
+<span id="cb153-1847"><a href="#cb153-1847" aria-hidden="true" tabindex="-1"></a><span class="st">    d.  `500 = 5 * 100` gives an error because we need two equals signs `==` to check for equality in R. Actually this code is trying to assign the value of `5 * 100` to the variable `500`, which is not allowed, because variable names can't start with a number.</span></span>
+<span id="cb153-1848"><a href="#cb153-1848" aria-hidden="true" tabindex="-1"></a><span class="st">    e.  `2fast &lt;- "</span>zoom<span class="st">"` gives an error because variable names can't start with a number</span></span>
+<span id="cb153-1849"><a href="#cb153-1849" aria-hidden="true" tabindex="-1"></a><span class="st">    f.  `round(428.195721, 2)` is `428.2`</span></span>
+<span id="cb153-1850"><a href="#cb153-1850" aria-hidden="true" tabindex="-1"></a><span class="st">    g.  `?t.test` opens the help page for the `t.test()` function</span></span>
+<span id="cb153-1851"><a href="#cb153-1851" aria-hidden="true" tabindex="-1"></a><span class="st">    h.  `class("</span>banana<span class="st">")` is `"</span>character<span class="st">"`</span></span>
+<span id="cb153-1852"><a href="#cb153-1852" aria-hidden="true" tabindex="-1"></a><span class="st">    i.  `class(as.numeric("</span><span class="dv">500</span><span class="st">"))` is `"</span>numeric<span class="st">"`</span></span>
+<span id="cb153-1853"><a href="#cb153-1853" aria-hidden="true" tabindex="-1"></a><span class="st">    j.  `"</span><span class="dv">1</span><span class="st">" + "</span><span class="dv">10</span><span class="st">"` gives an error because you can't add two character strings together</span></span>
+<span id="cb153-1854"><a href="#cb153-1854" aria-hidden="true" tabindex="-1"></a><span class="st">    k.  `length(1:100)` is `100`</span></span>
+<span id="cb153-1855"><a href="#cb153-1855" aria-hidden="true" tabindex="-1"></a><span class="st">    l.  `sum(c(1, 2, 3, 4))` is `10`</span></span>
+<span id="cb153-1856"><a href="#cb153-1856" aria-hidden="true" tabindex="-1"></a><span class="st">    m.  `head(iris)` shows the first 6 rows of the `iris` data frame</span></span>
+<span id="cb153-1857"><a href="#cb153-1857" aria-hidden="true" tabindex="-1"></a><span class="st">    n.  `mean(iris$Sepal.Width)` is the average of the `Sepal.Width` column in the `iris` data frame</span></span>
+<span id="cb153-1858"><a href="#cb153-1858" aria-hidden="true" tabindex="-1"></a><span class="st">    o.  `read_tsv("</span>gene_counts.csv<span class="st">")` will try to read in `gene_counts.csv` as if it were tab-separated, which will result in all the data being in one column</span></span>
 <span id="cb153-1859"><a href="#cb153-1859" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1860"><a href="#cb153-1860" aria-hidden="true" tabindex="-1"></a><span class="st">3.  The error in the code is because the variable name `Frog_counts` is not the same as `frog_counts`. R is case-sensitive, so it thinks you are trying to divide a variable that doesn't exist. To fix this, make sure all your variables have the same case (lowercase is better!):</span></span>
+<span id="cb153-1860"><a href="#cb153-1860" aria-hidden="true" tabindex="-1"></a><span class="st">2.  The right-hand side of the comparison `as.numeric("</span><span class="dv">100</span><span class="st">") * 3 ==` can be anything that results in 300 e.g. `300` or `299 + 1`, for example</span></span>
 <span id="cb153-1861"><a href="#cb153-1861" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1864"><a href="#cb153-1864" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb153-1865"><a href="#cb153-1865" aria-hidden="true" tabindex="-1"></a><span class="st">    # the number of frogs I counted</span></span>
-<span id="cb153-1866"><a href="#cb153-1866" aria-hidden="true" tabindex="-1"></a><span class="st">    frog_counts &lt;- c(11, 2, 4, 9, 10)</span></span>
-<span id="cb153-1867"><a href="#cb153-1867" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1868"><a href="#cb153-1868" aria-hidden="true" tabindex="-1"></a><span class="st">    # convert to a proportion: divide by the sum</span></span>
-<span id="cb153-1869"><a href="#cb153-1869" aria-hidden="true" tabindex="-1"></a><span class="st">    frog_counts / sum(frog_counts)</span></span>
-<span id="cb153-1870"><a href="#cb153-1870" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb153-1871"><a href="#cb153-1871" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1872"><a href="#cb153-1872" aria-hidden="true" tabindex="-1"></a><span class="st">4.  To calculate the median petal length in the `iris` data frame, you can use `median(iris$Petal.Length)`</span></span>
+<span id="cb153-1862"><a href="#cb153-1862" aria-hidden="true" tabindex="-1"></a><span class="st">3.  The error in the code is because the variable name `Frog_counts` is not the same as `frog_counts`. R is case-sensitive, so it thinks you are trying to divide a variable that doesn't exist. To fix this, make sure all your variables have the same case (lowercase is better!):</span></span>
+<span id="cb153-1863"><a href="#cb153-1863" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1866"><a href="#cb153-1866" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb153-1867"><a href="#cb153-1867" aria-hidden="true" tabindex="-1"></a><span class="st">    # the number of frogs I counted</span></span>
+<span id="cb153-1868"><a href="#cb153-1868" aria-hidden="true" tabindex="-1"></a><span class="st">    frog_counts &lt;- c(11, 2, 4, 9, 10)</span></span>
+<span id="cb153-1869"><a href="#cb153-1869" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1870"><a href="#cb153-1870" aria-hidden="true" tabindex="-1"></a><span class="st">    # convert to a proportion: divide by the sum</span></span>
+<span id="cb153-1871"><a href="#cb153-1871" aria-hidden="true" tabindex="-1"></a><span class="st">    frog_counts / sum(frog_counts)</span></span>
+<span id="cb153-1872"><a href="#cb153-1872" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb153-1873"><a href="#cb153-1873" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1874"><a href="#cb153-1874" aria-hidden="true" tabindex="-1"></a><span class="st">5.  To read in the `mouse_survival.tsv` file and assign it to a variable called `mouse_survival`, you could use `red_delim()`: `mouse_survival &lt;- read_delim("</span><span class="sc">~</span><span class="er">/</span>Downloads<span class="sc">/</span>experimental_data<span class="sc">/</span>latest<span class="sc">/</span>mouse_survival.tsv<span class="st">")` or `read_tsv()`: `mouse_survival &lt;- read_tsv("</span><span class="sc">~</span><span class="er">/</span>Downloads<span class="sc">/</span>experimental_data<span class="sc">/</span>latest<span class="sc">/</span>mouse_survival.tsv<span class="st">")`.</span></span>
+<span id="cb153-1874"><a href="#cb153-1874" aria-hidden="true" tabindex="-1"></a><span class="st">4.  To calculate the median petal length in the `iris` data frame, you can use `median(iris$Petal.Length)`</span></span>
 <span id="cb153-1875"><a href="#cb153-1875" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-1876"><a href="#cb153-1876" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
+<span id="cb153-1876"><a href="#cb153-1876" aria-hidden="true" tabindex="-1"></a><span class="st">5.  To read in the `mouse_survival.tsv` file and assign it to a variable called `mouse_survival`, you could use `red_delim()`: `mouse_survival &lt;- read_delim("</span><span class="sc">~</span><span class="er">/</span>Downloads<span class="sc">/</span>experimental_data<span class="sc">/</span>latest<span class="sc">/</span>mouse_survival.tsv<span class="st">")` or `read_tsv()`: `mouse_survival &lt;- read_tsv("</span><span class="sc">~</span><span class="er">/</span>Downloads<span class="sc">/</span>experimental_data<span class="sc">/</span>latest<span class="sc">/</span>mouse_survival.tsv<span class="st">")`.</span></span>
+<span id="cb153-1877"><a href="#cb153-1877" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-1878"><a href="#cb153-1878" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
