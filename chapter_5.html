@@ -536,14 +536,14 @@ Note
 </ol>
 <p>In this particular case here’s what the code would look like:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long <span class="ot">&lt;-</span> m_exp <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>m_exp_long <span class="ot">&lt;-</span> m_exp <span class="sc">%&gt;%</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"_rep"</span>),</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measurement"</span>,</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"expression_level"</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>m_exp_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,077 × 4
    id_num group     measurement expression_level
@@ -580,10 +580,10 @@ Perplexed by pivoting?
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="separating-data-in-a-column"><span class="header-section-number">5.3.2</span> Separating data in a column</h3>
 <p>When we look at the <code>measurement</code> column we see that it contains two pieces of information. The gene being measured and the replicate number separated by “_”. We can use the <code>separate()</code> function to split this data into individual columns so that one column does not contain multiple variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_separate <span class="ot">&lt;-</span> mousezempic_expr_long <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>m_exp_separate <span class="ot">&lt;-</span> m_exp_long <span class="sc">%&gt;%</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(measurement, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"gene"</span>, <span class="st">"replicate"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_separate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>m_exp_separate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,077 × 5
    id_num group     gene  replicate expression_level
@@ -606,13 +606,13 @@ Perplexed by pivoting?
 <h3 data-number="5.3.3" class="anchored" data-anchor-id="summarising-values"><span class="header-section-number">5.3.3</span> Summarising values</h3>
 <p>Now suppose we wanted to combine the gene expression data across replicates by adding them up, we can use the <code>summarise()</code> function to do so.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="ot">&lt;-</span> mousezempic_expr_separate <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="ot">&lt;-</span> m_exp_separate <span class="sc">%&gt;%</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">expression_level =</span> <span class="fu">sum</span>(expression_level),</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(id_num, group, gene)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,359 × 4
    id_num group     gene  expression_level
@@ -632,7 +632,7 @@ Perplexed by pivoting?
 </div>
 <p>We may also want to get the average expression level of each gene within each experimental group and plot it as a bar chart.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">expression_level =</span> <span class="fu">mean</span>(expression_level),</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(group, gene)</span>
@@ -653,10 +653,10 @@ Perplexed by pivoting?
 <h3 data-number="5.3.4" class="anchored" data-anchor-id="reshaping-for-plotting"><span class="header-section-number">5.3.4</span> Reshaping for plotting</h3>
 <p>Suppose we wanted to plot the value of two genes against each other. We would need the expression values of genes to be in individual columns. However we have lost this structure after using <code>pivot_longer()</code>. We can restore it using <code>pivot_wider()</code> after we have summarised the replicates.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide <span class="ot">&lt;-</span> mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide <span class="ot">&lt;-</span> m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>( <span class="at">names_from =</span> <span class="st">"gene"</span>, <span class="at">values_from =</span> <span class="st">"expression_level"</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 453 × 5
    id_num group         Th  Prlh Hprt1
@@ -676,7 +676,7 @@ Perplexed by pivoting?
 </div>
 <p>With the replicate aggregated expression levels in individual columns, we can now plot the gene expression values against each other.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> Th, <span class="at">y =</span> Prlh)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> Th, <span class="at">y =</span> Prlh)) <span class="sc">+</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -718,9 +718,9 @@ Practice exercise
 </figure>
 </div>
 <p>A common and basic join is the <code>left_join()</code>. It takes two data frame as arguments and optionally a vector of common columns to perform the join on. The reason it’s called a left-join because it retains all rows from the left data frame while adding on columns from the right data frame only when the data in the designed joining column(s) match.</p>
-<p>For example, we can join the <code>m_dose</code> data frame with the <code>mz_expr_rep_summed_wide</code> data frame based on the <code>id_num</code> column, which is common to both data frames:</p>
+<p>For example, we can join the <code>m_dose</code> data frame with the <code>m_exp_rep_summed_wide</code> data frame based on the <code>id_num</code> column, which is common to both data frames:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(m_dose, mz_expr_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(m_dose, m_exp_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 13
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -740,7 +740,7 @@ Practice exercise
 #   id_num &lt;dbl&gt;, group &lt;chr&gt;, Th &lt;dbl&gt;, Prlh &lt;dbl&gt;, Hprt1 &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>The <code>m_dose</code> contains information about characteristics of each mouse, while the <code>mz_expr_rep_summed_wide</code> contains the replicate-summed gene expressions of the mice. Each data frame has an <code>id_num</code> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</p>
+<p>The <code>m_dose</code> contains information about characteristics of each mouse, while the <code>m_exp_rep_summed_wide</code> contains the replicate-summed gene expressions of the mice. Each data frame has an <code>id_num</code> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</p>
 <p>With the <code>left_join()</code>, if there is a <code>id_num</code> value that exists in the right data frame but not found in the left, then that data will not be present in the joined table. For any <code>id_num</code> that appears only in the left but not the right data frame, the values in the newly created columns will be <code>NA</code>.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -761,10 +761,10 @@ Caution
 <p>We will demonstrate this by renaming the <code>id_num</code> column in the <code>m_dose</code> to <code>mouse_id</code> and using it to perform the join instead. We will use the <code>join_by(mouse_id == id_num)</code> helper function for the <code>by</code> argument to specify the different columns we wish to join by.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rename id_num to mouse_id</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>m_dose_data_new <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mouse_id =</span> id_num)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>m_dose_data_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 344 × 9
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -786,13 +786,13 @@ Caution
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># perform left join by matching mouse_id of the left data frame to id_num of the right data frame</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>mz_joined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  mz_dosage_data_new, mz_expr_rep_summed_wide,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>m_joined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  m_dose_data_new, m_exp_rep_summed_wide,</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">join_by</span>(mouse_id <span class="sc">==</span> id_num)</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="co"># keep only rows without NA</span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>mz_joined_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>m_joined_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 333 × 13
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -845,7 +845,7 @@ Note
 <h2 data-number="5.4" class="anchored" data-anchor-id="visualising-testing-expression-between-strains"><span class="header-section-number">5.4</span> Visualising &amp; testing expression between strains</h2>
 <p>With the joined data we now have more information about the mice in addition to the expression data. So we can check if there is any significant difference in gene expressions between mouse strains.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>m_joined_data <span class="sc">%&gt;%</span> </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> mouse_strain, <span class="at">y =</span> Th, <span class="at">fill =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -858,10 +858,10 @@ Note
 </div>
 <p>If we wanted to plot all 3 genes, one way is to make 3 different plots, but we can also use facets. However to use facets we would need to have the faceting variable in a column, and currently our gene names are in the column names. So we must use <code>pivot_longer()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="ot">&lt;-</span> mz_joined_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="ot">&lt;-</span> m_joined_data <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(Th, Prlh, Hprt1), <span class="at">names_to =</span> <span class="st">"gene"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 999 × 12
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -883,7 +883,7 @@ Note
 </div>
 <p>Now that the gene variable is in a column, we can use this information to create our faceted plot. We use <code>facet_wrap()</code> with the <code>scales = "free_y"</code> argument so each gene can have its own y-axis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> mouse_strain, <span class="at">y =</span> expression, <span class="at">fill =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>gene, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -904,7 +904,7 @@ Note
 </div>
 <p>This function takes a long-format data frame as input, and the formula for the linear model we want to fit. (We will read more about linear models in later chapters). For this test, for each gene, we want to know whether the response (gene expression ; aka ‘y’), changes significantly with the predictor (mouse strain ; aka ‘x’). The model formula will be <code>y ~ x1</code>, that is <code>expression ~ mouse_strain</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> mouse_strain) <span class="sc">%&gt;%</span> </span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -929,9 +929,9 @@ Note
 </section>
 <section id="visualising-testing-relationships-between-dosage-and-genes" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="visualising-testing-relationships-between-dosage-and-genes"><span class="header-section-number">5.5</span> Visualising &amp; testing relationships between dosage and genes</h2>
-<p>With the joined data frame we can also visualise the relationship between the drug dosage and the genes, separated by mouse strain. We do this by using our <code>mz_joined_data_longer</code> to plot with <code>facet_grid()</code> specifying the layout of our grid.</p>
+<p>With the joined data frame we can also visualise the relationship between the drug dosage and the genes, separated by mouse strain. We do this by using our <code>m_joined_data_longer</code> to plot with <code>facet_grid()</code> specifying the layout of our grid.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> drug_dose_g, <span class="at">y =</span> expression, <span class="at">color =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
@@ -952,7 +952,7 @@ Note
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="simple-linear-model-continuous-x"><span class="header-section-number">5.5.1</span> Simple linear model (continuous x)</h3>
 <p>Again, we can test this using <code>lm_test()</code>, where y is <code>expression</code>, and x is now the continuous variable <code>drug_dose_g</code>. We are testing the association for each gene in each mouse strain, by grouping the input data before <code>lm_test()</code>. Note this is different from correcting for gene and mouse strain as covariates, because the model only tests one gene-strain combination at a time.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mouse_strain, gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -998,10 +998,10 @@ Stating statistical findings
 <p>We can save our newly transformed and joined data frames for easy access using the <code>save()</code> command, which takes any number of environment objects, and a new <code>Rdata</code> format file name as arguments:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  mz_expr_rep_summed,</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  mz_expr_rep_summed_wide,</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  mz_joined_data_longer,</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">'data_processed/mz_cleaned_joined.Rdata'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed_wide,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  m_joined_data_longer,</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">'data_processed/mousezempic_cleaned_joined.Rdata'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="another-case-study---who-tuberculosis-data" class="level2" data-number="5.7">
@@ -2103,14 +2103,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-188"><a href="#cb68-188" aria-hidden="true" tabindex="-1"></a>In this particular case here's what the code would look like:</span>
 <span id="cb68-189"><a href="#cb68-189" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-192"><a href="#cb68-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-193"><a href="#cb68-193" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long <span class="ot">&lt;-</span> m_exp <span class="sc">%&gt;%</span></span>
+<span id="cb68-193"><a href="#cb68-193" aria-hidden="true" tabindex="-1"></a>m_exp_long <span class="ot">&lt;-</span> m_exp <span class="sc">%&gt;%</span></span>
 <span id="cb68-194"><a href="#cb68-194" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb68-195"><a href="#cb68-195" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"_rep"</span>),</span>
 <span id="cb68-196"><a href="#cb68-196" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measurement"</span>,</span>
 <span id="cb68-197"><a href="#cb68-197" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"expression_level"</span></span>
 <span id="cb68-198"><a href="#cb68-198" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb68-199"><a href="#cb68-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-200"><a href="#cb68-200" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_long</span>
+<span id="cb68-200"><a href="#cb68-200" aria-hidden="true" tabindex="-1"></a>m_exp_long</span>
 <span id="cb68-201"><a href="#cb68-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-202"><a href="#cb68-202" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-203"><a href="#cb68-203" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Perplexed by pivoting?"}</span>
@@ -2126,10 +2126,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-213"><a href="#cb68-213" aria-hidden="true" tabindex="-1"></a>We can use the <span class="in">`separate()`</span> function to split this data into individual columns so that one column does not contain multiple variables.</span>
 <span id="cb68-214"><a href="#cb68-214" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-217"><a href="#cb68-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-218"><a href="#cb68-218" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_separate <span class="ot">&lt;-</span> mousezempic_expr_long <span class="sc">%&gt;%</span></span>
+<span id="cb68-218"><a href="#cb68-218" aria-hidden="true" tabindex="-1"></a>m_exp_separate <span class="ot">&lt;-</span> m_exp_long <span class="sc">%&gt;%</span></span>
 <span id="cb68-219"><a href="#cb68-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(measurement, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"gene"</span>, <span class="st">"replicate"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
 <span id="cb68-220"><a href="#cb68-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-221"><a href="#cb68-221" aria-hidden="true" tabindex="-1"></a>mousezempic_expr_separate</span>
+<span id="cb68-221"><a href="#cb68-221" aria-hidden="true" tabindex="-1"></a>m_exp_separate</span>
 <span id="cb68-222"><a href="#cb68-222" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-223"><a href="#cb68-223" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-224"><a href="#cb68-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summarising values</span></span>
@@ -2137,19 +2137,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-226"><a href="#cb68-226" aria-hidden="true" tabindex="-1"></a>Now suppose we wanted to combine the gene expression data across replicates by adding them up, we can use the <span class="in">`summarise()`</span> function to do so.</span>
 <span id="cb68-227"><a href="#cb68-227" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-230"><a href="#cb68-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-231"><a href="#cb68-231" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="ot">&lt;-</span> mousezempic_expr_separate <span class="sc">%&gt;%</span></span>
+<span id="cb68-231"><a href="#cb68-231" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="ot">&lt;-</span> m_exp_separate <span class="sc">%&gt;%</span></span>
 <span id="cb68-232"><a href="#cb68-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb68-233"><a href="#cb68-233" aria-hidden="true" tabindex="-1"></a>    <span class="at">expression_level =</span> <span class="fu">sum</span>(expression_level),</span>
 <span id="cb68-234"><a href="#cb68-234" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(id_num, group, gene)</span>
 <span id="cb68-235"><a href="#cb68-235" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb68-236"><a href="#cb68-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-237"><a href="#cb68-237" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed</span>
+<span id="cb68-237"><a href="#cb68-237" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed</span>
 <span id="cb68-238"><a href="#cb68-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-239"><a href="#cb68-239" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-240"><a href="#cb68-240" aria-hidden="true" tabindex="-1"></a>We may also want to get the average expression level of each gene within each experimental group and plot it as a bar chart.</span>
 <span id="cb68-241"><a href="#cb68-241" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-244"><a href="#cb68-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-245"><a href="#cb68-245" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span></span>
+<span id="cb68-245"><a href="#cb68-245" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span></span>
 <span id="cb68-246"><a href="#cb68-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb68-247"><a href="#cb68-247" aria-hidden="true" tabindex="-1"></a>    <span class="at">expression_level =</span> <span class="fu">mean</span>(expression_level),</span>
 <span id="cb68-248"><a href="#cb68-248" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(group, gene)</span>
@@ -2168,16 +2168,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-261"><a href="#cb68-261" aria-hidden="true" tabindex="-1"></a>We can restore it using <span class="in">`pivot_wider()`</span> after we have summarised the replicates.</span>
 <span id="cb68-262"><a href="#cb68-262" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-265"><a href="#cb68-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-266"><a href="#cb68-266" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide <span class="ot">&lt;-</span> mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<span id="cb68-266"><a href="#cb68-266" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide <span class="ot">&lt;-</span> m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb68-267"><a href="#cb68-267" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>( <span class="at">names_from =</span> <span class="st">"gene"</span>, <span class="at">values_from =</span> <span class="st">"expression_level"</span>)</span>
 <span id="cb68-268"><a href="#cb68-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-269"><a href="#cb68-269" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide</span>
+<span id="cb68-269"><a href="#cb68-269" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide</span>
 <span id="cb68-270"><a href="#cb68-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-271"><a href="#cb68-271" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-272"><a href="#cb68-272" aria-hidden="true" tabindex="-1"></a>With the replicate aggregated expression levels in individual columns, we can now plot the gene expression values against each other.</span>
 <span id="cb68-273"><a href="#cb68-273" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-276"><a href="#cb68-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-277"><a href="#cb68-277" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> Th, <span class="at">y =</span> Prlh)) <span class="sc">+</span></span>
+<span id="cb68-277"><a href="#cb68-277" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> Th, <span class="at">y =</span> Prlh)) <span class="sc">+</span></span>
 <span id="cb68-278"><a href="#cb68-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
 <span id="cb68-279"><a href="#cb68-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-280"><a href="#cb68-280" aria-hidden="true" tabindex="-1"></a></span>
@@ -2210,13 +2210,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-307"><a href="#cb68-307" aria-hidden="true" tabindex="-1"></a>It takes two data frame as arguments and optionally a vector of common columns to perform the join on.</span>
 <span id="cb68-308"><a href="#cb68-308" aria-hidden="true" tabindex="-1"></a>The reason it's called a left-join because it retains all rows from the left data frame while adding on columns from the right data frame only when the data in the designed joining column(s) match.</span>
 <span id="cb68-309"><a href="#cb68-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-310"><a href="#cb68-310" aria-hidden="true" tabindex="-1"></a>For example, we can join the <span class="in">`m_dose`</span> data frame with the <span class="in">`mz_expr_rep_summed_wide`</span> data frame based on the <span class="in">`id_num`</span> column, which is common to both data frames:</span>
+<span id="cb68-310"><a href="#cb68-310" aria-hidden="true" tabindex="-1"></a>For example, we can join the <span class="in">`m_dose`</span> data frame with the <span class="in">`m_exp_rep_summed_wide`</span> data frame based on the <span class="in">`id_num`</span> column, which is common to both data frames:</span>
 <span id="cb68-311"><a href="#cb68-311" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-314"><a href="#cb68-314" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-315"><a href="#cb68-315" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(m_dose, mz_expr_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span>
+<span id="cb68-315"><a href="#cb68-315" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(m_dose, m_exp_rep_summed_wide, <span class="at">by =</span> <span class="st">"id_num"</span>)</span>
 <span id="cb68-316"><a href="#cb68-316" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-317"><a href="#cb68-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-318"><a href="#cb68-318" aria-hidden="true" tabindex="-1"></a>The <span class="in">`m_dose`</span> contains information about characteristics of each mouse, while the <span class="in">`mz_expr_rep_summed_wide`</span> contains the replicate-summed gene expressions of the mice.</span>
+<span id="cb68-318"><a href="#cb68-318" aria-hidden="true" tabindex="-1"></a>The <span class="in">`m_dose`</span> contains information about characteristics of each mouse, while the <span class="in">`m_exp_rep_summed_wide`</span> contains the replicate-summed gene expressions of the mice.</span>
 <span id="cb68-319"><a href="#cb68-319" aria-hidden="true" tabindex="-1"></a>Each data frame has an <span class="in">`id_num`</span> column that relates the data from the two data frames together, and we have joined them into one table that contains both the data about the mice as well as the expression of their genes.</span>
 <span id="cb68-320"><a href="#cb68-320" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-321"><a href="#cb68-321" aria-hidden="true" tabindex="-1"></a>With the <span class="in">`left_join()`</span>, if there is a <span class="in">`id_num`</span> value that exists in the right data frame but not found in the left, then that data will not be present in the joined table.</span>
@@ -2238,21 +2238,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-337"><a href="#cb68-337" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-340"><a href="#cb68-340" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb68-341"><a href="#cb68-341" aria-hidden="true" tabindex="-1"></a><span class="co"># rename id_num to mouse_id</span></span>
-<span id="cb68-342"><a href="#cb68-342" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb68-342"><a href="#cb68-342" aria-hidden="true" tabindex="-1"></a>m_dose_data_new <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
 <span id="cb68-343"><a href="#cb68-343" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">mouse_id =</span> id_num)</span>
 <span id="cb68-344"><a href="#cb68-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-345"><a href="#cb68-345" aria-hidden="true" tabindex="-1"></a>mz_dosage_data_new</span>
+<span id="cb68-345"><a href="#cb68-345" aria-hidden="true" tabindex="-1"></a>m_dose_data_new</span>
 <span id="cb68-346"><a href="#cb68-346" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-347"><a href="#cb68-347" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-350"><a href="#cb68-350" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb68-351"><a href="#cb68-351" aria-hidden="true" tabindex="-1"></a><span class="co"># perform left join by matching mouse_id of the left data frame to id_num of the right data frame</span></span>
-<span id="cb68-352"><a href="#cb68-352" aria-hidden="true" tabindex="-1"></a>mz_joined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
-<span id="cb68-353"><a href="#cb68-353" aria-hidden="true" tabindex="-1"></a>  mz_dosage_data_new, mz_expr_rep_summed_wide,</span>
+<span id="cb68-352"><a href="#cb68-352" aria-hidden="true" tabindex="-1"></a>m_joined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
+<span id="cb68-353"><a href="#cb68-353" aria-hidden="true" tabindex="-1"></a>  m_dose_data_new, m_exp_rep_summed_wide,</span>
 <span id="cb68-354"><a href="#cb68-354" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">join_by</span>(mouse_id <span class="sc">==</span> id_num)</span>
 <span id="cb68-355"><a href="#cb68-355" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb68-356"><a href="#cb68-356" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="co"># keep only rows without NA</span></span>
 <span id="cb68-357"><a href="#cb68-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-358"><a href="#cb68-358" aria-hidden="true" tabindex="-1"></a>mz_joined_data</span>
+<span id="cb68-358"><a href="#cb68-358" aria-hidden="true" tabindex="-1"></a>m_joined_data</span>
 <span id="cb68-359"><a href="#cb68-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-360"><a href="#cb68-360" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-361"><a href="#cb68-361" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
@@ -2270,7 +2270,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-373"><a href="#cb68-373" aria-hidden="true" tabindex="-1"></a>So we can check if there is any significant difference in gene expressions between mouse strains.</span>
 <span id="cb68-374"><a href="#cb68-374" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-377"><a href="#cb68-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-378"><a href="#cb68-378" aria-hidden="true" tabindex="-1"></a>mz_joined_data <span class="sc">%&gt;%</span> </span>
+<span id="cb68-378"><a href="#cb68-378" aria-hidden="true" tabindex="-1"></a>m_joined_data <span class="sc">%&gt;%</span> </span>
 <span id="cb68-379"><a href="#cb68-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> mouse_strain, <span class="at">y =</span> Th, <span class="at">fill =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb68-380"><a href="#cb68-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()</span>
 <span id="cb68-381"><a href="#cb68-381" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -2280,17 +2280,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-385"><a href="#cb68-385" aria-hidden="true" tabindex="-1"></a>So we must use <span class="in">`pivot_longer()`</span>.</span>
 <span id="cb68-386"><a href="#cb68-386" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-389"><a href="#cb68-389" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-390"><a href="#cb68-390" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="ot">&lt;-</span> mz_joined_data <span class="sc">%&gt;%</span></span>
+<span id="cb68-390"><a href="#cb68-390" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="ot">&lt;-</span> m_joined_data <span class="sc">%&gt;%</span></span>
 <span id="cb68-391"><a href="#cb68-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(Th, Prlh, Hprt1), <span class="at">names_to =</span> <span class="st">"gene"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span>)</span>
 <span id="cb68-392"><a href="#cb68-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-393"><a href="#cb68-393" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer</span>
+<span id="cb68-393"><a href="#cb68-393" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer</span>
 <span id="cb68-394"><a href="#cb68-394" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-395"><a href="#cb68-395" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-396"><a href="#cb68-396" aria-hidden="true" tabindex="-1"></a>Now that the gene variable is in a column, we can use this information to create our faceted plot.</span>
 <span id="cb68-397"><a href="#cb68-397" aria-hidden="true" tabindex="-1"></a>We use <span class="in">`facet_wrap()`</span> with the <span class="in">`scales = "free_y"`</span> argument so each gene can have its own y-axis.</span>
 <span id="cb68-398"><a href="#cb68-398" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-401"><a href="#cb68-401" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-402"><a href="#cb68-402" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-402"><a href="#cb68-402" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb68-403"><a href="#cb68-403" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> mouse_strain, <span class="at">y =</span> expression, <span class="at">fill =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb68-404"><a href="#cb68-404" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
 <span id="cb68-405"><a href="#cb68-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>gene, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span>
@@ -2312,7 +2312,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-423"><a href="#cb68-423" aria-hidden="true" tabindex="-1"></a>The model formula will be <span class="in">`y ~ x1`</span>, that is <span class="in">`expression ~ mouse_strain`</span>.</span>
 <span id="cb68-424"><a href="#cb68-424" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-427"><a href="#cb68-427" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-428"><a href="#cb68-428" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-428"><a href="#cb68-428" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb68-429"><a href="#cb68-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-430"><a href="#cb68-430" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> mouse_strain) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-431"><a href="#cb68-431" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -2328,10 +2328,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-441"><a href="#cb68-441" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising &amp; testing relationships between dosage and genes</span></span>
 <span id="cb68-442"><a href="#cb68-442" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-443"><a href="#cb68-443" aria-hidden="true" tabindex="-1"></a>With the joined data frame we can also visualise the relationship between the drug dosage and the genes, separated by mouse strain.</span>
-<span id="cb68-444"><a href="#cb68-444" aria-hidden="true" tabindex="-1"></a>We do this by using our <span class="in">`mz_joined_data_longer`</span> to plot with <span class="in">`facet_grid()`</span> specifying the layout of our grid.</span>
+<span id="cb68-444"><a href="#cb68-444" aria-hidden="true" tabindex="-1"></a>We do this by using our <span class="in">`m_joined_data_longer`</span> to plot with <span class="in">`facet_grid()`</span> specifying the layout of our grid.</span>
 <span id="cb68-445"><a href="#cb68-445" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-448"><a href="#cb68-448" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-449"><a href="#cb68-449" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-449"><a href="#cb68-449" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb68-450"><a href="#cb68-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> drug_dose_g, <span class="at">y =</span> expression, <span class="at">color =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb68-451"><a href="#cb68-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb68-452"><a href="#cb68-452" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
@@ -2347,7 +2347,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-462"><a href="#cb68-462" aria-hidden="true" tabindex="-1"></a>Note this is different from correcting for gene and mouse strain as covariates, because the model only tests one gene-strain combination at a time.</span>
 <span id="cb68-463"><a href="#cb68-463" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-466"><a href="#cb68-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-467"><a href="#cb68-467" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-467"><a href="#cb68-467" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
 <span id="cb68-468"><a href="#cb68-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mouse_strain, gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-469"><a href="#cb68-469" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-470"><a href="#cb68-470" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -2371,10 +2371,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-488"><a href="#cb68-488" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-491"><a href="#cb68-491" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb68-492"><a href="#cb68-492" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(</span>
-<span id="cb68-493"><a href="#cb68-493" aria-hidden="true" tabindex="-1"></a>  mz_expr_rep_summed,</span>
-<span id="cb68-494"><a href="#cb68-494" aria-hidden="true" tabindex="-1"></a>  mz_expr_rep_summed_wide,</span>
-<span id="cb68-495"><a href="#cb68-495" aria-hidden="true" tabindex="-1"></a>  mz_joined_data_longer,</span>
-<span id="cb68-496"><a href="#cb68-496" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">'data_processed/mz_cleaned_joined.Rdata'</span>)</span>
+<span id="cb68-493"><a href="#cb68-493" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed,</span>
+<span id="cb68-494"><a href="#cb68-494" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed_wide,</span>
+<span id="cb68-495"><a href="#cb68-495" aria-hidden="true" tabindex="-1"></a>  m_joined_data_longer,</span>
+<span id="cb68-496"><a href="#cb68-496" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">'data_processed/mousezempic_cleaned_joined.Rdata'</span>)</span>
 <span id="cb68-497"><a href="#cb68-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-498"><a href="#cb68-498" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-499"><a href="#cb68-499" aria-hidden="true" tabindex="-1"></a><span class="fu">## Another case study - WHO tuberculosis data</span></span>
