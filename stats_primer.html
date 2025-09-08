@@ -297,7 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the R tidyverse, plotting data is a central part of exploratory data analysis, with ggplot2 as the foundational package. We will reuse the data from <a href="./chapter_5.html">Chapter 5</a> to investigate linear modeling in the tidyverse.</p>
 <p>First we load the <code>.Rdata</code> file to restore the environment objects (data frames) we created:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'data_processed/mz_cleaned_joined.Rdata'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'data_processed/mousezempic_cleaned_joined.Rdata'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -307,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="testing-differences-between-groups-discrete-x">Testing differences between groups (discrete x)</h2>
 <p>Long format data works seamlessly with <code>ggplot()</code>, as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,359 × 4
    id_num group     gene  expression_level
@@ -324,7 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10      4 treatment Th              10892.
 # ℹ 1,349 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>expression_level)) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>gene, <span class="at">scales=</span><span class="st">'free'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -336,12 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Often in an exploratory data analysis, we want to quickly test for statistical significant differences in the data we have just plotted.</p>
+<p>Often in an exploratory data analysis, we want to quickly test for statistically significant differences in the data we have just plotted.</p>
 <p>Here, we want to test the differences in mean gene expression by treatment, for each gene. The <code>lm_test()</code> function from tidyrstats allows us to do this using the exact same data format required for ggplot.</p>
 <p><code>lm_test()</code> is simply a wrapper for some fairly awful code that we would otherwise have to use here (in the form <code>data %&gt;% do(broom::tidy(lm(y~x, data = .)</code>).</p>
 <p>Let’s see how this works below, by grouping the data so that we have a separate test for each gene:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression_level <span class="sc">~</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -366,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="testing-differences-relative-to-0-discrete-x">Testing differences relative to 0 (discrete x)</h2>
 <p>If we use <code>lm_test(expression_level ~ 0 + group)</code> we will get the mean expression per group as the <code>estimate</code>, and the difference in each group mean from 0, is tested. However, the differences between the mean gene expression levels in each group, are not directly tested:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression_level <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -391,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="testing-associations-between-variables-continuous-x">Testing associations between variables (continuous x)</h2>
 <p>We can also test for associations between a continuous x and a continuous y variable, using lm_test(). To plot expression of different genes in a scatter plot, values for each gene must reside in separate columns</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a> mz_expr_rep_summed_wide <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a> m_exp_rep_summed_wide <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> Th, <span class="at">y =</span> Prlh)) <span class="sc">+</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -405,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The same tibble can be fed directly into <code>lm_test()</code> to test the significance of the Prlh ~ Th gene expression association described by the <code>geom_smooth()</code> line above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(Prlh <span class="sc">~</span> Th)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Results for linear model: Prlh ~ Th</code></pre>
@@ -426,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Often we want to ensure that other possible sources of variation are minimized so that we can better detect true differences, aka test our ‘main effect of interest’. Say we want to understand whether the Mousezempic dosage affects gene expression <em>regardless of mouse strain</em>. That is, we want to subtract the mean effect of any strain-specific differences.</p>
 <p>First to inspect any differences in gene expression between strains:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> expression, <span class="at">x =</span> mouse_strain)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()  <span class="sc">+</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">size =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> gene, <span class="at">scales =</span> <span class="st">'free_y'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -441,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We can see there are modest (likely non-significant) differences in mean gene expression between strains.</p>
 <p>For the gene <em>Prlh</em> we can plot the expression ~ dose relationship colouring points by mouse strain:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene <span class="sc">==</span> <span class="st">'Prlh'</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> drug_dose_g, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col =</span> mouse_strain))  <span class="sc">+</span></span>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>To test the association between drug dose and gene expression without correcting for mouse strain (i.e., testing the slope of the fitted blue line above):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene<span class="sc">==</span><span class="st">'Prlh'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -473,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>To estimate and then remove any gene expression differences between strains, before testing the drug treatment association, we can use the model <code>expression ~ drug_dose_g + strain</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene<span class="sc">==</span><span class="st">'Prlh'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g <span class="sc">+</span> mouse_strain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1049,7 +1049,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>First we load the <span class="in">`.Rdata`</span> file to restore the environment objects (data frames) we created:</span>
 <span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'data_processed/mz_cleaned_joined.Rdata'</span>)</span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'data_processed/mousezempic_cleaned_joined.Rdata'</span>)</span>
 <span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-43"><a href="#cb24-43" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -1063,16 +1063,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-51"><a href="#cb24-51" aria-hidden="true" tabindex="-1"></a>Long format data works seamlessly with <span class="in">`ggplot()`</span>, as follows:</span>
 <span id="cb24-52"><a href="#cb24-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-55"><a href="#cb24-55" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed</span>
+<span id="cb24-56"><a href="#cb24-56" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed</span>
 <span id="cb24-57"><a href="#cb24-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<span id="cb24-58"><a href="#cb24-58" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb24-59"><a href="#cb24-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>expression_level)) <span class="sc">+</span></span>
 <span id="cb24-60"><a href="#cb24-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
 <span id="cb24-61"><a href="#cb24-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>gene, <span class="at">scales=</span><span class="st">'free'</span>)</span>
 <span id="cb24-62"><a href="#cb24-62" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-63"><a href="#cb24-63" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb24-64"><a href="#cb24-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a>Often in an exploratory data analysis, we want to quickly test for statistical significant differences in the data we have just plotted.</span>
+<span id="cb24-65"><a href="#cb24-65" aria-hidden="true" tabindex="-1"></a>Often in an exploratory data analysis, we want to quickly test for statistically significant differences in the data we have just plotted.</span>
 <span id="cb24-66"><a href="#cb24-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-67"><a href="#cb24-67" aria-hidden="true" tabindex="-1"></a>Here, we want to test the differences in mean gene expression by treatment, for each gene.</span>
 <span id="cb24-68"><a href="#cb24-68" aria-hidden="true" tabindex="-1"></a>The <span class="in">`lm_test()`</span> function from tidyrstats allows us to do this using the exact same data format required for ggplot.</span>
@@ -1082,7 +1082,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-72"><a href="#cb24-72" aria-hidden="true" tabindex="-1"></a>Let's see how this works below, by grouping the data so that we have a separate test for each gene:</span>
 <span id="cb24-73"><a href="#cb24-73" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-76"><a href="#cb24-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<span id="cb24-77"><a href="#cb24-77" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb24-78"><a href="#cb24-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb24-79"><a href="#cb24-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression_level <span class="sc">~</span> group)</span>
 <span id="cb24-80"><a href="#cb24-80" aria-hidden="true" tabindex="-1"></a></span>
@@ -1099,7 +1099,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-91"><a href="#cb24-91" aria-hidden="true" tabindex="-1"></a>However, the differences between the mean gene expression levels in each group, are not directly tested:</span>
 <span id="cb24-92"><a href="#cb24-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-95"><a href="#cb24-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed <span class="sc">%&gt;%</span> </span>
+<span id="cb24-96"><a href="#cb24-96" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed <span class="sc">%&gt;%</span> </span>
 <span id="cb24-97"><a href="#cb24-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb24-98"><a href="#cb24-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression_level <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> group)</span>
 <span id="cb24-99"><a href="#cb24-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1116,7 +1116,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-110"><a href="#cb24-110" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-113"><a href="#cb24-113" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb24-114"><a href="#cb24-114" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb24-115"><a href="#cb24-115" aria-hidden="true" tabindex="-1"></a> mz_expr_rep_summed_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb24-115"><a href="#cb24-115" aria-hidden="true" tabindex="-1"></a> m_exp_rep_summed_wide <span class="sc">%&gt;%</span> </span>
 <span id="cb24-116"><a href="#cb24-116" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> Th, <span class="at">y =</span> Prlh)) <span class="sc">+</span></span>
 <span id="cb24-117"><a href="#cb24-117" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb24-118"><a href="#cb24-118" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">'lm'</span>)</span>
@@ -1125,7 +1125,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-121"><a href="#cb24-121" aria-hidden="true" tabindex="-1"></a>The same tibble can be fed directly into <span class="in">`lm_test()`</span> to test the significance of the Prlh \~ Th gene expression association described by the <span class="in">`geom_smooth()`</span> line above.</span>
 <span id="cb24-122"><a href="#cb24-122" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-125"><a href="#cb24-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-126"><a href="#cb24-126" aria-hidden="true" tabindex="-1"></a>mz_expr_rep_summed_wide <span class="sc">%&gt;%</span> </span>
+<span id="cb24-126"><a href="#cb24-126" aria-hidden="true" tabindex="-1"></a>m_exp_rep_summed_wide <span class="sc">%&gt;%</span> </span>
 <span id="cb24-127"><a href="#cb24-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(Prlh <span class="sc">~</span> Th)</span>
 <span id="cb24-128"><a href="#cb24-128" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb24-129"><a href="#cb24-129" aria-hidden="true" tabindex="-1"></a></span>
@@ -1143,7 +1143,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-141"><a href="#cb24-141" aria-hidden="true" tabindex="-1"></a>First to inspect any differences in gene expression between strains:</span>
 <span id="cb24-142"><a href="#cb24-142" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-145"><a href="#cb24-145" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-146"><a href="#cb24-146" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span></span>
+<span id="cb24-146"><a href="#cb24-146" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span></span>
 <span id="cb24-147"><a href="#cb24-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> expression, <span class="at">x =</span> mouse_strain)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()  <span class="sc">+</span></span>
 <span id="cb24-148"><a href="#cb24-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">size =</span> <span class="fl">0.2</span>, <span class="at">height =</span> <span class="dv">0</span>, <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
 <span id="cb24-149"><a href="#cb24-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>( <span class="sc">~</span> gene, <span class="at">scales =</span> <span class="st">'free_y'</span>)</span>
@@ -1156,7 +1156,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-158"><a href="#cb24-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb24-159"><a href="#cb24-159" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
 <span id="cb24-160"><a href="#cb24-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-161"><a href="#cb24-161" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span></span>
+<span id="cb24-161"><a href="#cb24-161" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span></span>
 <span id="cb24-162"><a href="#cb24-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene <span class="sc">==</span> <span class="st">'Prlh'</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb24-163"><a href="#cb24-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> drug_dose_g, <span class="at">y =</span> expression)) <span class="sc">+</span></span>
 <span id="cb24-164"><a href="#cb24-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col =</span> mouse_strain))  <span class="sc">+</span></span>
@@ -1167,7 +1167,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-169"><a href="#cb24-169" aria-hidden="true" tabindex="-1"></a>To test the association between drug dose and gene expression without correcting for mouse strain (i.e., testing the slope of the fitted blue line above):</span>
 <span id="cb24-170"><a href="#cb24-170" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-173"><a href="#cb24-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-174"><a href="#cb24-174" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb24-174"><a href="#cb24-174" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb24-175"><a href="#cb24-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene<span class="sc">==</span><span class="st">'Prlh'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb24-176"><a href="#cb24-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g)</span>
 <span id="cb24-177"><a href="#cb24-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1175,7 +1175,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-179"><a href="#cb24-179" aria-hidden="true" tabindex="-1"></a>To estimate and then remove any gene expression differences between strains, before testing the drug treatment association, we can use the model <span class="in">`expression ~ drug_dose_g + strain`</span>.</span>
 <span id="cb24-180"><a href="#cb24-180" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-183"><a href="#cb24-183" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-184"><a href="#cb24-184" aria-hidden="true" tabindex="-1"></a>mz_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb24-184"><a href="#cb24-184" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb24-185"><a href="#cb24-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene<span class="sc">==</span><span class="st">'Prlh'</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb24-186"><a href="#cb24-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g <span class="sc">+</span> mouse_strain)</span>
 <span id="cb24-187"><a href="#cb24-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>

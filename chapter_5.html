@@ -858,10 +858,10 @@ Note
 </div>
 <p>If we wanted to plot all 3 genes, one way is to make 3 different plots, but we can also use facets. However to use facets we would need to have the faceting variable in a column, and currently our gene names are in the column names. So we must use <code>pivot_longer()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="ot">&lt;-</span> m_joined_data <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="ot">&lt;-</span> m_joined_data <span class="sc">%&gt;%</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(Th, Prlh, Hprt1), <span class="at">names_to =</span> <span class="st">"gene"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>m_joined_data_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 999 × 12
    mouse_strain cage_number weight_lost_g replicate sex    drug_dose_g
@@ -883,7 +883,7 @@ Note
 </div>
 <p>Now that the gene variable is in a column, we can use this information to create our faceted plot. We use <code>facet_wrap()</code> with the <code>scales = "free_y"</code> argument so each gene can have its own y-axis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> mouse_strain, <span class="at">y =</span> expression, <span class="at">fill =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>gene, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -904,7 +904,7 @@ Note
 </div>
 <p>This function takes a long-format data frame as input, and the formula for the linear model we want to fit. (We will read more about linear models in later chapters). For this test, for each gene, we want to know whether the response (gene expression ; aka ‘y’), changes significantly with the predictor (mouse strain ; aka ‘x’). The model formula will be <code>y ~ x1</code>, that is <code>expression ~ mouse_strain</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> mouse_strain) <span class="sc">%&gt;%</span> </span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -929,9 +929,9 @@ Note
 </section>
 <section id="visualising-testing-relationships-between-dosage-and-genes" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="visualising-testing-relationships-between-dosage-and-genes"><span class="header-section-number">5.5</span> Visualising &amp; testing relationships between dosage and genes</h2>
-<p>With the joined data frame we can also visualise the relationship between the drug dosage and the genes, separated by mouse strain. We do this by using our <code>m_joined_data_longer</code> to plot with <code>facet_grid()</code> specifying the layout of our grid.</p>
+<p>With the joined data frame we can also visualise the relationship between the drug dosage and the genes, separated by mouse strain. We do this by using our <code>m_joined_data_long</code> to plot with <code>facet_grid()</code> specifying the layout of our grid.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> drug_dose_g, <span class="at">y =</span> expression, <span class="at">color =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
@@ -952,7 +952,7 @@ Note
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="simple-linear-model-continuous-x"><span class="header-section-number">5.5.1</span> Simple linear model (continuous x)</h3>
 <p>Again, we can test this using <code>lm_test()</code>, where y is <code>expression</code>, and x is now the continuous variable <code>drug_dose_g</code>. We are testing the association for each gene in each mouse strain, by grouping the input data before <code>lm_test()</code>. Note this is different from correcting for gene and mouse strain as covariates, because the model only tests one gene-strain combination at a time.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mouse_strain, gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g) <span class="sc">%&gt;%</span> </span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -1000,7 +1000,7 @@ Stating statistical findings
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed,</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed_wide,</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  m_joined_data_longer,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  m_joined_data_long,</span>
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">'data_processed/mousezempic_cleaned_joined.Rdata'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1037,7 +1037,7 @@ Stating statistical findings
 <p>Since we believe that many of these column names are in fact encoding data, we want to <code>pivot_longer()</code> to put that information in a column for further processing.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot longer with columns 5 to 60, drop NA values</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who <span class="sc">%&gt;%</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">60</span>, <span class="co"># alternatively contains("_")</span></span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"description"</span>,</span>
@@ -1045,7 +1045,7 @@ Stating statistical findings
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_drop_na =</span> <span class="cn">TRUE</span></span>
 <span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>who_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>who_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 76,046 × 6
    country     iso2  iso3   year description  cases
@@ -1065,7 +1065,7 @@ Stating statistical findings
 </div>
 <p>It doesn’t look like the values in <code>description</code> are unique, so we can try to count them to get a sense of what we’re dealing with. It will show us the unique values as well as the counts for each value.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>who_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>who_long <span class="sc">%&gt;%</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(description)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 56 × 2
@@ -1120,10 +1120,10 @@ Stating statistical findings
 <p>The full list of functions can be found in the <a href="https://stringr.tidyverse.org/reference/index.html">stringr package documentation</a> and patterns can be written in very powerful ways with <a href="https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions">regular expressions</a>. For our purposes we will just use simply fixed patterns.</p>
 <p>We saw previously that we can use <code>separate()</code> to break apart on column into multiple columns. However, we see there is a problem in this dataset where the cases that are marked as relapse are encoded <code>newrel</code> which doesn’t leave us with a separator to use. We can remedy this by using a combination of <code>mutate()</code> and <code>str_replace()</code> to replace all instances of <code>newrel</code> with <code>new_rel</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_replace</span>(description, <span class="st">"newrel"</span>, <span class="st">"new_rel"</span>))</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>who_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>who_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 76,046 × 6
    country     iso2  iso3   year description  cases
@@ -1143,10 +1143,10 @@ Stating statistical findings
 </div>
 <p>Since every single observation contains only new cases and no old cases, the <code>new_</code> portion of the encoding is redundant. So we can remove it using <code>str_remove()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_remove</span>(description, <span class="st">"new_"</span>))</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>who_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>who_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 76,046 × 6
    country     iso2  iso3   year description cases
@@ -1166,11 +1166,11 @@ Stating statistical findings
 </div>
 <p>Now one last problem remains, there is no separator between the sex and age group. So we can once again use <code>str_replace()</code> to edit in an underscore. Note that we use <code>"_f"</code> and <code>"_m"</code> as our patterns as a precaution in case the letters naturally occur elsewhere in the encoding.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_replace</span>(description, <span class="st">"_f"</span>, <span class="st">"_f_"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_replace</span>(description, <span class="st">"_m"</span>, <span class="st">"_m_"</span>))</span>
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>who_longer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>who_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 76,046 × 6
    country     iso2  iso3   year description cases
@@ -1190,7 +1190,7 @@ Stating statistical findings
 </div>
 <p>With that we are finally able to separate the data into individual columns with <code>separate()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>who_separated <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>who_separated <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(description, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"sex"</span>, <span class="st">"age_group"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>who_separated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2280,17 +2280,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-385"><a href="#cb68-385" aria-hidden="true" tabindex="-1"></a>So we must use <span class="in">`pivot_longer()`</span>.</span>
 <span id="cb68-386"><a href="#cb68-386" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-389"><a href="#cb68-389" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-390"><a href="#cb68-390" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="ot">&lt;-</span> m_joined_data <span class="sc">%&gt;%</span></span>
+<span id="cb68-390"><a href="#cb68-390" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="ot">&lt;-</span> m_joined_data <span class="sc">%&gt;%</span></span>
 <span id="cb68-391"><a href="#cb68-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(Th, Prlh, Hprt1), <span class="at">names_to =</span> <span class="st">"gene"</span>, <span class="at">values_to =</span> <span class="st">"expression"</span>)</span>
 <span id="cb68-392"><a href="#cb68-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-393"><a href="#cb68-393" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer</span>
+<span id="cb68-393"><a href="#cb68-393" aria-hidden="true" tabindex="-1"></a>m_joined_data_long</span>
 <span id="cb68-394"><a href="#cb68-394" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-395"><a href="#cb68-395" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-396"><a href="#cb68-396" aria-hidden="true" tabindex="-1"></a>Now that the gene variable is in a column, we can use this information to create our faceted plot.</span>
 <span id="cb68-397"><a href="#cb68-397" aria-hidden="true" tabindex="-1"></a>We use <span class="in">`facet_wrap()`</span> with the <span class="in">`scales = "free_y"`</span> argument so each gene can have its own y-axis.</span>
 <span id="cb68-398"><a href="#cb68-398" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-401"><a href="#cb68-401" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-402"><a href="#cb68-402" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-402"><a href="#cb68-402" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb68-403"><a href="#cb68-403" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( <span class="fu">aes</span>(<span class="at">x =</span> mouse_strain, <span class="at">y =</span> expression, <span class="at">fill =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb68-404"><a href="#cb68-404" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
 <span id="cb68-405"><a href="#cb68-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>gene, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span>
@@ -2312,7 +2312,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-423"><a href="#cb68-423" aria-hidden="true" tabindex="-1"></a>The model formula will be <span class="in">`y ~ x1`</span>, that is <span class="in">`expression ~ mouse_strain`</span>.</span>
 <span id="cb68-424"><a href="#cb68-424" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-427"><a href="#cb68-427" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-428"><a href="#cb68-428" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-428"><a href="#cb68-428" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb68-429"><a href="#cb68-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-430"><a href="#cb68-430" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> mouse_strain) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-431"><a href="#cb68-431" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -2328,10 +2328,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-441"><a href="#cb68-441" aria-hidden="true" tabindex="-1"></a><span class="fu">## Visualising &amp; testing relationships between dosage and genes</span></span>
 <span id="cb68-442"><a href="#cb68-442" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-443"><a href="#cb68-443" aria-hidden="true" tabindex="-1"></a>With the joined data frame we can also visualise the relationship between the drug dosage and the genes, separated by mouse strain.</span>
-<span id="cb68-444"><a href="#cb68-444" aria-hidden="true" tabindex="-1"></a>We do this by using our <span class="in">`m_joined_data_longer`</span> to plot with <span class="in">`facet_grid()`</span> specifying the layout of our grid.</span>
+<span id="cb68-444"><a href="#cb68-444" aria-hidden="true" tabindex="-1"></a>We do this by using our <span class="in">`m_joined_data_long`</span> to plot with <span class="in">`facet_grid()`</span> specifying the layout of our grid.</span>
 <span id="cb68-445"><a href="#cb68-445" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-448"><a href="#cb68-448" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-449"><a href="#cb68-449" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-449"><a href="#cb68-449" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb68-450"><a href="#cb68-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> drug_dose_g, <span class="at">y =</span> expression, <span class="at">color =</span> mouse_strain)) <span class="sc">+</span></span>
 <span id="cb68-451"><a href="#cb68-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb68-452"><a href="#cb68-452" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
@@ -2347,7 +2347,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-462"><a href="#cb68-462" aria-hidden="true" tabindex="-1"></a>Note this is different from correcting for gene and mouse strain as covariates, because the model only tests one gene-strain combination at a time.</span>
 <span id="cb68-463"><a href="#cb68-463" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-466"><a href="#cb68-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-467"><a href="#cb68-467" aria-hidden="true" tabindex="-1"></a>m_joined_data_longer <span class="sc">%&gt;%</span> </span>
+<span id="cb68-467"><a href="#cb68-467" aria-hidden="true" tabindex="-1"></a>m_joined_data_long <span class="sc">%&gt;%</span> </span>
 <span id="cb68-468"><a href="#cb68-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(mouse_strain, gene) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-469"><a href="#cb68-469" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>(expression <span class="sc">~</span> drug_dose_g) <span class="sc">%&gt;%</span> </span>
 <span id="cb68-470"><a href="#cb68-470" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) <span class="sc">%&gt;%</span> </span>
@@ -2373,7 +2373,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-492"><a href="#cb68-492" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(</span>
 <span id="cb68-493"><a href="#cb68-493" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed,</span>
 <span id="cb68-494"><a href="#cb68-494" aria-hidden="true" tabindex="-1"></a>  m_exp_rep_summed_wide,</span>
-<span id="cb68-495"><a href="#cb68-495" aria-hidden="true" tabindex="-1"></a>  m_joined_data_longer,</span>
+<span id="cb68-495"><a href="#cb68-495" aria-hidden="true" tabindex="-1"></a>  m_joined_data_long,</span>
 <span id="cb68-496"><a href="#cb68-496" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">'data_processed/mousezempic_cleaned_joined.Rdata'</span>)</span>
 <span id="cb68-497"><a href="#cb68-497" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-498"><a href="#cb68-498" aria-hidden="true" tabindex="-1"></a></span>
@@ -2397,7 +2397,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-518"><a href="#cb68-518" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-521"><a href="#cb68-521" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb68-522"><a href="#cb68-522" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot longer with columns 5 to 60, drop NA values</span></span>
-<span id="cb68-523"><a href="#cb68-523" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who <span class="sc">%&gt;%</span></span>
+<span id="cb68-523"><a href="#cb68-523" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who <span class="sc">%&gt;%</span></span>
 <span id="cb68-524"><a href="#cb68-524" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
 <span id="cb68-525"><a href="#cb68-525" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">60</span>, <span class="co"># alternatively contains("_")</span></span>
 <span id="cb68-526"><a href="#cb68-526" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"description"</span>,</span>
@@ -2405,14 +2405,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-528"><a href="#cb68-528" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_drop_na =</span> <span class="cn">TRUE</span></span>
 <span id="cb68-529"><a href="#cb68-529" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb68-530"><a href="#cb68-530" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-531"><a href="#cb68-531" aria-hidden="true" tabindex="-1"></a>who_longer</span>
+<span id="cb68-531"><a href="#cb68-531" aria-hidden="true" tabindex="-1"></a>who_long</span>
 <span id="cb68-532"><a href="#cb68-532" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-533"><a href="#cb68-533" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-534"><a href="#cb68-534" aria-hidden="true" tabindex="-1"></a>It doesn't look like the values in <span class="in">`description`</span> are unique, so we can try to count them to get a sense of what we're dealing with.</span>
 <span id="cb68-535"><a href="#cb68-535" aria-hidden="true" tabindex="-1"></a>It will show us the unique values as well as the counts for each value.</span>
 <span id="cb68-536"><a href="#cb68-536" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-539"><a href="#cb68-539" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-540"><a href="#cb68-540" aria-hidden="true" tabindex="-1"></a>who_longer <span class="sc">%&gt;%</span></span>
+<span id="cb68-540"><a href="#cb68-540" aria-hidden="true" tabindex="-1"></a>who_long <span class="sc">%&gt;%</span></span>
 <span id="cb68-541"><a href="#cb68-541" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(description)</span>
 <span id="cb68-542"><a href="#cb68-542" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-543"><a href="#cb68-543" aria-hidden="true" tabindex="-1"></a></span>
@@ -2459,20 +2459,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-584"><a href="#cb68-584" aria-hidden="true" tabindex="-1"></a>We can remedy this by using a combination of <span class="in">`mutate()`</span> and <span class="in">`str_replace()`</span> to replace all instances of <span class="in">`newrel`</span> with <span class="in">`new_rel`</span>.</span>
 <span id="cb68-585"><a href="#cb68-585" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-588"><a href="#cb68-588" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-589"><a href="#cb68-589" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<span id="cb68-589"><a href="#cb68-589" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb68-590"><a href="#cb68-590" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_replace</span>(description, <span class="st">"newrel"</span>, <span class="st">"new_rel"</span>))</span>
 <span id="cb68-591"><a href="#cb68-591" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-592"><a href="#cb68-592" aria-hidden="true" tabindex="-1"></a>who_longer</span>
+<span id="cb68-592"><a href="#cb68-592" aria-hidden="true" tabindex="-1"></a>who_long</span>
 <span id="cb68-593"><a href="#cb68-593" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-594"><a href="#cb68-594" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-595"><a href="#cb68-595" aria-hidden="true" tabindex="-1"></a>Since every single observation contains only new cases and no old cases, the <span class="in">`new_`</span> portion of the encoding is redundant.</span>
 <span id="cb68-596"><a href="#cb68-596" aria-hidden="true" tabindex="-1"></a>So we can remove it using <span class="in">`str_remove()`</span>.</span>
 <span id="cb68-597"><a href="#cb68-597" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-600"><a href="#cb68-600" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-601"><a href="#cb68-601" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<span id="cb68-601"><a href="#cb68-601" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb68-602"><a href="#cb68-602" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_remove</span>(description, <span class="st">"new_"</span>))</span>
 <span id="cb68-603"><a href="#cb68-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-604"><a href="#cb68-604" aria-hidden="true" tabindex="-1"></a>who_longer</span>
+<span id="cb68-604"><a href="#cb68-604" aria-hidden="true" tabindex="-1"></a>who_long</span>
 <span id="cb68-605"><a href="#cb68-605" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-606"><a href="#cb68-606" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-607"><a href="#cb68-607" aria-hidden="true" tabindex="-1"></a>Now one last problem remains, there is no separator between the sex and age group.</span>
@@ -2480,17 +2480,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb68-609"><a href="#cb68-609" aria-hidden="true" tabindex="-1"></a>Note that we use <span class="in">`"_f"`</span> and <span class="in">`"_m"`</span> as our patterns as a precaution in case the letters naturally occur elsewhere in the encoding.</span>
 <span id="cb68-610"><a href="#cb68-610" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-613"><a href="#cb68-613" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-614"><a href="#cb68-614" aria-hidden="true" tabindex="-1"></a>who_longer <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<span id="cb68-614"><a href="#cb68-614" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb68-615"><a href="#cb68-615" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_replace</span>(description, <span class="st">"_f"</span>, <span class="st">"_f_"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb68-616"><a href="#cb68-616" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">description =</span> <span class="fu">str_replace</span>(description, <span class="st">"_m"</span>, <span class="st">"_m_"</span>))</span>
 <span id="cb68-617"><a href="#cb68-617" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-618"><a href="#cb68-618" aria-hidden="true" tabindex="-1"></a>who_longer</span>
+<span id="cb68-618"><a href="#cb68-618" aria-hidden="true" tabindex="-1"></a>who_long</span>
 <span id="cb68-619"><a href="#cb68-619" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb68-620"><a href="#cb68-620" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-621"><a href="#cb68-621" aria-hidden="true" tabindex="-1"></a>With that we are finally able to separate the data into individual columns with <span class="in">`separate()`</span>.</span>
 <span id="cb68-622"><a href="#cb68-622" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-625"><a href="#cb68-625" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-626"><a href="#cb68-626" aria-hidden="true" tabindex="-1"></a>who_separated <span class="ot">&lt;-</span> who_longer <span class="sc">%&gt;%</span></span>
+<span id="cb68-626"><a href="#cb68-626" aria-hidden="true" tabindex="-1"></a>who_separated <span class="ot">&lt;-</span> who_long <span class="sc">%&gt;%</span></span>
 <span id="cb68-627"><a href="#cb68-627" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(description, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"type"</span>, <span class="st">"sex"</span>, <span class="st">"age_group"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
 <span id="cb68-628"><a href="#cb68-628" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-629"><a href="#cb68-629" aria-hidden="true" tabindex="-1"></a>who_separated</span>
