@@ -313,6 +313,7 @@ window.Quarto = {
   <li><a href="#extension" id="toc-extension" class="nav-link" data-scroll-target="#extension"><span class="header-section-number">7.5</span> Extension</a>
   <ul class="collapse">
   <li><a href="#ma-plot" id="toc-ma-plot" class="nav-link" data-scroll-target="#ma-plot"><span class="header-section-number">7.5.1</span> MA Plot</a></li>
+  <li><a href="#gene-set-testing" id="toc-gene-set-testing" class="nav-link" data-scroll-target="#gene-set-testing"><span class="header-section-number">7.5.2</span> Gene set testing</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.6</span> References</a></li>
   </ul>
@@ -427,9 +428,9 @@ Learning Objectives
 <section id="design-matrix" class="level3" data-number="7.1.1">
 <h3 data-number="7.1.1" class="anchored" data-anchor-id="design-matrix"><span class="header-section-number">7.1.1</span> Design matrix</h3>
 <p>The first step to fitting a linear model is to specify a design matrix. The design matrix specifies the values of the covariates for each sample, and is represented as a matrix due to the mathematical convenience.</p>
-<p>To generate a design matrix. We use the function <code>model.matrix()</code>, with the expression <code>~0 + group</code>. This returns a matrix representing the design where there is no intercept term and group is the only covariate. If we omit the <code>0</code> then there would be an intercept in the model, and if we included more covariates then more columns would be generated.</p>
+<p>To generate a design matrix. We use the function <code>model.matrix()</code>, with the expression <code>~ 0 + group</code>. This returns a matrix representing the design where there is no intercept term and group is the only covariate. This is known as a ‘means model.’ If we omit the <code>0</code> then there would be an intercept in the model, and if we included more covariates then more columns would be generated.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span><span class="dv">0</span> <span class="sc">+</span> group, <span class="at">data =</span> dge<span class="sc">$</span>samples)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> group, <span class="at">data =</span> dge_norm<span class="sc">$</span>samples)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>design</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          groupBasal groupLP groupML
@@ -449,7 +450,10 @@ attr(,"contrasts")$group
 [1] "contr.treatment"</code></pre>
 </div>
 </div>
-<p>There are 9 rows, one for each sample. Along the columns are the names of the groups. The values in the cells denote membership of the particular sample for a particular group, as our groups in this case are mutually exclusive, each row contains only a single 1 to denote membership in a single group.</p>
+<p>There are 9 rows, one for each sample (enabled by the rownames set on the dge_norm$samples data frame).<br>
+The column names correspond to the experimental groups.<br>
+The values in the cells denote membership of the particular sample for a particular group, as our groups in this case are mutually exclusive, each row contains only a single 1 to denote membership in a single group.</p>
+<p>For an excellent comprehensive explanation of design matrices in limma, see <a href="./further_reading.html#design-matrix-paper">this Further reading article</a>.</p>
 </section>
 <section id="contrasts" class="level3" data-number="7.1.2">
 <h3 data-number="7.1.2" class="anchored" data-anchor-id="contrasts"><span class="header-section-number">7.1.2</span> Contrasts</h3>
@@ -946,6 +950,11 @@ Next steps
 <pre><code>Saving 10 x 5 in image</code></pre>
 </div>
 </div>
+</section>
+<section id="gene-set-testing" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="gene-set-testing"><span class="header-section-number">7.5.2</span> Gene set testing</h3>
+<p>Although beyond the scope of this subject, researchers are often interested in discovering biological trends in differential gene expression results such as we have generated above. To do this, genes can be grouped according to their involvement in similar biological processes, molecular functions or cellular components, for example. A single gene can be involved in multiple biological processes, and have multiple ‘terms’ or ‘labels’. Genes with the same assigned term are called a ‘gene set’.</p>
+<p>‘Gene set enrichment analysis’ is the science of identifying terms that are over-represented among differentially expressed genes. There are many methods for doing this, and ensemble methods (aggregating results from multiple enrichment testing methods), is an optimal approach, as detailed <a href="https://academic.oup.com/bioinformatics/article/33/3/414/2875813">here</a>.</p>
 </section>
 </section>
 <section id="references" class="level2" data-number="7.6">
@@ -1548,495 +1557,503 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a>The design matrix specifies the values of the covariates for each sample, and is represented as a matrix due to the mathematical convenience.</span>
 <span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a>To generate a design matrix.</span>
-<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a>We use the function <span class="in">`model.matrix()`</span>, with the expression <span class="in">`~0 + group`</span>.</span>
-<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a>This returns a matrix representing the design where there is no intercept term and group is the only covariate.</span>
+<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a>We use the function <span class="in">`model.matrix()`</span>, with the expression <span class="in">`~ 0 + group`</span>.</span>
+<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a>This returns a matrix representing the design where there is no intercept term and group is the only covariate. This is known as a 'means model.'</span>
 <span id="cb45-111"><a href="#cb45-111" aria-hidden="true" tabindex="-1"></a>If we omit the <span class="in">`0`</span> then there would be an intercept in the model, and if we included more covariates then more columns would be generated.</span>
 <span id="cb45-112"><a href="#cb45-112" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-115"><a href="#cb45-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span><span class="dv">0</span> <span class="sc">+</span> group, <span class="at">data =</span> dge<span class="sc">$</span>samples)</span>
+<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> group, <span class="at">data =</span> dge_norm<span class="sc">$</span>samples)</span>
 <span id="cb45-117"><a href="#cb45-117" aria-hidden="true" tabindex="-1"></a>design</span>
 <span id="cb45-118"><a href="#cb45-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-119"><a href="#cb45-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a>There are 9 rows, one for each sample.</span>
-<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a>Along the columns are the names of the groups.</span>
+<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a>There are 9 rows, one for each sample (enabled by the rownames set on the dge_norm$samples data frame).  </span>
+<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a>The column names correspond to the experimental groups.  </span>
 <span id="cb45-122"><a href="#cb45-122" aria-hidden="true" tabindex="-1"></a>The values in the cells denote membership of the particular sample for a particular group, as our groups in this case are mutually exclusive, each row contains only a single 1 to denote membership in a single group.</span>
 <span id="cb45-123"><a href="#cb45-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contrasts</span></span>
+<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a>For an excellent comprehensive explanation of design matrices in limma, see <span class="co">[</span><span class="ot">this Further reading article</span><span class="co">](further_reading.qmd#design-matrix-paper)</span>.</span>
 <span id="cb45-125"><a href="#cb45-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-126"><a href="#cb45-126" aria-hidden="true" tabindex="-1"></a>Contrast matrices are companions to design matrices.</span>
-<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a>They are used to specify the comparison of interest.</span>
-<span id="cb45-128"><a href="#cb45-128" aria-hidden="true" tabindex="-1"></a>In our case, we have three experimental groups: <span class="in">`Basal`</span>, <span class="in">`LP`</span> and <span class="in">`ML`</span>.</span>
-<span id="cb45-129"><a href="#cb45-129" aria-hidden="true" tabindex="-1"></a>So if we are to perform differential expression analysis, we are most likely interested in the differences between only two of the groups at a time.</span>
-<span id="cb45-130"><a href="#cb45-130" aria-hidden="true" tabindex="-1"></a>Contrast matrices let use specify which comparison we'd like to make, and are also represented as a matrix just like the design.</span>
-<span id="cb45-131"><a href="#cb45-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-132"><a href="#cb45-132" aria-hidden="true" tabindex="-1"></a>A contrast matrix can be made using the <span class="in">`makeContrasts()`</span> function.</span>
-<span id="cb45-133"><a href="#cb45-133" aria-hidden="true" tabindex="-1"></a>Within this function, we specify the name of each specific contrast and the formula for that contrast.</span>
-<span id="cb45-134"><a href="#cb45-134" aria-hidden="true" tabindex="-1"></a>For example, the <span class="in">`BasalvsLP`</span> contrasts compares the difference between the <span class="in">`Basal`</span> and <span class="in">`LP`</span> groups.</span>
-<span id="cb45-135"><a href="#cb45-135" aria-hidden="true" tabindex="-1"></a>Note that the name of the phenotype groups must be written exactly as they are in the column names of our design matrix (see above).</span>
-<span id="cb45-136"><a href="#cb45-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-137"><a href="#cb45-137" aria-hidden="true" tabindex="-1"></a>In addition to the individual contrasts, the function must know about the design of the model.</span>
-<span id="cb45-138"><a href="#cb45-138" aria-hidden="true" tabindex="-1"></a>This is passed through the <span class="in">`levels`</span> argument, which either accepts a matrix with the column names corresponding to levels of your experimental groups, or the levels themselves as a character vector.</span>
-<span id="cb45-139"><a href="#cb45-139" aria-hidden="true" tabindex="-1"></a>Here we first simplify the column names of our design matrix to make it easier to read.</span>
-<span id="cb45-140"><a href="#cb45-140" aria-hidden="true" tabindex="-1"></a>Then we create the contrast matrix using the <span class="in">`makeContrasts()`</span> function.</span>
-<span id="cb45-141"><a href="#cb45-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-144"><a href="#cb45-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-145"><a href="#cb45-145" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(design) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Basal"</span>, <span class="st">"LP"</span>, <span class="st">"ML"</span>)</span>
-<span id="cb45-146"><a href="#cb45-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-147"><a href="#cb45-147" aria-hidden="true" tabindex="-1"></a>contr_matrix <span class="ot">&lt;-</span> <span class="fu">makeContrasts</span>(</span>
-<span id="cb45-148"><a href="#cb45-148" aria-hidden="true" tabindex="-1"></a>  <span class="at">BasalvsLP =</span> <span class="st">"Basal - LP"</span>,</span>
-<span id="cb45-149"><a href="#cb45-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">BasalvsML =</span> <span class="st">"Basal - ML"</span>,</span>
-<span id="cb45-150"><a href="#cb45-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">LPvsML =</span> <span class="st">"LP - ML"</span>,</span>
-<span id="cb45-151"><a href="#cb45-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> design <span class="co"># alternatively 'levels = colnames(design)'</span></span>
-<span id="cb45-152"><a href="#cb45-152" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb45-153"><a href="#cb45-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-154"><a href="#cb45-154" aria-hidden="true" tabindex="-1"></a>contr_matrix</span>
-<span id="cb45-155"><a href="#cb45-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-156"><a href="#cb45-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-157"><a href="#cb45-157" aria-hidden="true" tabindex="-1"></a>There are two things to note about a design matrix.</span>
-<span id="cb45-158"><a href="#cb45-158" aria-hidden="true" tabindex="-1"></a>First, the sum of the numbers in each column is equal to 0.</span>
-<span id="cb45-159"><a href="#cb45-159" aria-hidden="true" tabindex="-1"></a>Second, the way that you set up the equation in the matrix will determine the interpretation of the log-fold-change calculated later, as well as the meaning of up-regulated and down-regulated genes.</span>
-<span id="cb45-160"><a href="#cb45-160" aria-hidden="true" tabindex="-1"></a>For example, the contrast <span class="in">`Basal - LP`</span> will give a positive log-fold-change for genes that are up-regulated in the <span class="in">`Basal`</span> group compared to the <span class="in">`LP`</span> group.</span>
-<span id="cb45-161"><a href="#cb45-161" aria-hidden="true" tabindex="-1"></a>If we had set up the contrast as <span class="in">`LP - Basal`</span>, then the opposite would be true, and we would get a negative log-fold-change for genes that are up-regulated in the <span class="in">`Basal`</span> group compared to the <span class="in">`LP`</span> group.</span>
-<span id="cb45-162"><a href="#cb45-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-163"><a href="#cb45-163" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance modelling with voom</span></span>
+<span id="cb45-126"><a href="#cb45-126" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contrasts</span></span>
+<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-128"><a href="#cb45-128" aria-hidden="true" tabindex="-1"></a>Contrast matrices are companions to design matrices.</span>
+<span id="cb45-129"><a href="#cb45-129" aria-hidden="true" tabindex="-1"></a>They are used to specify the comparison of interest.</span>
+<span id="cb45-130"><a href="#cb45-130" aria-hidden="true" tabindex="-1"></a>In our case, we have three experimental groups: <span class="in">`Basal`</span>, <span class="in">`LP`</span> and <span class="in">`ML`</span>.</span>
+<span id="cb45-131"><a href="#cb45-131" aria-hidden="true" tabindex="-1"></a>So if we are to perform differential expression analysis, we are most likely interested in the differences between only two of the groups at a time.</span>
+<span id="cb45-132"><a href="#cb45-132" aria-hidden="true" tabindex="-1"></a>Contrast matrices let use specify which comparison we'd like to make, and are also represented as a matrix just like the design.</span>
+<span id="cb45-133"><a href="#cb45-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-134"><a href="#cb45-134" aria-hidden="true" tabindex="-1"></a>A contrast matrix can be made using the <span class="in">`makeContrasts()`</span> function.</span>
+<span id="cb45-135"><a href="#cb45-135" aria-hidden="true" tabindex="-1"></a>Within this function, we specify the name of each specific contrast and the formula for that contrast.</span>
+<span id="cb45-136"><a href="#cb45-136" aria-hidden="true" tabindex="-1"></a>For example, the <span class="in">`BasalvsLP`</span> contrasts compares the difference between the <span class="in">`Basal`</span> and <span class="in">`LP`</span> groups.</span>
+<span id="cb45-137"><a href="#cb45-137" aria-hidden="true" tabindex="-1"></a>Note that the name of the phenotype groups must be written exactly as they are in the column names of our design matrix (see above).</span>
+<span id="cb45-138"><a href="#cb45-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-139"><a href="#cb45-139" aria-hidden="true" tabindex="-1"></a>In addition to the individual contrasts, the function must know about the design of the model.</span>
+<span id="cb45-140"><a href="#cb45-140" aria-hidden="true" tabindex="-1"></a>This is passed through the <span class="in">`levels`</span> argument, which either accepts a matrix with the column names corresponding to levels of your experimental groups, or the levels themselves as a character vector.</span>
+<span id="cb45-141"><a href="#cb45-141" aria-hidden="true" tabindex="-1"></a>Here we first simplify the column names of our design matrix to make it easier to read.</span>
+<span id="cb45-142"><a href="#cb45-142" aria-hidden="true" tabindex="-1"></a>Then we create the contrast matrix using the <span class="in">`makeContrasts()`</span> function.</span>
+<span id="cb45-143"><a href="#cb45-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-146"><a href="#cb45-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-147"><a href="#cb45-147" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(design) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Basal"</span>, <span class="st">"LP"</span>, <span class="st">"ML"</span>)</span>
+<span id="cb45-148"><a href="#cb45-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-149"><a href="#cb45-149" aria-hidden="true" tabindex="-1"></a>contr_matrix <span class="ot">&lt;-</span> <span class="fu">makeContrasts</span>(</span>
+<span id="cb45-150"><a href="#cb45-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">BasalvsLP =</span> <span class="st">"Basal - LP"</span>,</span>
+<span id="cb45-151"><a href="#cb45-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">BasalvsML =</span> <span class="st">"Basal - ML"</span>,</span>
+<span id="cb45-152"><a href="#cb45-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">LPvsML =</span> <span class="st">"LP - ML"</span>,</span>
+<span id="cb45-153"><a href="#cb45-153" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> design <span class="co"># alternatively 'levels = colnames(design)'</span></span>
+<span id="cb45-154"><a href="#cb45-154" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-155"><a href="#cb45-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-156"><a href="#cb45-156" aria-hidden="true" tabindex="-1"></a>contr_matrix</span>
+<span id="cb45-157"><a href="#cb45-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-158"><a href="#cb45-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-159"><a href="#cb45-159" aria-hidden="true" tabindex="-1"></a>There are two things to note about a design matrix.</span>
+<span id="cb45-160"><a href="#cb45-160" aria-hidden="true" tabindex="-1"></a>First, the sum of the numbers in each column is equal to 0.</span>
+<span id="cb45-161"><a href="#cb45-161" aria-hidden="true" tabindex="-1"></a>Second, the way that you set up the equation in the matrix will determine the interpretation of the log-fold-change calculated later, as well as the meaning of up-regulated and down-regulated genes.</span>
+<span id="cb45-162"><a href="#cb45-162" aria-hidden="true" tabindex="-1"></a>For example, the contrast <span class="in">`Basal - LP`</span> will give a positive log-fold-change for genes that are up-regulated in the <span class="in">`Basal`</span> group compared to the <span class="in">`LP`</span> group.</span>
+<span id="cb45-163"><a href="#cb45-163" aria-hidden="true" tabindex="-1"></a>If we had set up the contrast as <span class="in">`LP - Basal`</span>, then the opposite would be true, and we would get a negative log-fold-change for genes that are up-regulated in the <span class="in">`Basal`</span> group compared to the <span class="in">`LP`</span> group.</span>
 <span id="cb45-164"><a href="#cb45-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-165"><a href="#cb45-165" aria-hidden="true" tabindex="-1"></a>We are now ready to fit our linear models.</span>
-<span id="cb45-166"><a href="#cb45-166" aria-hidden="true" tabindex="-1"></a>Limma fits linear models to the data with the assumption that the underlying data is normally distributed.</span>
-<span id="cb45-167"><a href="#cb45-167" aria-hidden="true" tabindex="-1"></a>Count data is generally not normally distributed, but log transforming count data gives it a roughly normal distribution sufficient for linear models to work well.</span>
-<span id="cb45-168"><a href="#cb45-168" aria-hidden="true" tabindex="-1"></a>To do this, limma transforms the raw count data to log-cpm using library sizes and the normalisation factors we calculated previously.</span>
-<span id="cb45-169"><a href="#cb45-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-170"><a href="#cb45-170" aria-hidden="true" tabindex="-1"></a>In addition to the normalisation steps, the limma-voom pipeline uses the <span class="in">`voom()`</span> function to generate weights for the individual genes based on a modelled mean-variance relationship.</span>
-<span id="cb45-171"><a href="#cb45-171" aria-hidden="true" tabindex="-1"></a>This modelling allows us to get more information out of small sample sizes as the weights prevent our model from being more heavily influenced by more variable data points.</span>
-<span id="cb45-172"><a href="#cb45-172" aria-hidden="true" tabindex="-1"></a>The weights will then allow the linear model to be less influenced by genes with high variability, which is important for small sample sizes.</span>
-<span id="cb45-173"><a href="#cb45-173" aria-hidden="true" tabindex="-1"></a>The voom function also generates a mean-variance plot, which is useful for visualising the data.</span>
-<span id="cb45-174"><a href="#cb45-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-175"><a href="#cb45-175" aria-hidden="true" tabindex="-1"></a>The <span class="in">`voom()`</span> function takes as arguments, our <span class="in">`DGEList`</span> object and our design matrix.</span>
-<span id="cb45-176"><a href="#cb45-176" aria-hidden="true" tabindex="-1"></a>It also optionally outputs a plot of the mean-variance relationship of our data, called the 'voom plot'.</span>
-<span id="cb45-177"><a href="#cb45-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-180"><a href="#cb45-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-181"><a href="#cb45-181" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">voom</span>(dge_norm, design, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb45-182"><a href="#cb45-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-183"><a href="#cb45-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-184"><a href="#cb45-184" aria-hidden="true" tabindex="-1"></a>The output of <span class="in">`voom()`</span> (our variable <span class="in">`v`</span>) is an <span class="in">`EList`</span> object which contains the following elements:</span>
+<span id="cb45-165"><a href="#cb45-165" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance modelling with voom</span></span>
+<span id="cb45-166"><a href="#cb45-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-167"><a href="#cb45-167" aria-hidden="true" tabindex="-1"></a>We are now ready to fit our linear models.</span>
+<span id="cb45-168"><a href="#cb45-168" aria-hidden="true" tabindex="-1"></a>Limma fits linear models to the data with the assumption that the underlying data is normally distributed.</span>
+<span id="cb45-169"><a href="#cb45-169" aria-hidden="true" tabindex="-1"></a>Count data is generally not normally distributed, but log transforming count data gives it a roughly normal distribution sufficient for linear models to work well.</span>
+<span id="cb45-170"><a href="#cb45-170" aria-hidden="true" tabindex="-1"></a>To do this, limma transforms the raw count data to log-cpm using library sizes and the normalisation factors we calculated previously.</span>
+<span id="cb45-171"><a href="#cb45-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-172"><a href="#cb45-172" aria-hidden="true" tabindex="-1"></a>In addition to the normalisation steps, the limma-voom pipeline uses the <span class="in">`voom()`</span> function to generate weights for the individual genes based on a modelled mean-variance relationship.</span>
+<span id="cb45-173"><a href="#cb45-173" aria-hidden="true" tabindex="-1"></a>This modelling allows us to get more information out of small sample sizes as the weights prevent our model from being more heavily influenced by more variable data points.</span>
+<span id="cb45-174"><a href="#cb45-174" aria-hidden="true" tabindex="-1"></a>The weights will then allow the linear model to be less influenced by genes with high variability, which is important for small sample sizes.</span>
+<span id="cb45-175"><a href="#cb45-175" aria-hidden="true" tabindex="-1"></a>The voom function also generates a mean-variance plot, which is useful for visualising the data.</span>
+<span id="cb45-176"><a href="#cb45-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-177"><a href="#cb45-177" aria-hidden="true" tabindex="-1"></a>The <span class="in">`voom()`</span> function takes as arguments, our <span class="in">`DGEList`</span> object and our design matrix.</span>
+<span id="cb45-178"><a href="#cb45-178" aria-hidden="true" tabindex="-1"></a>It also optionally outputs a plot of the mean-variance relationship of our data, called the 'voom plot'.</span>
+<span id="cb45-179"><a href="#cb45-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-182"><a href="#cb45-182" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-183"><a href="#cb45-183" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">voom</span>(dge_norm, design, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb45-184"><a href="#cb45-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-185"><a href="#cb45-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-186"><a href="#cb45-186" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`genes`</span> - a data frame of gene annotation data.</span>
-<span id="cb45-187"><a href="#cb45-187" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`targets`</span> - data frame of sample data.</span>
-<span id="cb45-188"><a href="#cb45-188" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`E`</span> - numeric matrix of normalised log-cpm values.</span>
-<span id="cb45-189"><a href="#cb45-189" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`weights`</span> - numeric matrix of precision weights.</span>
-<span id="cb45-190"><a href="#cb45-190" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`design`</span> - the design matrix.</span>
-<span id="cb45-191"><a href="#cb45-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-192"><a href="#cb45-192" aria-hidden="true" tabindex="-1"></a>The 'voom plot' shows the mean-variance relationship of the data.</span>
-<span id="cb45-193"><a href="#cb45-193" aria-hidden="true" tabindex="-1"></a>The x-axis is the average log2 expression of each gene, and the y-axis is the log2 standard deviation of each gene.</span>
-<span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a>The idea is that the variance of a gene can be estimated as a function of its main expression, and that this estimate is more accurate than the direct calculation of the variance.</span>
-<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fitting the linear model</span></span>
+<span id="cb45-186"><a href="#cb45-186" aria-hidden="true" tabindex="-1"></a>The output of <span class="in">`voom()`</span> (our variable <span class="in">`v`</span>) is an <span class="in">`EList`</span> object which contains the following elements:</span>
+<span id="cb45-187"><a href="#cb45-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-188"><a href="#cb45-188" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`genes`</span> - a data frame of gene annotation data.</span>
+<span id="cb45-189"><a href="#cb45-189" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`targets`</span> - data frame of sample data.</span>
+<span id="cb45-190"><a href="#cb45-190" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`E`</span> - numeric matrix of normalised log-cpm values.</span>
+<span id="cb45-191"><a href="#cb45-191" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`weights`</span> - numeric matrix of precision weights.</span>
+<span id="cb45-192"><a href="#cb45-192" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`design`</span> - the design matrix.</span>
+<span id="cb45-193"><a href="#cb45-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a>The 'voom plot' shows the mean-variance relationship of the data.</span>
+<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a>The x-axis is the average log2 expression of each gene, and the y-axis is the log2 standard deviation of each gene.</span>
+<span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a>The idea is that the variance of a gene can be estimated as a function of its main expression, and that this estimate is more accurate than the direct calculation of the variance.</span>
 <span id="cb45-197"><a href="#cb45-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a>We are now ready to fit our linear model with <span class="in">`lmFit()`</span>, which calculates coefficients we defined in our design matrix <span class="in">`design`</span>.</span>
-<span id="cb45-199"><a href="#cb45-199" aria-hidden="true" tabindex="-1"></a>The resulting object, <span class="in">`vfit`</span> is a <span class="in">`MArrayLM`</span> object.</span>
-<span id="cb45-200"><a href="#cb45-200" aria-hidden="true" tabindex="-1"></a>It contains a information about our genes (the same data frame as <span class="in">`genes`</span> from our <span class="in">`EList`</span> object <span class="in">`v`</span> above), the design matrix and a number of statistical outputs.</span>
-<span id="cb45-201"><a href="#cb45-201" aria-hidden="true" tabindex="-1"></a>Of most interest to us is the coefficients, stored in an element called <span class="in">`coefficients`</span>.</span>
-<span id="cb45-202"><a href="#cb45-202" aria-hidden="true" tabindex="-1"></a>The first rows of this matrix is shown below.</span>
-<span id="cb45-203"><a href="#cb45-203" aria-hidden="true" tabindex="-1"></a>Each gene is row and is labelled using the EntrezID.</span>
-<span id="cb45-204"><a href="#cb45-204" aria-hidden="true" tabindex="-1"></a>Each column gives coefficients for each of our phenotype groups.</span>
-<span id="cb45-205"><a href="#cb45-205" aria-hidden="true" tabindex="-1"></a>These coefficients are weighted averages of the log-cpm of each gene in each group.</span>
-<span id="cb45-206"><a href="#cb45-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-209"><a href="#cb45-209" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-210"><a href="#cb45-210" aria-hidden="true" tabindex="-1"></a>vfit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(v)</span>
-<span id="cb45-211"><a href="#cb45-211" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vfit<span class="sc">$</span>coefficients)</span>
-<span id="cb45-212"><a href="#cb45-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-213"><a href="#cb45-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-214"><a href="#cb45-214" aria-hidden="true" tabindex="-1"></a>We can then use <span class="in">`contrasts.fit()`</span> to calculate coefficients for each contrast (or 'comparison') we specified in our <span class="in">`contr_matrix`</span>.</span>
-<span id="cb45-215"><a href="#cb45-215" aria-hidden="true" tabindex="-1"></a>The output is also an object of the class <span class="in">`MArrayLM`</span> (also known as an <span class="in">`MArrayLM`</span> object).</span>
-<span id="cb45-216"><a href="#cb45-216" aria-hidden="true" tabindex="-1"></a>When we inspect the <span class="in">`coefficients`</span> element now, we can see that each column is a contrast that we specified in our contrast matrix.</span>
-<span id="cb45-217"><a href="#cb45-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-220"><a href="#cb45-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-221"><a href="#cb45-221" aria-hidden="true" tabindex="-1"></a>vfit <span class="ot">&lt;-</span> <span class="fu">contrasts.fit</span>(vfit, <span class="at">contrasts =</span> contr_matrix)</span>
-<span id="cb45-222"><a href="#cb45-222" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vfit<span class="sc">$</span>coefficients)</span>
-<span id="cb45-223"><a href="#cb45-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-224"><a href="#cb45-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-225"><a href="#cb45-225" aria-hidden="true" tabindex="-1"></a>With these values we essentially want to know whether or not the difference in values is significantly different from 0.</span>
-<span id="cb45-226"><a href="#cb45-226" aria-hidden="true" tabindex="-1"></a>If the difference is not significantly different from 0, then we have failed to establish a difference in the expression of a particularly gene between two groups.</span>
-<span id="cb45-227"><a href="#cb45-227" aria-hidden="true" tabindex="-1"></a>If the difference is significantly greater than 0, then we have up-regulation in the first group of the contrast, and if the difference is significantly less than 0, then we have down-regulation in the first group of the contrast.</span>
-<span id="cb45-228"><a href="#cb45-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-229"><a href="#cb45-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Statistical testing</span></span>
+<span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fitting the linear model</span></span>
+<span id="cb45-199"><a href="#cb45-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-200"><a href="#cb45-200" aria-hidden="true" tabindex="-1"></a>We are now ready to fit our linear model with <span class="in">`lmFit()`</span>, which calculates coefficients we defined in our design matrix <span class="in">`design`</span>.</span>
+<span id="cb45-201"><a href="#cb45-201" aria-hidden="true" tabindex="-1"></a>The resulting object, <span class="in">`vfit`</span> is a <span class="in">`MArrayLM`</span> object.</span>
+<span id="cb45-202"><a href="#cb45-202" aria-hidden="true" tabindex="-1"></a>It contains a information about our genes (the same data frame as <span class="in">`genes`</span> from our <span class="in">`EList`</span> object <span class="in">`v`</span> above), the design matrix and a number of statistical outputs.</span>
+<span id="cb45-203"><a href="#cb45-203" aria-hidden="true" tabindex="-1"></a>Of most interest to us is the coefficients, stored in an element called <span class="in">`coefficients`</span>.</span>
+<span id="cb45-204"><a href="#cb45-204" aria-hidden="true" tabindex="-1"></a>The first rows of this matrix is shown below.</span>
+<span id="cb45-205"><a href="#cb45-205" aria-hidden="true" tabindex="-1"></a>Each gene is row and is labelled using the EntrezID.</span>
+<span id="cb45-206"><a href="#cb45-206" aria-hidden="true" tabindex="-1"></a>Each column gives coefficients for each of our phenotype groups.</span>
+<span id="cb45-207"><a href="#cb45-207" aria-hidden="true" tabindex="-1"></a>These coefficients are weighted averages of the log-cpm of each gene in each group.</span>
+<span id="cb45-208"><a href="#cb45-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-211"><a href="#cb45-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-212"><a href="#cb45-212" aria-hidden="true" tabindex="-1"></a>vfit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(v)</span>
+<span id="cb45-213"><a href="#cb45-213" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vfit<span class="sc">$</span>coefficients)</span>
+<span id="cb45-214"><a href="#cb45-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-215"><a href="#cb45-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-216"><a href="#cb45-216" aria-hidden="true" tabindex="-1"></a>We can then use <span class="in">`contrasts.fit()`</span> to calculate coefficients for each contrast (or 'comparison') we specified in our <span class="in">`contr_matrix`</span>.</span>
+<span id="cb45-217"><a href="#cb45-217" aria-hidden="true" tabindex="-1"></a>The output is also an object of the class <span class="in">`MArrayLM`</span> (also known as an <span class="in">`MArrayLM`</span> object).</span>
+<span id="cb45-218"><a href="#cb45-218" aria-hidden="true" tabindex="-1"></a>When we inspect the <span class="in">`coefficients`</span> element now, we can see that each column is a contrast that we specified in our contrast matrix.</span>
+<span id="cb45-219"><a href="#cb45-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-222"><a href="#cb45-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-223"><a href="#cb45-223" aria-hidden="true" tabindex="-1"></a>vfit <span class="ot">&lt;-</span> <span class="fu">contrasts.fit</span>(vfit, <span class="at">contrasts =</span> contr_matrix)</span>
+<span id="cb45-224"><a href="#cb45-224" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vfit<span class="sc">$</span>coefficients)</span>
+<span id="cb45-225"><a href="#cb45-225" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-226"><a href="#cb45-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-227"><a href="#cb45-227" aria-hidden="true" tabindex="-1"></a>With these values we essentially want to know whether or not the difference in values is significantly different from 0.</span>
+<span id="cb45-228"><a href="#cb45-228" aria-hidden="true" tabindex="-1"></a>If the difference is not significantly different from 0, then we have failed to establish a difference in the expression of a particularly gene between two groups.</span>
+<span id="cb45-229"><a href="#cb45-229" aria-hidden="true" tabindex="-1"></a>If the difference is significantly greater than 0, then we have up-regulation in the first group of the contrast, and if the difference is significantly less than 0, then we have down-regulation in the first group of the contrast.</span>
 <span id="cb45-230"><a href="#cb45-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-231"><a href="#cb45-231" aria-hidden="true" tabindex="-1"></a>To actually test if the values are significantly different from 0, we use the <span class="in">`eBayes()`</span> function to compute moderated t-statistics, moderated F-statistics and log-odds of differential expression for each gene, given a fitted linear model.</span>
-<span id="cb45-232"><a href="#cb45-232" aria-hidden="true" tabindex="-1"></a>'Moderated' refers to empirical Bayes moderation, which borrows information across genes to obtain more accurate measures of variability for each gene.</span>
-<span id="cb45-233"><a href="#cb45-233" aria-hidden="true" tabindex="-1"></a>This also increases our power to detect differentially expressed genes.</span>
-<span id="cb45-234"><a href="#cb45-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-237"><a href="#cb45-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-238"><a href="#cb45-238" aria-hidden="true" tabindex="-1"></a>efit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(vfit)</span>
-<span id="cb45-239"><a href="#cb45-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-240"><a href="#cb45-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-241"><a href="#cb45-241" aria-hidden="true" tabindex="-1"></a>We can now look at the number of differentially expressed genes using the <span class="in">`decideTests()`</span> function.</span>
-<span id="cb45-242"><a href="#cb45-242" aria-hidden="true" tabindex="-1"></a>The output of this function is a matrix where each column is a contrast (comparison of interest) and each row is a gene.</span>
-<span id="cb45-243"><a href="#cb45-243" aria-hidden="true" tabindex="-1"></a>The numbers 1, -1 and 0 mean up-regulated, down-regulated or not significantly differentially expressed, respectively.</span>
-<span id="cb45-244"><a href="#cb45-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-245"><a href="#cb45-245" aria-hidden="true" tabindex="-1"></a>Note that <span class="in">`decideTests()`</span> also accounts for multiple testing.</span>
-<span id="cb45-246"><a href="#cb45-246" aria-hidden="true" tabindex="-1"></a>The default method is Benjamini and Hochberg <span class="co">[</span><span class="ot">@benjamini1995</span><span class="co">]</span> but several others are also available.</span>
-<span id="cb45-247"><a href="#cb45-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-250"><a href="#cb45-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-251"><a href="#cb45-251" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">decideTests</span>(efit)</span>
-<span id="cb45-252"><a href="#cb45-252" aria-hidden="true" tabindex="-1"></a>dt</span>
-<span id="cb45-253"><a href="#cb45-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-254"><a href="#cb45-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-255"><a href="#cb45-255" aria-hidden="true" tabindex="-1"></a>To obtain the total number of differentially expressed genes for each comparison, we can add the function <span class="in">`summary()`</span>:</span>
+<span id="cb45-231"><a href="#cb45-231" aria-hidden="true" tabindex="-1"></a><span class="fu">## Statistical testing</span></span>
+<span id="cb45-232"><a href="#cb45-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-233"><a href="#cb45-233" aria-hidden="true" tabindex="-1"></a>To actually test if the values are significantly different from 0, we use the <span class="in">`eBayes()`</span> function to compute moderated t-statistics, moderated F-statistics and log-odds of differential expression for each gene, given a fitted linear model.</span>
+<span id="cb45-234"><a href="#cb45-234" aria-hidden="true" tabindex="-1"></a>'Moderated' refers to empirical Bayes moderation, which borrows information across genes to obtain more accurate measures of variability for each gene.</span>
+<span id="cb45-235"><a href="#cb45-235" aria-hidden="true" tabindex="-1"></a>This also increases our power to detect differentially expressed genes.</span>
+<span id="cb45-236"><a href="#cb45-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-239"><a href="#cb45-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-240"><a href="#cb45-240" aria-hidden="true" tabindex="-1"></a>efit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(vfit)</span>
+<span id="cb45-241"><a href="#cb45-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-242"><a href="#cb45-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-243"><a href="#cb45-243" aria-hidden="true" tabindex="-1"></a>We can now look at the number of differentially expressed genes using the <span class="in">`decideTests()`</span> function.</span>
+<span id="cb45-244"><a href="#cb45-244" aria-hidden="true" tabindex="-1"></a>The output of this function is a matrix where each column is a contrast (comparison of interest) and each row is a gene.</span>
+<span id="cb45-245"><a href="#cb45-245" aria-hidden="true" tabindex="-1"></a>The numbers 1, -1 and 0 mean up-regulated, down-regulated or not significantly differentially expressed, respectively.</span>
+<span id="cb45-246"><a href="#cb45-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-247"><a href="#cb45-247" aria-hidden="true" tabindex="-1"></a>Note that <span class="in">`decideTests()`</span> also accounts for multiple testing.</span>
+<span id="cb45-248"><a href="#cb45-248" aria-hidden="true" tabindex="-1"></a>The default method is Benjamini and Hochberg <span class="co">[</span><span class="ot">@benjamini1995</span><span class="co">]</span> but several others are also available.</span>
+<span id="cb45-249"><a href="#cb45-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-252"><a href="#cb45-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-253"><a href="#cb45-253" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">decideTests</span>(efit)</span>
+<span id="cb45-254"><a href="#cb45-254" aria-hidden="true" tabindex="-1"></a>dt</span>
+<span id="cb45-255"><a href="#cb45-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-256"><a href="#cb45-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-259"><a href="#cb45-259" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-260"><a href="#cb45-260" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dt)</span>
-<span id="cb45-261"><a href="#cb45-261" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-262"><a href="#cb45-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-263"><a href="#cb45-263" aria-hidden="true" tabindex="-1"></a>The function <span class="in">`topTable()`</span> can be used to obtain more information on the differentially expressed genes for each contrast.</span>
-<span id="cb45-264"><a href="#cb45-264" aria-hidden="true" tabindex="-1"></a><span class="in">`topTable()`</span> takes as arguments the <span class="in">`MArrayLM`</span> object output by <span class="in">`eBayes()`</span> (<span class="in">`efit`</span>), the contrast name of interest, and the number of top differentially expressed genes to output.</span>
-<span id="cb45-265"><a href="#cb45-265" aria-hidden="true" tabindex="-1"></a>Note that the contrast name must be given in quotes and must be exactly as written in the contrast matrix <span class="in">`contr_matrix`</span>.</span>
-<span id="cb45-266"><a href="#cb45-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-267"><a href="#cb45-267" aria-hidden="true" tabindex="-1"></a>It outputs a data frame with the following information:</span>
+<span id="cb45-257"><a href="#cb45-257" aria-hidden="true" tabindex="-1"></a>To obtain the total number of differentially expressed genes for each comparison, we can add the function <span class="in">`summary()`</span>:</span>
+<span id="cb45-258"><a href="#cb45-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-261"><a href="#cb45-261" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-262"><a href="#cb45-262" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dt)</span>
+<span id="cb45-263"><a href="#cb45-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-264"><a href="#cb45-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-265"><a href="#cb45-265" aria-hidden="true" tabindex="-1"></a>The function <span class="in">`topTable()`</span> can be used to obtain more information on the differentially expressed genes for each contrast.</span>
+<span id="cb45-266"><a href="#cb45-266" aria-hidden="true" tabindex="-1"></a><span class="in">`topTable()`</span> takes as arguments the <span class="in">`MArrayLM`</span> object output by <span class="in">`eBayes()`</span> (<span class="in">`efit`</span>), the contrast name of interest, and the number of top differentially expressed genes to output.</span>
+<span id="cb45-267"><a href="#cb45-267" aria-hidden="true" tabindex="-1"></a>Note that the contrast name must be given in quotes and must be exactly as written in the contrast matrix <span class="in">`contr_matrix`</span>.</span>
 <span id="cb45-268"><a href="#cb45-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Gene details** - gene information, from the <span class="in">`gene`</span> element of the <span class="in">`MArrayLM`</span> object (<span class="in">`efit`</span>).</span>
-<span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`logFC`</span> - the log2 fold change of the contrast.</span>
-<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`AveExpr`</span> - the average log2 expression of that gene.</span>
-<span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`t`</span> - moderated t-statistic.</span>
-<span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`P.Value`</span> - p value.</span>
-<span id="cb45-274"><a href="#cb45-274" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`adj.P.Val`</span> - adjusted p value.</span>
-<span id="cb45-275"><a href="#cb45-275" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`B`</span> - log-odds that the gene is differentially expressed.</span>
-<span id="cb45-276"><a href="#cb45-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-279"><a href="#cb45-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-280"><a href="#cb45-280" aria-hidden="true" tabindex="-1"></a>top_bvl <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsLP"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsLP'</span>)</span>
-<span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top_bvl)</span>
-<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-287"><a href="#cb45-287" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plotting Results</span></span>
+<span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a>It outputs a data frame with the following information:</span>
+<span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Gene details** - gene information, from the <span class="in">`gene`</span> element of the <span class="in">`MArrayLM`</span> object (<span class="in">`efit`</span>).</span>
+<span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`logFC`</span> - the log2 fold change of the contrast.</span>
+<span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`AveExpr`</span> - the average log2 expression of that gene.</span>
+<span id="cb45-274"><a href="#cb45-274" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`t`</span> - moderated t-statistic.</span>
+<span id="cb45-275"><a href="#cb45-275" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`P.Value`</span> - p value.</span>
+<span id="cb45-276"><a href="#cb45-276" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`adj.P.Val`</span> - adjusted p value.</span>
+<span id="cb45-277"><a href="#cb45-277" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`B`</span> - log-odds that the gene is differentially expressed.</span>
+<span id="cb45-278"><a href="#cb45-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-281"><a href="#cb45-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-282"><a href="#cb45-282" aria-hidden="true" tabindex="-1"></a>top_bvl <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsLP"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-283"><a href="#cb45-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb45-284"><a href="#cb45-284" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsLP'</span>)</span>
+<span id="cb45-285"><a href="#cb45-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-286"><a href="#cb45-286" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top_bvl)</span>
+<span id="cb45-287"><a href="#cb45-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-288"><a href="#cb45-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-289"><a href="#cb45-289" aria-hidden="true" tabindex="-1"></a>In this section we will make plots of both the summary statistics (topTable output), and the gene expression levels per sample, using log(counts per million) together with sample metadata from dge\$samples.</span>
+<span id="cb45-289"><a href="#cb45-289" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plotting Results</span></span>
 <span id="cb45-290"><a href="#cb45-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-291"><a href="#cb45-291" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data extract</span></span>
+<span id="cb45-291"><a href="#cb45-291" aria-hidden="true" tabindex="-1"></a>In this section we will make plots of both the summary statistics (topTable output), and the gene expression levels per sample, using log(counts per million) together with sample metadata from dge\$samples.</span>
 <span id="cb45-292"><a href="#cb45-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-293"><a href="#cb45-293" aria-hidden="true" tabindex="-1"></a>To start with we extract all the data required to make any of the the common RNAseq results plots.</span>
+<span id="cb45-293"><a href="#cb45-293" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data extract</span></span>
 <span id="cb45-294"><a href="#cb45-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-295"><a href="#cb45-295" aria-hidden="true" tabindex="-1"></a>The experimental sample metadata and log(CPM) values were extracted to <span class="in">`samples_tbl`</span> and <span class="in">`log_cpm_tbl`</span> respectively, in the previous chapter.</span>
+<span id="cb45-295"><a href="#cb45-295" aria-hidden="true" tabindex="-1"></a>To start with we extract all the data required to make any of the the common RNAseq results plots.</span>
 <span id="cb45-296"><a href="#cb45-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a>Here we will also extract the summary statistics for the remaining two pair-wise contrasts into separate tables.</span>
+<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a>The experimental sample metadata and log(CPM) values were extracted to <span class="in">`samples_tbl`</span> and <span class="in">`log_cpm_tbl`</span> respectively, in the previous chapter.</span>
 <span id="cb45-298"><a href="#cb45-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-299"><a href="#cb45-299" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Extract summary tables</span></span>
+<span id="cb45-299"><a href="#cb45-299" aria-hidden="true" tabindex="-1"></a>Here we will also extract the summary statistics for the remaining two pair-wise contrasts into separate tables.</span>
 <span id="cb45-300"><a href="#cb45-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-301"><a href="#cb45-301" aria-hidden="true" tabindex="-1"></a>Volcano plots and MA plots require differential expression summary statistics.</span>
-<span id="cb45-302"><a href="#cb45-302" aria-hidden="true" tabindex="-1"></a>We have the summary table for BasalvsLP already extracted to <span class="in">`top_bvl`</span>, now for BasalvsML and LPvsML:</span>
-<span id="cb45-303"><a href="#cb45-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-306"><a href="#cb45-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-307"><a href="#cb45-307" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-308"><a href="#cb45-308" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb45-309"><a href="#cb45-309" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsML'</span>)</span>
-<span id="cb45-310"><a href="#cb45-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-311"><a href="#cb45-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-312"><a href="#cb45-312" aria-hidden="true" tabindex="-1"></a>top_lvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"LPvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-313"><a href="#cb45-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb45-314"><a href="#cb45-314" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'LPvsML'</span>)</span>
-<span id="cb45-315"><a href="#cb45-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-316"><a href="#cb45-316" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-301"><a href="#cb45-301" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Extract summary tables</span></span>
+<span id="cb45-302"><a href="#cb45-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-303"><a href="#cb45-303" aria-hidden="true" tabindex="-1"></a>Volcano plots and MA plots require differential expression summary statistics.</span>
+<span id="cb45-304"><a href="#cb45-304" aria-hidden="true" tabindex="-1"></a>We have the summary table for BasalvsLP already extracted to <span class="in">`top_bvl`</span>, now for BasalvsML and LPvsML:</span>
+<span id="cb45-305"><a href="#cb45-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-308"><a href="#cb45-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-309"><a href="#cb45-309" aria-hidden="true" tabindex="-1"></a>top_bvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"BasalvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-310"><a href="#cb45-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb45-311"><a href="#cb45-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'BasalvsML'</span>)</span>
+<span id="cb45-312"><a href="#cb45-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-313"><a href="#cb45-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-314"><a href="#cb45-314" aria-hidden="true" tabindex="-1"></a>top_lvm <span class="ot">&lt;-</span> <span class="fu">topTable</span>(efit, <span class="at">coef =</span> <span class="st">"LPvsML"</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-315"><a href="#cb45-315" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb45-316"><a href="#cb45-316" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">contr =</span> <span class="st">'LPvsML'</span>)</span>
 <span id="cb45-317"><a href="#cb45-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-318"><a href="#cb45-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-319"><a href="#cb45-319" aria-hidden="true" tabindex="-1"></a><span class="fu">### Volcano Plot</span></span>
+<span id="cb45-318"><a href="#cb45-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-319"><a href="#cb45-319" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-320"><a href="#cb45-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-321"><a href="#cb45-321" aria-hidden="true" tabindex="-1"></a>Volcano plots are very popular for visually summarizing results from RNA-seq analysis.</span>
-<span id="cb45-322"><a href="#cb45-322" aria-hidden="true" tabindex="-1"></a>The volcano plot is a scatter plot of the negative log10 p-value (y) against the log2 fold-change (x).</span>
-<span id="cb45-323"><a href="#cb45-323" aria-hidden="true" tabindex="-1"></a>This plot is useful for visualising the significance of the differentially expressed genes, as the more significant results are at the top left and right of the plot.</span>
-<span id="cb45-324"><a href="#cb45-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-325"><a href="#cb45-325" aria-hidden="true" tabindex="-1"></a>To make a volcano plot for a single experimental contrast (BasalvsLP), we must first categorize the summary statistics for each gene with 'Up' 'Down' or 'Not DE', according to the adj.P.Val and logFC.</span>
-<span id="cb45-326"><a href="#cb45-326" aria-hidden="true" tabindex="-1"></a>The <span class="in">`case_when()`</span> function is a good choice for binning continuous data (adj.P.Val) into categories.</span>
-<span id="cb45-327"><a href="#cb45-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-330"><a href="#cb45-330" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-331"><a href="#cb45-331" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="ot">&lt;-</span> top_bvl <span class="sc">%&gt;%</span> </span>
-<span id="cb45-332"><a href="#cb45-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">case_when</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Up'</span>,</span>
-<span id="cb45-333"><a href="#cb45-333" aria-hidden="true" tabindex="-1"></a>                            adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Down'</span>,</span>
-<span id="cb45-334"><a href="#cb45-334" aria-hidden="true" tabindex="-1"></a>                            <span class="at">.default=</span><span class="st">'Non DE'</span>))</span>
-<span id="cb45-335"><a href="#cb45-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-336"><a href="#cb45-336" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-321"><a href="#cb45-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### Volcano Plot</span></span>
+<span id="cb45-322"><a href="#cb45-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-323"><a href="#cb45-323" aria-hidden="true" tabindex="-1"></a>Volcano plots are very popular for visually summarizing results from RNA-seq analysis.</span>
+<span id="cb45-324"><a href="#cb45-324" aria-hidden="true" tabindex="-1"></a>The volcano plot is a scatter plot of the negative log10 p-value (y) against the log2 fold-change (x).</span>
+<span id="cb45-325"><a href="#cb45-325" aria-hidden="true" tabindex="-1"></a>This plot is useful for visualising the significance of the differentially expressed genes, as the more significant results are at the top left and right of the plot.</span>
+<span id="cb45-326"><a href="#cb45-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-327"><a href="#cb45-327" aria-hidden="true" tabindex="-1"></a>To make a volcano plot for a single experimental contrast (BasalvsLP), we must first categorize the summary statistics for each gene with 'Up' 'Down' or 'Not DE', according to the adj.P.Val and logFC.</span>
+<span id="cb45-328"><a href="#cb45-328" aria-hidden="true" tabindex="-1"></a>The <span class="in">`case_when()`</span> function is a good choice for binning continuous data (adj.P.Val) into categories.</span>
+<span id="cb45-329"><a href="#cb45-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-332"><a href="#cb45-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-333"><a href="#cb45-333" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="ot">&lt;-</span> top_bvl <span class="sc">%&gt;%</span> </span>
+<span id="cb45-334"><a href="#cb45-334" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">case_when</span>(adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Up'</span>,</span>
+<span id="cb45-335"><a href="#cb45-335" aria-hidden="true" tabindex="-1"></a>                            adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> logFC <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">'Down'</span>,</span>
+<span id="cb45-336"><a href="#cb45-336" aria-hidden="true" tabindex="-1"></a>                            <span class="at">.default=</span><span class="st">'Non DE'</span>))</span>
 <span id="cb45-337"><a href="#cb45-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-338"><a href="#cb45-338" aria-hidden="true" tabindex="-1"></a>Now to render the plot...</span>
+<span id="cb45-338"><a href="#cb45-338" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-339"><a href="#cb45-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-342"><a href="#cb45-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-343"><a href="#cb45-343" aria-hidden="true" tabindex="-1"></a>volcano_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
-<span id="cb45-344"><a href="#cb45-344" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> logFC, <span class="at">y =</span> <span class="sc">-</span><span class="fu">log10</span>(P.Value), <span class="at">col =</span> status)) <span class="sc">+</span></span>
-<span id="cb45-345"><a href="#cb45-345" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb45-346"><a href="#cb45-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"#595959"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
-<span id="cb45-347"><a href="#cb45-347" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Basal vs LP'</span>)</span>
-<span id="cb45-348"><a href="#cb45-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-349"><a href="#cb45-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-350"><a href="#cb45-350" aria-hidden="true" tabindex="-1"></a>volcano_bvl</span>
-<span id="cb45-351"><a href="#cb45-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-352"><a href="#cb45-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-353"><a href="#cb45-353" aria-hidden="true" tabindex="-1"></a>Lastly we can label the gene names for the top-most DEGs by extracting the top 20 genes using <span class="in">`dplyr::slice()`</span> and feeding them into <span class="in">`geom_label_repel()`</span> from the ggrepel library.</span>
-<span id="cb45-354"><a href="#cb45-354" aria-hidden="true" tabindex="-1"></a>Here instead of rewriting code, we just keep adding geoms to the <span class="in">`volcano_plot`</span> ggplot object created above!</span>
-<span id="cb45-355"><a href="#cb45-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-358"><a href="#cb45-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-359"><a href="#cb45-359" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb45-360"><a href="#cb45-360" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-361"><a href="#cb45-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-364"><a href="#cb45-364" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-365"><a href="#cb45-365" aria-hidden="true" tabindex="-1"></a>top_deg_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(status) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(P.Value) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-366"><a href="#cb45-366" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-367"><a href="#cb45-367" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(status<span class="sc">!=</span><span class="st">'Non DE'</span>)</span>
-<span id="cb45-368"><a href="#cb45-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-369"><a href="#cb45-369" aria-hidden="true" tabindex="-1"></a>volcano_bvl <span class="sc">+</span></span>
-<span id="cb45-370"><a href="#cb45-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(</span>
-<span id="cb45-371"><a href="#cb45-371" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_deg_bvl,</span>
-<span id="cb45-372"><a href="#cb45-372" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> SYMBOL, <span class="at">col =</span> status),</span>
-<span id="cb45-373"><a href="#cb45-373" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
-<span id="cb45-374"><a href="#cb45-374" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
-<span id="cb45-375"><a href="#cb45-375" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb45-376"><a href="#cb45-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-377"><a href="#cb45-377" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-340"><a href="#cb45-340" aria-hidden="true" tabindex="-1"></a>Now to render the plot...</span>
+<span id="cb45-341"><a href="#cb45-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-344"><a href="#cb45-344" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-345"><a href="#cb45-345" aria-hidden="true" tabindex="-1"></a>volcano_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb45-346"><a href="#cb45-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> logFC, <span class="at">y =</span> <span class="sc">-</span><span class="fu">log10</span>(P.Value), <span class="at">col =</span> status)) <span class="sc">+</span></span>
+<span id="cb45-347"><a href="#cb45-347" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb45-348"><a href="#cb45-348" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"#595959"</span>, <span class="st">"red"</span>)) <span class="sc">+</span></span>
+<span id="cb45-349"><a href="#cb45-349" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Basal vs LP'</span>)</span>
+<span id="cb45-350"><a href="#cb45-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-351"><a href="#cb45-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-352"><a href="#cb45-352" aria-hidden="true" tabindex="-1"></a>volcano_bvl</span>
+<span id="cb45-353"><a href="#cb45-353" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-354"><a href="#cb45-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-355"><a href="#cb45-355" aria-hidden="true" tabindex="-1"></a>Lastly we can label the gene names for the top-most DEGs by extracting the top 20 genes using <span class="in">`dplyr::slice()`</span> and feeding them into <span class="in">`geom_label_repel()`</span> from the ggrepel library.</span>
+<span id="cb45-356"><a href="#cb45-356" aria-hidden="true" tabindex="-1"></a>Here instead of rewriting code, we just keep adding geoms to the <span class="in">`volcano_plot`</span> ggplot object created above!</span>
+<span id="cb45-357"><a href="#cb45-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-360"><a href="#cb45-360" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-361"><a href="#cb45-361" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb45-362"><a href="#cb45-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-363"><a href="#cb45-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-366"><a href="#cb45-366" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-367"><a href="#cb45-367" aria-hidden="true" tabindex="-1"></a>top_deg_bvl <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(status) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(P.Value) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-368"><a href="#cb45-368" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-369"><a href="#cb45-369" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(status<span class="sc">!=</span><span class="st">'Non DE'</span>)</span>
+<span id="cb45-370"><a href="#cb45-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-371"><a href="#cb45-371" aria-hidden="true" tabindex="-1"></a>volcano_bvl <span class="sc">+</span></span>
+<span id="cb45-372"><a href="#cb45-372" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(</span>
+<span id="cb45-373"><a href="#cb45-373" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_deg_bvl,</span>
+<span id="cb45-374"><a href="#cb45-374" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> SYMBOL, <span class="at">col =</span> status),</span>
+<span id="cb45-375"><a href="#cb45-375" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
+<span id="cb45-376"><a href="#cb45-376" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
+<span id="cb45-377"><a href="#cb45-377" aria-hidden="true" tabindex="-1"></a>  ) </span>
 <span id="cb45-378"><a href="#cb45-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-379"><a href="#cb45-379" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Next steps"}</span>
-<span id="cb45-380"><a href="#cb45-380" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled volcano plots for the BasalvsML and LPvsML contrasts?</span>
-<span id="cb45-381"><a href="#cb45-381" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb45-382"><a href="#cb45-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-383"><a href="#cb45-383" aria-hidden="true" tabindex="-1"></a><span class="fu">### Boxplots</span></span>
+<span id="cb45-379"><a href="#cb45-379" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-380"><a href="#cb45-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-381"><a href="#cb45-381" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Next steps"}</span>
+<span id="cb45-382"><a href="#cb45-382" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled volcano plots for the BasalvsML and LPvsML contrasts?</span>
+<span id="cb45-383"><a href="#cb45-383" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb45-384"><a href="#cb45-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-385"><a href="#cb45-385" aria-hidden="true" tabindex="-1"></a>It's important to create boxplots for a few differentially-expressed genes.</span>
-<span id="cb45-386"><a href="#cb45-386" aria-hidden="true" tabindex="-1"></a>This is a way of confirming that the results in our summary statistics tables and the underlying data agree, and that that our contrasts are set up correctly!</span>
-<span id="cb45-387"><a href="#cb45-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-388"><a href="#cb45-388" aria-hidden="true" tabindex="-1"></a>In this case we'll make boxplots from the log(CPM) values of individual samples, for the first 6 differentially-expressed genes in the BasalvsLP topTable <span class="in">`top_bvl_cat`</span>.</span>
-<span id="cb45-389"><a href="#cb45-389" aria-hidden="true" tabindex="-1"></a>We will extract the first 6 rows of the tibble using <span class="in">`slice_head()`</span>, then join the logCPM values per sample</span>
-<span id="cb45-390"><a href="#cb45-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-391"><a href="#cb45-391" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for this to render, yaml header updated to error: true --&gt;</span></span>
+<span id="cb45-385"><a href="#cb45-385" aria-hidden="true" tabindex="-1"></a><span class="fu">### Boxplots</span></span>
+<span id="cb45-386"><a href="#cb45-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-387"><a href="#cb45-387" aria-hidden="true" tabindex="-1"></a>It's important to create boxplots for a few differentially-expressed genes.</span>
+<span id="cb45-388"><a href="#cb45-388" aria-hidden="true" tabindex="-1"></a>This is a way of confirming that the results in our summary statistics tables and the underlying data agree, and that that our contrasts are set up correctly!</span>
+<span id="cb45-389"><a href="#cb45-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-390"><a href="#cb45-390" aria-hidden="true" tabindex="-1"></a>In this case we'll make boxplots from the log(CPM) values of individual samples, for the first 6 differentially-expressed genes in the BasalvsLP topTable <span class="in">`top_bvl_cat`</span>.</span>
+<span id="cb45-391"><a href="#cb45-391" aria-hidden="true" tabindex="-1"></a>We will extract the first 6 rows of the tibble using <span class="in">`slice_head()`</span>, then join the logCPM values per sample</span>
 <span id="cb45-392"><a href="#cb45-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-395"><a href="#cb45-395" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-396"><a href="#cb45-396" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-397"><a href="#cb45-397" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(logcpm_tbl, <span class="at">by=</span> <span class="fu">join_by</span>(ENTREZID <span class="sc">==</span> gene))</span>
-<span id="cb45-398"><a href="#cb45-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-399"><a href="#cb45-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-393"><a href="#cb45-393" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- for this to render, yaml header updated to error: true --&gt;</span></span>
+<span id="cb45-394"><a href="#cb45-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-397"><a href="#cb45-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-398"><a href="#cb45-398" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-399"><a href="#cb45-399" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(logcpm_tbl, <span class="at">by=</span> <span class="fu">join_by</span>(ENTREZID <span class="sc">==</span> gene))</span>
 <span id="cb45-400"><a href="#cb45-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-401"><a href="#cb45-401" aria-hidden="true" tabindex="-1"></a>Great! An error!</span>
-<span id="cb45-402"><a href="#cb45-402" aria-hidden="true" tabindex="-1"></a>...it seems that the <span class="in">`ENTREZID`</span> and <span class="in">`gene`</span> columns are not the same data type between the <span class="in">`top_bvl_cat`</span> and the <span class="in">`logcpm_tbl`</span> tibbles.</span>
-<span id="cb45-403"><a href="#cb45-403" aria-hidden="true" tabindex="-1"></a>We can fix this by creating a new column <span class="in">`logcpm_tbl$ENTREZID`</span> containing the genes converted to numeric data:</span>
-<span id="cb45-404"><a href="#cb45-404" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-407"><a href="#cb45-407" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-408"><a href="#cb45-408" aria-hidden="true" tabindex="-1"></a>logcpm_tbl <span class="ot">&lt;-</span> logcpm_tbl <span class="sc">%&gt;%</span> </span>
-<span id="cb45-409"><a href="#cb45-409" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(gene)) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-410"><a href="#cb45-410" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(ENTREZID)</span>
-<span id="cb45-411"><a href="#cb45-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-412"><a href="#cb45-412" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-401"><a href="#cb45-401" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-402"><a href="#cb45-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-403"><a href="#cb45-403" aria-hidden="true" tabindex="-1"></a>Great! An error!</span>
+<span id="cb45-404"><a href="#cb45-404" aria-hidden="true" tabindex="-1"></a>...it seems that the <span class="in">`ENTREZID`</span> and <span class="in">`gene`</span> columns are not the same data type between the <span class="in">`top_bvl_cat`</span> and the <span class="in">`logcpm_tbl`</span> tibbles.</span>
+<span id="cb45-405"><a href="#cb45-405" aria-hidden="true" tabindex="-1"></a>We can fix this by creating a new column <span class="in">`logcpm_tbl$ENTREZID`</span> containing the genes converted to numeric data:</span>
+<span id="cb45-406"><a href="#cb45-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-409"><a href="#cb45-409" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-410"><a href="#cb45-410" aria-hidden="true" tabindex="-1"></a>logcpm_tbl <span class="ot">&lt;-</span> logcpm_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb45-411"><a href="#cb45-411" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ENTREZID =</span> <span class="fu">as.numeric</span>(gene)) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-412"><a href="#cb45-412" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(ENTREZID)</span>
 <span id="cb45-413"><a href="#cb45-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-414"><a href="#cb45-414" aria-hidden="true" tabindex="-1"></a>Now we can rerun the <span class="in">`left_join()`</span> and reshape the data to long form as required for ggplot2.</span>
+<span id="cb45-414"><a href="#cb45-414" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-415"><a href="#cb45-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-418"><a href="#cb45-418" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-419"><a href="#cb45-419" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
-<span id="cb45-420"><a href="#cb45-420" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-421"><a href="#cb45-421" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(logcpm_tbl, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-422"><a href="#cb45-422" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-423"><a href="#cb45-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>SYMBOL, </span>
-<span id="cb45-424"><a href="#cb45-424" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'sample_id'</span>, <span class="at">values_to =</span> <span class="st">'logCPM'</span>)</span>
-<span id="cb45-425"><a href="#cb45-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-426"><a href="#cb45-426" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-416"><a href="#cb45-416" aria-hidden="true" tabindex="-1"></a>Now we can rerun the <span class="in">`left_join()`</span> and reshape the data to long form as required for ggplot2.</span>
+<span id="cb45-417"><a href="#cb45-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-420"><a href="#cb45-420" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-421"><a href="#cb45-421" aria-hidden="true" tabindex="-1"></a>top_gene_long <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb45-422"><a href="#cb45-422" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-423"><a href="#cb45-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(logcpm_tbl, <span class="at">by=</span><span class="st">'ENTREZID'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-424"><a href="#cb45-424" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SYMBOL, <span class="st">'10_6_5_11'</span> <span class="sc">:</span> <span class="st">'JMS9-P8c'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-425"><a href="#cb45-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>SYMBOL, </span>
+<span id="cb45-426"><a href="#cb45-426" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">'sample_id'</span>, <span class="at">values_to =</span> <span class="st">'logCPM'</span>)</span>
 <span id="cb45-427"><a href="#cb45-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-428"><a href="#cb45-428" aria-hidden="true" tabindex="-1"></a>Next, we join the sample groupings to this reshaped data:</span>
+<span id="cb45-428"><a href="#cb45-428" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-429"><a href="#cb45-429" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-432"><a href="#cb45-432" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-433"><a href="#cb45-433" aria-hidden="true" tabindex="-1"></a>top_gene_long_samples <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_gene_long, samples_tbl,</span>
-<span id="cb45-434"><a href="#cb45-434" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">by=</span><span class="fu">join_by</span>(sample_id <span class="sc">==</span> id))</span>
-<span id="cb45-435"><a href="#cb45-435" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-436"><a href="#cb45-436" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-437"><a href="#cb45-437" aria-hidden="true" tabindex="-1"></a>...and plot the results</span>
+<span id="cb45-430"><a href="#cb45-430" aria-hidden="true" tabindex="-1"></a>Next, we join the sample groupings to this reshaped data:</span>
+<span id="cb45-431"><a href="#cb45-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-434"><a href="#cb45-434" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-435"><a href="#cb45-435" aria-hidden="true" tabindex="-1"></a>top_gene_long_samples <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_gene_long, samples_tbl,</span>
+<span id="cb45-436"><a href="#cb45-436" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">by=</span><span class="fu">join_by</span>(sample_id <span class="sc">==</span> id))</span>
+<span id="cb45-437"><a href="#cb45-437" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-438"><a href="#cb45-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-441"><a href="#cb45-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-442"><a href="#cb45-442" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">%&gt;%</span> </span>
-<span id="cb45-443"><a href="#cb45-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>logCPM, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
-<span id="cb45-444"><a href="#cb45-444" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb45-445"><a href="#cb45-445" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
-<span id="cb45-446"><a href="#cb45-446" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SYMBOL, <span class="at">scales=</span><span class="st">'free'</span>)</span>
-<span id="cb45-447"><a href="#cb45-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-448"><a href="#cb45-448" aria-hidden="true" tabindex="-1"></a>boxplots</span>
-<span id="cb45-449"><a href="#cb45-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-450"><a href="#cb45-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-451"><a href="#cb45-451" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Cross-check!"}</span>
-<span id="cb45-452"><a href="#cb45-452" aria-hidden="true" tabindex="-1"></a>To confirm your statistical contrasts are working as expected, note the gene names that are down-regulated in the Basal vs LP conditions in these boxplots.</span>
-<span id="cb45-453"><a href="#cb45-453" aria-hidden="true" tabindex="-1"></a>Are they labelled as expected in the volcano plot?</span>
-<span id="cb45-454"><a href="#cb45-454" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb45-455"><a href="#cb45-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-456"><a href="#cb45-456" aria-hidden="true" tabindex="-1"></a><span class="fu">### Heatmap</span></span>
+<span id="cb45-439"><a href="#cb45-439" aria-hidden="true" tabindex="-1"></a>...and plot the results</span>
+<span id="cb45-440"><a href="#cb45-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-443"><a href="#cb45-443" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-444"><a href="#cb45-444" aria-hidden="true" tabindex="-1"></a>boxplots <span class="ot">&lt;-</span> top_gene_long_samples <span class="sc">%&gt;%</span> </span>
+<span id="cb45-445"><a href="#cb45-445" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>group,<span class="at">y=</span>logCPM, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
+<span id="cb45-446"><a href="#cb45-446" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb45-447"><a href="#cb45-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb45-448"><a href="#cb45-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>SYMBOL, <span class="at">scales=</span><span class="st">'free'</span>)</span>
+<span id="cb45-449"><a href="#cb45-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-450"><a href="#cb45-450" aria-hidden="true" tabindex="-1"></a>boxplots</span>
+<span id="cb45-451"><a href="#cb45-451" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-452"><a href="#cb45-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-453"><a href="#cb45-453" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Cross-check!"}</span>
+<span id="cb45-454"><a href="#cb45-454" aria-hidden="true" tabindex="-1"></a>To confirm your statistical contrasts are working as expected, note the gene names that are down-regulated in the Basal vs LP conditions in these boxplots.</span>
+<span id="cb45-455"><a href="#cb45-455" aria-hidden="true" tabindex="-1"></a>Are they labelled as expected in the volcano plot?</span>
+<span id="cb45-456"><a href="#cb45-456" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb45-457"><a href="#cb45-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-458"><a href="#cb45-458" aria-hidden="true" tabindex="-1"></a>Next, we can create a heatmap of the differentially expressed genes.</span>
-<span id="cb45-459"><a href="#cb45-459" aria-hidden="true" tabindex="-1"></a>The heatmap is a useful way to visualise the expression of the differentially expressed genes in individual samples, especially when more than two conditions are being tested.</span>
-<span id="cb45-460"><a href="#cb45-460" aria-hidden="true" tabindex="-1"></a>We can use the <span class="in">`tidyheatmaps`</span> <span class="co">[</span><span class="ot">package</span><span class="co">](https://jbengler.github.io/tidyheatmaps/)</span> to create the heatmap.</span>
-<span id="cb45-461"><a href="#cb45-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-462"><a href="#cb45-462" aria-hidden="true" tabindex="-1"></a>First we need to install the package if you haven't already</span>
+<span id="cb45-458"><a href="#cb45-458" aria-hidden="true" tabindex="-1"></a><span class="fu">### Heatmap</span></span>
+<span id="cb45-459"><a href="#cb45-459" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-460"><a href="#cb45-460" aria-hidden="true" tabindex="-1"></a>Next, we can create a heatmap of the differentially expressed genes.</span>
+<span id="cb45-461"><a href="#cb45-461" aria-hidden="true" tabindex="-1"></a>The heatmap is a useful way to visualise the expression of the differentially expressed genes in individual samples, especially when more than two conditions are being tested.</span>
+<span id="cb45-462"><a href="#cb45-462" aria-hidden="true" tabindex="-1"></a>We can use the <span class="in">`tidyheatmaps`</span> <span class="co">[</span><span class="ot">package</span><span class="co">](https://jbengler.github.io/tidyheatmaps/)</span> to create the heatmap.</span>
 <span id="cb45-463"><a href="#cb45-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-466"><a href="#cb45-466" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-467"><a href="#cb45-467" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb45-468"><a href="#cb45-468" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyheatmaps"</span>)</span>
-<span id="cb45-469"><a href="#cb45-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-470"><a href="#cb45-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-471"><a href="#cb45-471" aria-hidden="true" tabindex="-1"></a>The data we will use for the heatmap is going to be the log2 cpm expression values of the top differentially expressed genes, within the <span class="in">`logcpm_tbl`</span> data, and the first 50 rows from each of the three top tables.</span>
+<span id="cb45-464"><a href="#cb45-464" aria-hidden="true" tabindex="-1"></a>First we need to install the package if you haven't already</span>
+<span id="cb45-465"><a href="#cb45-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-468"><a href="#cb45-468" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-469"><a href="#cb45-469" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb45-470"><a href="#cb45-470" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyheatmaps"</span>)</span>
+<span id="cb45-471"><a href="#cb45-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-472"><a href="#cb45-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-473"><a href="#cb45-473" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Note"}</span>
-<span id="cb45-474"><a href="#cb45-474" aria-hidden="true" tabindex="-1"></a>Because genes may be differentially expressed in more than one contrast, the total number of unique genes may be less than 150.</span>
-<span id="cb45-475"><a href="#cb45-475" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb45-476"><a href="#cb45-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-477"><a href="#cb45-477" aria-hidden="true" tabindex="-1"></a>For more interpretable labels, we will use the gene symbols as the row names of the expression matrix.</span>
+<span id="cb45-473"><a href="#cb45-473" aria-hidden="true" tabindex="-1"></a>The data we will use for the heatmap is going to be the log2 cpm expression values of the top differentially expressed genes, within the <span class="in">`logcpm_tbl`</span> data, and the first 50 rows from each of the three top tables.</span>
+<span id="cb45-474"><a href="#cb45-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-475"><a href="#cb45-475" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Note"}</span>
+<span id="cb45-476"><a href="#cb45-476" aria-hidden="true" tabindex="-1"></a>Because genes may be differentially expressed in more than one contrast, the total number of unique genes may be less than 150.</span>
+<span id="cb45-477"><a href="#cb45-477" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb45-478"><a href="#cb45-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-481"><a href="#cb45-481" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-482"><a href="#cb45-482" aria-hidden="true" tabindex="-1"></a>top_genes_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb45-483"><a href="#cb45-483" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb45-484"><a href="#cb45-484" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
-<span id="cb45-485"><a href="#cb45-485" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-486"><a href="#cb45-486" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">%&gt;%</span> </span>
-<span id="cb45-487"><a href="#cb45-487" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() </span>
-<span id="cb45-488"><a href="#cb45-488" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-489"><a href="#cb45-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-490"><a href="#cb45-490" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-479"><a href="#cb45-479" aria-hidden="true" tabindex="-1"></a>For more interpretable labels, we will use the gene symbols as the row names of the expression matrix.</span>
+<span id="cb45-480"><a href="#cb45-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-483"><a href="#cb45-483" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-484"><a href="#cb45-484" aria-hidden="true" tabindex="-1"></a>top_genes_all <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb45-485"><a href="#cb45-485" aria-hidden="true" tabindex="-1"></a>  top_bvl <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb45-486"><a href="#cb45-486" aria-hidden="true" tabindex="-1"></a>  top_bvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>),</span>
+<span id="cb45-487"><a href="#cb45-487" aria-hidden="true" tabindex="-1"></a>  top_lvm <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-488"><a href="#cb45-488" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ENTREZID, SYMBOL) <span class="sc">%&gt;%</span> </span>
+<span id="cb45-489"><a href="#cb45-489" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>() </span>
+<span id="cb45-490"><a href="#cb45-490" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-491"><a href="#cb45-491" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-492"><a href="#cb45-492" aria-hidden="true" tabindex="-1"></a>We now join the logCPM values for the top_genes:</span>
+<span id="cb45-492"><a href="#cb45-492" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-493"><a href="#cb45-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-496"><a href="#cb45-496" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-497"><a href="#cb45-497" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_genes_all, logcpm_tbl,</span>
-<span id="cb45-498"><a href="#cb45-498" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="st">"ENTREZID"</span> )</span>
-<span id="cb45-499"><a href="#cb45-499" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-500"><a href="#cb45-500" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-501"><a href="#cb45-501" aria-hidden="true" tabindex="-1"></a>...and reshape the data to long format before joining in the sample group labels.</span>
-<span id="cb45-502"><a href="#cb45-502" aria-hidden="true" tabindex="-1"></a>This is very similar to how the data was prepared for our boxplots.</span>
-<span id="cb45-503"><a href="#cb45-503" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-506"><a href="#cb45-506" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-507"><a href="#cb45-507" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">%&gt;%</span> </span>
-<span id="cb45-508"><a href="#cb45-508" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(ENTREZID,SYMBOL,gene),</span>
-<span id="cb45-509"><a href="#cb45-509" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_to =</span> <span class="st">"id"</span>, </span>
-<span id="cb45-510"><a href="#cb45-510" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_to =</span> <span class="st">"logcpm"</span>)</span>
-<span id="cb45-511"><a href="#cb45-511" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-512"><a href="#cb45-512" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-513"><a href="#cb45-513" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_genes_lcpm_long, samples_tbl)</span>
+<span id="cb45-494"><a href="#cb45-494" aria-hidden="true" tabindex="-1"></a>We now join the logCPM values for the top_genes:</span>
+<span id="cb45-495"><a href="#cb45-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-498"><a href="#cb45-498" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-499"><a href="#cb45-499" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_genes_all, logcpm_tbl,</span>
+<span id="cb45-500"><a href="#cb45-500" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="st">"ENTREZID"</span> )</span>
+<span id="cb45-501"><a href="#cb45-501" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-502"><a href="#cb45-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-503"><a href="#cb45-503" aria-hidden="true" tabindex="-1"></a>...and reshape the data to long format before joining in the sample group labels.</span>
+<span id="cb45-504"><a href="#cb45-504" aria-hidden="true" tabindex="-1"></a>This is very similar to how the data was prepared for our boxplots.</span>
+<span id="cb45-505"><a href="#cb45-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-508"><a href="#cb45-508" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-509"><a href="#cb45-509" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_long <span class="ot">&lt;-</span> top_genes_lcpm <span class="sc">%&gt;%</span> </span>
+<span id="cb45-510"><a href="#cb45-510" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(ENTREZID,SYMBOL,gene),</span>
+<span id="cb45-511"><a href="#cb45-511" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_to =</span> <span class="st">"id"</span>, </span>
+<span id="cb45-512"><a href="#cb45-512" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_to =</span> <span class="st">"logcpm"</span>)</span>
+<span id="cb45-513"><a href="#cb45-513" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-514"><a href="#cb45-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-515"><a href="#cb45-515" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-515"><a href="#cb45-515" aria-hidden="true" tabindex="-1"></a>top_genes_lcpm_gp <span class="ot">&lt;-</span> <span class="fu">left_join</span>(top_genes_lcpm_long, samples_tbl)</span>
 <span id="cb45-516"><a href="#cb45-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-517"><a href="#cb45-517" aria-hidden="true" tabindex="-1"></a>Notice that if we do not specify the join key column, <span class="in">`left_join()`</span> will try to detect it automatically. Use this shortcut only when you are confident and very familiar with the tibbles you are working with.</span>
+<span id="cb45-517"><a href="#cb45-517" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-518"><a href="#cb45-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-519"><a href="#cb45-519" aria-hidden="true" tabindex="-1"></a>To create the heatmap we will use the <span class="in">`tidyheatmaps()`</span> function with the logCPM values.</span>
-<span id="cb45-520"><a href="#cb45-520" aria-hidden="true" tabindex="-1"></a>We will add in arguments to scale the data colours along the rows with a z-score, adding in sample annotation, and using a dendrogram (tree-based clustering) to order the data by rows and columns.</span>
-<span id="cb45-521"><a href="#cb45-521" aria-hidden="true" tabindex="-1"></a>We will also add in the option to show the row names and column names, and set the font size.</span>
-<span id="cb45-522"><a href="#cb45-522" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-523"><a href="#cb45-523" aria-hidden="true" tabindex="-1"></a>You can experiment with removing each of these options to see how they affect the heatmap, as well as investigate additional options in the <span class="in">`tidyheatmaps()`</span> documentation.</span>
+<span id="cb45-519"><a href="#cb45-519" aria-hidden="true" tabindex="-1"></a>Notice that if we do not specify the join key column, <span class="in">`left_join()`</span> will try to detect it automatically. Use this shortcut only when you are confident and very familiar with the tibbles you are working with.</span>
+<span id="cb45-520"><a href="#cb45-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-521"><a href="#cb45-521" aria-hidden="true" tabindex="-1"></a>To create the heatmap we will use the <span class="in">`tidyheatmaps()`</span> function with the logCPM values.</span>
+<span id="cb45-522"><a href="#cb45-522" aria-hidden="true" tabindex="-1"></a>We will add in arguments to scale the data colours along the rows with a z-score, adding in sample annotation, and using a dendrogram (tree-based clustering) to order the data by rows and columns.</span>
+<span id="cb45-523"><a href="#cb45-523" aria-hidden="true" tabindex="-1"></a>We will also add in the option to show the row names and column names, and set the font size.</span>
 <span id="cb45-524"><a href="#cb45-524" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-525"><a href="#cb45-525" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height = 9}</span></span>
-<span id="cb45-526"><a href="#cb45-526" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyheatmaps)</span></span>
-<span id="cb45-527"><a href="#cb45-527" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-528"><a href="#cb45-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-529"><a href="#cb45-529" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap &lt;- tidyheatmap(</span></span>
-<span id="cb45-530"><a href="#cb45-530" aria-hidden="true" tabindex="-1"></a><span class="in">  df = top_genes_lcpm_gp,</span></span>
-<span id="cb45-531"><a href="#cb45-531" aria-hidden="true" tabindex="-1"></a><span class="in">  rows = SYMBOL,</span></span>
-<span id="cb45-532"><a href="#cb45-532" aria-hidden="true" tabindex="-1"></a><span class="in">  columns = id,</span></span>
-<span id="cb45-533"><a href="#cb45-533" aria-hidden="true" tabindex="-1"></a><span class="in">  values = logcpm,</span></span>
-<span id="cb45-534"><a href="#cb45-534" aria-hidden="true" tabindex="-1"></a><span class="in">  color_legend_n = 100,</span></span>
-<span id="cb45-535"><a href="#cb45-535" aria-hidden="true" tabindex="-1"></a><span class="in">  annotation_col = group,</span></span>
-<span id="cb45-536"><a href="#cb45-536" aria-hidden="true" tabindex="-1"></a><span class="in">  scale = 'row',</span></span>
-<span id="cb45-537"><a href="#cb45-537" aria-hidden="true" tabindex="-1"></a><span class="in">  border_color = NA,</span></span>
-<span id="cb45-538"><a href="#cb45-538" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_rows = TRUE,</span></span>
-<span id="cb45-539"><a href="#cb45-539" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_cols = TRUE,</span></span>
-<span id="cb45-540"><a href="#cb45-540" aria-hidden="true" tabindex="-1"></a><span class="in">  show_rownames = TRUE,</span></span>
-<span id="cb45-541"><a href="#cb45-541" aria-hidden="true" tabindex="-1"></a><span class="in">  show_colnames = TRUE,</span></span>
-<span id="cb45-542"><a href="#cb45-542" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_row = 6,</span></span>
-<span id="cb45-543"><a href="#cb45-543" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_col = 10</span></span>
-<span id="cb45-544"><a href="#cb45-544" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb45-545"><a href="#cb45-545" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-546"><a href="#cb45-546" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap</span></span>
-<span id="cb45-547"><a href="#cb45-547" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-548"><a href="#cb45-548" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-549"><a href="#cb45-549" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving the results</span></span>
+<span id="cb45-525"><a href="#cb45-525" aria-hidden="true" tabindex="-1"></a>You can experiment with removing each of these options to see how they affect the heatmap, as well as investigate additional options in the <span class="in">`tidyheatmaps()`</span> documentation.</span>
+<span id="cb45-526"><a href="#cb45-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-527"><a href="#cb45-527" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, fig.height = 9}</span></span>
+<span id="cb45-528"><a href="#cb45-528" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyheatmaps)</span></span>
+<span id="cb45-529"><a href="#cb45-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-530"><a href="#cb45-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-531"><a href="#cb45-531" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap &lt;- tidyheatmap(</span></span>
+<span id="cb45-532"><a href="#cb45-532" aria-hidden="true" tabindex="-1"></a><span class="in">  df = top_genes_lcpm_gp,</span></span>
+<span id="cb45-533"><a href="#cb45-533" aria-hidden="true" tabindex="-1"></a><span class="in">  rows = SYMBOL,</span></span>
+<span id="cb45-534"><a href="#cb45-534" aria-hidden="true" tabindex="-1"></a><span class="in">  columns = id,</span></span>
+<span id="cb45-535"><a href="#cb45-535" aria-hidden="true" tabindex="-1"></a><span class="in">  values = logcpm,</span></span>
+<span id="cb45-536"><a href="#cb45-536" aria-hidden="true" tabindex="-1"></a><span class="in">  color_legend_n = 100,</span></span>
+<span id="cb45-537"><a href="#cb45-537" aria-hidden="true" tabindex="-1"></a><span class="in">  annotation_col = group,</span></span>
+<span id="cb45-538"><a href="#cb45-538" aria-hidden="true" tabindex="-1"></a><span class="in">  scale = 'row',</span></span>
+<span id="cb45-539"><a href="#cb45-539" aria-hidden="true" tabindex="-1"></a><span class="in">  border_color = NA,</span></span>
+<span id="cb45-540"><a href="#cb45-540" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_rows = TRUE,</span></span>
+<span id="cb45-541"><a href="#cb45-541" aria-hidden="true" tabindex="-1"></a><span class="in">  cluster_cols = TRUE,</span></span>
+<span id="cb45-542"><a href="#cb45-542" aria-hidden="true" tabindex="-1"></a><span class="in">  show_rownames = TRUE,</span></span>
+<span id="cb45-543"><a href="#cb45-543" aria-hidden="true" tabindex="-1"></a><span class="in">  show_colnames = TRUE,</span></span>
+<span id="cb45-544"><a href="#cb45-544" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_row = 6,</span></span>
+<span id="cb45-545"><a href="#cb45-545" aria-hidden="true" tabindex="-1"></a><span class="in">  fontsize_col = 10</span></span>
+<span id="cb45-546"><a href="#cb45-546" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb45-547"><a href="#cb45-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-548"><a href="#cb45-548" aria-hidden="true" tabindex="-1"></a><span class="in">heatmap</span></span>
+<span id="cb45-549"><a href="#cb45-549" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-550"><a href="#cb45-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-551"><a href="#cb45-551" aria-hidden="true" tabindex="-1"></a>Now that we have produced a series of plots and the top genes table, we can save these files to a directory.</span>
-<span id="cb45-552"><a href="#cb45-552" aria-hidden="true" tabindex="-1"></a>These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</span>
-<span id="cb45-553"><a href="#cb45-553" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-554"><a href="#cb45-554" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
-<span id="cb45-555"><a href="#cb45-555" aria-hidden="true" tabindex="-1"></a><span class="in">dir.create("output")</span></span>
-<span id="cb45-556"><a href="#cb45-556" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-557"><a href="#cb45-557" aria-hidden="true" tabindex="-1"></a><span class="in">write_csv(top_bvl_cat, "output/top_genes_BasalvsLP.csv")</span></span>
+<span id="cb45-551"><a href="#cb45-551" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving the results</span></span>
+<span id="cb45-552"><a href="#cb45-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-553"><a href="#cb45-553" aria-hidden="true" tabindex="-1"></a>Now that we have produced a series of plots and the top genes table, we can save these files to a directory.</span>
+<span id="cb45-554"><a href="#cb45-554" aria-hidden="true" tabindex="-1"></a>These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.</span>
+<span id="cb45-555"><a href="#cb45-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-556"><a href="#cb45-556" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, warning=FALSE}</span></span>
+<span id="cb45-557"><a href="#cb45-557" aria-hidden="true" tabindex="-1"></a><span class="in">dir.create("output")</span></span>
 <span id="cb45-558"><a href="#cb45-558" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-559"><a href="#cb45-559" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/volcano_plot_BasalvsLP.png", volcano_bvl)</span></span>
+<span id="cb45-559"><a href="#cb45-559" aria-hidden="true" tabindex="-1"></a><span class="in">write_csv(top_bvl_cat, "output/top_genes_BasalvsLP.csv")</span></span>
 <span id="cb45-560"><a href="#cb45-560" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-561"><a href="#cb45-561" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/heatmap.png", heatmap, width=9, height=9)</span></span>
+<span id="cb45-561"><a href="#cb45-561" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/volcano_plot_BasalvsLP.png", volcano_bvl)</span></span>
 <span id="cb45-562"><a href="#cb45-562" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-563"><a href="#cb45-563" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/boxplots.png", boxplots)</span></span>
-<span id="cb45-564"><a href="#cb45-564" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-565"><a href="#cb45-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-566"><a href="#cb45-566" aria-hidden="true" tabindex="-1"></a>With that we have come to the conclusion of the RNA-seq analysis and this course.</span>
-<span id="cb45-567"><a href="#cb45-567" aria-hidden="true" tabindex="-1"></a>You have now learned how to use various <span class="in">`tidyverse`</span> packages to operate on data and create publication quality figures.</span>
-<span id="cb45-568"><a href="#cb45-568" aria-hidden="true" tabindex="-1"></a>You have also learned how to use the <span class="in">`limma`</span> and <span class="in">`edgeR`</span> packages to perform differential expression analysis on RNA-seq data.</span>
-<span id="cb45-569"><a href="#cb45-569" aria-hidden="true" tabindex="-1"></a>You should now be able to apply these skills to perform analysis on your own data.</span>
-<span id="cb45-570"><a href="#cb45-570" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-571"><a href="#cb45-571" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extension</span></span>
+<span id="cb45-563"><a href="#cb45-563" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/heatmap.png", heatmap, width=9, height=9)</span></span>
+<span id="cb45-564"><a href="#cb45-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-565"><a href="#cb45-565" aria-hidden="true" tabindex="-1"></a><span class="in">ggsave("output/boxplots.png", boxplots)</span></span>
+<span id="cb45-566"><a href="#cb45-566" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-567"><a href="#cb45-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-568"><a href="#cb45-568" aria-hidden="true" tabindex="-1"></a>With that we have come to the conclusion of the RNA-seq analysis and this course.</span>
+<span id="cb45-569"><a href="#cb45-569" aria-hidden="true" tabindex="-1"></a>You have now learned how to use various <span class="in">`tidyverse`</span> packages to operate on data and create publication quality figures.</span>
+<span id="cb45-570"><a href="#cb45-570" aria-hidden="true" tabindex="-1"></a>You have also learned how to use the <span class="in">`limma`</span> and <span class="in">`edgeR`</span> packages to perform differential expression analysis on RNA-seq data.</span>
+<span id="cb45-571"><a href="#cb45-571" aria-hidden="true" tabindex="-1"></a>You should now be able to apply these skills to perform analysis on your own data.</span>
 <span id="cb45-572"><a href="#cb45-572" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-573"><a href="#cb45-573" aria-hidden="true" tabindex="-1"></a><span class="fu">### MA Plot</span></span>
+<span id="cb45-573"><a href="#cb45-573" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extension</span></span>
 <span id="cb45-574"><a href="#cb45-574" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-575"><a href="#cb45-575" aria-hidden="true" tabindex="-1"></a>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests.</span>
-<span id="cb45-576"><a href="#cb45-576" aria-hidden="true" tabindex="-1"></a>It can be created using the <span class="in">`plotMA()`</span> from the <span class="in">`limma`</span> package.</span>
-<span id="cb45-577"><a href="#cb45-577" aria-hidden="true" tabindex="-1"></a>Creating this plot requires 3 pieces of information:</span>
-<span id="cb45-578"><a href="#cb45-578" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-579"><a href="#cb45-579" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`object = efit`</span>: The the fitted object containing the log-fold-change and log-expression averages</span>
-<span id="cb45-580"><a href="#cb45-580" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`coef = 1`</span>: The column number of the contrast to plot since there are 3 different contrasts fitted within the object.</span>
-<span id="cb45-581"><a href="#cb45-581" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`status = dt[, 1]`</span>: A vector of numerics denoting whether a gene is up-regulated or down-regulated.</span>
-<span id="cb45-582"><a href="#cb45-582" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-585"><a href="#cb45-585" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-586"><a href="#cb45-586" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
-<span id="cb45-587"><a href="#cb45-587" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-588"><a href="#cb45-588" aria-hidden="true" tabindex="-1"></a><span class="co">#If you get an error with the above code, try:</span></span>
-<span id="cb45-589"><a href="#cb45-589" aria-hidden="true" tabindex="-1"></a>limma<span class="sc">::</span><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
-<span id="cb45-590"><a href="#cb45-590" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-591"><a href="#cb45-591" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-592"><a href="#cb45-592" aria-hidden="true" tabindex="-1"></a>As before, we can try to re-create this plot using <span class="in">`ggplot2`</span> to give us more flexibility in plotting.</span>
-<span id="cb45-593"><a href="#cb45-593" aria-hidden="true" tabindex="-1"></a>The information we'll need is in the <span class="in">`top_bvl_cat`</span> tibble that we extracted for the volcano plot.</span>
-<span id="cb45-594"><a href="#cb45-594" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-597"><a href="#cb45-597" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-598"><a href="#cb45-598" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span></span>
-<span id="cb45-599"><a href="#cb45-599" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
-<span id="cb45-600"><a href="#cb45-600" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
-<span id="cb45-601"><a href="#cb45-601" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-602"><a href="#cb45-602" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-603"><a href="#cb45-603" aria-hidden="true" tabindex="-1"></a>While the coordinates of the points are the same, there is still quite a bit of work to do to make this plot look like the one produced by <span class="in">`plotMA()`</span>.</span>
-<span id="cb45-604"><a href="#cb45-604" aria-hidden="true" tabindex="-1"></a>First we have the fix up the colours of the points.</span>
-<span id="cb45-605"><a href="#cb45-605" aria-hidden="true" tabindex="-1"></a>We also have to make it such that the non-significant points are plotted below the other points.</span>
-<span id="cb45-606"><a href="#cb45-606" aria-hidden="true" tabindex="-1"></a>To do this we would need to make it so that the non-significant points are plotted first.</span>
-<span id="cb45-607"><a href="#cb45-607" aria-hidden="true" tabindex="-1"></a>We can do this by reordering the levels of the <span class="in">`status`</span> factor so that the non-significant points are plotted first.</span>
-<span id="cb45-608"><a href="#cb45-608" aria-hidden="true" tabindex="-1"></a>Labels can also be added using <span class="in">`ggrepel`</span> for the top 10 DE genes in each direction.</span>
-<span id="cb45-609"><a href="#cb45-609" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-612"><a href="#cb45-612" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-613"><a href="#cb45-613" aria-hidden="true" tabindex="-1"></a>top_bvl_cat_fct <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
-<span id="cb45-614"><a href="#cb45-614" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">fct_relevel</span>(status,<span class="st">'Non DE'</span>)) </span>
-<span id="cb45-615"><a href="#cb45-615" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-616"><a href="#cb45-616" aria-hidden="true" tabindex="-1"></a>scale_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb45-617"><a href="#cb45-617" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Not DE"</span> <span class="ot">=</span> <span class="st">"#595959"</span>,</span>
-<span id="cb45-618"><a href="#cb45-618" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Down"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
-<span id="cb45-619"><a href="#cb45-619" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Up"</span> <span class="ot">=</span> <span class="st">"red"</span></span>
-<span id="cb45-620"><a href="#cb45-620" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb45-621"><a href="#cb45-621" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-622"><a href="#cb45-622" aria-hidden="true" tabindex="-1"></a>ma_bvl <span class="ot">&lt;-</span> top_bvl_cat_fct <span class="sc">%&gt;%</span></span>
-<span id="cb45-623"><a href="#cb45-623" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
-<span id="cb45-624"><a href="#cb45-624" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb45-625"><a href="#cb45-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">!=</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb45-626"><a href="#cb45-626" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(</span>
-<span id="cb45-627"><a href="#cb45-627" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_deg_bvl,</span>
-<span id="cb45-628"><a href="#cb45-628" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> SYMBOL, <span class="at">col =</span> <span class="cn">NULL</span>),</span>
-<span id="cb45-629"><a href="#cb45-629" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
-<span id="cb45-630"><a href="#cb45-630" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
-<span id="cb45-631"><a href="#cb45-631" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb45-632"><a href="#cb45-632" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> scale_cols) <span class="sc">+</span></span>
-<span id="cb45-633"><a href="#cb45-633" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Basal vs LP'</span>)</span>
-<span id="cb45-634"><a href="#cb45-634" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-635"><a href="#cb45-635" aria-hidden="true" tabindex="-1"></a>ma_bvl</span>
-<span id="cb45-636"><a href="#cb45-636" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb45-637"><a href="#cb45-637" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-638"><a href="#cb45-638" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Next steps"}</span>
-<span id="cb45-639"><a href="#cb45-639" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled MA plots for the BasalvsML and LPvsML contrasts?</span>
-<span id="cb45-640"><a href="#cb45-640" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb45-641"><a href="#cb45-641" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-642"><a href="#cb45-642" aria-hidden="true" tabindex="-1"></a>Now we can save the MA plot to our output:</span>
+<span id="cb45-575"><a href="#cb45-575" aria-hidden="true" tabindex="-1"></a><span class="fu">### MA Plot</span></span>
+<span id="cb45-576"><a href="#cb45-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-577"><a href="#cb45-577" aria-hidden="true" tabindex="-1"></a>The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests.</span>
+<span id="cb45-578"><a href="#cb45-578" aria-hidden="true" tabindex="-1"></a>It can be created using the <span class="in">`plotMA()`</span> from the <span class="in">`limma`</span> package.</span>
+<span id="cb45-579"><a href="#cb45-579" aria-hidden="true" tabindex="-1"></a>Creating this plot requires 3 pieces of information:</span>
+<span id="cb45-580"><a href="#cb45-580" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-581"><a href="#cb45-581" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`object = efit`</span>: The the fitted object containing the log-fold-change and log-expression averages</span>
+<span id="cb45-582"><a href="#cb45-582" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`coef = 1`</span>: The column number of the contrast to plot since there are 3 different contrasts fitted within the object.</span>
+<span id="cb45-583"><a href="#cb45-583" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`status = dt[, 1]`</span>: A vector of numerics denoting whether a gene is up-regulated or down-regulated.</span>
+<span id="cb45-584"><a href="#cb45-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-587"><a href="#cb45-587" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-588"><a href="#cb45-588" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
+<span id="cb45-589"><a href="#cb45-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-590"><a href="#cb45-590" aria-hidden="true" tabindex="-1"></a><span class="co">#If you get an error with the above code, try:</span></span>
+<span id="cb45-591"><a href="#cb45-591" aria-hidden="true" tabindex="-1"></a>limma<span class="sc">::</span><span class="fu">plotMA</span>(efit, <span class="at">coef =</span> <span class="dv">1</span>, <span class="at">status =</span> dt[, <span class="st">"BasalvsLP"</span>])</span>
+<span id="cb45-592"><a href="#cb45-592" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-593"><a href="#cb45-593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-594"><a href="#cb45-594" aria-hidden="true" tabindex="-1"></a>As before, we can try to re-create this plot using <span class="in">`ggplot2`</span> to give us more flexibility in plotting.</span>
+<span id="cb45-595"><a href="#cb45-595" aria-hidden="true" tabindex="-1"></a>The information we'll need is in the <span class="in">`top_bvl_cat`</span> tibble that we extracted for the volcano plot.</span>
+<span id="cb45-596"><a href="#cb45-596" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-599"><a href="#cb45-599" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-600"><a href="#cb45-600" aria-hidden="true" tabindex="-1"></a>top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb45-601"><a href="#cb45-601" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
+<span id="cb45-602"><a href="#cb45-602" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb45-603"><a href="#cb45-603" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-604"><a href="#cb45-604" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-605"><a href="#cb45-605" aria-hidden="true" tabindex="-1"></a>While the coordinates of the points are the same, there is still quite a bit of work to do to make this plot look like the one produced by <span class="in">`plotMA()`</span>.</span>
+<span id="cb45-606"><a href="#cb45-606" aria-hidden="true" tabindex="-1"></a>First we have the fix up the colours of the points.</span>
+<span id="cb45-607"><a href="#cb45-607" aria-hidden="true" tabindex="-1"></a>We also have to make it such that the non-significant points are plotted below the other points.</span>
+<span id="cb45-608"><a href="#cb45-608" aria-hidden="true" tabindex="-1"></a>To do this we would need to make it so that the non-significant points are plotted first.</span>
+<span id="cb45-609"><a href="#cb45-609" aria-hidden="true" tabindex="-1"></a>We can do this by reordering the levels of the <span class="in">`status`</span> factor so that the non-significant points are plotted first.</span>
+<span id="cb45-610"><a href="#cb45-610" aria-hidden="true" tabindex="-1"></a>Labels can also be added using <span class="in">`ggrepel`</span> for the top 10 DE genes in each direction.</span>
+<span id="cb45-611"><a href="#cb45-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-614"><a href="#cb45-614" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-615"><a href="#cb45-615" aria-hidden="true" tabindex="-1"></a>top_bvl_cat_fct <span class="ot">&lt;-</span> top_bvl_cat <span class="sc">%&gt;%</span></span>
+<span id="cb45-616"><a href="#cb45-616" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status =</span> <span class="fu">fct_relevel</span>(status,<span class="st">'Non DE'</span>)) </span>
+<span id="cb45-617"><a href="#cb45-617" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-618"><a href="#cb45-618" aria-hidden="true" tabindex="-1"></a>scale_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb45-619"><a href="#cb45-619" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Not DE"</span> <span class="ot">=</span> <span class="st">"#595959"</span>,</span>
+<span id="cb45-620"><a href="#cb45-620" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Down"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
+<span id="cb45-621"><a href="#cb45-621" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Up"</span> <span class="ot">=</span> <span class="st">"red"</span></span>
+<span id="cb45-622"><a href="#cb45-622" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-623"><a href="#cb45-623" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-624"><a href="#cb45-624" aria-hidden="true" tabindex="-1"></a>ma_bvl <span class="ot">&lt;-</span> top_bvl_cat_fct <span class="sc">%&gt;%</span></span>
+<span id="cb45-625"><a href="#cb45-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AveExpr, <span class="at">y =</span> logFC, <span class="at">col =</span> status)) <span class="sc">+</span></span>
+<span id="cb45-626"><a href="#cb45-626" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">==</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb45-627"><a href="#cb45-627" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> top_bvl_cat_fct <span class="sc">%&gt;%</span> <span class="fu">filter</span>(status <span class="sc">!=</span> <span class="st">"Non DE"</span>), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb45-628"><a href="#cb45-628" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(</span>
+<span id="cb45-629"><a href="#cb45-629" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> top_deg_bvl,</span>
+<span id="cb45-630"><a href="#cb45-630" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> SYMBOL, <span class="at">col =</span> <span class="cn">NULL</span>),</span>
+<span id="cb45-631"><a href="#cb45-631" aria-hidden="true" tabindex="-1"></a>    <span class="at">max.overlaps =</span> <span class="dv">20</span>,</span>
+<span id="cb45-632"><a href="#cb45-632" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span></span>
+<span id="cb45-633"><a href="#cb45-633" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-634"><a href="#cb45-634" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> scale_cols) <span class="sc">+</span></span>
+<span id="cb45-635"><a href="#cb45-635" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Basal vs LP'</span>)</span>
+<span id="cb45-636"><a href="#cb45-636" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-637"><a href="#cb45-637" aria-hidden="true" tabindex="-1"></a>ma_bvl</span>
+<span id="cb45-638"><a href="#cb45-638" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-639"><a href="#cb45-639" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-640"><a href="#cb45-640" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Next steps"}</span>
+<span id="cb45-641"><a href="#cb45-641" aria-hidden="true" tabindex="-1"></a>Can you now make the labelled MA plots for the BasalvsML and LPvsML contrasts?</span>
+<span id="cb45-642"><a href="#cb45-642" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb45-643"><a href="#cb45-643" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-646"><a href="#cb45-646" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-647"><a href="#cb45-647" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"output/ma_plot_BasalvsLP.png"</span>, ma_bvl)</span>
-<span id="cb45-648"><a href="#cb45-648" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-649"><a href="#cb45-649" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-644"><a href="#cb45-644" aria-hidden="true" tabindex="-1"></a>Now we can save the MA plot to our output:</span>
+<span id="cb45-645"><a href="#cb45-645" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-648"><a href="#cb45-648" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb45-649"><a href="#cb45-649" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"output/ma_plot_BasalvsLP.png"</span>, ma_bvl)</span>
 <span id="cb45-650"><a href="#cb45-650" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-651"><a href="#cb45-651" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb45-651"><a href="#cb45-651" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb45-652"><a href="#cb45-652" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-653"><a href="#cb45-653" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gene set testing</span></span>
+<span id="cb45-654"><a href="#cb45-654" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-655"><a href="#cb45-655" aria-hidden="true" tabindex="-1"></a>Although beyond the scope of this subject, researchers are often interested in discovering biological trends in differential gene expression results such as we have generated above. To do this, genes can be grouped according to their involvement in similar biological processes, molecular functions or cellular components, for example. A single gene can be involved in multiple biological processes, and have multiple 'terms' or 'labels'. Genes with the same assigned term are called a 'gene set'. </span>
+<span id="cb45-656"><a href="#cb45-656" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-657"><a href="#cb45-657" aria-hidden="true" tabindex="-1"></a>'Gene set enrichment analysis' is the science of identifying terms that are over-represented among differentially expressed genes. There are many methods for doing this, and ensemble methods (aggregating results from multiple enrichment testing methods), is an optimal approach, as detailed <span class="co">[</span><span class="ot">here</span><span class="co">](https://academic.oup.com/bioinformatics/article/33/3/414/2875813)</span>.</span>
+<span id="cb45-658"><a href="#cb45-658" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-659"><a href="#cb45-659" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

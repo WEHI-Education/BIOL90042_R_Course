@@ -395,8 +395,8 @@ Learning Objectives
 <p>To use the <code>edgeR</code> package we first need to construct a <code>DGEList</code> object. This object contains 3 key pieces of data:</p>
 <ul>
 <li><code>counts</code>: the main data of this object, a matrix of count values with samples along the columns and features/genes along the rows. All data must be numeric!</li>
-<li><code>samples</code>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.</li>
-<li><code>genes</code>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.</li>
+<li><code>samples</code>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data. <code>samples</code> is created automatically by the <code>DGEList()</code> function.</li>
+<li><code>genes</code>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix. Importantly, the row order for <code>counts</code> and <code>genes</code> must be identical for your analysis to run as expected!</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled" title="Data objects">
 <div class="callout-header d-flex align-content-center">
@@ -1493,8 +1493,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-101"><a href="#cb45-101" aria-hidden="true" tabindex="-1"></a>To use the <span class="in">`edgeR`</span> package we first need to construct a <span class="in">`DGEList`</span> object. This object contains 3 key pieces of data:</span>
 <span id="cb45-102"><a href="#cb45-102" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-103"><a href="#cb45-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`counts`</span>: the main data of this object, a matrix of count values with samples along the columns and features/genes along the rows. All data must be numeric!</span>
-<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`samples`</span>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.</span>
-<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`genes`</span>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.</span>
+<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`samples`</span>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data. <span class="in">`samples`</span> is created automatically by the <span class="in">`DGEList()`</span> function.</span>
+<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`genes`</span>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix. Importantly, the row order for <span class="in">`counts`</span> and <span class="in">`genes`</span> must be identical for your analysis to run as expected!</span>
 <span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Data objects"}</span>
 <span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a></span>
