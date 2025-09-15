@@ -504,7 +504,7 @@ Levels  BasalvsLP BasalvsML LPvsML
 <li><code>weights</code> - numeric matrix of precision weights.</li>
 <li><code>design</code> - the design matrix.</li>
 </ul>
-<p>The ‘voom plot’ shows the mean-variance relationship of the data. The x-axis is the average log2 expression of each gene, and the y-axis is the log2 standard deviation of each gene. The idea is that the variance of a gene can be estimated as a function of its main expression, and that this estimate is more accurate than the direct calculation of the variance.</p>
+<p>The ‘voom plot’ shows the mean-variance relationship of the data. The x-axis is the average log2 expression of each gene, and the y-axis is the square root of the standard deviation of each gene. The idea is that the variance of a gene can be estimated as a function of its main expression, and that this estimate is more accurate than the direct calculation of the variance.</p>
 </section>
 <section id="fitting-the-linear-model" class="level3" data-number="7.1.4">
 <h3 data-number="7.1.4" class="anchored" data-anchor-id="fitting-the-linear-model"><span class="header-section-number">7.1.4</span> Fitting the linear model</h3>
@@ -576,7 +576,7 @@ Up          4817      4778   2102</code></pre>
 <p>The function <code>topTable()</code> can be used to obtain more information on the differentially expressed genes for each contrast. <code>topTable()</code> takes as arguments the <code>MArrayLM</code> object output by <code>eBayes()</code> (<code>efit</code>), the contrast name of interest, and the number of top differentially expressed genes to output. Note that the contrast name must be given in quotes and must be exactly as written in the contrast matrix <code>contr_matrix</code>.</p>
 <p>It outputs a data frame with the following information:</p>
 <ul>
-<li><strong>Gene details</strong> - gene information, from the <code>gene</code> element of the <code>MArrayLM</code> object (<code>efit</code>).</li>
+<li>Gene details - gene information, from the <code>gene</code> element of the <code>MArrayLM</code> object (<code>efit</code>).</li>
 <li><code>logFC</code> - the log2 fold change of the contrast.</li>
 <li><code>AveExpr</code> - the average log2 expression of that gene.</li>
 <li><code>t</code> - moderated t-statistic.</li>
@@ -609,7 +609,7 @@ Up          4817      4778   2102</code></pre>
 <section id="data-extract" class="level3" data-number="7.3.1">
 <h3 data-number="7.3.1" class="anchored" data-anchor-id="data-extract"><span class="header-section-number">7.3.1</span> Data extract</h3>
 <p>To start with we extract all the data required to make any of the the common RNAseq results plots.</p>
-<p>The experimental sample metadata and log(CPM) values were extracted to <code>samples_tbl</code> and <code>log_cpm_tbl</code> respectively, in the previous chapter.</p>
+<p>The experimental sample metadata and log(CPM) values were extracted to <code>samples_tbl</code> and <code>logcpm_tbl</code> respectively, in the previous chapter.</p>
 <p>Here we will also extract the summary statistics for the remaining two pair-wise contrasts into separate tables.</p>
 <section id="extract-summary-tables" class="level4" data-number="7.3.1.1">
 <h4 data-number="7.3.1.1" class="anchored" data-anchor-id="extract-summary-tables"><span class="header-section-number">7.3.1.1</span> Extract summary tables</h4>
@@ -1637,7 +1637,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-192"><a href="#cb45-192" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`design`</span> - the design matrix.</span>
 <span id="cb45-193"><a href="#cb45-193" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-194"><a href="#cb45-194" aria-hidden="true" tabindex="-1"></a>The 'voom plot' shows the mean-variance relationship of the data.</span>
-<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a>The x-axis is the average log2 expression of each gene, and the y-axis is the log2 standard deviation of each gene.</span>
+<span id="cb45-195"><a href="#cb45-195" aria-hidden="true" tabindex="-1"></a>The x-axis is the average log2 expression of each gene, and the y-axis is the square root of the standard deviation of each gene.</span>
 <span id="cb45-196"><a href="#cb45-196" aria-hidden="true" tabindex="-1"></a>The idea is that the variance of a gene can be estimated as a function of its main expression, and that this estimate is more accurate than the direct calculation of the variance.</span>
 <span id="cb45-197"><a href="#cb45-197" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-198"><a href="#cb45-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fitting the linear model</span></span>
@@ -1703,7 +1703,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-268"><a href="#cb45-268" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-269"><a href="#cb45-269" aria-hidden="true" tabindex="-1"></a>It outputs a data frame with the following information:</span>
 <span id="cb45-270"><a href="#cb45-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Gene details** - gene information, from the <span class="in">`gene`</span> element of the <span class="in">`MArrayLM`</span> object (<span class="in">`efit`</span>).</span>
+<span id="cb45-271"><a href="#cb45-271" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Gene details - gene information, from the <span class="in">`gene`</span> element of the <span class="in">`MArrayLM`</span> object (<span class="in">`efit`</span>).</span>
 <span id="cb45-272"><a href="#cb45-272" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`logFC`</span> - the log2 fold change of the contrast.</span>
 <span id="cb45-273"><a href="#cb45-273" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`AveExpr`</span> - the average log2 expression of that gene.</span>
 <span id="cb45-274"><a href="#cb45-274" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`t`</span> - moderated t-statistic.</span>
@@ -1727,7 +1727,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-294"><a href="#cb45-294" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-295"><a href="#cb45-295" aria-hidden="true" tabindex="-1"></a>To start with we extract all the data required to make any of the the common RNAseq results plots.</span>
 <span id="cb45-296"><a href="#cb45-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a>The experimental sample metadata and log(CPM) values were extracted to <span class="in">`samples_tbl`</span> and <span class="in">`log_cpm_tbl`</span> respectively, in the previous chapter.</span>
+<span id="cb45-297"><a href="#cb45-297" aria-hidden="true" tabindex="-1"></a>The experimental sample metadata and log(CPM) values were extracted to <span class="in">`samples_tbl`</span> and <span class="in">`logcpm_tbl`</span> respectively, in the previous chapter.</span>
 <span id="cb45-298"><a href="#cb45-298" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-299"><a href="#cb45-299" aria-hidden="true" tabindex="-1"></a>Here we will also extract the summary statistics for the remaining two pair-wise contrasts into separate tables.</span>
 <span id="cb45-300"><a href="#cb45-300" aria-hidden="true" tabindex="-1"></a></span>
