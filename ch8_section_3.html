@@ -378,9 +378,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="tuning-workflow">Tuning workflow</h2>
 <p>We construct a workflow where the xgboost model now includes the original recipe from <a href="./ch8_section_2.html">ML Part 2</a>, and the tuning steps defined above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wf_xgb_tune  <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wf_xgb_tune  <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># model outcome and features &amp; pre-processing steps:</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_cl) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_cl) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#hyper-parameters, machine learning model type, and mode:</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(xgb_spec_tune_cl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -403,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Grid search results</h1>
 <p>We can generate a plot to inspect the performance metrics for each combination of hyper-parameters. The models with the highest mean values have the best performance.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(tree_depth), <span class="at">y =</span> mean)) <span class="sc">+</span> </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> <span class="fu">log10</span>(learn_rate)), <span class="at">pch =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> .metric) <span class="sc">+</span> </span>
@@ -419,8 +419,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The predictions for every cross-fold iteration across the tuning grid, can be accessed via <code>collect_predictions(xgb_tune_res, summarize = F)</code>.</p>
 <p>If considering only the AUROCC metric, we can create a tile plot to identify the optimal hyper-parameters.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(xgb_tune_res, <span class="at">metric =</span> <span class="st">'roc_auc'</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_learnrate =</span> <span class="fu">log10</span>(learn_rate)) <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(xgb_tune_res, <span class="at">metric =</span> <span class="st">'roc_auc'</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_learnrate =</span> <span class="fu">log10</span>(learn_rate)) <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(log_learnrate),</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">factor</span>(tree_depth),</span>
@@ -450,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Confirm that the best model has been selected, by printing all results and sorting on descending mean:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(mean))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 50 × 8
    tree_depth learn_rate .metric .estimator  mean     n std_err .config         
@@ -534,25 +534,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Calculate the AUC for the original model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>aurocc_orig <span class="ot">&lt;-</span> <span class="fu">roc_auc</span>(pred_orig,  <span class="at">truth =</span> status, .pred_malignant, </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>auprc_orig <span class="ot">&lt;-</span> <span class="fu">pr_auc</span>(pred_orig,  <span class="at">truth =</span> status, .pred_malignant, </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="tuned-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="tuned-parameters">Tuned parameters</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>aurocc_tuned <span class="ot">&lt;-</span> <span class="fu">roc_auc</span>(pred_tuned, <span class="at">truth =</span> status, .pred_malignant,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>auprc_tuned <span class="ot">&lt;-</span> <span class="fu">pr_auc</span>(pred_tuned, <span class="at">truth =</span> status, .pred_malignant, </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -563,10 +563,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="roc">ROC</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>roc_origVtuned <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  roc_orig  <span class="sc">|&gt;</span> <span class="fu">arrange</span>(sensitivity), </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  roc_tuned <span class="sc">|&gt;</span> <span class="fu">arrange</span>(sensitivity) ) </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  roc_orig  <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(sensitivity), </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  roc_tuned <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(sensitivity) ) </span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>roc_origVtuned <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>specificity, <span class="at">y =</span> sensitivity)) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>roc_origVtuned <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>specificity, <span class="at">y =</span> sensitivity)) <span class="sc">+</span></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">color=</span>model), <span class="at">lwd=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.6</span>, <span class="at">y =</span> <span class="fl">0.2</span>, </span>
@@ -591,10 +591,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="pr">PR</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pr_origVtuned <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  pr_orig  <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)),</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  pr_tuned <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  pr_orig  <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  pr_tuned <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)))</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pr_origVtuned <span class="sc">|&gt;</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pr_origVtuned <span class="sc">%&gt;%</span> </span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision)) <span class="sc">+</span></span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">color=</span>model), <span class="at">lwd=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey"</span>,<span class="at">yintercept =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
@@ -1192,9 +1192,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>We construct a workflow where the xgboost model now includes the original recipe from <span class="co">[</span><span class="ot">ML Part 2</span><span class="co">](ch8_section_2.qmd)</span>, and the tuning steps defined above.</span>
 <span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>wf_xgb_tune  <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a>wf_xgb_tune  <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a>  <span class="co"># model outcome and features &amp; pre-processing steps:</span></span>
-<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_cl) <span class="sc">|&gt;</span> </span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_cl) <span class="sc">%&gt;%</span> </span>
 <span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>  <span class="co">#hyper-parameters, machine learning model type, and mode:</span></span>
 <span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(xgb_spec_tune_cl)</span>
 <span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1221,7 +1221,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-125"><a href="#cb25-125" aria-hidden="true" tabindex="-1"></a>We can generate a plot to inspect the performance metrics for each combination of hyper-parameters. The models with the highest mean values have the best performance.</span>
 <span id="cb25-126"><a href="#cb25-126" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-129"><a href="#cb25-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-130"><a href="#cb25-130" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">|&gt;</span> </span>
+<span id="cb25-130"><a href="#cb25-130" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">%&gt;%</span> </span>
 <span id="cb25-131"><a href="#cb25-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(tree_depth), <span class="at">y =</span> mean)) <span class="sc">+</span> </span>
 <span id="cb25-132"><a href="#cb25-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> <span class="fu">log10</span>(learn_rate)), <span class="at">pch =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
 <span id="cb25-133"><a href="#cb25-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> .metric) <span class="sc">+</span> </span>
@@ -1234,8 +1234,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-140"><a href="#cb25-140" aria-hidden="true" tabindex="-1"></a>If considering only the AUROCC metric, we can create a tile plot to identify the optimal hyper-parameters.</span>
 <span id="cb25-141"><a href="#cb25-141" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-144"><a href="#cb25-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(xgb_tune_res, <span class="at">metric =</span> <span class="st">'roc_auc'</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-146"><a href="#cb25-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_learnrate =</span> <span class="fu">log10</span>(learn_rate)) <span class="sc">|&gt;</span></span>
+<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(xgb_tune_res, <span class="at">metric =</span> <span class="st">'roc_auc'</span>, <span class="at">n =</span> <span class="cn">Inf</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-146"><a href="#cb25-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_learnrate =</span> <span class="fu">log10</span>(learn_rate)) <span class="sc">%&gt;%</span></span>
 <span id="cb25-147"><a href="#cb25-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
 <span id="cb25-148"><a href="#cb25-148" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">factor</span>(log_learnrate),</span>
 <span id="cb25-149"><a href="#cb25-149" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">factor</span>(tree_depth),</span>
@@ -1257,7 +1257,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-167"><a href="#cb25-167" aria-hidden="true" tabindex="-1"></a>Confirm that the best model has been selected, by printing all results and sorting on descending mean:</span>
 <span id="cb25-168"><a href="#cb25-168" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-171"><a href="#cb25-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-172"><a href="#cb25-172" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(mean))</span>
+<span id="cb25-172"><a href="#cb25-172" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(xgb_tune_res) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(mean))</span>
 <span id="cb25-173"><a href="#cb25-173" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-174"><a href="#cb25-174" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-175"><a href="#cb25-175" aria-hidden="true" tabindex="-1"></a><span class="fu">### Finalize workflow</span></span>
@@ -1332,12 +1332,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-256"><a href="#cb25-256" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-259"><a href="#cb25-259" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb25-260"><a href="#cb25-260" aria-hidden="true" tabindex="-1"></a>aurocc_orig <span class="ot">&lt;-</span> <span class="fu">roc_auc</span>(pred_orig,  <span class="at">truth =</span> status, .pred_malignant, </span>
-<span id="cb25-261"><a href="#cb25-261" aria-hidden="true" tabindex="-1"></a>                       <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb25-262"><a href="#cb25-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb25-261"><a href="#cb25-261" aria-hidden="true" tabindex="-1"></a>                       <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-262"><a href="#cb25-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb25-263"><a href="#cb25-263" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-264"><a href="#cb25-264" aria-hidden="true" tabindex="-1"></a>auprc_orig <span class="ot">&lt;-</span> <span class="fu">pr_auc</span>(pred_orig,  <span class="at">truth =</span> status, .pred_malignant, </span>
-<span id="cb25-265"><a href="#cb25-265" aria-hidden="true" tabindex="-1"></a>                     <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb25-266"><a href="#cb25-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb25-265"><a href="#cb25-265" aria-hidden="true" tabindex="-1"></a>                     <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-266"><a href="#cb25-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb25-267"><a href="#cb25-267" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-268"><a href="#cb25-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-269"><a href="#cb25-269" aria-hidden="true" tabindex="-1"></a></span>
@@ -1345,13 +1345,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-271"><a href="#cb25-271" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-274"><a href="#cb25-274" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb25-275"><a href="#cb25-275" aria-hidden="true" tabindex="-1"></a>aurocc_tuned <span class="ot">&lt;-</span> <span class="fu">roc_auc</span>(pred_tuned, <span class="at">truth =</span> status, .pred_malignant,</span>
-<span id="cb25-276"><a href="#cb25-276" aria-hidden="true" tabindex="-1"></a>                        <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb25-277"><a href="#cb25-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb25-276"><a href="#cb25-276" aria-hidden="true" tabindex="-1"></a>                        <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-277"><a href="#cb25-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb25-278"><a href="#cb25-278" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-279"><a href="#cb25-279" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-280"><a href="#cb25-280" aria-hidden="true" tabindex="-1"></a>auprc_tuned <span class="ot">&lt;-</span> <span class="fu">pr_auc</span>(pred_tuned, <span class="at">truth =</span> status, .pred_malignant, </span>
-<span id="cb25-281"><a href="#cb25-281" aria-hidden="true" tabindex="-1"></a>                      <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb25-282"><a href="#cb25-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
+<span id="cb25-281"><a href="#cb25-281" aria-hidden="true" tabindex="-1"></a>                      <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-282"><a href="#cb25-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(.estimate) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">3</span>)</span>
 <span id="cb25-283"><a href="#cb25-283" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-284"><a href="#cb25-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-285"><a href="#cb25-285" aria-hidden="true" tabindex="-1"></a></span>
@@ -1366,10 +1366,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-296"><a href="#cb25-296" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
 <span id="cb25-297"><a href="#cb25-297" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-298"><a href="#cb25-298" aria-hidden="true" tabindex="-1"></a>roc_origVtuned <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb25-299"><a href="#cb25-299" aria-hidden="true" tabindex="-1"></a>  roc_orig  <span class="sc">|&gt;</span> <span class="fu">arrange</span>(sensitivity), </span>
-<span id="cb25-300"><a href="#cb25-300" aria-hidden="true" tabindex="-1"></a>  roc_tuned <span class="sc">|&gt;</span> <span class="fu">arrange</span>(sensitivity) ) </span>
+<span id="cb25-299"><a href="#cb25-299" aria-hidden="true" tabindex="-1"></a>  roc_orig  <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(sensitivity), </span>
+<span id="cb25-300"><a href="#cb25-300" aria-hidden="true" tabindex="-1"></a>  roc_tuned <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(sensitivity) ) </span>
 <span id="cb25-301"><a href="#cb25-301" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-302"><a href="#cb25-302" aria-hidden="true" tabindex="-1"></a>roc_origVtuned <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>specificity, <span class="at">y =</span> sensitivity)) <span class="sc">+</span></span>
+<span id="cb25-302"><a href="#cb25-302" aria-hidden="true" tabindex="-1"></a>roc_origVtuned <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">-</span>specificity, <span class="at">y =</span> sensitivity)) <span class="sc">+</span></span>
 <span id="cb25-303"><a href="#cb25-303" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">color=</span>model), <span class="at">lwd=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
 <span id="cb25-304"><a href="#cb25-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
 <span id="cb25-305"><a href="#cb25-305" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">0.6</span>, <span class="at">y =</span> <span class="fl">0.2</span>, </span>
@@ -1393,10 +1393,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-325"><a href="#cb25-325" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-326"><a href="#cb25-326" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-327"><a href="#cb25-327" aria-hidden="true" tabindex="-1"></a>pr_origVtuned <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb25-328"><a href="#cb25-328" aria-hidden="true" tabindex="-1"></a>  pr_orig  <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)),</span>
-<span id="cb25-329"><a href="#cb25-329" aria-hidden="true" tabindex="-1"></a>  pr_tuned <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)))</span>
+<span id="cb25-328"><a href="#cb25-328" aria-hidden="true" tabindex="-1"></a>  pr_orig  <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)),</span>
+<span id="cb25-329"><a href="#cb25-329" aria-hidden="true" tabindex="-1"></a>  pr_tuned <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(precision)))</span>
 <span id="cb25-330"><a href="#cb25-330" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb25-331"><a href="#cb25-331" aria-hidden="true" tabindex="-1"></a>pr_origVtuned <span class="sc">|&gt;</span> </span>
+<span id="cb25-331"><a href="#cb25-331" aria-hidden="true" tabindex="-1"></a>pr_origVtuned <span class="sc">%&gt;%</span> </span>
 <span id="cb25-332"><a href="#cb25-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> recall, <span class="at">y =</span> precision)) <span class="sc">+</span></span>
 <span id="cb25-333"><a href="#cb25-333" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="fu">aes</span>(<span class="at">color=</span>model), <span class="at">lwd=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
 <span id="cb25-334"><a href="#cb25-334" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey"</span>,<span class="at">yintercept =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>

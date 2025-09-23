@@ -791,13 +791,13 @@ $y
 <p>The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just <code>ggplot2</code>.</p>
 <p>First we extract the transcriptional variance explained by each dimension into a tibble, and add a column defining the dimensions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>var_expln <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">propn =</span> mds_result<span class="sc">$</span>var.explained <span class="sc">*</span> <span class="dv">100</span> ) <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>var_expln <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">propn =</span> mds_result<span class="sc">$</span>var.explained <span class="sc">*</span> <span class="dv">100</span> ) <span class="sc">%&gt;%</span> </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">'dimension'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Dimensions 1 and 2 are plotted by default. We can now extract and round the proportion of variance explained in rows 1 and 2 of the <code>var_expln</code> tibble</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dim1_expl <span class="ot">&lt;-</span> var_expln <span class="sc">|&gt;</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(propn) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>dim2_expl <span class="ot">&lt;-</span> var_expln <span class="sc">|&gt;</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(propn) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dim1_expl <span class="ot">&lt;-</span> var_expln <span class="sc">%&gt;%</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(propn) <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>dim2_expl <span class="ot">&lt;-</span> var_expln <span class="sc">%&gt;%</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(propn) <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally we join the full sample metadata with the MDS coordinates for plotting, using <code>left_join()</code></p>
 <div class="cell">
@@ -820,7 +820,7 @@ $y
 </div>
 <p>To recreate the plotMDS plot:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>dim1, <span class="at">y=</span>dim2)) <span class="sc">+</span> </span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> group)) <span class="sc">+</span> </span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">'Dim 1 variance explained = '</span>, dim1_expl,<span class="st">'%'</span>),</span>
@@ -835,7 +835,7 @@ $y
 </div>
 <p>Now that we have our data in a nice tidy format we can use with ggplot, it’s easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">%&gt;%</span> </span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>dim1, <span class="at">y=</span>dim2, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">'Dim 1 variance explained = '</span>, dim1_expl,<span class="st">'%'</span>),</span>
@@ -1747,15 +1747,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-389"><a href="#cb45-389" aria-hidden="true" tabindex="-1"></a>First we extract the transcriptional variance explained by each dimension into a tibble, and add a column defining the dimensions.</span>
 <span id="cb45-390"><a href="#cb45-390" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-393"><a href="#cb45-393" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-394"><a href="#cb45-394" aria-hidden="true" tabindex="-1"></a>var_expln <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">propn =</span> mds_result<span class="sc">$</span>var.explained <span class="sc">*</span> <span class="dv">100</span> ) <span class="sc">|&gt;</span> </span>
+<span id="cb45-394"><a href="#cb45-394" aria-hidden="true" tabindex="-1"></a>var_expln <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">propn =</span> mds_result<span class="sc">$</span>var.explained <span class="sc">*</span> <span class="dv">100</span> ) <span class="sc">%&gt;%</span> </span>
 <span id="cb45-395"><a href="#cb45-395" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">'dimension'</span>) </span>
 <span id="cb45-396"><a href="#cb45-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-397"><a href="#cb45-397" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-398"><a href="#cb45-398" aria-hidden="true" tabindex="-1"></a>Dimensions 1 and 2 are plotted by default. We can now extract and round the proportion of variance explained in rows 1 and 2 of the <span class="in">`var_expln`</span> tibble</span>
 <span id="cb45-399"><a href="#cb45-399" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-402"><a href="#cb45-402" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-403"><a href="#cb45-403" aria-hidden="true" tabindex="-1"></a>dim1_expl <span class="ot">&lt;-</span> var_expln <span class="sc">|&gt;</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(propn) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
-<span id="cb45-404"><a href="#cb45-404" aria-hidden="true" tabindex="-1"></a>dim2_expl <span class="ot">&lt;-</span> var_expln <span class="sc">|&gt;</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(propn) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
+<span id="cb45-403"><a href="#cb45-403" aria-hidden="true" tabindex="-1"></a>dim1_expl <span class="ot">&lt;-</span> var_expln <span class="sc">%&gt;%</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(propn) <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
+<span id="cb45-404"><a href="#cb45-404" aria-hidden="true" tabindex="-1"></a>dim2_expl <span class="ot">&lt;-</span> var_expln <span class="sc">%&gt;%</span> <span class="fu">filter</span>(dimension<span class="sc">==</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(propn) <span class="sc">%&gt;%</span> <span class="fu">round</span>()</span>
 <span id="cb45-405"><a href="#cb45-405" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-406"><a href="#cb45-406" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb45-407"><a href="#cb45-407" aria-hidden="true" tabindex="-1"></a></span>
@@ -1769,7 +1769,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-417"><a href="#cb45-417" aria-hidden="true" tabindex="-1"></a>To recreate the plotMDS plot:</span>
 <span id="cb45-418"><a href="#cb45-418" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-421"><a href="#cb45-421" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-422"><a href="#cb45-422" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">|&gt;</span> </span>
+<span id="cb45-422"><a href="#cb45-422" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">%&gt;%</span> </span>
 <span id="cb45-423"><a href="#cb45-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>dim1, <span class="at">y=</span>dim2)) <span class="sc">+</span> </span>
 <span id="cb45-424"><a href="#cb45-424" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> group)) <span class="sc">+</span> </span>
 <span id="cb45-425"><a href="#cb45-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">'Dim 1 variance explained = '</span>, dim1_expl,<span class="st">'%'</span>),</span>
@@ -1780,7 +1780,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb45-430"><a href="#cb45-430" aria-hidden="true" tabindex="-1"></a>Now that we have our data in a nice tidy format we can use with ggplot, it's easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.</span>
 <span id="cb45-431"><a href="#cb45-431" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-434"><a href="#cb45-434" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb45-435"><a href="#cb45-435" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">|&gt;</span> </span>
+<span id="cb45-435"><a href="#cb45-435" aria-hidden="true" tabindex="-1"></a>mds_tbl_label <span class="sc">%&gt;%</span> </span>
 <span id="cb45-436"><a href="#cb45-436" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>dim1, <span class="at">y=</span>dim2, <span class="at">colour =</span> group)) <span class="sc">+</span> </span>
 <span id="cb45-437"><a href="#cb45-437" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb45-438"><a href="#cb45-438" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">'Dim 1 variance explained = '</span>, dim1_expl,<span class="st">'%'</span>),</span>

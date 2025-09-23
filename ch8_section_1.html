@@ -337,7 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reshape-for-plotting" class="level3">
 <h3 class="anchored" data-anchor-id="reshape-for-plotting">Reshape for plotting</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> tumor_data <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> tumor_data <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"key"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>, </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(donorid, status))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -345,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="check-distributions" class="level3">
 <h3 class="anchored" data-anchor-id="check-distributions">Check distributions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">|&gt;</span>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value,<span class="at">group=</span>key)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">%&gt;%</span>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value,<span class="at">group=</span>key)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -356,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The data doesnt look normally distributed, but there is a big over-plotting problem here. Let’s use the ggridges package to produce a single density plot for each feature:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">|&gt;</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">y=</span>key))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Picking joint bandwidth of 0.646</code></pre>
@@ -374,12 +374,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="log-transform" class="level3">
 <h3 class="anchored" data-anchor-id="log-transform">Log transform</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="ot">&lt;-</span> dat_long <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value=</span><span class="fu">log10</span>(value))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plot transformed data</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">|&gt;</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">y=</span>key))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Picking joint bandwidth of 0.0993</code></pre>
@@ -399,24 +399,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s run an unsupervised machine learning method to explore how the samples group together using a ‘data-driven’ approach. <code>pr_comp()</code> gives us principal components analysis, and requires wide-format data.</p>
 <p>Reshape log-transformed data to wide format, and calculate principal components using the quantitative features (i.e., everything except donorid and malignancy status).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dat_wide_log <span class="ot">&lt;-</span> dat_long_log <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dat_wide_log <span class="ot">&lt;-</span> dat_long_log <span class="sc">%&gt;%</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"key"</span>, <span class="at">values_from=</span><span class="st">"value"</span>) </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pc_dat <span class="ot">&lt;-</span> dat_wide_log <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(donorid,status)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pc_dat <span class="ot">&lt;-</span> dat_wide_log <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(donorid,status)) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">#principal components function</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prcomp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can access the principal components for each sample by using the <code>broom::augment()</code> function. The primary PCs (e.g.&nbsp;1 thru 5) encode the majority of the variation between samples. As such we focus on primary PCs (or dimension in MDS), when clustering samples</p>
 <p>Plot first 2 PCs, coloured by tumor status</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pcs_fitted <span class="ot">&lt;-</span> pc_dat <span class="sc">|&gt;</span> <span class="fu">augment</span>() </span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pcs_fitted <span class="ot">&lt;-</span> pc_dat <span class="sc">%&gt;%</span> <span class="fu">augment</span>() </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Join the sample labels to the fitted PCs</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(tumor_data <span class="sc">|&gt;</span> <span class="fu">select</span>(status), </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(tumor_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(status), </span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                         pcs_fitted) </span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Scatter plot</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="sc">|&gt;</span> </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="sc">%&gt;%</span> </span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2)) <span class="sc">+</span> </span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col=</span>status), <span class="at">size=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -436,8 +436,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Our experimental question is ‘Are any features (y) significantly different between benign (x = 0 ) and malignant (x=1)?’</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#marginal effects</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">|&gt;</span> <span class="fu">group_by</span>(key) <span class="sc">|&gt;</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>( value <span class="sc">~</span>  status  ) <span class="sc">|&gt;</span> <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(key) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>( value <span class="sc">~</span>  status  ) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Results for linear model: value ~ status</code></pre>
 </div>
@@ -466,8 +466,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#features_of_interest (FOI)</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>foi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'granularity'</span>,<span class="st">'intensity_8'</span>,<span class="st">'membrane_curvature'</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">|&gt;</span> </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(key <span class="sc">%in%</span> foi) <span class="sc">|&gt;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(key <span class="sc">%in%</span> foi) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>status , <span class="at">y=</span>value)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">group=</span>status), <span class="at">width=</span><span class="fl">0.2</span>,<span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1035,7 +1035,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reshape for plotting</span></span>
 <span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> tumor_data <span class="sc">|&gt;</span> </span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> tumor_data <span class="sc">%&gt;%</span> </span>
 <span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">names_to =</span> <span class="st">"key"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>, </span>
 <span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>               <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(donorid, status))</span>
 <span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a></span>
@@ -1044,14 +1044,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check distributions</span></span>
 <span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">|&gt;</span>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value,<span class="at">group=</span>key)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">%&gt;%</span>   <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value,<span class="at">group=</span>key)) <span class="sc">+</span> <span class="fu">geom_density</span>()</span>
 <span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>The data doesnt look normally distributed, but there is a big over-plotting problem here. Let's use the ggridges package to produce a single density plot for each feature:</span>
 <span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">|&gt;</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>dat_long <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
 <span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">y=</span>key))</span>
 <span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a></span>
@@ -1060,14 +1060,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a><span class="fu">### Log transform</span></span>
 <span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="ot">&lt;-</span> dat_long <span class="sc">|&gt;</span></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
 <span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value=</span><span class="fu">log10</span>(value))</span>
 <span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>Plot transformed data</span>
 <span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">|&gt;</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">%&gt;%</span>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>value)) <span class="sc">+</span> </span>
 <span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges</span>(<span class="fu">aes</span>(<span class="at">y=</span>key))</span>
 <span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a></span>
@@ -1080,10 +1080,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>Reshape log-transformed data to wide format, and calculate principal components using the quantitative features (i.e., everything except donorid and malignancy status).</span>
 <span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>dat_wide_log <span class="ot">&lt;-</span> dat_long_log <span class="sc">|&gt;</span> </span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>dat_wide_log <span class="ot">&lt;-</span> dat_long_log <span class="sc">%&gt;%</span> </span>
 <span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"key"</span>, <span class="at">values_from=</span><span class="st">"value"</span>) </span>
 <span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>pc_dat <span class="ot">&lt;-</span> dat_wide_log <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(donorid,status)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>pc_dat <span class="ot">&lt;-</span> dat_wide_log <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(donorid,status)) <span class="sc">%&gt;%</span> </span>
 <span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>        <span class="co">#principal components function</span></span>
 <span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prcomp</span>()</span>
 <span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a></span>
@@ -1094,14 +1094,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>Plot first 2 PCs, coloured by tumor status</span>
 <span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a>pcs_fitted <span class="ot">&lt;-</span> pc_dat <span class="sc">|&gt;</span> <span class="fu">augment</span>() </span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a>pcs_fitted <span class="ot">&lt;-</span> pc_dat <span class="sc">%&gt;%</span> <span class="fu">augment</span>() </span>
 <span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a><span class="co">#Join the sample labels to the fitted PCs</span></span>
-<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(tumor_data <span class="sc">|&gt;</span> <span class="fu">select</span>(status), </span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(tumor_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(status), </span>
 <span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a>                         pcs_fitted) </span>
 <span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a><span class="co">#Scatter plot</span></span>
-<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="sc">|&gt;</span> </span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a>pc_plot_dat <span class="sc">%&gt;%</span> </span>
 <span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(.fittedPC1, .fittedPC2)) <span class="sc">+</span> </span>
 <span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col=</span>status), <span class="at">size=</span><span class="dv">2</span>)</span>
 <span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a></span>
@@ -1119,8 +1119,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a><span class="co">#marginal effects</span></span>
-<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">|&gt;</span> <span class="fu">group_by</span>(key) <span class="sc">|&gt;</span> </span>
-<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>( value <span class="sc">~</span>  status  ) <span class="sc">|&gt;</span> <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) </span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(key) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm_test</span>( value <span class="sc">~</span>  status  ) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term<span class="sc">!=</span><span class="st">'intercept'</span>) </span>
 <span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1133,8 +1133,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a><span class="co">#features_of_interest (FOI)</span></span>
 <span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a>foi <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'granularity'</span>,<span class="st">'intensity_8'</span>,<span class="st">'membrane_curvature'</span>)</span>
 <span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">|&gt;</span> </span>
-<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(key <span class="sc">%in%</span> foi) <span class="sc">|&gt;</span> </span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>dat_long_log <span class="sc">%&gt;%</span> </span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(key <span class="sc">%in%</span> foi) <span class="sc">%&gt;%</span> </span>
 <span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>status , <span class="at">y=</span>value)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">group=</span>status), <span class="at">width=</span><span class="fl">0.2</span>,<span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>key)</span>
