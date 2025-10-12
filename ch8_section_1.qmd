@@ -47,7 +47,7 @@ To run this workshop in quarto on your local machine:
 
 {{< downloadthis chapter8_quarto.zip dname=chapter8_quarto label="Download chapter 8 quarto files" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data >}}
 
-then unzip, and copy the files into your `BIOL90042_R_Course` directory.
+then unzip, and copy the files into your R project home directory e.g. `BIOL90042_R_Course`.
 
 ## Read data
 
