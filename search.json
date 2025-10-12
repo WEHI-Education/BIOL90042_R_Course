@@ -801,11 +801,22 @@
     ]
   },
   {
+    "objectID": "ch8_section_1.html#download-data",
+    "href": "ch8_section_1.html#download-data",
+    "title": "Part 1",
+    "section": "Download data",
+    "text": "Download data\n Download data for this session \nSave into your data/ directory.",
+    "crumbs": [
+      "8 Machine learning",
+      "Part 1"
+    ]
+  },
+  {
     "objectID": "ch8_section_1.html#read-data",
     "href": "ch8_section_1.html#read-data",
     "title": "Part 1",
     "section": "Read data",
-    "text": "Read data\n\ntumor_data &lt;- readxl::read_xlsx('data/tumor_data.xlsx')\n\ntumor_data\n\n# A tibble: 300 × 42\n   donorid status    cell_size cell_density nuclear_area membrane_curvature\n   &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n 1 d001    malignant     0.170        0.654        0.877              2.50 \n 2 d002    malignant     2.95         1.42         0.677              4.78 \n 3 d003    malignant     4.79         4.66         0.593              6.96 \n 4 d004    benign        4.67         1.74         0.423              0.928\n 5 d005    malignant    13.0          0.887        0.489              3.01 \n 6 d006    benign        3.78         1.02         0.486              0.580\n 7 d007    malignant     0.663        8.53         1.03               2.17 \n 8 d008    benign        0.950        1.09         0.581              5.10 \n 9 d009    malignant     8.39         3.64         0.955              8.78 \n10 d010    benign        9.82         7.39         0.403             15.3  \n# ℹ 290 more rows\n# ℹ 36 more variables: granularity &lt;dbl&gt;, border_diffuseness &lt;dbl&gt;,\n#   vascular_density &lt;dbl&gt;, necrosis_extent &lt;dbl&gt;, stromal_thickness &lt;dbl&gt;,\n#   mitotic_count &lt;dbl&gt;, texture_1 &lt;dbl&gt;, texture_2 &lt;dbl&gt;, texture_3 &lt;dbl&gt;,\n#   texture_4 &lt;dbl&gt;, texture_5 &lt;dbl&gt;, texture_6 &lt;dbl&gt;, texture_7 &lt;dbl&gt;,\n#   texture_8 &lt;dbl&gt;, texture_9 &lt;dbl&gt;, texture_10 &lt;dbl&gt;, intensity_1 &lt;dbl&gt;,\n#   intensity_2 &lt;dbl&gt;, intensity_3 &lt;dbl&gt;, intensity_4 &lt;dbl&gt;, …\n\n\nThe data contains 300 tissue samples which have been imaged in a histology lab, as referenced in this chapter Background. Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).\nAutomatic quantification of image features produces 40 ‘features’ including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.",
+    "text": "Read data\n\ntumor_data &lt;- readxl::read_xlsx('data/tumour_data.xlsx')\n\ntumor_data\n\n# A tibble: 300 × 42\n   donorid status    cell_size cell_density nuclear_area membrane_curvature\n   &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n 1 d001    malignant     0.170        0.654        0.877              2.50 \n 2 d002    malignant     2.95         1.42         0.677              4.78 \n 3 d003    malignant     4.79         4.66         0.593              6.96 \n 4 d004    benign        4.67         1.74         0.423              0.928\n 5 d005    malignant    13.0          0.887        0.489              3.01 \n 6 d006    benign        3.78         1.02         0.486              0.580\n 7 d007    malignant     0.663        8.53         1.03               2.17 \n 8 d008    benign        0.950        1.09         0.581              5.10 \n 9 d009    malignant     8.39         3.64         0.955              8.78 \n10 d010    benign        9.82         7.39         0.403             15.3  \n# ℹ 290 more rows\n# ℹ 36 more variables: granularity &lt;dbl&gt;, border_diffuseness &lt;dbl&gt;,\n#   vascular_density &lt;dbl&gt;, necrosis_extent &lt;dbl&gt;, stromal_thickness &lt;dbl&gt;,\n#   mitotic_count &lt;dbl&gt;, texture_1 &lt;dbl&gt;, texture_2 &lt;dbl&gt;, texture_3 &lt;dbl&gt;,\n#   texture_4 &lt;dbl&gt;, texture_5 &lt;dbl&gt;, texture_6 &lt;dbl&gt;, texture_7 &lt;dbl&gt;,\n#   texture_8 &lt;dbl&gt;, texture_9 &lt;dbl&gt;, texture_10 &lt;dbl&gt;, intensity_1 &lt;dbl&gt;,\n#   intensity_2 &lt;dbl&gt;, intensity_3 &lt;dbl&gt;, intensity_4 &lt;dbl&gt;, …\n\n\nThe data contains 300 tissue samples which have been imaged in a histology lab, as referenced in this chapter Background. Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).\nAutomatic quantification of image features produces 40 ‘features’ including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.",
     "crumbs": [
       "8 Machine learning",
       "Part 1"
