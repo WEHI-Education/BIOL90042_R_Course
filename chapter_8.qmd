@@ -40,7 +40,7 @@ Once the model has been trained, it is tested on a 'hold-out' or 'test' dataset,
 
 # Aim
 
-Train a supervised machine learning model (classifier) to predict tumor status based on histological features.
+Train a supervised machine learning model (classifier) to predict tumour status based on histological features.
 
 # Methods
 

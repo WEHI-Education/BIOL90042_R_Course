@@ -18,9 +18,9 @@ We loaded and explored the histology imaging-derived data in [ML Part 1](ch8_sec
 
 -   there is little separation in malignant vs benign samples when clustering via principal components analysis
 
--   using linear modeling, several imaging features show significant correlation with tumor status (benign vs malignant)
+-   using linear modeling, several imaging features show significant correlation with tumour status (benign vs malignant)
 
-Given these findings, we have reason to believe that a machine learning algorithm may be successful in predicting malignant vs benign tumor status.
+Given these findings, we have reason to believe that a machine learning algorithm may be successful in predicting malignant vs benign tumour status.
 
 By contrast, if no differences are seen in PCA or simple testing of linear models, the chance of building a reliable classification model is much lower.
 
@@ -48,7 +48,7 @@ theme_set(theme_minimal())
 Preprocessed data from [ML Part 1](ch8_section_1.qmd) is stored in `data_processed/`
 ```{r}
 
-dat_wide_log <- read_xlsx('data_processed/tumor_data_log_wide.xlsx')
+dat_wide_log <- read_xlsx('data_processed/tumour_data_log_wide.xlsx')
 
 ```
 

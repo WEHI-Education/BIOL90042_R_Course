@@ -12,7 +12,7 @@ format:
 
 ## Background
 
-Using a dataset containing imaging-derived histology features, and tumor status (benign vs malignant), so far we have run [ML Part 1](ch8_section_1.qmd) to explore and transform the data, and [ML Part 2](ch8_section_2.qmd) to build an XGBoost model with pre-defined hyper-parameters.
+Using a dataset containing imaging-derived histology features, and tumour status (benign vs malignant), so far we have run [ML Part 1](ch8_section_1.qmd) to explore and transform the data, and [ML Part 2](ch8_section_2.qmd) to build an XGBoost model with pre-defined hyper-parameters.
 
 ## Aim
 

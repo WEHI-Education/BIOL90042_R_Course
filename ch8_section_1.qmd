@@ -37,22 +37,28 @@ theme_set(theme_minimal())
 
 ```
 
+## Download data
+
+{{< downloadthis data/tumour_data.xlsx dname=tumour_data label="Download data for this session" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data >}}
+
+Save into your `data/` directory.
+
 ## Read data
 
 ```{r}
 
-tumor_data <- readxl::read_xlsx('data/tumor_data.xlsx')
+tumour_data <- readxl::read_xlsx('data/tumour_data.xlsx')
 
-tumor_data
+tumour_data
 
 
 
 ```
 
 
-The data contains `r nrow(tumor_data)` tissue samples which have been imaged in a histology lab, as referenced in this chapter [Background](chapter_8.qmd). Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).
+The data contains `r nrow(tumour_data)` tissue samples which have been imaged in a histology lab, as referenced in this chapter [Background](chapter_8.qmd). Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).
 
-Automatic quantification of image features produces `r ncol(tumor_data) -2` 'features' including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.
+Automatic quantification of image features produces `r ncol(tumour_data) -2` 'features' including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.
 
 ## Explore the data
 
@@ -60,7 +66,7 @@ Automatic quantification of image features produces `r ncol(tumor_data) -2` 'fea
 
 ```{r}
 
-dat_long <- tumor_data %>% 
+dat_long <- tumour_data %>% 
   pivot_longer(names_to = "key", values_to = "value", 
                cols = -c(donorid, status))
 
@@ -120,14 +126,14 @@ pc_dat <- dat_wide_log %>% select(-c(donorid,status)) %>%
 
 We can access the principal components for each sample by using the `broom::augment()` function. The primary PCs (e.g. 1 thru 5) encode the majority of the variation between samples. As such we focus on primary PCs (or dimension in MDS), when clustering samples
 
-Plot first 2 PCs, coloured by tumor status
+Plot first 2 PCs, coloured by tumour status
 
 ```{r}
 
 pcs_fitted <- pc_dat %>% augment() 
   
 #Join the sample labels to the fitted PCs
-pc_plot_dat <- bind_cols(tumor_data %>% select(status), 
+pc_plot_dat <- bind_cols(tumour_data %>% select(status), 
                          pcs_fitted) 
 
 #Scatter plot
@@ -143,7 +149,7 @@ There is certainly not a clear separation between malignant and benign. This ind
 
 Lets try one of the simplest ML engines - the linear model, to see whether any of the imaging features are significantly associated with tissue status.
 
-If we define a model where imaging feature is the *outcome* (y) and tumor status is the *predictor* (x) we can test for associations quite easily, using `lm_test()`.
+If we define a model where imaging feature is the *outcome* (y) and tumour status is the *predictor* (x) we can test for associations quite easily, using `lm_test()`.
 
 Our experimental question is 'Are any features (y) significantly different between benign (x = 0 ) and malignant (x=1)?'
 
@@ -178,5 +184,5 @@ For the next steps, we will save the log-transformed, wide-format data (used for
 
 ```{r}
 writexl::write_xlsx(dat_wide_log,
-                    'data_processed/tumor_data_log_wide.xlsx')
+                    'data_processed/tumour_data_log_wide.xlsx')
 ```
