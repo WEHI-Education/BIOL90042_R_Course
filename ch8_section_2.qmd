@@ -30,6 +30,9 @@ To train a classification model using the 'xgboost' algorithm (extreme gradient 
 
 Note, our primary aim here is *not* to understand the individual features that contribute to the benign vs malignant classification, but simply to build a robust classification tool.
 
+
+In this tutorial we use xgboost, but this classification problem can be attempted using any supervised ML classification algorithm. You can read about the details of xgboost (a decision tree-based ML algorithm), [here](https://xgboost.readthedocs.io/en/stable/tutorials/model.html).
+
 ## Load libraries
 
 ```{r}
@@ -79,7 +82,7 @@ dat_wide_log <- dat_wide_log %>%
                          
 ```
 
-Drop donorid from the training data. It encodes no useful infromation for training a model.
+Drop donorid from the training data. It encodes no useful information for training a model.
 
 ```{r}
 data_final <- dat_wide_log %>% select(-c(donorid))
@@ -119,10 +122,12 @@ This gives reasonably even splits.
 The data recipe stores the model parameters, and the data pre-processing steps. These steps will be performed on any data input to the ML training process.
 
 ```{r}
+#| message: true
 rec_cl <- recipe(status ~ .  , data = train_cl ) %>% 
   step_zv(all_numeric_predictors()) %>% 
   step_normalize(all_numeric_predictors()) %>% 
-  step_dummy(all_nominal_predictors()) 
+  step_dummy(all_nominal_predictors()) %>% 
+  print()
 ```
 
 The model algebra indicates we want to predict the `status` column (aka 'y' / 'outcome') using all available columns (denoted by `.` ). The data argument `train_cl` is provided to define the structure of the data (i.e., the colnames for all the features we have available).
@@ -201,7 +206,7 @@ These probabilities will be used directly for plotting ROC and PR curves (below)
 pred_train <- predict(fit_cl, train_cl, type = 'prob') %>%
   bind_cols(train_cl)
 
-pred_test <- predict(fit_cl, test_cl, 'prob') %>%
+pred_test <- predict(fit_cl, test_cl, type = 'prob') %>%
   bind_cols(test_cl)
 
 ```
