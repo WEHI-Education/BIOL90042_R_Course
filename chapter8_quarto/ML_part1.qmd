@@ -1,64 +1,39 @@
 ---
-filters:
-  - naquiz
-format:
+title: ML - Part 1
+format: 
   html:
-    toc: true
-    toc-location: left
-    toc-title: "In this section:"
+     embed-resources: true
 ---
 
-# Part 1 {.unnumbered #sec-mlpart01} 
-
-## Setup
-
-```{r setup}
-#| include: false
-#| fig-width: 12
-
-rm(list=ls());gc()
-
-knitr::opts_chunk$set(fig.width = 10, fig.height=7)
-```
-
+## Load libraries
 ```{r}
 #| output: false
 #| message: false
-
 
 library(tidyverse)
 library(readxl)
 library(broom)
 library(ggridges)
-
 library(tidyrstats)
 
 theme_set(theme_minimal())
 
 ```
 
-## Download data
-
-{{< downloadthis data/tumour_data.xlsx dname=tumour_data label="Download data for this session" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data >}}
-
-Save into your `data/` directory.
-
 ## Read data
 
 ```{r}
 
-tumour_data <- readxl::read_xlsx('data/tumour_data.xlsx')
+tumour_data <- read_xlsx('data/tumour_data.xlsx')
 
 tumour_data
-
-
 
 ```
 
 
-The data contains `r nrow(tumour_data)` tissue samples which have been imaged in a histology lab, as referenced in this chapter [Background](chapter_8.qmd). Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).
+The data contains `r nrow(tumour_data)` tissue samples which have been imaged in a histology lab. Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).
 
-Automatic quantification of image features produces `r ncol(tumour_data) -2` 'features' including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.
+Automatic quantification of images produces 'feature' metrics including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.
 
 ## Explore the data
 
@@ -76,7 +51,9 @@ dat_long <- tumour_data %>%
 
 ```{r}
 
-dat_long %>%   ggplot(aes(x=value,group=key)) + geom_density()
+dat_long %>%
+  ggplot(aes(x=value,group=key)) + 
+  geom_density()
 
 ```
 
@@ -155,10 +132,9 @@ Our experimental question is 'Are any features (y) significantly different betwe
 
 ```{r}
 
-#marginal effects
 dat_long_log %>% group_by(key) %>% 
-  lm_test( value ~  status  ) %>% filter(term!='intercept') 
-
+  lm_test( value ~  status  ) %>% 
+  filter(term!='intercept') 
 
 ```
 
@@ -169,7 +145,7 @@ We can see several features do have significant associations with tissue status!
 ```{r}
 
 #features_of_interest (FOI)
-foi <- c('granularity','intensity_8','membrane_curvature')
+foi <- c('granularity', 'intensity_8', 'membrane_curvature')
 
 dat_long_log %>% 
   filter(key %in% foi) %>% 
