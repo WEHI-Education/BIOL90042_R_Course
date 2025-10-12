@@ -8,7 +8,7 @@ format:
     toc-title: "In this section:"
 ---
 
-# Part 1 {.unnumbered #sec-mlpart01} 
+# Part 1 {#sec-mlpart01 .unnumbered}
 
 ## Setup
 
@@ -37,11 +37,17 @@ theme_set(theme_minimal())
 
 ```
 
-## Download data
+## Download data & Quarto files
 
 {{< downloadthis data/tumour_data.xlsx dname=tumour_data label="Download data for this session" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data >}}
 
 Save into your `data/` directory.
+
+To run this workshop in quarto on your local machine:
+
+{{< downloadthis chapter8_quarto.zip dname=chapter8_quarto label="Download chapter 8 quarto files" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data >}}
+
+then unzip, and copy the files into your `BIOL90042_R_Course` directory.
 
 ## Read data
 
@@ -55,8 +61,8 @@ tumour_data
 
 ```
 
-
-The data contains `r nrow(tumour_data)` tissue samples which have been imaged in a histology lab, as referenced in this chapter [Background](chapter_8.qmd). Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).
+The data contains `r nrow(tumour_data)` tissue samples which have been imaged in a histology lab, as referenced in this chapter [Background](chapter_8.qmd).
+Each sample has the anonymized donor id and malignancy status determined by a trained pathologist (benign or malignant).
 
 Automatic quantification of image features produces `r ncol(tumour_data) -2` 'features' including cell shapes, edge (plasma membrane) definition, cytosolic texture, staining intensity, necrosis, vascularity etc.
 
@@ -80,7 +86,8 @@ dat_long %>%   ggplot(aes(x=value,group=key)) + geom_density()
 
 ```
 
-The data doesnt look normally distributed, but there is a big over-plotting problem here. Let's use the ggridges package to produce a single density plot for each feature:
+The data doesnt look normally distributed, but there is a big over-plotting problem here.
+Let's use the ggridges package to produce a single density plot for each feature:
 
 ```{r}
 
@@ -88,7 +95,8 @@ dat_long %>%  ggplot(aes(x=value)) +
   geom_density_ridges(aes(y=key))
 ```
 
-The measurements in the dataset have a positive skew, meaning they are non-normal. For best results in machine learning (and data analysis more generally) its usually best to transform the data into a normal distribution where possible.
+The measurements in the dataset have a positive skew, meaning they are non-normal.
+For best results in machine learning (and data analysis more generally) its usually best to transform the data into a normal distribution where possible.
 
 ### Log transform
 
@@ -105,11 +113,14 @@ dat_long_log %>%  ggplot(aes(x=value)) +
   geom_density_ridges(aes(y=key))
 ```
 
-The data looks more normal now. Note that the mean values are different. This can be addressed by scaling data, which we return to later.
+The data looks more normal now.
+Note that the mean values are different.
+This can be addressed by scaling data, which we return to later.
 
 ### Cluster analysis
 
-Let's run an unsupervised machine learning method to explore how the samples group together using a 'data-driven' approach. `pr_comp()` gives us principal components analysis, and requires wide-format data.
+Let's run an unsupervised machine learning method to explore how the samples group together using a 'data-driven' approach.
+`pr_comp()` gives us principal components analysis, and requires wide-format data.
 
 Reshape log-transformed data to wide format, and calculate principal components using the quantitative features (i.e., everything except donorid and malignancy status).
 
@@ -124,7 +135,9 @@ pc_dat <- dat_wide_log %>% select(-c(donorid,status)) %>%
 
 ```
 
-We can access the principal components for each sample by using the `broom::augment()` function. The primary PCs (e.g. 1 thru 5) encode the majority of the variation between samples. As such we focus on primary PCs (or dimension in MDS), when clustering samples
+We can access the principal components for each sample by using the `broom::augment()` function.
+The primary PCs (e.g. 1 thru 5) encode the majority of the variation between samples.
+As such we focus on primary PCs (or dimension in MDS), when clustering samples
 
 Plot first 2 PCs, coloured by tumour status
 
@@ -143,7 +156,8 @@ pc_plot_dat %>%
 
 ```
 
-There is certainly not a clear separation between malignant and benign. This indicates we will need to try a more sensitive/advanced method to reliably predict the tissue status.
+There is certainly not a clear separation between malignant and benign.
+This indicates we will need to try a more sensitive/advanced method to reliably predict the tissue status.
 
 ### Linear model
 
@@ -162,7 +176,8 @@ dat_long_log %>% group_by(key) %>%
 
 ```
 
-We can see several features do have significant associations with tissue status! This means that, although those feature associations are not large/strong enough to drive sample separation in PCA, the should be able to be combined to build a good predictive model.
+We can see several features do have significant associations with tissue status!
+This means that, although those feature associations are not large/strong enough to drive sample separation in PCA, the should be able to be combined to build a good predictive model.
 
 ### Confirm LM results graphically
 
