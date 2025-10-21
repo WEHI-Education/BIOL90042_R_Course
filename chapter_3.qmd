@@ -377,17 +377,18 @@ m_dose %>%
     .by = c(cage_number, mouse_strain))
 ```
 
-Of course, `mean()` is not the only function that we can use within `summarise()`. We can use any function that takes a vector of values and returns a single value, like `median()`, `sd()`, or `max()`. We can also use multiple functions at once, by giving each column a name and specifying the function we want to use:
+Of course, `mean()` is not the only function that we can use within `summarise()`. We can use any function that takes a vector of values and returns a single value, like `median()`, `sd()`, or `max()`. We can also use multiple functions at once, by giving each column a name and specifying the function we want to use. In the following code we first drop NA values from the `weight_lost_g` column, to avoid repeating `na.rm = TRUE`:
 
 ```{r}
 m_dose %>%
+  drop_na(weight_lost_g) %>% 
   summarise(
     n = n(),
-    mean_weight_lost = mean(weight_lost_g, na.rm = TRUE),
-    median_weight_lost = median(weight_lost_g, na.rm = TRUE),
-    sd_weight_lost = sd(weight_lost_g, na.rm = TRUE),
-    max_weight_lost = max(weight_lost_g, na.rm = TRUE),
-    min_weight_lost = min(weight_lost_g, na.rm = TRUE),
+    mean_weight_lost = mean(weight_lost_g),
+    median_weight_lost = median(weight_lost_g),
+    sd_weight_lost = sd(weight_lost_g),
+    max_weight_lost = max(weight_lost_g),
+    min_weight_lost = min(weight_lost_g),
     .by = cage_number)
 ```
 
@@ -575,11 +576,12 @@ It's also possible to use the `write_*()` functions along with a pipe:
 ```{r}
 #| eval: false
 m_dose %>%
+  drop_na(weight_lost_g) %>% 
   summarise(
     n = n(),
-    mean_weight_lost = mean(weight_lost_g, na.rm = TRUE),
-    median_weight_lost = median(weight_lost_g, na.rm = TRUE),
-    sd_weight_lost = sd(weight_lost_g, na.rm = TRUE),
+    mean_weight_lost = mean(weight_lost_g),
+    median_weight_lost = median(weight_lost_g),
+    sd_weight_lost = sd(weight_lost_g),
     .by = cage_number) %>%
   write_csv("cage_summary_table.csv")
 ```
