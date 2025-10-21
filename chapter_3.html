@@ -578,7 +578,7 @@ Practice exercises
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    weight_lost_g <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"High"</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:4:5: unexpected symbol
+<pre><code>Error in parse(text = input): &lt;text&gt;:4:5: unexpected symbol
 3:     weight_lost_g &lt; 4 ~ "Low"
 4:     weight_lost_g
        ^</code></pre>
@@ -797,23 +797,24 @@ Solutions
 5 2B          BALB C                   3.73</code></pre>
 </div>
 </div>
-<p>Of course, <code>mean()</code> is not the only function that we can use within <code>summarise()</code>. We can use any function that takes a vector of values and returns a single value, like <code>median()</code>, <code>sd()</code>, or <code>max()</code>. We can also use multiple functions at once, by giving each column a name and specifying the function we want to use:</p>
+<p>Of course, <code>mean()</code> is not the only function that we can use within <code>summarise()</code>. We can use any function that takes a vector of values and returns a single value, like <code>median()</code>, <code>sd()</code>, or <code>max()</code>. We can also use multiple functions at once, by giving each column a name and specifying the function we want to use. In the following code we first drop NA values from the <code>weight_lost_g</code> column, to avoid repeating <code>na.rm = TRUE</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_weight_lost =</span> <span class="fu">max</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_weight_lost =</span> <span class="fu">min</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(weight_lost_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_weight_lost =</span> <span class="fu">max</span>(weight_lost_g),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_weight_lost =</span> <span class="fu">min</span>(weight_lost_g),</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 7
   cage_number     n mean_weight_lost median_weight_lost sd_weight_lost
   &lt;chr&gt;       &lt;int&gt;            &lt;dbl&gt;              &lt;dbl&gt;          &lt;dbl&gt;
-1 1A             52             3.71               3.7           0.445
-2 3E            168             4.72               4.78          0.783
+1 1A             51             3.71               3.7           0.445
+2 3E            167             4.72               4.78          0.783
 3 2B            124             3.71               3.69          0.417
 # ℹ 2 more variables: max_weight_lost &lt;dbl&gt;, min_weight_lost &lt;dbl&gt;</code></pre>
 </div>
@@ -1026,13 +1027,14 @@ Solutions
 <p>It’s also possible to use the <code>write_*()</code> functions along with a pipe:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number) <span class="sc">%&gt;%</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"cage_summary_table.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(weight_lost_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g),</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g),</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number) <span class="sc">%&gt;%</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"cage_summary_table.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Remember here that the first argument (the data frame to save) is passed on by the pipe, so the only argument in the brackets is the second one: the file path.</p>
 </section>
@@ -2007,279 +2009,281 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb44-409"><a href="#cb44-409" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(cage_number, mouse_strain))</span>
 <span id="cb44-410"><a href="#cb44-410" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-411"><a href="#cb44-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-412"><a href="#cb44-412" aria-hidden="true" tabindex="-1"></a>Of course, <span class="in">`mean()`</span> is not the only function that we can use within <span class="in">`summarise()`</span>. We can use any function that takes a vector of values and returns a single value, like <span class="in">`median()`</span>, <span class="in">`sd()`</span>, or <span class="in">`max()`</span>. We can also use multiple functions at once, by giving each column a name and specifying the function we want to use:</span>
+<span id="cb44-412"><a href="#cb44-412" aria-hidden="true" tabindex="-1"></a>Of course, <span class="in">`mean()`</span> is not the only function that we can use within <span class="in">`summarise()`</span>. We can use any function that takes a vector of values and returns a single value, like <span class="in">`median()`</span>, <span class="in">`sd()`</span>, or <span class="in">`max()`</span>. We can also use multiple functions at once, by giving each column a name and specifying the function we want to use. In the following code we first drop NA values from the <span class="in">`weight_lost_g`</span> column, to avoid repeating <span class="in">`na.rm = TRUE`</span>:</span>
 <span id="cb44-413"><a href="#cb44-413" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-416"><a href="#cb44-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb44-417"><a href="#cb44-417" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-418"><a href="#cb44-418" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb44-419"><a href="#cb44-419" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb44-420"><a href="#cb44-420" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-421"><a href="#cb44-421" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-422"><a href="#cb44-422" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-423"><a href="#cb44-423" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_weight_lost =</span> <span class="fu">max</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-424"><a href="#cb44-424" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_weight_lost =</span> <span class="fu">min</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-425"><a href="#cb44-425" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number)</span>
-<span id="cb44-426"><a href="#cb44-426" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-427"><a href="#cb44-427" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-428"><a href="#cb44-428" aria-hidden="true" tabindex="-1"></a>Here, we also used the <span class="in">`n()`</span> function to calculate the number of mice in each cage. This is a special helper function that works within <span class="in">`summarise`</span> to count the number of rows in each group.</span>
-<span id="cb44-429"><a href="#cb44-429" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-430"><a href="#cb44-430" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="To <span class="in">`.by`</span> or not to <span class="in">`.by`</span>?"}</span>
-<span id="cb44-431"><a href="#cb44-431" aria-hidden="true" tabindex="-1"></a>In the <span class="in">`dplyr`</span> package, there are two ways to group data: using the <span class="in">`.by`</span> argument within various functions (as we have covered so far), or using the <span class="in">`group_by()`</span> function, then performing your operations and ungrouping with <span class="in">`ungroup()`</span>.</span>
-<span id="cb44-432"><a href="#cb44-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-433"><a href="#cb44-433" aria-hidden="true" tabindex="-1"></a>For example, we've seen above how to calculate the mean weight lost by mice in each cage using the <span class="in">`.by`</span> argument:</span>
-<span id="cb44-434"><a href="#cb44-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-437"><a href="#cb44-437" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-438"><a href="#cb44-438" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-439"><a href="#cb44-439" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> cage_number)</span>
-<span id="cb44-440"><a href="#cb44-440" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-441"><a href="#cb44-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-442"><a href="#cb44-442" aria-hidden="true" tabindex="-1"></a>But we can also do the same using <span class="in">`group_by()`</span> and <span class="in">`ungroup()`</span>:</span>
-<span id="cb44-445"><a href="#cb44-445" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-446"><a href="#cb44-446" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-447"><a href="#cb44-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cage_number) <span class="sc">%&gt;%</span></span>
-<span id="cb44-448"><a href="#cb44-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb44-449"><a href="#cb44-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb44-450"><a href="#cb44-450" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-451"><a href="#cb44-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-452"><a href="#cb44-452" aria-hidden="true" tabindex="-1"></a>The two methods are equivalent, but using the <span class="in">`.by`</span> argument within functions can be more concise and easier to read. Still, it's good to be aware of <span class="in">`group_by()`</span> and <span class="in">`ungroup()`</span> as they are widely used, particularly in older code.</span>
-<span id="cb44-453"><a href="#cb44-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-454"><a href="#cb44-454" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-455"><a href="#cb44-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-456"><a href="#cb44-456" aria-hidden="true" tabindex="-1"></a>Although grouping is most often used with <span class="in">`summarise()`</span>, it can be used with <span class="in">`dplyr`</span> functions too. For example mutate() function can also be used with grouping to add new columns to the data frame based on group-specific calculations. Let's say we wanted to calculate the Z-score (also known as the <span class="co">[</span><span class="ot">standard score</span><span class="co">](https://en.wikipedia.org/wiki/Standard_score)</span>) to standardise the weight lost by each mouse within each strain.</span>
-<span id="cb44-457"><a href="#cb44-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-458"><a href="#cb44-458" aria-hidden="true" tabindex="-1"></a>As a reminder, the formula for calculating the Z-score is $\frac{x - \mu}{\sigma}$, where $x$ is the value (in our case the <span class="in">`weight_lost_g`</span> column), $\mu$ is the mean, and $\sigma$ is the standard deviation.</span>
-<span id="cb44-459"><a href="#cb44-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-460"><a href="#cb44-460" aria-hidden="true" tabindex="-1"></a>We can calculate this for each mouse in each strain using the following code:</span>
-<span id="cb44-461"><a href="#cb44-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-464"><a href="#cb44-464" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-465"><a href="#cb44-465" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-466"><a href="#cb44-466" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove NAs before calculating the mean and SD</span></span>
-<span id="cb44-467"><a href="#cb44-467" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight_lost_g)) <span class="sc">%&gt;%</span></span>
-<span id="cb44-468"><a href="#cb44-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weight_lost_z =</span> (weight_lost_g <span class="sc">-</span> <span class="fu">mean</span>(weight_lost_g)) <span class="sc">/</span> <span class="fu">sd</span>(weight_lost_g), <span class="at">.by =</span> mouse_strain) <span class="sc">%&gt;%</span></span>
-<span id="cb44-469"><a href="#cb44-469" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select the relevant columns</span></span>
-<span id="cb44-470"><a href="#cb44-470" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(mouse_strain, weight_lost_g, weight_lost_z)</span>
-<span id="cb44-471"><a href="#cb44-471" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-472"><a href="#cb44-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-473"><a href="#cb44-473" aria-hidden="true" tabindex="-1"></a>Unlike when we used <span class="in">`.by`</span> with <span class="in">`summarise()`</span>, we still get the same number of rows as the original data frame, but now we have a new column <span class="in">`weight_lost_z`</span> that contains the Z-score for each mouse within each strain. This could be useful for identifying outliers or comparing the weight lost by each mouse to the average for its strain.</span>
-<span id="cb44-474"><a href="#cb44-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-475"><a href="#cb44-475" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercises"}</span>
-<span id="cb44-476"><a href="#cb44-476" aria-hidden="true" tabindex="-1"></a>Try these practice questions to test your understanding</span>
-<span id="cb44-477"><a href="#cb44-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-478"><a href="#cb44-478" aria-hidden="true" tabindex="-1"></a>::: question</span>
-<span id="cb44-479"><a href="#cb44-479" aria-hidden="true" tabindex="-1"></a>1<span class="sc">\.</span> Which line of code would you use to calculate the median tail length of mice belonging to each strain in the <span class="in">`m_dose`</span> data frame?</span>
-<span id="cb44-480"><a href="#cb44-480" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-481"><a href="#cb44-481" aria-hidden="true" tabindex="-1"></a>::: choices</span>
-<span id="cb44-482"><a href="#cb44-482" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-483"><a href="#cb44-483" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm), .by = mouse_strain)`</span></span>
-<span id="cb44-484"><a href="#cb44-484" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-485"><a href="#cb44-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-486"><a href="#cb44-486" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb44-487"><a href="#cb44-487" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm, na.rm = TRUE), .by = mouse_strain)`</span></span>
-<span id="cb44-488"><a href="#cb44-488" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-489"><a href="#cb44-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-490"><a href="#cb44-490" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-491"><a href="#cb44-491" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm, na.rm = TRUE), by = mouse_strain)`</span></span>
-<span id="cb44-492"><a href="#cb44-492" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-493"><a href="#cb44-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-494"><a href="#cb44-494" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-495"><a href="#cb44-495" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(median_tail_length = median(tail_length_mm, na.rm = TRUE), .by = mouse_strain)`</span></span>
-<span id="cb44-496"><a href="#cb44-496" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-418"><a href="#cb44-418" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(weight_lost_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-419"><a href="#cb44-419" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-420"><a href="#cb44-420" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-421"><a href="#cb44-421" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g),</span>
+<span id="cb44-422"><a href="#cb44-422" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g),</span>
+<span id="cb44-423"><a href="#cb44-423" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g),</span>
+<span id="cb44-424"><a href="#cb44-424" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_weight_lost =</span> <span class="fu">max</span>(weight_lost_g),</span>
+<span id="cb44-425"><a href="#cb44-425" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_weight_lost =</span> <span class="fu">min</span>(weight_lost_g),</span>
+<span id="cb44-426"><a href="#cb44-426" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number)</span>
+<span id="cb44-427"><a href="#cb44-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-428"><a href="#cb44-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-429"><a href="#cb44-429" aria-hidden="true" tabindex="-1"></a>Here, we also used the <span class="in">`n()`</span> function to calculate the number of mice in each cage. This is a special helper function that works within <span class="in">`summarise`</span> to count the number of rows in each group.</span>
+<span id="cb44-430"><a href="#cb44-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-431"><a href="#cb44-431" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="To <span class="in">`.by`</span> or not to <span class="in">`.by`</span>?"}</span>
+<span id="cb44-432"><a href="#cb44-432" aria-hidden="true" tabindex="-1"></a>In the <span class="in">`dplyr`</span> package, there are two ways to group data: using the <span class="in">`.by`</span> argument within various functions (as we have covered so far), or using the <span class="in">`group_by()`</span> function, then performing your operations and ungrouping with <span class="in">`ungroup()`</span>.</span>
+<span id="cb44-433"><a href="#cb44-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-434"><a href="#cb44-434" aria-hidden="true" tabindex="-1"></a>For example, we've seen above how to calculate the mean weight lost by mice in each cage using the <span class="in">`.by`</span> argument:</span>
+<span id="cb44-435"><a href="#cb44-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-438"><a href="#cb44-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-439"><a href="#cb44-439" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-440"><a href="#cb44-440" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> cage_number)</span>
+<span id="cb44-441"><a href="#cb44-441" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-442"><a href="#cb44-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-443"><a href="#cb44-443" aria-hidden="true" tabindex="-1"></a>But we can also do the same using <span class="in">`group_by()`</span> and <span class="in">`ungroup()`</span>:</span>
+<span id="cb44-446"><a href="#cb44-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-447"><a href="#cb44-447" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-448"><a href="#cb44-448" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cage_number) <span class="sc">%&gt;%</span></span>
+<span id="cb44-449"><a href="#cb44-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb44-450"><a href="#cb44-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb44-451"><a href="#cb44-451" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-452"><a href="#cb44-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-453"><a href="#cb44-453" aria-hidden="true" tabindex="-1"></a>The two methods are equivalent, but using the <span class="in">`.by`</span> argument within functions can be more concise and easier to read. Still, it's good to be aware of <span class="in">`group_by()`</span> and <span class="in">`ungroup()`</span> as they are widely used, particularly in older code.</span>
+<span id="cb44-454"><a href="#cb44-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-455"><a href="#cb44-455" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-456"><a href="#cb44-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-457"><a href="#cb44-457" aria-hidden="true" tabindex="-1"></a>Although grouping is most often used with <span class="in">`summarise()`</span>, it can be used with <span class="in">`dplyr`</span> functions too. For example mutate() function can also be used with grouping to add new columns to the data frame based on group-specific calculations. Let's say we wanted to calculate the Z-score (also known as the <span class="co">[</span><span class="ot">standard score</span><span class="co">](https://en.wikipedia.org/wiki/Standard_score)</span>) to standardise the weight lost by each mouse within each strain.</span>
+<span id="cb44-458"><a href="#cb44-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-459"><a href="#cb44-459" aria-hidden="true" tabindex="-1"></a>As a reminder, the formula for calculating the Z-score is $\frac{x - \mu}{\sigma}$, where $x$ is the value (in our case the <span class="in">`weight_lost_g`</span> column), $\mu$ is the mean, and $\sigma$ is the standard deviation.</span>
+<span id="cb44-460"><a href="#cb44-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-461"><a href="#cb44-461" aria-hidden="true" tabindex="-1"></a>We can calculate this for each mouse in each strain using the following code:</span>
+<span id="cb44-462"><a href="#cb44-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-465"><a href="#cb44-465" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-466"><a href="#cb44-466" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-467"><a href="#cb44-467" aria-hidden="true" tabindex="-1"></a>  <span class="co"># remove NAs before calculating the mean and SD</span></span>
+<span id="cb44-468"><a href="#cb44-468" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(weight_lost_g)) <span class="sc">%&gt;%</span></span>
+<span id="cb44-469"><a href="#cb44-469" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weight_lost_z =</span> (weight_lost_g <span class="sc">-</span> <span class="fu">mean</span>(weight_lost_g)) <span class="sc">/</span> <span class="fu">sd</span>(weight_lost_g), <span class="at">.by =</span> mouse_strain) <span class="sc">%&gt;%</span></span>
+<span id="cb44-470"><a href="#cb44-470" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select the relevant columns</span></span>
+<span id="cb44-471"><a href="#cb44-471" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(mouse_strain, weight_lost_g, weight_lost_z)</span>
+<span id="cb44-472"><a href="#cb44-472" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-473"><a href="#cb44-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-474"><a href="#cb44-474" aria-hidden="true" tabindex="-1"></a>Unlike when we used <span class="in">`.by`</span> with <span class="in">`summarise()`</span>, we still get the same number of rows as the original data frame, but now we have a new column <span class="in">`weight_lost_z`</span> that contains the Z-score for each mouse within each strain. This could be useful for identifying outliers or comparing the weight lost by each mouse to the average for its strain.</span>
+<span id="cb44-475"><a href="#cb44-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-476"><a href="#cb44-476" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercises"}</span>
+<span id="cb44-477"><a href="#cb44-477" aria-hidden="true" tabindex="-1"></a>Try these practice questions to test your understanding</span>
+<span id="cb44-478"><a href="#cb44-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-479"><a href="#cb44-479" aria-hidden="true" tabindex="-1"></a>::: question</span>
+<span id="cb44-480"><a href="#cb44-480" aria-hidden="true" tabindex="-1"></a>1<span class="sc">\.</span> Which line of code would you use to calculate the median tail length of mice belonging to each strain in the <span class="in">`m_dose`</span> data frame?</span>
+<span id="cb44-481"><a href="#cb44-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-482"><a href="#cb44-482" aria-hidden="true" tabindex="-1"></a>::: choices</span>
+<span id="cb44-483"><a href="#cb44-483" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-484"><a href="#cb44-484" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm), .by = mouse_strain)`</span></span>
+<span id="cb44-485"><a href="#cb44-485" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-486"><a href="#cb44-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-487"><a href="#cb44-487" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb44-488"><a href="#cb44-488" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm, na.rm = TRUE), .by = mouse_strain)`</span></span>
+<span id="cb44-489"><a href="#cb44-489" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-490"><a href="#cb44-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-491"><a href="#cb44-491" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-492"><a href="#cb44-492" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm, na.rm = TRUE), by = mouse_strain)`</span></span>
+<span id="cb44-493"><a href="#cb44-493" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-494"><a href="#cb44-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-495"><a href="#cb44-495" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-496"><a href="#cb44-496" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(median_tail_length = median(tail_length_mm, na.rm = TRUE), .by = mouse_strain)`</span></span>
 <span id="cb44-497"><a href="#cb44-497" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-498"><a href="#cb44-498" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-499"><a href="#cb44-499" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-500"><a href="#cb44-500" aria-hidden="true" tabindex="-1"></a>::: question</span>
-<span id="cb44-501"><a href="#cb44-501" aria-hidden="true" tabindex="-1"></a>2<span class="sc">\.</span> Explain in words what the following code does:</span>
-<span id="cb44-502"><a href="#cb44-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-505"><a href="#cb44-505" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-506"><a href="#cb44-506" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-507"><a href="#cb44-507" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-508"><a href="#cb44-508" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_len =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(mouse_strain, replicate))</span>
-<span id="cb44-509"><a href="#cb44-509" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-510"><a href="#cb44-510" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-511"><a href="#cb44-511" aria-hidden="true" tabindex="-1"></a>::: choices</span>
-<span id="cb44-512"><a href="#cb44-512" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-513"><a href="#cb44-513" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of all mice for each strain in the <span class="in">`m_dose`</span> data frame</span>
-<span id="cb44-514"><a href="#cb44-514" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-515"><a href="#cb44-515" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-516"><a href="#cb44-516" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-517"><a href="#cb44-517" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of all mice for each replicate in the <span class="in">`m_dose`</span> data frame</span>
-<span id="cb44-518"><a href="#cb44-518" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-519"><a href="#cb44-519" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-520"><a href="#cb44-520" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-521"><a href="#cb44-521" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of all mice in the <span class="in">`m_dose`</span> data frame</span>
-<span id="cb44-522"><a href="#cb44-522" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-523"><a href="#cb44-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-524"><a href="#cb44-524" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb44-525"><a href="#cb44-525" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of mice in each unique combination of strain and replicate in the <span class="in">`m_dose`</span> data frame.</span>
-<span id="cb44-526"><a href="#cb44-526" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-499"><a href="#cb44-499" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-500"><a href="#cb44-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-501"><a href="#cb44-501" aria-hidden="true" tabindex="-1"></a>::: question</span>
+<span id="cb44-502"><a href="#cb44-502" aria-hidden="true" tabindex="-1"></a>2<span class="sc">\.</span> Explain in words what the following code does:</span>
+<span id="cb44-503"><a href="#cb44-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-506"><a href="#cb44-506" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-507"><a href="#cb44-507" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-508"><a href="#cb44-508" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-509"><a href="#cb44-509" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_len =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(mouse_strain, replicate))</span>
+<span id="cb44-510"><a href="#cb44-510" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-511"><a href="#cb44-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-512"><a href="#cb44-512" aria-hidden="true" tabindex="-1"></a>::: choices</span>
+<span id="cb44-513"><a href="#cb44-513" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-514"><a href="#cb44-514" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of all mice for each strain in the <span class="in">`m_dose`</span> data frame</span>
+<span id="cb44-515"><a href="#cb44-515" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-516"><a href="#cb44-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-517"><a href="#cb44-517" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-518"><a href="#cb44-518" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of all mice for each replicate in the <span class="in">`m_dose`</span> data frame</span>
+<span id="cb44-519"><a href="#cb44-519" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-520"><a href="#cb44-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-521"><a href="#cb44-521" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-522"><a href="#cb44-522" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of all mice in the <span class="in">`m_dose`</span> data frame</span>
+<span id="cb44-523"><a href="#cb44-523" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-524"><a href="#cb44-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-525"><a href="#cb44-525" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb44-526"><a href="#cb44-526" aria-hidden="true" tabindex="-1"></a>Calculates the maximum tail length of mice in each unique combination of strain and replicate in the <span class="in">`m_dose`</span> data frame.</span>
 <span id="cb44-527"><a href="#cb44-527" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-528"><a href="#cb44-528" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-529"><a href="#cb44-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-530"><a href="#cb44-530" aria-hidden="true" tabindex="-1"></a>::: question</span>
-<span id="cb44-531"><a href="#cb44-531" aria-hidden="true" tabindex="-1"></a>3<span class="sc">\.</span> I want to count how many male and how many female mice there are for each strain in the <span class="in">`m_dose`</span> data frame. Which line of code would I use?</span>
-<span id="cb44-532"><a href="#cb44-532" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-533"><a href="#cb44-533" aria-hidden="true" tabindex="-1"></a>::: choices</span>
-<span id="cb44-534"><a href="#cb44-534" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-535"><a href="#cb44-535" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = sex)`</span></span>
-<span id="cb44-536"><a href="#cb44-536" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-537"><a href="#cb44-537" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-538"><a href="#cb44-538" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-539"><a href="#cb44-539" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = mouse_strain)`</span></span>
-<span id="cb44-540"><a href="#cb44-540" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-541"><a href="#cb44-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-542"><a href="#cb44-542" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb44-543"><a href="#cb44-543" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = c(mouse_strain, sex))`</span></span>
-<span id="cb44-544"><a href="#cb44-544" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-545"><a href="#cb44-545" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-546"><a href="#cb44-546" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-547"><a href="#cb44-547" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = mouse_strain, sex)`</span></span>
-<span id="cb44-548"><a href="#cb44-548" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-529"><a href="#cb44-529" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-530"><a href="#cb44-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-531"><a href="#cb44-531" aria-hidden="true" tabindex="-1"></a>::: question</span>
+<span id="cb44-532"><a href="#cb44-532" aria-hidden="true" tabindex="-1"></a>3<span class="sc">\.</span> I want to count how many male and how many female mice there are for each strain in the <span class="in">`m_dose`</span> data frame. Which line of code would I use?</span>
+<span id="cb44-533"><a href="#cb44-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-534"><a href="#cb44-534" aria-hidden="true" tabindex="-1"></a>::: choices</span>
+<span id="cb44-535"><a href="#cb44-535" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-536"><a href="#cb44-536" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = sex)`</span></span>
+<span id="cb44-537"><a href="#cb44-537" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-538"><a href="#cb44-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-539"><a href="#cb44-539" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-540"><a href="#cb44-540" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = mouse_strain)`</span></span>
+<span id="cb44-541"><a href="#cb44-541" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-542"><a href="#cb44-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-543"><a href="#cb44-543" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb44-544"><a href="#cb44-544" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = c(mouse_strain, sex))`</span></span>
+<span id="cb44-545"><a href="#cb44-545" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-546"><a href="#cb44-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-547"><a href="#cb44-547" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-548"><a href="#cb44-548" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(count = n(), .by = mouse_strain, sex)`</span></span>
 <span id="cb44-549"><a href="#cb44-549" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-550"><a href="#cb44-550" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-551"><a href="#cb44-551" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-552"><a href="#cb44-552" aria-hidden="true" tabindex="-1"></a>::: question</span>
-<span id="cb44-553"><a href="#cb44-553" aria-hidden="true" tabindex="-1"></a>4<span class="sc">\.</span> I want to find the proportion of weight lost **by each mouse** in each cage in the <span class="in">`m_dose`</span> data frame. Which line of code would I use?</span>
-<span id="cb44-554"><a href="#cb44-554" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-555"><a href="#cb44-555" aria-hidden="true" tabindex="-1"></a>::: choices</span>
-<span id="cb44-556"><a href="#cb44-556" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-557"><a href="#cb44-557" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span></span>
-<span id="cb44-558"><a href="#cb44-558" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-559"><a href="#cb44-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-560"><a href="#cb44-560" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb44-561"><a href="#cb44-561" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span></span>
-<span id="cb44-562"><a href="#cb44-562" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-563"><a href="#cb44-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-564"><a href="#cb44-564" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-565"><a href="#cb44-565" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE, .by = cage_number))`</span></span>
-<span id="cb44-566"><a href="#cb44-566" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-567"><a href="#cb44-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-568"><a href="#cb44-568" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb44-569"><a href="#cb44-569" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE))`</span></span>
-<span id="cb44-570"><a href="#cb44-570" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-551"><a href="#cb44-551" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-552"><a href="#cb44-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-553"><a href="#cb44-553" aria-hidden="true" tabindex="-1"></a>::: question</span>
+<span id="cb44-554"><a href="#cb44-554" aria-hidden="true" tabindex="-1"></a>4<span class="sc">\.</span> I want to find the proportion of weight lost **by each mouse** in each cage in the <span class="in">`m_dose`</span> data frame. Which line of code would I use?</span>
+<span id="cb44-555"><a href="#cb44-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-556"><a href="#cb44-556" aria-hidden="true" tabindex="-1"></a>::: choices</span>
+<span id="cb44-557"><a href="#cb44-557" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-558"><a href="#cb44-558" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% summarise(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span></span>
+<span id="cb44-559"><a href="#cb44-559" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-560"><a href="#cb44-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-561"><a href="#cb44-561" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb44-562"><a href="#cb44-562" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span></span>
+<span id="cb44-563"><a href="#cb44-563" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-564"><a href="#cb44-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-565"><a href="#cb44-565" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-566"><a href="#cb44-566" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE, .by = cage_number))`</span></span>
+<span id="cb44-567"><a href="#cb44-567" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-568"><a href="#cb44-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-569"><a href="#cb44-569" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb44-570"><a href="#cb44-570" aria-hidden="true" tabindex="-1"></a><span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE))`</span></span>
 <span id="cb44-571"><a href="#cb44-571" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-572"><a href="#cb44-572" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-573"><a href="#cb44-573" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-574"><a href="#cb44-574" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
-<span id="cb44-575"><a href="#cb44-575" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-576"><a href="#cb44-576" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;Solutions&lt;/summary&gt;</span>
-<span id="cb44-577"><a href="#cb44-577" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-578"><a href="#cb44-578" aria-hidden="true" tabindex="-1"></a>&lt;p&gt;</span>
-<span id="cb44-579"><a href="#cb44-579" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-580"><a href="#cb44-580" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>The correct line of code to calculate the median tail length of mice belonging to each strain in the <span class="in">`m_dose`</span> data frame is <span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm, na.rm = TRUE), .by = mouse_strain)`</span>. Remember to use <span class="in">`na.rm = TRUE`</span> to remove any missing values before calculating the median, and to use <span class="in">`.by`</span> to specify the column to group by (not <span class="in">`by`</span>). Seeing as we want to calculate the median (collapse down to a single value per group), we need to use <span class="in">`summarise()`</span> rather than <span class="in">`mutate()`</span>.</span>
-<span id="cb44-581"><a href="#cb44-581" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>The code <span class="in">`m_dose %&gt;% summarise(max_tail_len = max(tail_length_mm, na.rm = TRUE), .by = c(mouse_strain, replicate))`</span> calculates the maximum tail length of mice in each **unique combination** of strain and replicate in the <span class="in">`m_dose`</span> data frame.</span>
-<span id="cb44-582"><a href="#cb44-582" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>The correct line of code to count how many male and how many female mice there are for each strain in the <span class="in">`m_dose`</span> data frame is <span class="in">`m_dose %&gt;% summarise(count = n(), .by = c(mouse_strain, sex))`</span>. We need to group by both <span class="in">`mouse_strain`</span> and <span class="in">`sex`</span> to get the count for each unique combination of strain and sex. Don't forget that we specify the column names as a vector when grouping by multiple columns.</span>
-<span id="cb44-583"><a href="#cb44-583" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>The correct line of code to find the proportion of weight lost **by each mouse** in each cage in the <span class="in">`m_dose`</span> data frame is <span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span>. We use <span class="in">`mutate()`</span> because we want a value for each mouse (each row in our data), rather than to collapse down to a single value for each group (cage number in this case). Be careful that you use the <span class="in">`.by`</span> argument within the <span class="in">`mutate()`</span> function call, not within the <span class="in">`sum()`</span> function by mistake (this is what is wrong with the third option).</span>
-<span id="cb44-584"><a href="#cb44-584" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-585"><a href="#cb44-585" aria-hidden="true" tabindex="-1"></a>&lt;/p&gt;</span>
-<span id="cb44-586"><a href="#cb44-586" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-587"><a href="#cb44-587" aria-hidden="true" tabindex="-1"></a>&lt;/details&gt;</span>
-<span id="cb44-588"><a href="#cb44-588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-589"><a href="#cb44-589" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-590"><a href="#cb44-590" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-591"><a href="#cb44-591" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving data to a file {#sec-saving}</span></span>
-<span id="cb44-592"><a href="#cb44-592" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-593"><a href="#cb44-593" aria-hidden="true" tabindex="-1"></a>Once you've cleaned and transformed your data, you'll often want to save it to a file so that you can use it in other programs or share it with others. The <span class="in">`write_csv()`</span> and <span class="in">`write_tsv()`</span> functions from the <span class="in">`readr`</span> package are a great way to do this. They take two arguments - the data frame you want to save and the file path where you want to save it.</span>
-<span id="cb44-594"><a href="#cb44-594" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-595"><a href="#cb44-595" aria-hidden="true" tabindex="-1"></a>For example, let's say I want to save my summary table of the weight lost by mice in each cage to a CSV file called <span class="in">`cage_summary_table.csv`</span>:</span>
-<span id="cb44-596"><a href="#cb44-596" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-599"><a href="#cb44-599" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-600"><a href="#cb44-600" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-601"><a href="#cb44-601" aria-hidden="true" tabindex="-1"></a><span class="co"># create the summary table</span></span>
-<span id="cb44-602"><a href="#cb44-602" aria-hidden="true" tabindex="-1"></a><span class="co"># and assign it to a variable</span></span>
-<span id="cb44-603"><a href="#cb44-603" aria-hidden="true" tabindex="-1"></a>cage_summary_table <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-604"><a href="#cb44-604" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb44-605"><a href="#cb44-605" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb44-606"><a href="#cb44-606" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-607"><a href="#cb44-607" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-608"><a href="#cb44-608" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-609"><a href="#cb44-609" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number)</span>
-<span id="cb44-610"><a href="#cb44-610" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-611"><a href="#cb44-611" aria-hidden="true" tabindex="-1"></a><span class="co"># save the data to a CSV file</span></span>
-<span id="cb44-612"><a href="#cb44-612" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(cage_summary_table, <span class="st">"cage_summary_table.csv"</span>)</span>
-<span id="cb44-613"><a href="#cb44-613" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-614"><a href="#cb44-614" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-615"><a href="#cb44-615" aria-hidden="true" tabindex="-1"></a>CSV files are particularly great because they can be easily read into other software, like Excel.</span>
-<span id="cb44-616"><a href="#cb44-616" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-617"><a href="#cb44-617" aria-hidden="true" tabindex="-1"></a>It's also possible to use the <span class="in">`write_*()`</span> functions along with a pipe:</span>
-<span id="cb44-618"><a href="#cb44-618" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-621"><a href="#cb44-621" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-622"><a href="#cb44-622" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-623"><a href="#cb44-623" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-624"><a href="#cb44-624" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb44-625"><a href="#cb44-625" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb44-626"><a href="#cb44-626" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-627"><a href="#cb44-627" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-628"><a href="#cb44-628" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb44-629"><a href="#cb44-629" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number) <span class="sc">%&gt;%</span></span>
-<span id="cb44-630"><a href="#cb44-630" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"cage_summary_table.csv"</span>)</span>
-<span id="cb44-631"><a href="#cb44-631" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-632"><a href="#cb44-632" aria-hidden="true" tabindex="-1"></a>Remember here that the first argument (the data frame to save) is passed on by the pipe, so the only argument in the brackets is the second one: the file path.</span>
-<span id="cb44-633"><a href="#cb44-633" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-634"><a href="#cb44-634" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb44-635"><a href="#cb44-635" aria-hidden="true" tabindex="-1"></a>Here's what we've covered in this chapter:</span>
-<span id="cb44-636"><a href="#cb44-636" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-637"><a href="#cb44-637" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The basic dplyr verbs <span class="in">`mutate()`</span>, and <span class="in">`arrange()`</span> and how they can be used to tidy and analyse data.</span>
+<span id="cb44-573"><a href="#cb44-573" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-574"><a href="#cb44-574" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-575"><a href="#cb44-575" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
+<span id="cb44-576"><a href="#cb44-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-577"><a href="#cb44-577" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;Solutions&lt;/summary&gt;</span>
+<span id="cb44-578"><a href="#cb44-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-579"><a href="#cb44-579" aria-hidden="true" tabindex="-1"></a>&lt;p&gt;</span>
+<span id="cb44-580"><a href="#cb44-580" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-581"><a href="#cb44-581" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>The correct line of code to calculate the median tail length of mice belonging to each strain in the <span class="in">`m_dose`</span> data frame is <span class="in">`m_dose %&gt;% summarise(median_tail_length = median(tail_length_mm, na.rm = TRUE), .by = mouse_strain)`</span>. Remember to use <span class="in">`na.rm = TRUE`</span> to remove any missing values before calculating the median, and to use <span class="in">`.by`</span> to specify the column to group by (not <span class="in">`by`</span>). Seeing as we want to calculate the median (collapse down to a single value per group), we need to use <span class="in">`summarise()`</span> rather than <span class="in">`mutate()`</span>.</span>
+<span id="cb44-582"><a href="#cb44-582" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>The code <span class="in">`m_dose %&gt;% summarise(max_tail_len = max(tail_length_mm, na.rm = TRUE), .by = c(mouse_strain, replicate))`</span> calculates the maximum tail length of mice in each **unique combination** of strain and replicate in the <span class="in">`m_dose`</span> data frame.</span>
+<span id="cb44-583"><a href="#cb44-583" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>The correct line of code to count how many male and how many female mice there are for each strain in the <span class="in">`m_dose`</span> data frame is <span class="in">`m_dose %&gt;% summarise(count = n(), .by = c(mouse_strain, sex))`</span>. We need to group by both <span class="in">`mouse_strain`</span> and <span class="in">`sex`</span> to get the count for each unique combination of strain and sex. Don't forget that we specify the column names as a vector when grouping by multiple columns.</span>
+<span id="cb44-584"><a href="#cb44-584" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>The correct line of code to find the proportion of weight lost **by each mouse** in each cage in the <span class="in">`m_dose`</span> data frame is <span class="in">`m_dose %&gt;% mutate(weight_lost_proportion = weight_lost_g / sum(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span>. We use <span class="in">`mutate()`</span> because we want a value for each mouse (each row in our data), rather than to collapse down to a single value for each group (cage number in this case). Be careful that you use the <span class="in">`.by`</span> argument within the <span class="in">`mutate()`</span> function call, not within the <span class="in">`sum()`</span> function by mistake (this is what is wrong with the third option).</span>
+<span id="cb44-585"><a href="#cb44-585" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-586"><a href="#cb44-586" aria-hidden="true" tabindex="-1"></a>&lt;/p&gt;</span>
+<span id="cb44-587"><a href="#cb44-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-588"><a href="#cb44-588" aria-hidden="true" tabindex="-1"></a>&lt;/details&gt;</span>
+<span id="cb44-589"><a href="#cb44-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-590"><a href="#cb44-590" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-591"><a href="#cb44-591" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-592"><a href="#cb44-592" aria-hidden="true" tabindex="-1"></a><span class="fu">## Saving data to a file {#sec-saving}</span></span>
+<span id="cb44-593"><a href="#cb44-593" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-594"><a href="#cb44-594" aria-hidden="true" tabindex="-1"></a>Once you've cleaned and transformed your data, you'll often want to save it to a file so that you can use it in other programs or share it with others. The <span class="in">`write_csv()`</span> and <span class="in">`write_tsv()`</span> functions from the <span class="in">`readr`</span> package are a great way to do this. They take two arguments - the data frame you want to save and the file path where you want to save it.</span>
+<span id="cb44-595"><a href="#cb44-595" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-596"><a href="#cb44-596" aria-hidden="true" tabindex="-1"></a>For example, let's say I want to save my summary table of the weight lost by mice in each cage to a CSV file called <span class="in">`cage_summary_table.csv`</span>:</span>
+<span id="cb44-597"><a href="#cb44-597" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-600"><a href="#cb44-600" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-601"><a href="#cb44-601" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-602"><a href="#cb44-602" aria-hidden="true" tabindex="-1"></a><span class="co"># create the summary table</span></span>
+<span id="cb44-603"><a href="#cb44-603" aria-hidden="true" tabindex="-1"></a><span class="co"># and assign it to a variable</span></span>
+<span id="cb44-604"><a href="#cb44-604" aria-hidden="true" tabindex="-1"></a>cage_summary_table <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-605"><a href="#cb44-605" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-606"><a href="#cb44-606" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-607"><a href="#cb44-607" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-608"><a href="#cb44-608" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-609"><a href="#cb44-609" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-610"><a href="#cb44-610" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number)</span>
+<span id="cb44-611"><a href="#cb44-611" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-612"><a href="#cb44-612" aria-hidden="true" tabindex="-1"></a><span class="co"># save the data to a CSV file</span></span>
+<span id="cb44-613"><a href="#cb44-613" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(cage_summary_table, <span class="st">"cage_summary_table.csv"</span>)</span>
+<span id="cb44-614"><a href="#cb44-614" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-615"><a href="#cb44-615" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-616"><a href="#cb44-616" aria-hidden="true" tabindex="-1"></a>CSV files are particularly great because they can be easily read into other software, like Excel.</span>
+<span id="cb44-617"><a href="#cb44-617" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-618"><a href="#cb44-618" aria-hidden="true" tabindex="-1"></a>It's also possible to use the <span class="in">`write_*()`</span> functions along with a pipe:</span>
+<span id="cb44-619"><a href="#cb44-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-622"><a href="#cb44-622" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-623"><a href="#cb44-623" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-624"><a href="#cb44-624" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-625"><a href="#cb44-625" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(weight_lost_g) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-626"><a href="#cb44-626" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-627"><a href="#cb44-627" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-628"><a href="#cb44-628" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_weight_lost =</span> <span class="fu">mean</span>(weight_lost_g),</span>
+<span id="cb44-629"><a href="#cb44-629" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_weight_lost =</span> <span class="fu">median</span>(weight_lost_g),</span>
+<span id="cb44-630"><a href="#cb44-630" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_weight_lost =</span> <span class="fu">sd</span>(weight_lost_g),</span>
+<span id="cb44-631"><a href="#cb44-631" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> cage_number) <span class="sc">%&gt;%</span></span>
+<span id="cb44-632"><a href="#cb44-632" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"cage_summary_table.csv"</span>)</span>
+<span id="cb44-633"><a href="#cb44-633" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-634"><a href="#cb44-634" aria-hidden="true" tabindex="-1"></a>Remember here that the first argument (the data frame to save) is passed on by the pipe, so the only argument in the brackets is the second one: the file path.</span>
+<span id="cb44-635"><a href="#cb44-635" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-636"><a href="#cb44-636" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb44-637"><a href="#cb44-637" aria-hidden="true" tabindex="-1"></a>Here's what we've covered in this chapter:</span>
 <span id="cb44-638"><a href="#cb44-638" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-639"><a href="#cb44-639" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The <span class="in">`summarise()`</span> function and how it can be used to calculate summary statistics on your data, as well as the power of grouping data with the <span class="in">`.by`</span> argument.</span>
+<span id="cb44-639"><a href="#cb44-639" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The basic dplyr verbs <span class="in">`mutate()`</span>, and <span class="in">`arrange()`</span> and how they can be used to tidy and analyse data.</span>
 <span id="cb44-640"><a href="#cb44-640" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-641"><a href="#cb44-641" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Why does data need to be tidy anyway?"}</span>
-<span id="cb44-642"><a href="#cb44-642" aria-hidden="true" tabindex="-1"></a>In this chapter, we've been focusing on making our data 'tidy': that is, structured in a consistent way that makes it easy to work with. A nice visual illustration of tidy data and its importance can be <span class="co">[</span><span class="ot">found here</span><span class="co">](https://allisonhorst.com/other-r-fun)</span>.</span>
-<span id="cb44-643"><a href="#cb44-643" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-644"><a href="#cb44-644" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-645"><a href="#cb44-645" aria-hidden="true" tabindex="-1"></a><span class="fu">### Practice questions</span></span>
+<span id="cb44-641"><a href="#cb44-641" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The <span class="in">`summarise()`</span> function and how it can be used to calculate summary statistics on your data, as well as the power of grouping data with the <span class="in">`.by`</span> argument.</span>
+<span id="cb44-642"><a href="#cb44-642" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-643"><a href="#cb44-643" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Why does data need to be tidy anyway?"}</span>
+<span id="cb44-644"><a href="#cb44-644" aria-hidden="true" tabindex="-1"></a>In this chapter, we've been focusing on making our data 'tidy': that is, structured in a consistent way that makes it easy to work with. A nice visual illustration of tidy data and its importance can be <span class="co">[</span><span class="ot">found here</span><span class="co">](https://allisonhorst.com/other-r-fun)</span>.</span>
+<span id="cb44-645"><a href="#cb44-645" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-646"><a href="#cb44-646" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-647"><a href="#cb44-647" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>What would be the result of evaluating the following expressions? You don't need to know these off the top of your head, use R to help! (Hint: some expressions might give an error. Try to think about why)</span>
+<span id="cb44-647"><a href="#cb44-647" aria-hidden="true" tabindex="-1"></a><span class="fu">### Practice questions</span></span>
 <span id="cb44-648"><a href="#cb44-648" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-649"><a href="#cb44-649" aria-hidden="true" tabindex="-1"></a>    a.  <span class="in">`m_dose %&gt;% mutate(weight_lost_kg = weight_lost_g / 1000)`</span></span>
-<span id="cb44-650"><a href="#cb44-650" aria-hidden="true" tabindex="-1"></a>    b.  <span class="in">`m_dose %&gt;% summarise(mean_weight_lost = mean(weight_lost_g, na.rm = TRUE))`</span></span>
-<span id="cb44-651"><a href="#cb44-651" aria-hidden="true" tabindex="-1"></a>    c.  <span class="in">`m_dose %&gt;% summarise(mean_weight_lost = mean(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span></span>
-<span id="cb44-652"><a href="#cb44-652" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-653"><a href="#cb44-653" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>I want to add a new column to the <span class="in">`m_dose`</span> data frame that converts the <span class="in">`mouse_strain`</span> column to lowercase. Hint: you can use the <span class="in">`tolower()`</span> function in R to convert characters to lowercase. Look up its help page by typing <span class="in">`?tolower`</span> in the R console to see how to use it.</span>
+<span id="cb44-649"><a href="#cb44-649" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>What would be the result of evaluating the following expressions? You don't need to know these off the top of your head, use R to help! (Hint: some expressions might give an error. Try to think about why)</span>
+<span id="cb44-650"><a href="#cb44-650" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-651"><a href="#cb44-651" aria-hidden="true" tabindex="-1"></a>    a.  <span class="in">`m_dose %&gt;% mutate(weight_lost_kg = weight_lost_g / 1000)`</span></span>
+<span id="cb44-652"><a href="#cb44-652" aria-hidden="true" tabindex="-1"></a>    b.  <span class="in">`m_dose %&gt;% summarise(mean_weight_lost = mean(weight_lost_g, na.rm = TRUE))`</span></span>
+<span id="cb44-653"><a href="#cb44-653" aria-hidden="true" tabindex="-1"></a>    c.  <span class="in">`m_dose %&gt;% summarise(mean_weight_lost = mean(weight_lost_g, na.rm = TRUE), .by = cage_number)`</span></span>
 <span id="cb44-654"><a href="#cb44-654" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-655"><a href="#cb44-655" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>How could you find the maximum tail length for each unique combination of sex and mouse strain in the <span class="in">`m_dose`</span> data frame?</span>
+<span id="cb44-655"><a href="#cb44-655" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>I want to add a new column to the <span class="in">`m_dose`</span> data frame that converts the <span class="in">`mouse_strain`</span> column to lowercase. Hint: you can use the <span class="in">`tolower()`</span> function in R to convert characters to lowercase. Look up its help page by typing <span class="in">`?tolower`</span> in the R console to see how to use it.</span>
 <span id="cb44-656"><a href="#cb44-656" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-657"><a href="#cb44-657" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Write a line of code to save the result of Q5 to a CSV file called <span class="in">`max_tail_length.csv`</span>.</span>
+<span id="cb44-657"><a href="#cb44-657" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>How could you find the maximum tail length for each unique combination of sex and mouse strain in the <span class="in">`m_dose`</span> data frame?</span>
 <span id="cb44-658"><a href="#cb44-658" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-659"><a href="#cb44-659" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
+<span id="cb44-659"><a href="#cb44-659" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Write a line of code to save the result of Q5 to a CSV file called <span class="in">`max_tail_length.csv`</span>.</span>
 <span id="cb44-660"><a href="#cb44-660" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-661"><a href="#cb44-661" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;Solutions&lt;/summary&gt;</span>
+<span id="cb44-661"><a href="#cb44-661" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
 <span id="cb44-662"><a href="#cb44-662" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-663"><a href="#cb44-663" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The result of evaluating the expressions would be:</span>
-<span id="cb44-664"><a href="#cb44-664" aria-hidden="true" tabindex="-1"></a>    a. A data frame with an additional column <span class="in">`weight_lost_kg`</span> that contains the weight lost in kilograms.</span>
-<span id="cb44-665"><a href="#cb44-665" aria-hidden="true" tabindex="-1"></a>    b. A data frame with the mean weight lost by all mice.</span>
-<span id="cb44-666"><a href="#cb44-666" aria-hidden="true" tabindex="-1"></a>    c. A data frame with the mean weight lost by mice in each cage.</span>
-<span id="cb44-667"><a href="#cb44-667" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>To add a new column to the <span class="in">`m_dose`</span> data frame that converts the <span class="in">`mouse_strain`</span> column to lowercase, you can use <span class="in">`mutate()`</span> as follows`:</span>
-<span id="cb44-668"><a href="#cb44-668" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-671"><a href="#cb44-671" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-672"><a href="#cb44-672" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-673"><a href="#cb44-673" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mouse_strain_lower =</span> <span class="fu">tolower</span>(mouse_strain))</span>
-<span id="cb44-674"><a href="#cb44-674" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-675"><a href="#cb44-675" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-676"><a href="#cb44-676" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>You can use the <span class="in">`max()`</span> function within <span class="in">`summarise(.by = c(sex, mouse_strain))`</span> to find the maximum tail length of each unique sex/mouse strain combination:</span>
+<span id="cb44-663"><a href="#cb44-663" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;Solutions&lt;/summary&gt;</span>
+<span id="cb44-664"><a href="#cb44-664" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-665"><a href="#cb44-665" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The result of evaluating the expressions would be:</span>
+<span id="cb44-666"><a href="#cb44-666" aria-hidden="true" tabindex="-1"></a>    a. A data frame with an additional column <span class="in">`weight_lost_kg`</span> that contains the weight lost in kilograms.</span>
+<span id="cb44-667"><a href="#cb44-667" aria-hidden="true" tabindex="-1"></a>    b. A data frame with the mean weight lost by all mice.</span>
+<span id="cb44-668"><a href="#cb44-668" aria-hidden="true" tabindex="-1"></a>    c. A data frame with the mean weight lost by mice in each cage.</span>
+<span id="cb44-669"><a href="#cb44-669" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>To add a new column to the <span class="in">`m_dose`</span> data frame that converts the <span class="in">`mouse_strain`</span> column to lowercase, you can use <span class="in">`mutate()`</span> as follows`:</span>
+<span id="cb44-670"><a href="#cb44-670" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-673"><a href="#cb44-673" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-674"><a href="#cb44-674" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-675"><a href="#cb44-675" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mouse_strain_lower =</span> <span class="fu">tolower</span>(mouse_strain))</span>
+<span id="cb44-676"><a href="#cb44-676" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-677"><a href="#cb44-677" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-680"><a href="#cb44-680" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-681"><a href="#cb44-681" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-682"><a href="#cb44-682" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_length =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, mouse_strain))</span>
-<span id="cb44-683"><a href="#cb44-683" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-684"><a href="#cb44-684" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-685"><a href="#cb44-685" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>To save the result of Q5 to a CSV file called <span class="in">`max_tail_length.csv`</span>, you can use the <span class="in">`write_csv()`</span> function, either by using a pipe to connect it to the code you wrote previously:</span>
-<span id="cb44-688"><a href="#cb44-688" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-689"><a href="#cb44-689" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-690"><a href="#cb44-690" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-691"><a href="#cb44-691" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_length =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, mouse_strain)) <span class="sc">%&gt;%</span></span>
-<span id="cb44-692"><a href="#cb44-692" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"max_tail_length.csv"</span>)</span>
-<span id="cb44-693"><a href="#cb44-693" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-694"><a href="#cb44-694" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-695"><a href="#cb44-695" aria-hidden="true" tabindex="-1"></a>Or by assigning this result to a variable and then saving it to a file:</span>
-<span id="cb44-698"><a href="#cb44-698" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-699"><a href="#cb44-699" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb44-700"><a href="#cb44-700" aria-hidden="true" tabindex="-1"></a>max_tail_length <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
-<span id="cb44-701"><a href="#cb44-701" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_length =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, mouse_strain))</span>
-<span id="cb44-702"><a href="#cb44-702" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-703"><a href="#cb44-703" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(max_tail_length, <span class="st">"max_tail_length.csv"</span>)</span>
-<span id="cb44-704"><a href="#cb44-704" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-705"><a href="#cb44-705" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-706"><a href="#cb44-706" aria-hidden="true" tabindex="-1"></a>&lt;/details&gt;</span>
+<span id="cb44-678"><a href="#cb44-678" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>You can use the <span class="in">`max()`</span> function within <span class="in">`summarise(.by = c(sex, mouse_strain))`</span> to find the maximum tail length of each unique sex/mouse strain combination:</span>
+<span id="cb44-679"><a href="#cb44-679" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-682"><a href="#cb44-682" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-683"><a href="#cb44-683" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-684"><a href="#cb44-684" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_length =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, mouse_strain))</span>
+<span id="cb44-685"><a href="#cb44-685" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-686"><a href="#cb44-686" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-687"><a href="#cb44-687" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>To save the result of Q5 to a CSV file called <span class="in">`max_tail_length.csv`</span>, you can use the <span class="in">`write_csv()`</span> function, either by using a pipe to connect it to the code you wrote previously:</span>
+<span id="cb44-690"><a href="#cb44-690" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-691"><a href="#cb44-691" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-692"><a href="#cb44-692" aria-hidden="true" tabindex="-1"></a>m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-693"><a href="#cb44-693" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_length =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, mouse_strain)) <span class="sc">%&gt;%</span></span>
+<span id="cb44-694"><a href="#cb44-694" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"max_tail_length.csv"</span>)</span>
+<span id="cb44-695"><a href="#cb44-695" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-696"><a href="#cb44-696" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-697"><a href="#cb44-697" aria-hidden="true" tabindex="-1"></a>Or by assigning this result to a variable and then saving it to a file:</span>
+<span id="cb44-700"><a href="#cb44-700" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-701"><a href="#cb44-701" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb44-702"><a href="#cb44-702" aria-hidden="true" tabindex="-1"></a>max_tail_length <span class="ot">&lt;-</span> m_dose <span class="sc">%&gt;%</span></span>
+<span id="cb44-703"><a href="#cb44-703" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">max_tail_length =</span> <span class="fu">max</span>(tail_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(sex, mouse_strain))</span>
+<span id="cb44-704"><a href="#cb44-704" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-705"><a href="#cb44-705" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(max_tail_length, <span class="st">"max_tail_length.csv"</span>)</span>
+<span id="cb44-706"><a href="#cb44-706" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-707"><a href="#cb44-707" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-708"><a href="#cb44-708" aria-hidden="true" tabindex="-1"></a>&lt;/details&gt;</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
