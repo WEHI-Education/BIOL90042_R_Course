@@ -321,11 +321,126 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 </header>
 
 
-<p>I’ll post the answers here after the assessment.</p>
+<p>Tutorial 3 was the mini coding project 1 assessment task. You can find your mark and specific comments on where you lost marks on canvas.</p>
+<section id="solutions" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="solutions"><span class="header-section-number">8.1</span> Solutions</h2>
+<p>Sample solutions below. Note that I accepted any valid code that gives the expected result, and so your answer may not be in this pdf. There are so many ways to do things in R I can’t possibly include them all!</p>
+  <p><a href="resources/solution/mini_coding_project_1_solutions.pdf" target="_blank">Download PDF File</a></p>
+   <object data="resources/solution/mini_coding_project_1_solutions.pdf" type="application/pdf" width="100%" height="600px">
+    <p>Unable to display PDF file. <a href="resources/solution/mini_coding_project_1_solutions.pdf">Download</a> instead.</p>
+  </object>
+  
+</section>
+<section id="extra-comments-on-poorly-answered-questions" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="extra-comments-on-poorly-answered-questions"><span class="header-section-number">8.2</span> Extra comments on poorly-answered questions</h2>
+<section id="question-1c" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="question-1c"><span class="header-section-number">8.2.1</span> Question 1c</h3>
+<p><strong>Question.</strong> Testing whether <code>letters</code> and <code>pi</code> have the same atomic type (class)</p>
+<p>The key word in this question is <strong>testing</strong>, which means you <strong>need to do a logical test</strong>, like so:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(letters) <span class="sc">==</span> <span class="fu">class</span>(pi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>Many people lost 0.5 marks by only finding the class of each variable, but not using <code>==</code> to test for their equality</p>
+</section>
+<section id="question-3" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="question-3"><span class="header-section-number">8.2.2</span> Question 3</h3>
+<p><strong>Question.</strong> I want to find the mean (average) of the numbers 1, 2, 3, 4 and 5 using R. I tried using the following code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>We know the mean of 1,2,3,4,5 should be 3, but running this code in RStudio gives the wrong answer.</p>
+<ol type="a">
+<li>Explain why (1 mark)</li>
+<li>In the code chunk below, correct the mistake (1 mark)</li>
+</ol>
+<p>Here, the problem is that the numbers 1-5 are not in a vector, they are simply provided as arguments to the <code>mean()</code> function. For a), I accepted any answer along the lines of ‘they should be in a vector’. For b), you just needed to pop them into a vector like <code>mean(c(1,2,3,4,5))</code> or <code>mean(1:5)</code>.</p>
+</section>
+<section id="question-5" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="question-5"><span class="header-section-number">8.2.3</span> Question 5</h3>
+<p><strong>Question.</strong> Inside this assessment’s R project, there is a folder called ‘data_for_part_b’, that contains a file called ‘melanoma_dataset.tsv’. Please write code to read this data into R, so that you can use it to answer the subsequent questions.</p>
+<p>Here, to get full marks you needed to <strong>read in the data file</strong> and <strong>assign it to a variable</strong> so that you could use it in the subsequent questions. Many people had perfectly correct <code>read_delim()</code> function calls, but forgot to assign it to a variable!</p>
+<p>Another common problem was forgetting to put quotation marks <code>""</code> or <code>''</code> around the path, i.e.&nbsp;<code>read_delim(data_for_part_b/melanoma_dataset.tsv)</code> instead of <code>read_delim("data_for_part_b/melanoma_dataset.tsv")</code>.</p>
+<p>Finally, some people provided a path to the folder, not to the file. For example <code>"~/Desktop/mini_coding_project_1/data_for_part_b"</code> instead of <code>"~/Desktop/mini_coding_project_1/data_for_part_b/melanoma_dataset.tsv"</code> <code>read_delim()</code> needs a path to the file you want to read in, so your path should always end in something.csv or something.tsv!</p>
+<p><strong>Please revise this before the next mini coding project, it will appear again</strong></p>
+</section>
+<section id="question-10" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="question-10"><span class="header-section-number">8.2.4</span> Question 10</h3>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p><strong>Question.</strong> The researchers are interested specifically in the melanoma of patients born after 1920. However, they have only recorded the age of the patients at diagnosis (<code>age</code> column) and the year in which they were diagnosed (<code>year</code> column).</p>
+<ol type="a">
+<li>Looking at the <code>melanoma_data</code> dataframe, <strong>explain in words</strong> how you could find birth year from this data (1 mark)</li>
+</ol>
+<p>For part a, most of the issues revolved around what ‘age’ should be subtracted from. Reading the question carefully, it is the age <strong>at diagnosis</strong> not necessarily their current age. In fact, this data is over 50 years old, so I don’t think many of the patients are alive anymore! Anyway, you needed to do the ‘year’ column, minus the ‘age’ column.</p>
+<ol start="2" type="a">
+<li>Write R code to create a column called <code>birth_year</code> in <code>melanoma_data</code>. Ensure that the result is saved as a variable (2 marks)</li>
+</ol>
+<p>You could either do this with base R (workshop 1):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>melanoma_data<span class="sc">$</span>birth_year <span class="ot">&lt;-</span> melanoma_data<span class="sc">$</span>year <span class="sc">-</span> melanoma_data<span class="sc">$</span>age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Or using dplyr (workshop 2):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>melanoma_data <span class="ot">&lt;-</span> melanoma_data <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">birth_year =</span> year <span class="sc">-</span> age)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If using dplyr, <strong>you needed to remember to assign the result</strong> to something (many people forgot this). If not, you would get an error for Q10c).</p>
+<ol start="3" type="a">
+<li>Using your column from part b, how many patients were born after 1920? (1 mark)</li>
+</ol>
+<p>You could either do this with base R (workshop 1):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(melanoma_data<span class="sc">$</span>birth_year <span class="sc">&gt;</span> <span class="dv">1920</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 80</code></pre>
+</div>
+</div>
+<p>Or using dplyr (workshop 2):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>melanoma_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(birth_year <span class="sc">&gt;</span> <span class="dv">1920</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 80 × 8
+    time status   sex   age  year thickness ulcer birth_year
+   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+ 1    35      2     1    41  1977      1.34     0       1936
+ 2   204      1     1    28  1971      4.84     1       1943
+ 3   469      1     0    14  1969      2.42     1       1955
+ 4   529      1     1    46  1971      5.8      1       1925
+ 5   718      1     1    25  1967      2.34     1       1942
+ 6   752      1     1    37  1973      4.19     1       1936
+ 7   779      1     1    43  1967      4.04     1       1924
+ 8   858      1     0    16  1967      3.56     0       1951
+ 9   869      1     0    42  1965      3.54     0       1923
+10  1062      1     1    19  1966      3.87     1       1947
+# ℹ 70 more rows</code></pre>
+</div>
+</div>
+<p>Common errors included using mutate to create a new column that says if a patient was born after 1920 (but not counting this up), or accidentally filtering on the original ‘year’ column not the ‘birth_year’ column just created (in this case, since the data was collected during 1962-1977, all rows pass your filter and you get an answer of 205 instead of the correct answer of 80)</p>
 
 
 <!-- -->
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -791,12 +906,114 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Tutorial 3"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> false</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>I'll post the answers here after the assessment.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Tutorial 3"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> false</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>Tutorial 3 was the mini coding project 1 assessment task. You can find your mark and specific comments on where you lost marks on canvas. </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>Sample solutions below. Note that I accepted any valid code that gives the expected result, and so your answer may not be in this pdf. There are so many ways to do things in R I can't possibly include them all!</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>{{&lt; pdf "resources/solution/mini_coding_project_1_solutions.pdf" &gt;}}</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extra comments on poorly-answered questions</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 1c</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>**Question.** Testing whether <span class="in">`letters`</span> and <span class="in">`pi`</span> have the same atomic type (class)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>The key word in this question is **testing**, which means you **need to do a logical test**, like so:</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(letters) <span class="sc">==</span> <span class="fu">class</span>(pi)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>Many people lost 0.5 marks by only finding the class of each variable, but not using <span class="in">`==`</span> to test for their equality </span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 3</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>**Question.** I want to find the mean (average) of the numbers 1, 2, 3, 4 and 5 using R. I tried using the following code:</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) </span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>We know the mean of 1,2,3,4,5 should be 3, but running this code in</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>RStudio gives the wrong answer.</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>a.  Explain why (1 mark)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>b.  In the code chunk below, correct the mistake (1 mark)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>Here, the problem is that the numbers 1-5 are not in a vector, they are simply provided as arguments to the <span class="in">`mean()`</span> function. For a), I accepted any answer along the lines of 'they should be in a vector'.</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>For b), you just needed to pop them into a vector like <span class="in">`mean(c(1,2,3,4,5))`</span> or <span class="in">`mean(1:5)`</span>.</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 5</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>**Question.** Inside this assessment's R project, there is a folder called 'data_for_part_b', that contains a file called 'melanoma_dataset.tsv'. Please write code to read this data into R, so that you can use it to answer the subsequent questions.</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>Here, to get full marks you needed to **read in the data file** and **assign it to a variable** so that you could use it in the subsequent questions. Many people had perfectly correct <span class="in">`read_delim()`</span> function calls, but forgot to assign it to a variable!</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>Another common problem was forgetting to put quotation marks <span class="in">`""`</span> or <span class="in">`''`</span> around the path, i.e. <span class="in">`read_delim(data_for_part_b/melanoma_dataset.tsv)`</span> instead of <span class="in">`read_delim("data_for_part_b/melanoma_dataset.tsv")`</span>.</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>Finally, some people provided a path to the folder, not to the file. For example <span class="in">`"~/Desktop/mini_coding_project_1/data_for_part_b"`</span> instead of <span class="in">`"~/Desktop/mini_coding_project_1/data_for_part_b/melanoma_dataset.tsv"`</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a><span class="in">`read_delim()`</span> needs a path to the file you want to read in, so your path should always end in something.csv or something.tsv! </span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>**Please revise this before the next mini coding project, it will appear again**</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Question 10</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>melanoma_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(boot<span class="sc">::</span>melanoma)</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>**Question.** </span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>The researchers are interested specifically in the melanoma of patients born after 1920. However, they have only recorded the age of the patients at diagnosis (<span class="in">`age`</span> column) and the year in which they were diagnosed (<span class="in">`year`</span> column).</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>a.  Looking at the <span class="in">`melanoma_data`</span> dataframe, **explain in words** how</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>    you could find birth year from this data (1 mark)</span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>For part a, most of the issues revolved around what 'age' should be subtracted from. Reading the question carefully, it is the age **at diagnosis** not necessarily their current age. In fact, this data is over 50 years old, so I don't think many of the patients are alive anymore! Anyway, you needed to do the 'year' column, minus the 'age' column.</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>b.  Write R code to create a column called <span class="in">`birth_year`</span> in</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>    <span class="in">`melanoma_data`</span>. Ensure that the result is saved as a variable (2</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>    marks)</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>You could either do this with base R (workshop 1):</span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>melanoma_data<span class="sc">$</span>birth_year <span class="ot">&lt;-</span> melanoma_data<span class="sc">$</span>year <span class="sc">-</span> melanoma_data<span class="sc">$</span>age</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>Or using dplyr (workshop 2):</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>melanoma_data <span class="ot">&lt;-</span> melanoma_data <span class="sc">%&gt;%</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">birth_year =</span> year <span class="sc">-</span> age)</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>If using dplyr, **you needed to remember to assign the result** to something (many people forgot this). If not, you would get an error for Q10c).</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>c.  Using your column from part b, how many patients were born after</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>    1920? (1 mark)</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>You could either do this with base R (workshop 1):</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(melanoma_data<span class="sc">$</span>birth_year <span class="sc">&gt;</span> <span class="dv">1920</span>)</span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>Or using dplyr (workshop 2):</span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>melanoma_data <span class="sc">%&gt;%</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(birth_year <span class="sc">&gt;</span> <span class="dv">1920</span>)</span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>Common errors included using mutate to create a new column that says if a patient was born after 1920 (but not counting this up), or accidentally filtering on the original 'year' column not the 'birth_year' column just created (in this case, since the data was collected during 1962-1977, all rows pass your filter and you get an answer of 205 instead of the correct answer of 80)</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
