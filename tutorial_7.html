@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>18&nbsp; Tutorial 7: Using git and GitHub for version control – BIOL90042 ebook 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./tutorial_6.html" rel="prev">
+<link href="./favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-92c53e80b54600beea65138b11edf377.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-01dad528ea4b2cc3751805c162e776d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FN78SCFVJJ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
+</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tutorial_7.html">Week 7</a></li><li class="breadcrumb-item"><a href="./tutorial_7.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tutorial 7: Using git and GitHub for version control</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./WEHI_RGB_logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./WEHI_RGB_logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BIOL90042 ebook 2026</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R (lecture 1)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tutorial 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk1_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Workshop 1: Introduction to R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tutorial 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk2_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Workshop 2: Working with data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tutorial 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk3_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Workshop 3: Data-wrangling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tutorial 4</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk4_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 5</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Workshop 4: Plotting with ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tutorial 5</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk5_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 6</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Workshop 5: Putting it all together</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Tutorial 6</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 7</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tutorial 7: Using git and GitHub for version control</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In this session:</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">18.1</span> Setup</a>
+  <ul class="collapse">
+  <li><a href="#installing-git" id="toc-installing-git" class="nav-link" data-scroll-target="#installing-git"><span class="header-section-number">18.1.1</span> Installing git</a></li>
+  <li><a href="#creating-a-github-account-and-pat" id="toc-creating-a-github-account-and-pat" class="nav-link" data-scroll-target="#creating-a-github-account-and-pat"><span class="header-section-number">18.1.2</span> Creating a GitHub account and PAT</a></li>
+  </ul></li>
+  <li><a href="#creating-your-first-repo" id="toc-creating-your-first-repo" class="nav-link" data-scroll-target="#creating-your-first-repo"><span class="header-section-number">18.2</span> Creating your first ‘repo’</a>
+  <ul class="collapse">
+  <li><a href="#using-github-to-make-a-repository" id="toc-using-github-to-make-a-repository" class="nav-link" data-scroll-target="#using-github-to-make-a-repository"><span class="header-section-number">18.2.1</span> Using GitHub to make a repository</a></li>
+  <li><a href="#linking-your-repository-to-a-new-r-project" id="toc-linking-your-repository-to-a-new-r-project" class="nav-link" data-scroll-target="#linking-your-repository-to-a-new-r-project"><span class="header-section-number">18.2.2</span> Linking your repository to a new R project</a></li>
+  </ul></li>
+  <li><a href="#lets-do-some-analysis" id="toc-lets-do-some-analysis" class="nav-link" data-scroll-target="#lets-do-some-analysis"><span class="header-section-number">18.3</span> Let’s do some analysis!</a></li>
+  <li><a href="#adding-and-committing-your-changes" id="toc-adding-and-committing-your-changes" class="nav-link" data-scroll-target="#adding-and-committing-your-changes"><span class="header-section-number">18.4</span> Adding and committing your changes</a>
+  <ul class="collapse">
+  <li><a href="#add-files" id="toc-add-files" class="nav-link" data-scroll-target="#add-files"><span class="header-section-number">18.4.1</span> Add files</a></li>
+  <li><a href="#commit-changes" id="toc-commit-changes" class="nav-link" data-scroll-target="#commit-changes"><span class="header-section-number">18.4.2</span> Commit changes</a></li>
+  </ul></li>
+  <li><a href="#pushing-changes-to-the-remote" id="toc-pushing-changes-to-the-remote" class="nav-link" data-scroll-target="#pushing-changes-to-the-remote"><span class="header-section-number">18.5</span> Pushing changes to the remote</a></li>
+  <li><a href="#branches" id="toc-branches" class="nav-link" data-scroll-target="#branches"><span class="header-section-number">18.6</span> Branches</a>
+  <ul class="collapse">
+  <li><a href="#lets-take-a-different-approach-to-the-analysis" id="toc-lets-take-a-different-approach-to-the-analysis" class="nav-link" data-scroll-target="#lets-take-a-different-approach-to-the-analysis"><span class="header-section-number">18.6.1</span> Let’s take a different approach to the analysis!</a></li>
+  <li><a href="#merging-your-branch-back" id="toc-merging-your-branch-back" class="nav-link" data-scroll-target="#merging-your-branch-back"><span class="header-section-number">18.6.2</span> Merging your branch back</a></li>
+  </ul></li>
+  <li><a href="#collaborating-with-others" id="toc-collaborating-with-others" class="nav-link" data-scroll-target="#collaborating-with-others"><span class="header-section-number">18.7</span> Collaborating with others</a>
+  <ul class="collapse">
+  <li><a href="#adding-someone-to-your-git-repo" id="toc-adding-someone-to-your-git-repo" class="nav-link" data-scroll-target="#adding-someone-to-your-git-repo"><span class="header-section-number">18.7.1</span> Adding someone to your git repo</a></li>
+  <li><a href="#working-on-a-repo-with-multiple-people" id="toc-working-on-a-repo-with-multiple-people" class="nav-link" data-scroll-target="#working-on-a-repo-with-multiple-people"><span class="header-section-number">18.7.2</span> Working on a repo with multiple people</a></li>
+  </ul></li>
+  </ul>
+</nav>
+<div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
+<p><a href="https://wehi-education.github.io/BIOL90042_R_Course_2025/">Looking for the old 2025 version of the ebook?</a></p>
+</div></div></nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./tutorial_7.html">Week 7</a></li><li class="breadcrumb-item"><a href="./tutorial_7.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tutorial 7: Using git and GitHub for version control</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-tute07" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tutorial 7: Using git and GitHub for version control</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i></button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In today’s tutorial, we will learn how to use git and GitHub to perform version control for analyses in RStudio.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>At the end of this session, learners should be able to:</p>
+<ol type="1">
+<li><p>Create a repository on GitHub and link this to an R project</p></li>
+<li><p>Add and commit changes to files locally, using RStudio’s git interface</p></li>
+<li><p>Push changes from local to remote, using RStudio’s git interface</p></li>
+<li><p>Create new branches and add/commit/push to these</p></li>
+<li><p>Share a repository with classmates and collaborate on analysis</p></li>
+</ol>
+</div>
+</div>
+<section id="setup" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">18.1</span> Setup</h2>
+<p>Setting up git and GitHub can take a little time at first, but once it’s done, working with them is fairly easy. If you have any trouble with the setup in this section, please let a tutor know.</p>
+<section id="installing-git" class="level3" data-number="18.1.1">
+<h3 data-number="18.1.1" class="anchored" data-anchor-id="installing-git"><span class="header-section-number">18.1.1</span> Installing git</h3>
+<p>Before we can start using version control, we first need to make sure git is installed on your computer.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Terminal vs Console">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Terminal vs Console
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some of the commands we’ll need to run today belong in the <strong>terminal</strong>, as opposed to the <strong>R console</strong>. You can find the terminal in the tab next to the console:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_terminal.png" class="img-fluid figure-img" width="800"></p>
+<figcaption>The terminal in RStudio is located in a tab next to the console</figcaption>
+</figure>
+</div>
+<p>The difference between them is that the <strong>R console</strong> is for <strong>R code</strong> and output, while the <strong>terminal</strong> is a command-line interface to your computer, beyond just R. Using the terminal, you can run software, copy/create/delete files and folders, etc. just like you can using your operating system’s graphical interface. Because git is a program separate to R, we need to <strong>run git commands through the terminal</strong>.</p>
+</div>
+</div>
+<p>To check whether you already have git installed, open up the <strong>Terminal</strong> tab in RStudio (next to the Console tab) and type:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If git is installed, you’ll see something like <code>git version 2.39.2</code> printed out.</p>
+<p>If you get an error, git is not installed. Install it from <a href="https://git-scm.com/">the git website</a>, restart RStudio, and try running <code>git --version</code> again to confirm that the installation worked.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Telling git who you are">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Telling git who you are
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Git likes to know who is making changes, so it can keep track of who did what in a project’s history. The first time you use git, you should tell it your name and email address by running these lines in the <strong>terminal</strong> (not the Console!):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"your.email@example.com"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You only need to do this once per computer.</p>
+</div>
+</div>
+</section>
+<section id="creating-a-github-account-and-pat" class="level3" data-number="18.1.2">
+<h3 data-number="18.1.2" class="anchored" data-anchor-id="creating-a-github-account-and-pat"><span class="header-section-number">18.1.2</span> Creating a GitHub account and PAT</h3>
+<p>Git manages version control on our own computer (known as <strong>local</strong>), but to share our work and collaborate with others we need a place to store our repositories online (known as <strong>remote</strong>). This is where <strong>GitHub</strong> comes in: it’s a website that hosts git repositories, and is the most widely used platform for this in both industry and academia. There are other options like gitlab or bitbucket, but, GitHub is by far the most popular.</p>
+<p>If you don’t already have one, head to <a href="https://github.com">github.com</a> and sign up for a free account. Try to choose a professional username, as this is something future collaborators or employers will see!</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="GitHub Education">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>GitHub Education
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While you’re at it, consider registering for <a href="https://github.com/education">GitHub Education</a> using your student email. This gives you free access to extra features, like GitHub Copilot (AI tool for coding).</p>
+</div>
+</div>
+<p>Once you have an account, we need one more thing before RStudio and GitHub can talk to each other: a <strong>Personal Access Token (PAT)</strong>. The PAT is like a password that’s specifically for letting other programs (like RStudio) act on your behalf on GitHub.</p>
+<p>To create a PAT, follow <a href="https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow">this link</a> and give your token a name and expiration date:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_PAT.png" class="img-fluid figure-img" width="1994"></p>
+<figcaption>Choose a name and expiration date for your PAT</figcaption>
+</figure>
+</div>
+<p>What you’re supposed to do is have multiple PAT for each task you do, each with its own expiry date (e.g.&nbsp;one for this subject, that expires at the end of the semester). Personally, I just have one PAT that has no expiration that I use for everything. <strong>This is not good practice</strong>, but I don’t put anything on GitHub that I’m not comfortable with being public (e.g.&nbsp;commercially-sensitive research data) and I’m certainly not important enough for someone to want to hack into my GitHub and do anything nefarious. Do what you’re comfortable with.</p>
+<p>Once you’ve set those, scroll down and click <strong>Generate token</strong>.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Copy your token somewhere safe!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Copy your token somewhere safe!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>GitHub will only show you the token <strong>once</strong> on the next screen:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_PAT_post.png" class="img-fluid figure-img" width="1014"></p>
+<figcaption>I already deleted this one, so don’t bother trying to use it!</figcaption>
+</figure>
+</div>
+<p>Copy it immediately, as you won’t be able to view it again (although you can always generate a new one if you lose it).</p>
+</div>
+</div>
+<p>Once you have your token copied, go back to RStudio and run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first install gitcreds package</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gitcreds"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># note about the ::</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># package_name::function() is an alternative way to access</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># functions from packages, without needing to use library(package_name)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You’ll be prompted to paste in your PAT, and you shouldn’t need to do this again as RStudio will remember it.</p>
+</section>
+</section>
+<section id="creating-your-first-repo" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="creating-your-first-repo"><span class="header-section-number">18.2</span> Creating your first ‘repo’</h2>
+<p>Fun fact: most people just call repositories ‘repos’ for short.</p>
+<section id="using-github-to-make-a-repository" class="level3" data-number="18.2.1">
+<h3 data-number="18.2.1" class="anchored" data-anchor-id="using-github-to-make-a-repository"><span class="header-section-number">18.2.1</span> Using GitHub to make a repository</h3>
+<p>Now that git and GitHub are set up, let’s create somewhere for our analysis to live! Head to <a href="https://github.com/new">github.com/new</a> (make sure you’re logged in) and you should see a page like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_new_repo.png" class="img-fluid figure-img" width="1160"></p>
+<figcaption>To create a new repository, just give it a name, description and choose whether it should be public or private</figcaption>
+</figure>
+</div>
+<p>You’ll need to fill in a few details, as shown above:</p>
+<ul>
+<li><p><strong>Repository name</strong>: choose something short and descriptive, without spaces (this is similar to how we name our variables, see <a href="workshop_1.html#sec-variables" class="quarto-xref"><span>Section 4.3</span></a>). For this exercise, you might like to call yours something like <code>mousezempic-analysis</code> or <code>biol90042-test</code>. The name needs to be unique to your GitHub account, but it’s ok for two different people to have the same repository name.</p></li>
+<li><p><strong>Public or private</strong>: public repositories can be seen by anyone, while private ones are only visible to you and people you invite. I usually make my repositories public, unless I’m still working on them/they’re really messy. Public repositories are a great way to share your analysis code with the wider scientific community (e.g.&nbsp;for your thesis or a publication) and if you are interested in pursuing bioinformatics further, potential supervisors or employers often like to look through your GitHub.</p></li>
+<li><p><strong>Add a README file</strong>: tick this box. A README is a file (usually written in a format called Markdown, which is a little bit like quarto) that describes what your repository is about, and it’s good practice to always include one</p></li>
+</ul>
+<p>Once you’re happy, click <strong>Create repository</strong>.</p>
+</section>
+<section id="linking-your-repository-to-a-new-r-project" class="level3" data-number="18.2.2">
+<h3 data-number="18.2.2" class="anchored" data-anchor-id="linking-your-repository-to-a-new-r-project"><span class="header-section-number">18.2.2</span> Linking your repository to a new R project</h3>
+<p>We now have an empty repository sitting on GitHub (remote), but we need to bring a copy down onto our own computer (local) so we can actually work on it. This process is called ‘cloning’.</p>
+<p>Conveniently, RStudio lets us create a brand new R project directly from a GitHub repository, so we don’t need to use terminal commands:</p>
+<ol type="1">
+<li><p>On your repository’s GitHub page, click the green ’<strong>Code’</strong> button and copy the URL under the HTTPS tab:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_repo_link.png" class="img-fluid figure-img" width="1572"></p>
+<figcaption>Click on the green code button to copy the URL</figcaption>
+</figure>
+</div></li>
+<li><p>In RStudio, go to ’<strong>File’ &gt; ‘New Project’ &gt; ‘Version Control’ &gt; ‘Git’</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/S01F01_make_project.png" class="img-fluid figure-img" width="1255"></p>
+<figcaption>Create a new R project from the top-right hand corner of RStudio</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_make_project_git.png" class="img-fluid figure-img" width="1255"></p>
+<figcaption>Choose the ‘version control’ option to make a new project</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_proj.png" class="img-fluid figure-img" width="800"></p>
+<figcaption>Choose ‘git’</figcaption>
+</figure>
+</div></li>
+<li><p>Paste the URL into the ‘<strong>Repository URL’</strong> field, give the directory a name and choose where you want to put it on your computer. Then click’<strong>Create Project</strong>’</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_paste_url.png" class="img-fluid figure-img" width="808"></p>
+<figcaption>Paste the URL from your GitHub</figcaption>
+</figure>
+</div></li>
+</ol>
+<p>RStudio will open a new session with your project, and you should notice a new tab called <strong>‘Git’</strong> has appeared alongside the Environment and History tabs:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_panel.png" class="img-fluid figure-img" width="1248"></p>
+<figcaption>The ‘Git’ panel in RStudio</figcaption>
+</figure>
+</div>
+<p>This is our git interface, and we’ll be using it a lot for the rest of this tutorial!</p>
+</section>
+</section>
+<section id="lets-do-some-analysis" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="lets-do-some-analysis"><span class="header-section-number">18.3</span> Let’s do some analysis!</h2>
+<p>Now that our repository is set up, let’s actually write some code to track! Create a new R script and save it inside your project.</p>
+<p>We’ll revisit the mousezempic dosage data that we’ve been using in this course, and try to answer the following question: does the amount of weight lost by mice increase as the dosage of mousezempic increases, and is this relationship affected by mouse strain or sex?</p>
+<p>First, let’s load the tidyverse package and read in the data (since we aren’t in the usual R project we use in the workshops, let’s just read it in from the internet, with the URL)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can read in files from the internet by providing the URL to them instead of a file path on your computer</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dosage <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/mousezempic_dosage_data.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 344 Columns: 9
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): mouse_strain, cage_number, replicate, sex
+dbl (5): weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g, id_num
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>To answer this question, let’s start by making a scatterplot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dosage <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first convert drug_dose_g into mg</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to make it easier to read</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose_mg =</span> drug_dose_g <span class="sc">*</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now make a scatterplot</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> dose_mg, <span class="at">y =</span> weight_lost_g, <span class="at">colour =</span> mouse_strain)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># nicer colour palette</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#ab2929"</span>, <span class="st">"#73b7bd"</span>, <span class="st">"#ccd65c"</span>)) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># theme and labels</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Drug dosage (mg)"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Weight lost (mg)"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"Mouse strain"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Relationship between drug dosage and weight lost"</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tutorial_7_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="2000"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We’ve written some code and made a nice plot, but right now, this only exists on your own computer. If your laptop died tomorrow, this important analysis would be lost! Backing up your scripts to GitHub is a handy way to protect against this, along with the benefits of being able to share them with others.</p>
+</section>
+<section id="adding-and-committing-your-changes" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="adding-and-committing-your-changes"><span class="header-section-number">18.4</span> Adding and committing your changes</h2>
+<section id="add-files" class="level3" data-number="18.4.1">
+<h3 data-number="18.4.1" class="anchored" data-anchor-id="add-files"><span class="header-section-number">18.4.1</span> Add files</h3>
+<p>Look at the <strong>Git</strong> tab in RStudio. You should see your R script there, with a yellow question mark icon next to it. This means the file is ‘untracked’: git has noticed it exists, but isn’t yet keeping an eye on its changes.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_untracked.png" class="img-fluid figure-img" width="826"></p>
+<figcaption>Untracked files in the git panel</figcaption>
+</figure>
+</div>
+<p>To tell git we want to keep track of these files, we need to ‘add’ (also known as ‘stage’) them. You can do this by ticking the checkbox next to your file’s name in the Git tab, and the icon should change to a green ‘A’ (for ‘added’):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_add.png" class="img-fluid figure-img" width="830"></p>
+<figcaption>After adding your files, the icon will change to an ‘A’</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Why do we need to 'add' files?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why do we need to ‘add’ files?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You might wonder why git makes us tick a checkbox instead of just tracking every file automatically. This process lets you choose exactly which changes should be bundled together into a single commit. For example, if you made changes to two totally unrelated files, you might want to save them as two separate commits with two different messages, rather than lumping them together. This gives you much finer control over your project’s history.</p>
+</div>
+</div>
+</section>
+<section id="commit-changes" class="level3" data-number="18.4.2">
+<h3 data-number="18.4.2" class="anchored" data-anchor-id="commit-changes"><span class="header-section-number">18.4.2</span> Commit changes</h3>
+<p>Once your file is staged, click the ‘Commit’ button. A new window will pop up showing you the changes that are about to be committed. This is called a ‘diff’, and lines you’ve added will be shown in green, while lines you’ve deleted will be shown in red.</p>
+<p>In the box in the top right, write a short, descriptive ‘commit message’ that explains what exactly you’ve changed. For example: ‘Added scatterplot of dosage vs weight loss’.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_commit.png" class="img-fluid figure-img" width="1224"></p>
+<figcaption>In the commit window, you can view your changes and write a commit message</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Write good commit messages!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Write good commit messages!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It can be tempting to write vague/lazy commit messages like “updates” or “fixed errors”, but future you (or your collaborators) will thank you for being descriptive! A good commit message briefly explains (in a sentence) <em>what</em> changed and, if it’s not obvious, <em>why</em>.</p>
+</div>
+</div>
+<p>Once you’ve written your message, click ‘commit’. You’ve now made your first commit! You can see a record of all your commits by clicking the ‘history’ button (the clock icon) in the Git tab.</p>
+</section>
+</section>
+<section id="pushing-changes-to-the-remote" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="pushing-changes-to-the-remote"><span class="header-section-number">18.5</span> Pushing changes to the remote</h2>
+<p>So far, our commit only exists on our own computer (the local repository). To back it up and share it, we need to send our commits to GitHub (the remote repository). This is called ‘pushing’.</p>
+<p>In the Git tab, simply click the ‘push’ button (green up arrow):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_push.png" class="img-fluid figure-img" width="828"></p>
+<figcaption>Click on the green arrow to push your commits to the remote</figcaption>
+</figure>
+</div>
+<p>Head back to your repository’s page on GitHub and refresh it: you should see your R script sitting there, along with your commit message:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_post_push.png" class="img-fluid figure-img" width="1114"></p>
+<figcaption>Your commit should now show up on GitHub</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Practice exercise: make another commit">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Practice exercise: make another commit
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try making a small change to your R script (for example, add a comment, or change the colours in <code>scale_colour_manual()</code>). Then, add, commit and push this change, following the same steps as above. Remember to save your R script before adding, otherwise your change won’t be tracked!</p>
+<p>Afterwards, look at the ‘history’ button in the Git tab, and the commit history on GitHub. Can you see both of your commits listed?</p>
+</div>
+</div>
+<p>Congratulations, you have now completed the basic git workflow in RStudio!</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Going from an R project to a GitHub repo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Going from an R project to a GitHub repo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes you’ll already have an R project on your computer that you want to turn into a git repository and put onto GitHub (i.e.&nbsp;the reverse of starting from a new one on GitHub, like we just did). The easiest way to achieve this is using the <code>usethis</code> package:</p>
+<p>With your existing project open in RStudio, run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install usethis first</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"usethis"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This initialises (sets up) git for your project. Then, add your files and commit, as you have learned above.</p>
+<p>Once you’re ready, run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_github</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This will create a brand new repository on your GitHub account and link it to your local project, all in one step!</p>
+</div>
+</div>
+</section>
+<section id="branches" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="branches"><span class="header-section-number">18.6</span> Branches</h2>
+<p>So far, we’ve been working directly on our project’s <code>main</code> branch, which is where you always start by default. But what if we want to try out a new idea, without risking breaking the version of our analysis that’s already working? This is where branches come in: they let us create a separate, parallel version of our project to experiment in, which we can later bring back together with our main work (or discard, if things don’t work out). They’re also handy for working with others, but we’ll cover that later.</p>
+<section id="lets-take-a-different-approach-to-the-analysis" class="level3" data-number="18.6.1">
+<h3 data-number="18.6.1" class="anchored" data-anchor-id="lets-take-a-different-approach-to-the-analysis"><span class="header-section-number">18.6.1</span> Let’s take a different approach to the analysis!</h3>
+<p>So far, we’ve been considering the weight loss of mice in absolute amounts (i.e.&nbsp;the total number of grams that they lost), but the mice had a range of different initial weights. In this section, we’ll instead represent weight loss as a <strong>percentage of each mouse’s initial body weight</strong>, and repeat our analysis to see if anything changes.</p>
+<p>First, we’ll create a new branch. In the git tab, click the branch icon (purple, ‘L’ shaped) in the top right corner.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_branch.png" class="img-fluid figure-img" width="820"></p>
+<figcaption>The git branch button in RStudio</figcaption>
+</figure>
+</div>
+<p>Give your new branch a short, descriptive name, like <code>percentage-approach</code>, and make sure ‘Sync branch with remote’ is ticked, then click ‘create’.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_branch_name.png" class="img-fluid figure-img" width="462"></p>
+<figcaption>Name your branch something informative</figcaption>
+</figure>
+</div>
+<p>RStudio will automatically switch you onto this new branch, but you can always check which branch you’re currently on in the Git tab, the branch name is next to the branch button.</p>
+<p>Now, let’s perform our alternative analysis. We can create a percentage weight loss column using mutate, and I’ll also facet the plot by sex this time too:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dosage <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first convert drug_dose_g into mg</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to make it easier to read</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose_mg =</span> drug_dose_g <span class="sc">*</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_wl =</span> (weight_lost_g <span class="sc">/</span> initial_weight_g) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now make a scatterplot</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> dose_mg, <span class="at">y =</span> percent_wl, <span class="at">colour =</span> mouse_strain)) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># nicer colour palette</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#ab2929"</span>, <span class="st">"#73b7bd"</span>, <span class="st">"#ccd65c"</span>)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># theme and labels</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Drug dosage (mg)"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Weight lost (mg)"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Mouse strain"</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship between drug dosage and weight lost"</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sex)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tutorial_7_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="2000"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Just like before, add and commit this change, then push to send your new branch to the remote repo on GitHub.</p>
+</section>
+<section id="merging-your-branch-back" class="level3" data-number="18.6.2">
+<h3 data-number="18.6.2" class="anchored" data-anchor-id="merging-your-branch-back"><span class="header-section-number">18.6.2</span> Merging your branch back</h3>
+<p>Now we have two versions of our analysis: our original scatterplot on the <code>main</code> branch, and our updated percentage weight loss version on the <code>percent-approach</code> branch. Let’s say we decide we like this new approach, and want to make it the main version of our analysis (i.e.&nbsp;put it on the main branch) this is called ‘merging’.</p>
+<p>An easy and well-organised way to do this is through GitHub, using what’s called a ‘Pull Request’ (abbreviated to PR). A pull request is essentially a proposal to merge the changes from one branch into another, and it gives you (or your collaborators) a chance to review changes before they become a permanent part of the project.</p>
+<p>On your repository’s GitHub page, you should see a prompt asking if you’d like to create a pull request for your recently pushed branch:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_create_pr.png" class="img-fluid figure-img" width="1130"></p>
+<figcaption>After you push a new branch, GitHub prompts you to create a PR</figcaption>
+</figure>
+</div>
+<p>Click ‘Compare &amp; pull request’, add a short description of your changes, and click ‘Create pull request’:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_pr_page.png" class="img-fluid figure-img" width="1956"></p>
+<figcaption>You can add descriptions of why you think your changes are good/important</figcaption>
+</figure>
+</div>
+<p>On the following page, you can review the PR one more time, then click ‘Merge pull request’ to bring your changes into the <code>main</code> branch:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_accept_pr.png" class="img-fluid figure-img" width="914"></p>
+<figcaption>After creating the PR, you need to review it and accept it</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Merge conflicts">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Merge conflicts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes, if two branches have both changed the same lines of the same file, git won’t know which version to keep, and you’ll get a ‘merge conflict’. Don’t panic if this happens! Git will mark the conflicting sections directly in your file, and you just need to manually edit it to decide which changes (or a combination of both) you want to keep, then stage and commit the result. The conflicted sections are marked with conflict markers (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>).</p>
+</div>
+</div>
+<p>Once merged, don’t forget to switch back to the <code>main</code> branch in RStudio (using the dropdown in the Git tab) and click ‘Pull’ (blue downwards-pointing arrow). If you read the popup, you’ll notice that this brings the recently-merged changes down onto your computer:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_git_pull.png" class="img-fluid figure-img" width="806"></p>
+<figcaption>After pulling the main branch, we now have these changes in our local repo</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="collaborating-with-others" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="collaborating-with-others"><span class="header-section-number">18.7</span> Collaborating with others</h2>
+<p>One of the biggest advantages of GitHub is how it lets multiple people work on the same project together. This may be useful for your final project.</p>
+<section id="adding-someone-to-your-git-repo" class="level3" data-number="18.7.1">
+<h3 data-number="18.7.1" class="anchored" data-anchor-id="adding-someone-to-your-git-repo"><span class="header-section-number">18.7.1</span> Adding someone to your git repo</h3>
+<p>The first thing you need to do is give your collaborator(s) access. On your repository’s GitHub page, go to ‘<strong>Settings’ &gt; ’Collaborators’</strong>, then click’<strong>Add people’</strong> and search for your classmate’s GitHub username:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/T07_add_collaborators.png" class="img-fluid figure-img" width="1510"></p>
+<figcaption>Add collaborators through the repo settings</figcaption>
+</figure>
+</div>
+<p>They’ll receive an invitation via email (or a notification on GitHub) which they’ll need to accept before they can push changes to your repository. Note that even if your repository is public, anyone can view and clone it, but they’ll still need to be added as a collaborator to push changes directly.</p>
+</section>
+<section id="working-on-a-repo-with-multiple-people" class="level3" data-number="18.7.2">
+<h3 data-number="18.7.2" class="anchored" data-anchor-id="working-on-a-repo-with-multiple-people"><span class="header-section-number">18.7.2</span> Working on a repo with multiple people</h3>
+<p>Once you have accepted an invite to someone’s repository, you should clone it onto your own computer (following the same steps we used earlier).</p>
+<p>Test it out now with a friend!</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Practice exercise: collaborating on an analysis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Practice exercise: collaborating on an analysis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With a partner, try the following:</p>
+<ol type="1">
+<li><p>Both of you should make a small, different change somewhere in the script (for example, one person changes the plot title, while the other adds a new comment) and commit these changes locally</p></li>
+<li><p>Whoever commits and pushes first will have no trouble. But when the second person tries to push, they should get an error, because the remote history has moved on since they last synced!</p></li>
+<li><p>To fix this, the second person needs to pull first, to bring down the latest changes from GitHub, before trying to push again</p></li>
+</ol>
+<p>If you were both editing completely different parts of the file, git will usually be able to automatically combine (‘merge’) both sets of changes for you. But if you happened to edit the exact same lines, you’ll encounter a merge conflict, just like we mentioned above! It’s usually good practice to agree with your collaborator to work on different parts of the file, and make sure to pull changes often.</p>
+</div>
+</div>
+<p>Working collaboratively on the same files takes a bit of practice, but a few habits will make your life much easier:</p>
+<ul>
+<li><p><strong>Pull before you start working</strong>, and again before you push, to make sure you have everyone else’s latest changes</p></li>
+<li><p><strong>Commit and push often</strong>, in small chunks, rather than making one giant commit at the end of the day</p></li>
+<li><p><strong>Communicate with your collaborators</strong> about who is working on what, to minimise the chances of conflicting changes in the first place</p></li>
+</ul>
+<p>With these habits in place, git and GitHub become a really powerful way to collaborate on data analysis projects, whether that’s with a couple of classmates or an entire research team!</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Further git resources">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Further git resources
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We’ve only scratched the surface of git and GitHub today! If you’d like to go further, here are a couple of great resources:</p>
+<ul>
+<li><p><a href="https://happygitwithr.com/">Happy Git with R</a> is a fantastic, R-specific guide that covers everything we’ve done today (and more) in much greater depth</p></li>
+<li><p>If you’re keen to learn to use git from the command line rather than through RStudio’s interface, the <a href="https://swcarpentry.github.io/git-novice/">Software Carpentry git novice lesson</a> is a great place to start</p></li>
+</ul>
+<p>As with any coding skill, the best way to get comfortable with git is to keep using it, so try to use this for the final project if you can!</p>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./tutorial_6.html" class="pagination-link" aria-label="Tutorial 6">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Tutorial 6</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "In this session:"</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tutorial 7: Using git and GitHub for version control {#sec-tute07}</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>In today's tutorial, we will learn how to use git and GitHub to perform version control for analyses in RStudio.</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Learning Objectives"}</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>At the end of this session, learners should be able to:</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Create a repository on GitHub and link this to an R project</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Add and commit changes to files locally, using RStudio's git interface</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Push changes from local to remote, using RStudio's git interface</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Create new branches and add/commit/push to these</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Share a repository with classmates and collaborate on analysis</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>Setting up git and GitHub can take a little time at first, but once it's done, working with them is fairly easy. If you have any trouble with the setup in this section, please let a tutor know.</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu">### Installing git</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>Before we can start using version control, we first need to make sure git is installed on your computer.</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Terminal vs Console"}</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>Some of the commands we'll need to run today belong in the **terminal**, as opposed to the **R console**. You can find the terminal in the tab next to the console:</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="al">![The terminal in RStudio is located in a tab next to the console](images/T07_terminal.png)</span>{width="800"}</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>The difference between them is that the **R console** is for **R code** and output, while the **terminal** is a command-line interface to your computer, beyond just R. Using the terminal, you can run software, copy/create/delete files and folders, etc. just like you can using your operating system's graphical interface. Because git is a program separate to R, we need to **run git commands through the terminal**.</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>To check whether you already have git installed, open up the **Terminal** tab in RStudio (next to the Console tab) and type:</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">--version</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>If git is installed, you'll see something like <span class="in">`git version 2.39.2`</span> printed out.</span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>If you get an error, git is not installed. Install it from <span class="co">[</span><span class="ot">the git website</span><span class="co">](https://git-scm.com/)</span>, restart RStudio, and try running <span class="in">`git --version`</span> again to confirm that the installation worked.</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Telling git who you are"}</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>Git likes to know who is making changes, so it can keep track of who did what in a project's history. The first time you use git, you should tell it your name and email address by running these lines in the **terminal** (not the Console!):</span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"your.email@example.com"</span></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>You only need to do this once per computer.</span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### Creating a GitHub account and PAT</span></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>Git manages version control on our own computer (known as **local**), but to share our work and collaborate with others we need a place to store our repositories online (known as **remote**). This is where **GitHub** comes in: it's a website that hosts git repositories, and is the most widely used platform for this in both industry and academia. There are other options like gitlab or bitbucket, but, GitHub is by far the most popular.</span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>If you don't already have one, head to <span class="co">[</span><span class="ot">github.com</span><span class="co">](https://github.com)</span> and sign up for a free account. Try to choose a professional username, as this is something future collaborators or employers will see!</span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="GitHub Education"}</span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>While you're at it, consider registering for <span class="co">[</span><span class="ot">GitHub Education</span><span class="co">](https://github.com/education)</span> using your student email. This gives you free access to extra features, like GitHub Copilot (AI tool for coding).</span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>Once you have an account, we need one more thing before RStudio and GitHub can talk to each other: a **Personal Access Token (PAT)**. The PAT is like a password that's specifically for letting other programs (like RStudio) act on your behalf on GitHub.</span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>To create a PAT, follow <span class="co">[</span><span class="ot">this link</span><span class="co">](https://github.com/settings/tokens/new?scopes=repo,user,gist,workflow)</span> and give your token a name and expiration date:</span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a><span class="al">![Choose a name and expiration date for your PAT](images/T07_PAT.png)</span>{width="1994"}</span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>What you're supposed to do is have multiple PAT for each task you do, each with its own expiry date (e.g. one for this subject, that expires at the end of the semester). Personally, I just have one PAT that has no expiration that I use for everything. **This is not good practice**, but I don't put anything on GitHub that I'm not comfortable with being public (e.g. commercially-sensitive research data) and I'm certainly not important enough for someone to want to hack into my GitHub and do anything nefarious. Do what you're comfortable with.</span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>Once you've set those, scroll down and click **Generate token**.</span>
+<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Copy your token somewhere safe!"}</span>
+<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>GitHub will only show you the token **once** on the next screen:</span>
+<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a><span class="al">![I already deleted this one, so don't bother trying to use it!](images/T07_PAT_post.png)</span>{width="1014"}</span>
+<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a>Copy it immediately, as you won't be able to view it again (although you can always generate a new one if you lose it).</span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>Once you have your token copied, go back to RStudio and run:</span>
+<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a><span class="co"># first install gitcreds package</span></span>
+<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gitcreds"</span>)</span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()</span>
+<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="co"># note about the ::</span></span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a><span class="co"># package_name::function() is an alternative way to access</span></span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a><span class="co"># functions from packages, without needing to use library(package_name)</span></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a>You'll be prompted to paste in your PAT, and you shouldn't need to do this again as RStudio will remember it.</span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating your first 'repo'</span></span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>Fun fact: most people just call repositories 'repos' for short.</span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using GitHub to make a repository</span></span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a>Now that git and GitHub are set up, let's create somewhere for our analysis to live! Head to <span class="co">[</span><span class="ot">github.com/new</span><span class="co">](https://github.com/new)</span> (make sure you're logged in) and you should see a page like this:</span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a><span class="al">![To create a new repository, just give it a name, description and choose whether it should be public or private](images/T07_new_repo.png)</span>{width="1160"}</span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a>You'll need to fill in a few details, as shown above:</span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Repository name**: choose something short and descriptive, without spaces (this is similar to how we name our variables, see @sec-variables). For this exercise, you might like to call yours something like <span class="in">`mousezempic-analysis`</span> or <span class="in">`biol90042-test`</span>. The name needs to be unique to your GitHub account, but it's ok for two different people to have the same repository name.</span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Public or private**: public repositories can be seen by anyone, while private ones are only visible to you and people you invite. I usually make my repositories public, unless I'm still working on them/they're really messy. Public repositories are a great way to share your analysis code with the wider scientific community (e.g. for your thesis or a publication) and if you are interested in pursuing bioinformatics further, potential supervisors or employers often like to look through your GitHub.</span>
+<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Add a README file**: tick this box. A README is a file (usually written in a format called Markdown, which is a little bit like quarto) that describes what your repository is about, and it's good practice to always include one</span>
+<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a>Once you're happy, click **Create repository**.</span>
+<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a><span class="fu">### Linking your repository to a new R project</span></span>
+<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a>We now have an empty repository sitting on GitHub (remote), but we need to bring a copy down onto our own computer (local) so we can actually work on it. This process is called 'cloning'.</span>
+<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a>Conveniently, RStudio lets us create a brand new R project directly from a GitHub repository, so we don't need to use terminal commands:</span>
+<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>On your repository's GitHub page, click the green '**Code'** button and copy the URL under the HTTPS tab:</span>
+<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a>    <span class="al">![Click on the green code button to copy the URL](images/T07_repo_link.png)</span>{width="1572"}</span>
+<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>In RStudio, go to '**File' \&gt; 'New Project' \&gt; 'Version Control' \&gt; 'Git'**</span>
+<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>    <span class="al">![Create a new R project from the top-right hand corner of RStudio](images/S01F01_make_project.png)</span>{width="1255"}</span>
+<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a>    <span class="al">![Choose the 'version control' option to make a new project](images/T07_make_project_git.png)</span>{width="1255"}</span>
+<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a>    <span class="al">![Choose 'git'](images/T07_git_proj.png)</span>{width="800"}</span>
+<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Paste the URL into the '**Repository URL'** field, give the directory a name and choose where you want to put it on your computer. Then click '**Create Project**'</span>
+<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a>    <span class="al">![Paste the URL from your GitHub](images/T07_paste_url.png)</span>{width="808"}</span>
+<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a>RStudio will open a new session with your project, and you should notice a new tab called **'Git'** has appeared alongside the Environment and History tabs:</span>
+<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a><span class="al">![The 'Git' panel in RStudio](images/T07_git_panel.png)</span>{width="1248"}</span>
+<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a>This is our git interface, and we'll be using it a lot for the rest of this tutorial!</span>
+<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Let's do some analysis!</span></span>
+<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a>Now that our repository is set up, let's actually write some code to track! Create a new R script and save it inside your project.</span>
+<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a>We'll revisit the mousezempic dosage data that we've been using in this course, and try to answer the following question: does the amount of weight lost by mice increase as the dosage of mousezempic increases, and is this relationship affected by mouse strain or sex?</span>
+<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a>First, let's load the tidyverse package and read in the data (since we aren't in the usual R project we use in the workshops, let's just read it in from the internet, with the URL)</span>
+<span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a><span class="co"># you can read in files from the internet by providing the URL to them instead of a file path on your computer</span></span>
+<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a>dosage <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/mousezempic_dosage_data.csv"</span>)</span>
+<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a>To answer this question, let's start by making a scatterplot:</span>
+<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a>dosage <span class="sc">%&gt;%</span></span>
+<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first convert drug_dose_g into mg</span></span>
+<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to make it easier to read</span></span>
+<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose_mg =</span> drug_dose_g <span class="sc">*</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now make a scatterplot</span></span>
+<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> dose_mg, <span class="at">y =</span> weight_lost_g, <span class="at">colour =</span> mouse_strain)) <span class="sc">+</span></span>
+<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a>    <span class="co"># nicer colour palette</span></span>
+<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#ab2929"</span>, <span class="st">"#73b7bd"</span>, <span class="st">"#ccd65c"</span>)) <span class="sc">+</span></span>
+<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a>    <span class="co"># theme and labels</span></span>
+<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Drug dosage (mg)"</span>,</span>
+<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Weight lost (mg)"</span>,</span>
+<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"Mouse strain"</span>,</span>
+<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Relationship between drug dosage and weight lost"</span></span>
+<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-203"><a href="#cb14-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-204"><a href="#cb14-204" aria-hidden="true" tabindex="-1"></a>We've written some code and made a nice plot, but right now, this only exists on your own computer. If your laptop died tomorrow, this important analysis would be lost! Backing up your scripts to GitHub is a handy way to protect against this, along with the benefits of being able to share them with others.</span>
+<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a><span class="fu">## Adding and committing your changes</span></span>
+<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a><span class="fu">### Add files</span></span>
+<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a>Look at the **Git** tab in RStudio. You should see your R script there, with a yellow question mark icon next to it. This means the file is 'untracked': git has noticed it exists, but isn't yet keeping an eye on its changes.</span>
+<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-212"><a href="#cb14-212" aria-hidden="true" tabindex="-1"></a><span class="al">![Untracked files in the git panel](images/T07_untracked.png)</span>{width="826"}</span>
+<span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-214"><a href="#cb14-214" aria-hidden="true" tabindex="-1"></a>To tell git we want to keep track of these files, we need to 'add' (also known as 'stage') them. You can do this by ticking the checkbox next to your file's name in the Git tab, and the icon should change to a green 'A' (for 'added'):</span>
+<span id="cb14-215"><a href="#cb14-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a><span class="al">![After adding your files, the icon will change to an 'A'](images/T07_git_add.png)</span>{width="830"}</span>
+<span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Why do we need to 'add' files?"}</span>
+<span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a>You might wonder why git makes us tick a checkbox instead of just tracking every file automatically. This process lets you choose exactly which changes should be bundled together into a single commit. For example, if you made changes to two totally unrelated files, you might want to save them as two separate commits with two different messages, rather than lumping them together. This gives you much finer control over your project's history.</span>
+<span id="cb14-220"><a href="#cb14-220" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-221"><a href="#cb14-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a><span class="fu">### Commit changes</span></span>
+<span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a>Once your file is staged, click the 'Commit' button. A new window will pop up showing you the changes that are about to be committed. This is called a 'diff', and lines you've added will be shown in green, while lines you've deleted will be shown in red.</span>
+<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a>In the box in the top right, write a short, descriptive 'commit message' that explains what exactly you've changed. For example: 'Added scatterplot of dosage vs weight loss'.</span>
+<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a><span class="al">![In the commit window, you can view your changes and write a commit message](images/T07_git_commit.png)</span>{width="1224"}</span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Write good commit messages!"}</span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>It can be tempting to write vague/lazy commit messages like "updates" or "fixed errors", but future you (or your collaborators) will thank you for being descriptive! A good commit message briefly explains (in a sentence) *what* changed and, if it's not obvious, *why*.</span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a>Once you've written your message, click 'commit'. You've now made your first commit! You can see a record of all your commits by clicking the 'history' button (the clock icon) in the Git tab.</span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pushing changes to the remote</span></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a>So far, our commit only exists on our own computer (the local repository). To back it up and share it, we need to send our commits to GitHub (the remote repository). This is called 'pushing'.</span>
+<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a>In the Git tab, simply click the 'push' button (green up arrow):</span>
+<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a><span class="al">![Click on the green arrow to push your commits to the remote](images/T07_git_push.png)</span>{width="828"}</span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a>Head back to your repository's page on GitHub and refresh it: you should see your R script sitting there, along with your commit message:</span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a><span class="al">![Your commit should now show up on GitHub](images/T07_post_push.png)</span>{width="1114"}</span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: make another commit"}</span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a>Try making a small change to your R script (for example, add a comment, or change the colours in <span class="in">`scale_colour_manual()`</span>). Then, add, commit and push this change, following the same steps as above. Remember to save your R script before adding, otherwise your change won't be tracked!</span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a>Afterwards, look at the 'history' button in the Git tab, and the commit history on GitHub. Can you see both of your commits listed?</span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a>Congratulations, you have now completed the basic git workflow in RStudio!</span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Going from an R project to a GitHub repo"}</span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>Sometimes you'll already have an R project on your computer that you want to turn into a git repository and put onto GitHub (i.e. the reverse of starting from a new one on GitHub, like we just did). The easiest way to achieve this is using the <span class="in">`usethis`</span> package:</span>
+<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a>With your existing project open in RStudio, run:</span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a><span class="co"># install usethis first</span></span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"usethis"</span>)</span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git</span>()</span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>This initialises (sets up) git for your project. Then, add your files and commit, as you have learned above.</span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>Once you're ready, run:</span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_github</span>()</span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a>This will create a brand new repository on your GitHub account and link it to your local project, all in one step!</span>
+<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a><span class="fu">## Branches</span></span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a>So far, we've been working directly on our project's <span class="in">`main`</span> branch, which is where you always start by default. But what if we want to try out a new idea, without risking breaking the version of our analysis that's already working? This is where branches come in: they let us create a separate, parallel version of our project to experiment in, which we can later bring back together with our main work (or discard, if things don't work out). They're also handy for working with others, but we'll cover that later.</span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a><span class="fu">### Let's take a different approach to the analysis!</span></span>
+<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a>So far, we've been considering the weight loss of mice in absolute amounts (i.e. the total number of grams that they lost), but the mice had a range of different initial weights. In this section, we'll instead represent weight loss as a **percentage of each mouse's initial body weight**, and repeat our analysis to see if anything changes.</span>
+<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a>First, we'll create a new branch. In the git tab, click the branch icon (purple, 'L' shaped) in the top right corner.</span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a><span class="al">![The git branch button in RStudio](images/T07_git_branch.png)</span>{width="820"}</span>
+<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a>Give your new branch a short, descriptive name, like <span class="in">`percentage-approach`</span>, and make sure 'Sync branch with remote' is ticked, then click 'create'.</span>
+<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a><span class="al">![Name your branch something informative](images/T07_git_branch_name.png)</span>{width="462"}</span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a>RStudio will automatically switch you onto this new branch, but you can always check which branch you're currently on in the Git tab, the branch name is next to the branch button.</span>
+<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a>Now, let's perform our alternative analysis. We can create a percentage weight loss column using mutate, and I'll also facet the plot by sex this time too:</span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a>dosage <span class="sc">%&gt;%</span></span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a>  <span class="co"># first convert drug_dose_g into mg</span></span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to make it easier to read</span></span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dose_mg =</span> drug_dose_g <span class="sc">*</span> <span class="dv">10000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_wl =</span> (weight_lost_g <span class="sc">/</span> initial_weight_g) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a>  <span class="co"># now make a scatterplot</span></span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> dose_mg, <span class="at">y =</span> percent_wl, <span class="at">colour =</span> mouse_strain)) <span class="sc">+</span></span>
+<span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a>  <span class="co"># nicer colour palette</span></span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#ab2929"</span>, <span class="st">"#73b7bd"</span>, <span class="st">"#ccd65c"</span>)) <span class="sc">+</span></span>
+<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a>  <span class="co"># theme and labels</span></span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Drug dosage (mg)"</span>,</span>
+<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Weight lost (mg)"</span>,</span>
+<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Mouse strain"</span>,</span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship between drug dosage and weight lost"</span></span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>sex)</span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a>Just like before, add and commit this change, then push to send your new branch to the remote repo on GitHub.</span>
+<span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a><span class="fu">### Merging your branch back</span></span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a>Now we have two versions of our analysis: our original scatterplot on the <span class="in">`main`</span> branch, and our updated percentage weight loss version on the <span class="in">`percent-approach`</span> branch. Let's say we decide we like this new approach, and want to make it the main version of our analysis (i.e. put it on the main branch) this is called 'merging'.</span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a>An easy and well-organised way to do this is through GitHub, using what's called a 'Pull Request' (abbreviated to PR). A pull request is essentially a proposal to merge the changes from one branch into another, and it gives you (or your collaborators) a chance to review changes before they become a permanent part of the project.</span>
+<span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a>On your repository's GitHub page, you should see a prompt asking if you'd like to create a pull request for your recently pushed branch:</span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a><span class="al">![After you push a new branch, GitHub prompts you to create a PR](images/T07_create_pr.png)</span>{width="1130"}</span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a>Click 'Compare &amp; pull request', add a short description of your changes, and click 'Create pull request':</span>
+<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a><span class="al">![You can add descriptions of why you think your changes are good/important](images/T07_pr_page.png)</span>{width="1956"}</span>
+<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a>On the following page, you can review the PR one more time, then click 'Merge pull request' to bring your changes into the <span class="in">`main`</span> branch:</span>
+<span id="cb14-345"><a href="#cb14-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-346"><a href="#cb14-346" aria-hidden="true" tabindex="-1"></a><span class="al">![After creating the PR, you need to review it and accept it](images/T07_accept_pr.png)</span>{width="914"}</span>
+<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Merge conflicts"}</span>
+<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a>Sometimes, if two branches have both changed the same lines of the same file, git won't know which version to keep, and you'll get a 'merge conflict'. Don't panic if this happens! Git will mark the conflicting sections directly in your file, and you just need to manually edit it to decide which changes (or a combination of both) you want to keep, then stage and commit the result. The conflicted sections are marked with conflict markers (<span class="in">`&lt;&lt;&lt;&lt;&lt;&lt;&lt;`</span>, <span class="in">`=======`</span>, and <span class="in">`&gt;&gt;&gt;&gt;&gt;&gt;&gt;`</span>).</span>
+<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a>Once merged, don't forget to switch back to the <span class="in">`main`</span> branch in RStudio (using the dropdown in the Git tab) and click 'Pull' (blue downwards-pointing arrow). If you read the popup, you'll notice that this brings the recently-merged changes down onto your computer:</span>
+<span id="cb14-353"><a href="#cb14-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-354"><a href="#cb14-354" aria-hidden="true" tabindex="-1"></a><span class="al">![After pulling the main branch, we now have these changes in our local repo](images/T07_git_pull.png)</span>{width="806"}</span>
+<span id="cb14-355"><a href="#cb14-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-356"><a href="#cb14-356" aria-hidden="true" tabindex="-1"></a><span class="fu">## Collaborating with others</span></span>
+<span id="cb14-357"><a href="#cb14-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-358"><a href="#cb14-358" aria-hidden="true" tabindex="-1"></a>One of the biggest advantages of GitHub is how it lets multiple people work on the same project together. This may be useful for your final project.</span>
+<span id="cb14-359"><a href="#cb14-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-360"><a href="#cb14-360" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adding someone to your git repo</span></span>
+<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-362"><a href="#cb14-362" aria-hidden="true" tabindex="-1"></a>The first thing you need to do is give your collaborator(s) access. On your repository's GitHub page, go to '**Settings' \&gt; 'Collaborators'**, then click '**Add people'** and search for your classmate's GitHub username:</span>
+<span id="cb14-363"><a href="#cb14-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-364"><a href="#cb14-364" aria-hidden="true" tabindex="-1"></a><span class="al">![Add collaborators through the repo settings](images/T07_add_collaborators.png)</span>{width="1510"}</span>
+<span id="cb14-365"><a href="#cb14-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-366"><a href="#cb14-366" aria-hidden="true" tabindex="-1"></a>They'll receive an invitation via email (or a notification on GitHub) which they'll need to accept before they can push changes to your repository. Note that even if your repository is public, anyone can view and clone it, but they'll still need to be added as a collaborator to push changes directly.</span>
+<span id="cb14-367"><a href="#cb14-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-368"><a href="#cb14-368" aria-hidden="true" tabindex="-1"></a><span class="fu">### Working on a repo with multiple people</span></span>
+<span id="cb14-369"><a href="#cb14-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-370"><a href="#cb14-370" aria-hidden="true" tabindex="-1"></a>Once you have accepted an invite to someone's repository, you should clone it onto your own computer (following the same steps we used earlier).</span>
+<span id="cb14-371"><a href="#cb14-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-372"><a href="#cb14-372" aria-hidden="true" tabindex="-1"></a>Test it out now with a friend!</span>
+<span id="cb14-373"><a href="#cb14-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-374"><a href="#cb14-374" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: collaborating on an analysis"}</span>
+<span id="cb14-375"><a href="#cb14-375" aria-hidden="true" tabindex="-1"></a>With a partner, try the following:</span>
+<span id="cb14-376"><a href="#cb14-376" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-377"><a href="#cb14-377" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Both of you should make a small, different change somewhere in the script (for example, one person changes the plot title, while the other adds a new comment) and commit these changes locally</span>
+<span id="cb14-378"><a href="#cb14-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-379"><a href="#cb14-379" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Whoever commits and pushes first will have no trouble. But when the second person tries to push, they should get an error, because the remote history has moved on since they last synced!</span>
+<span id="cb14-380"><a href="#cb14-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-381"><a href="#cb14-381" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>To fix this, the second person needs to pull first, to bring down the latest changes from GitHub, before trying to push again</span>
+<span id="cb14-382"><a href="#cb14-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-383"><a href="#cb14-383" aria-hidden="true" tabindex="-1"></a>If you were both editing completely different parts of the file, git will usually be able to automatically combine ('merge') both sets of changes for you. But if you happened to edit the exact same lines, you'll encounter a merge conflict, just like we mentioned above! It's usually good practice to agree with your collaborator to work on different parts of the file, and make sure to pull changes often.</span>
+<span id="cb14-384"><a href="#cb14-384" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-385"><a href="#cb14-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-386"><a href="#cb14-386" aria-hidden="true" tabindex="-1"></a>Working collaboratively on the same files takes a bit of practice, but a few habits will make your life much easier:</span>
+<span id="cb14-387"><a href="#cb14-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-388"><a href="#cb14-388" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Pull before you start working**, and again before you push, to make sure you have everyone else's latest changes</span>
+<span id="cb14-389"><a href="#cb14-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-390"><a href="#cb14-390" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Commit and push often**, in small chunks, rather than making one giant commit at the end of the day</span>
+<span id="cb14-391"><a href="#cb14-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-392"><a href="#cb14-392" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Communicate with your collaborators** about who is working on what, to minimise the chances of conflicting changes in the first place</span>
+<span id="cb14-393"><a href="#cb14-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-394"><a href="#cb14-394" aria-hidden="true" tabindex="-1"></a>With these habits in place, git and GitHub become a really powerful way to collaborate on data analysis projects, whether that's with a couple of classmates or an entire research team!</span>
+<span id="cb14-395"><a href="#cb14-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-396"><a href="#cb14-396" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Further git resources"}</span>
+<span id="cb14-397"><a href="#cb14-397" aria-hidden="true" tabindex="-1"></a>We've only scratched the surface of git and GitHub today! If you'd like to go further, here are a couple of great resources:</span>
+<span id="cb14-398"><a href="#cb14-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-399"><a href="#cb14-399" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="co">[</span><span class="ot">Happy Git with R</span><span class="co">](https://happygitwithr.com/)</span> is a fantastic, R-specific guide that covers everything we've done today (and more) in much greater depth</span>
+<span id="cb14-400"><a href="#cb14-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-401"><a href="#cb14-401" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If you're keen to learn to use git from the command line rather than through RStudio's interface, the <span class="co">[</span><span class="ot">Software Carpentry git novice lesson</span><span class="co">](https://swcarpentry.github.io/git-novice/)</span> is a great place to start</span>
+<span id="cb14-402"><a href="#cb14-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-403"><a href="#cb14-403" aria-hidden="true" tabindex="-1"></a>As with any coding skill, the best way to get comfortable with git is to keep using it, so try to use this for the final project if you can!</span>
+<span id="cb14-404"><a href="#cb14-404" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-contrib/alpine-3.12/alpine@3.12.min.js"></script>
+</body></html>
