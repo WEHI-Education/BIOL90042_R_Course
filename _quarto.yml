@@ -50,13 +50,12 @@ book:
     - part: Week 6
       chapters:
         - workshop_5.qmd
-    #     - tutorial_6.qmd
+        - tutorial_6.qmd
     #     - wk6_fr.qmd
-    # - part: Week 7
-    #   chapters:
-    #     - mst_revision.qmd
-    #     - tutorial_7.qmd
-    #     - wk7_fr.qmd
+    - part: Week 7
+      chapters:
+        - tutorial_7.qmd
+    #    - wk7_fr.qmd
     # - part: Week 8
     #   chapters:
     #     - workshop_6.qmd
