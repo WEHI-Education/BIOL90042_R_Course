@@ -2,4 +2,11 @@
 title: "Tutorial 6"
 ---
 
-# Tutorial 6
+Tutorial 6 focused on MST preparation, in the MCQ and SAQ formats used for the 
+real MST. Find the practice questions and solutions below:
+
+## Tutorial questions and answers
+
+{{< pdf "resources/assign/tutorial_6_questions.pdf" >}}
+
+{{< pdf "resources/solution/tutorial_6_solutions.pdf" >}}
