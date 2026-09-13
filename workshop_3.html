@@ -390,6 +390,29 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 8</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Workshop 6: Statistics in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk8_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
     <nav id="TOC" role="doc-toc" class="toc-active">
@@ -984,8 +1007,8 @@ Solutions
 </figure>
 </div>
 <p>As shown in the figure above, we use the <code>pivot_longer()</code> function to pivot data from wide to long format, and the <code>pivot_wider()</code> function to pivot data from long to wide format.</p>
-<section id="pivot-wider" class="level4" data-number="10.6.1.1">
-<h4 data-number="10.6.1.1" class="anchored" data-anchor-id="pivot-wider"><span class="header-section-number">10.6.1.1</span> Pivot wider</h4>
+<section id="sec-pivot-wider" class="level4" data-number="10.6.1.1">
+<h4 data-number="10.6.1.1" class="anchored" data-anchor-id="sec-pivot-wider"><span class="header-section-number">10.6.1.1</span> Pivot wider</h4>
 <p>A common use case for <code>pivot_wider()</code> is to make a <a href="https://en.wikipedia.org/wiki/Contingency_table">contingency table</a>, which shows the number of observations for each combination of two variables. This is often easier to read than the same information in long format.</p>
 <p>For example, before we can ask whether the relationship between weight lost and drug dosage is affected by mouse strain or sex, we probably want to check that we have sufficient <em>n</em> for each mouse strain/sex combination. We can achieve this in a long format using <code>summarise()</code> as we learnt earlier:</p>
 <div class="cell">
@@ -2681,7 +2704,7 @@ Solutions
 <span id="cb62-584"><a href="#cb62-584" aria-hidden="true" tabindex="-1"></a>from wide to long format, and the <span class="in">`pivot_wider()`</span> function to pivot data from </span>
 <span id="cb62-585"><a href="#cb62-585" aria-hidden="true" tabindex="-1"></a>long to wide format.</span>
 <span id="cb62-586"><a href="#cb62-586" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-587"><a href="#cb62-587" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Pivot wider</span></span>
+<span id="cb62-587"><a href="#cb62-587" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Pivot wider {#sec-pivot-wider}</span></span>
 <span id="cb62-588"><a href="#cb62-588" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb62-589"><a href="#cb62-589" aria-hidden="true" tabindex="-1"></a>A common use case for <span class="in">`pivot_wider()`</span> is to make a <span class="co">[</span><span class="ot">contingency table</span><span class="co">](https://en.wikipedia.org/wiki/Contingency_table)</span>, which shows the number </span>
 <span id="cb62-590"><a href="#cb62-590" aria-hidden="true" tabindex="-1"></a>of observations for each combination of two variables. This is often easier to </span>
