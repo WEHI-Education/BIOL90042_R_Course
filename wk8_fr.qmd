@@ -1,5 +1,203 @@
 ---
-title: "Week 8: Further Reading"
+title: "Further Reading"
+filters:
+  - naquiz
+toc: false
 ---
 
-# Week 8: Further Reading
+In this week's further reading, we will cover various interesting topics that didn't make it into workshop 6.
+
+We will use same packages and data as for workshop 6:
+```{r}
+library(tidyverse)
+library(broom)
+library(tidyrstats)
+library(patchwork)
+
+dosage <- read_delim("data/mousezempic_dosage_data.csv") %>%
+  # data processing/wrangling
+  # removing spaces and dashes to be computer-friendly
+  mutate(
+    mouse_strain = case_when(
+      mouse_strain == "CD-1" ~ "CD1",
+      mouse_strain == "Black 6" ~ "Black6",
+      mouse_strain == "BALB C" ~ "BALBc",
+      .default = mouse_strain
+    )
+  ) %>%
+  # remove NA values
+  na.omit()
+```
+
+## Calculating correlations between all pairs of continuous variables {#sec-cor-plot}
+
+In workshop 6, we learnt how to calculate a correlation coefficient for a pair of continuous variables (see @sec-correlation). But what if we aren't sure which pair of continuous variables we're interested in? We can examine the correlation between every pair of continuous variables at once, and visualise the resulting correlation matrix as a heatmap using the `ggcorrplot` package.
+
+First, we need to install and load `ggcorrplot`:
+
+```{r}
+#| eval: false
+install.packages("ggcorrplot")
+```
+
+```{r}
+#| message: false
+library(ggcorrplot)
+```
+
+Then, we can use it as follows:
+```{r}
+dosage %>%
+  # first select the columns of interest
+  # these columns should be numeric
+  select(drug_dose_g, weight_lost_g, tail_length_mm, initial_weight_g) %>%
+  # use cor() to calculate the pairwise correlation between these
+  cor() %>%
+  # visualise the correlation using ggcorrplot
+  ggcorrplot(
+    # default is lab = FALSE,
+    # lab = TRUE adds the correlation coefficient to the plot
+    lab = TRUE,
+    title = "Correlation matrix of continuous variables"
+  )
+```
+
+This gives us a great overview of all the numeric variables in our dataset!
+
+## Logistic regression {#sec-logistic-regression}
+
+Every model we fitted in workshop 6 had a continuous outcome (y), such as weight lost. But often in biology the outcome we care about is binary:
+
+-   Did a patient respond to treatment or not?
+-   Did a tumour recur or not?
+-   Did a mouse survive or not?
+
+A straight line is a poor model for a binary outcome, because it can predict probabilities below 0 or above 1. **Logistic regression** solves this by modelling the *log-odds* of the outcome as a linear function of the predictors:
+
+$$
+\log\left(\frac{p}{1-p}\right) = \hat\beta_0 + \hat\beta_1 x_1 + \hat\beta_2 x_2 + \dots
+$$
+
+where $p$ is the probability of the outcome occurring. This keeps the right-hand side of the equation looking just like a linear model, while guaranteeing that the predicted probability $p$ stays between 0 and 1.
+
+::: {.callout-warning title="Assumptions of logistic regression"}
+-   Each continuous predictor is linearly related to the *log-odds* of the outcome (not to the raw probability)
+-   Independence of observations
+-   No perfect separation: no combination of predictors perfectly predicts the outcome (this makes the model unstable)
+-   A reasonably large sample size relative to the number of predictors, and ideally a good number of events in the rarer outcome category
+
+Note that, unlike linear regression, logistic regression does **not** assume normally distributed or homoscedastic residuals, since the outcome is binary rather than continuous
+:::
+
+### Create a binary outcome
+
+The mousezempic dosage data doesn't come with a binary outcome built in, so let's create one: we'll define a mouse as a "responder" (1) if it lost more weight than the median mouse in the study, and a "non-responder" (0) otherwise.
+
+We'll also rescale `drug_dose_g` (originally measured in tiny fractions of a gram) into a standardised z-score, so that the resulting odds ratio has a sensible interpretation ("per 1 standard deviation increase in dose") rather than an astronomically large number per 1 g increase.
+
+```{r}
+dosage <- dosage %>%
+  na.omit(weight_lost_g, drug_dose_g) %>%
+  mutate(
+    responder = case_when(
+      weight_lost_g > median(weight_lost_g) ~ 1,
+      weight_lost_g < median(weight_lost_g) ~ 0,
+      .default = NA),
+    drug_dose_z = as.numeric(scale(drug_dose_g))
+  )
+
+dosage %>% count(responder)
+```
+
+### Check for separation
+
+Before fitting the model, we should check for separation, where a predictor perfectly separates responders from non-responders, which would make the model unstable. A quick contingency table is one way to check this by eye:
+
+```{r}
+table(dosage$mouse_strain, dosage$responder)
+```
+
+Every strain contains a mix of responders and non-responders, so separation isn't a concern here.
+
+### Fit the logistic regression model
+
+Does drug dose predict the probability of responding, after accounting for mouse strain? Use logistic regression to find out, with the `glm()` function:
+
+```{r}
+# save as variable so we can do more with it later
+logit_model <- glm(
+  responder ~ drug_dose_z + mouse_strain,
+  data = dosage,
+  family = "binomial"
+)
+
+summary(logit_model)
+```
+
+### Interpret coefficients as odds ratios
+
+The raw coefficients from `summary()` are on the log-odds scale, which isn't very intuitive. We can make them easier to interpret by exponentiating them. 'Exponentiating' converts each coefficient into an **odds ratio (OR)**, which is how much the odds of responding multiply for each one-unit increase in that predictor (holding other predictors constant). The easiest way to do this is using the `tidy()` function from the `broom` package:
+
+```{r}
+tidy(logit_model, exponentiate = TRUE, conf.int = TRUE)
+```
+
+Both `drug_dose_z` and `mouse_strain` have p values well below 0.05, so we can reject the null hypothesis for each: a one standard deviation increase in dose is associated with roughly a 13-fold increase in the odds of responding (95% CI approximately 5- to 36-fold), holding strain constant. Relative to the BALBc reference strain, Black6 and CD1 mice both have substantially higher odds of responding at the same dose.
+
+::: {.callout-important title="Practice exercise: modelling a long tail"}
+
+Let's use what we have learnt to model the relationship between having a long tail (`tail_length_mm` is above the median) and the initial weight of the mice, with `mouse_strain` and `sex` as covariates.
+
+1.  Starting from `dosage`, create a new data frame called `dosage_ex` with a `long_tail` column (1 if `tail_length_mm` is above the median, 0 otherwise), and a standardised `initial_weight_z` column (using `scale()`).
+2.  **Before fitting any model**, cross-tabulate `mouse_strain` against `long_tail`. What do you notice about one of the strains? Why would including `mouse_strain` as a predictor in a `glm()` here cause a problem?
+3.  Considering your answer to the previous question, fit an appropriate logistic regression model.
+4.  Convert the coefficients to odds ratios with and interpret both the `initial_weight_z` and `sex` odds ratios in plain language.
+
+<details>
+
+<summary>Solution</summary>
+
+First, create the new columns:
+```{r}
+dosage_ex <- dosage %>%
+  na.omit(tail_length_mm, initial_weight_g) %>%
+  mutate(
+     long_tail = case_when(
+      tail_length_mm > median(tail_length_mm) ~ 1,
+      tail_length_mm < median(tail_length_mm) ~ 0,
+      .default = NA),
+    initial_weight_z = as.numeric(scale(initial_weight_g))
+  )
+```
+
+Then, make the table:
+
+```{r}
+table(dosage_ex$mouse_strain, dosage_ex$long_tail)
+```
+
+The table reveals **perfect separation**: every single Black6 mouse falls in the short-tail group (0 long-tailed Black6 mice). Including `mouse_strain` as a predictor of `long_tail` would therefore make the model unstable (an infinite/unreliable coefficient for Black6), so it must be left out of this particular model.
+
+We therefore fit the following model:
+
+```{r}
+ex_logit <- glm(long_tail ~ initial_weight_z + sex, data = dosage_ex, family = "binomial")
+tidy(ex_logit, exponentiate = TRUE, conf.int = TRUE)
+```
+
+
+Both `initial_weight_z` and `sex` are significant predictors: each 1-SD increase in starting weight is associated with roughly a 59% *decrease* in the odds of having a long tail (OR ≈ 0.41), while male mice have roughly 6-fold higher odds of a long tail than female mice (OR ≈ 6.2), holding starting weight constant.
+
+</details>
+
+:::
+
+## Other topics to explore
+
+::: {.callout-note title="Where to go next"}
+-   **Effect sizes**: a p value tells you whether an effect exists, but not how big it is. Cohen's d (for t-tests), eta-squared (for ANOVA) and Cramér's V (for chi-squared) are standard ways to quantify the *size* of an effect, independent of sample size the [effectsize](https://easystats.github.io/effectsize/) package is a good place to start.
+-   **Repeated measures and mixed-effects models**: every test in workshop 6 assumes independent observations, but biological data often isn't (e.g. multiple measurements from the same mouse, or mice from the same litter/cage). Mixed-effects models (via the [lme4](https://cran.r-project.org/package=lme4) or [nlme](https://cran.r-project.org/package=nlme) packages) let you account for this kind of clustering directly in the model.
+-   **Predicted probabilities and marginal effects**: for logistic (and other) regression models, it's often more intuitive to talk about a *predicted probability* than a raw coefficient or odds ratio. The [ggeffects](https://strengejacke.github.io/ggeffects/) package's `ggpredict()` function and the [emmeans](https://rvlenth.github.io/emmeans/) package are both great tools for this, and for comparing predictions between groups while holding other variables constant.
+-   **Checking model assumptions visually**: rather than checking each assumption one at a time, the [performance](https://easystats.github.io/performance/) package's `check_model()` function produces a full set of diagnostic plots (residuals, normality, homoscedasticity, multicollinearity and more) for a linear or logistic regression model in a single line of code.
+-   **Sample size and power**: before you even collect your data, it's helpful to know how many samples you need to reliably detect an effect of a certain size. The base R `power.t.test()` function and the [pwr](https://cran.r-project.org/package=pwr) package can help answer this for many of the tests covered in workshop 6.
+:::

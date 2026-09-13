@@ -554,7 +554,7 @@ As shown in the figure above, we use the `pivot_longer()` function to pivot data
 from wide to long format, and the `pivot_wider()` function to pivot data from 
 long to wide format.
 
-#### Pivot wider
+#### Pivot wider {#sec-pivot-wider}
 
 A common use case for `pivot_wider()` is to make a [contingency table](https://en.wikipedia.org/wiki/Contingency_table), which shows the number 
 of observations for each combination of two variables. This is often easier to 

@@ -1,7 +1,1099 @@
 ---
-title: "Workshop 6"
+filters:
+  - naquiz
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: "In this session:"
 ---
 
-# Workshop 6
+# Workshop 6: Statistics in R {#sec-workshop06}
 
-stats
+So far in BIOL90042, we've learnt how to identify patterns in our data by examining descriptive/summary statistics (mean, median etc) and visualising it with various plot types. In this workshop, we will learn how to formally test whether these patterns are statistically significant, using R. We will start by talking about how to check the assumptions behind a statistical test, then work through various different types of tests, as well as linear regression. We'll also see how the `ggpubr` package can help us visualise many of these tests directly on a plot.
+
+Please note that this is not a statistics subject, so this workshop will skip over most of the mathematics underlying these tests. If you're interested, a nice overview can be found in the [Learning Statistics With R ebook](https://learningstatisticswithr.com/).
+
+::: {.callout-tip title="Learning Objectives"}
+At the end of this session, learners should be able to:
+
+1.  Test for an association between two categorical variables using a chi-squared test
+2.  Compare means across two or more groups using a t-test or ANOVA
+3.  Recognise when a parametric assumption is violated and apply the appropriate non-parametric alternative (Wilcoxon rank-sum or Kruskal-Wallis test)
+4.  Calculate a correlation coefficient between two continuous variables
+5.  Visualise the results of a statistical test directly on a plot using the `ggpubr` package
+6.  Construct simple and multiple linear regression models, including correcting for a confounding variable
+:::
+
+Today, we'll use a few extra packages, which you'll need to install. These are:
+
+-   [broom](https://broom.tidymodels.org/), which turns the outputs of old, 'base R' statistical functions into tidy tibbles
+-   [tidyrstats](https://cran.r-project.org/web/packages/tidyrstats/index.html), a package created by Brendan Ansell (previous subject coordinator) to make it easier to use linear models in a tidy way
+-   [ggpubr](https://rpkgs.datanovia.com/ggpubr/), a package designed to make it easy to create types of figures common in scientific publications
+
+```{r}
+#| eval: false
+# install the new packages
+install.packages("broom")
+install.packages("tidyrstats")
+install.packages("ggpubr")
+```
+
+::: {.callout-note title="What do we mean by 'base R'?"}
+'base R' refers to the core set of functions that come built into R itself, as opposed to functions from add-on packages (like `mutate()` and `ggplot()`, which come from the `dplyr` and `ggplot2` packages in the `tidyverse`) that we need to install and load ourselves. This includes functions like `mean()` or `summary()` that we have learnt in previous workshops, as well as many of the statistical tests we'll cover today.
+:::
+
+Once you've got them installed, don't forget to load them with the `library()` function:
+
+```{r}
+# load all the packages we will use
+library(tidyverse)
+library(patchwork)
+library(broom)
+library(tidyrstats)
+library(ggpubr)
+```
+
+Finally, we need to read in the mousezempic dosage data we've been working with so far this semester. As a practice exercise, have a go at doing this yourself!
+
+::: {.callout-important title="Practice exercise: reading in and cleaning the dosage data"}
+Read in `data/mousezempic_dosage_data.csv` and assign it to a variable called `dosage`. While you're at it, tidy it up a little:
+
+1.  Some of the `mouse_strain` values are inconsistently formatted (i.e. they include spaces and dashes instead of nice computer-friendly names). Recode `"CD-1"` to `"CD1"`, `"Black 6"` to `"Black6"`, and `"BALB C"` to `"BALBc"`, leaving any other values unchanged. (Hint: remember the `mutate(case_when())` pattern learnt in workshop 2, see @sec-mutate)
+2.  Remove any rows with a missing (`NA`) value
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+dosage <- read_delim("data/mousezempic_dosage_data.csv") %>%
+  # data processing/wrangling
+  # removing spaces and dashes to be computer-friendly
+  mutate(
+    mouse_strain = case_when(
+      mouse_strain == "CD-1" ~ "CD1",
+      mouse_strain == "Black 6" ~ "Black6",
+      mouse_strain == "BALB C" ~ "BALBc",
+      .default = mouse_strain
+    )
+  ) %>%
+  # remove NA values
+  na.omit()
+
+# check our result
+dosage
+```
+
+We used `case_when()` inside a `mutate()` to recode the three inconsistent `mouse_strain` values, keeping everything else unchanged with the `.default = mouse_strain` fallback, then `na.omit()` to drop any rows missing `mouse_strain` or `sex`.
+
+Notice how the tilde `~` was used to associate the new values of mouse strain with the old ones. We will see the tilde a lot in this session, where it is used to describe the relationship/association between variables in our tests.
+
+</details>
+:::
+
+## Testing associations between categorical variables
+
+The first type of test we will cover is that of associations between categorical variables. This will allow us to answer questions such as 'is there a systematic association between mouse strain and sex in our mousezempic study?'
+
+### Chi-squared test {#sec-chisq}
+
+The chi-squared ($\chi^2$) test of independence compares the observed frequency of every combination of two categorical variables against the frequency we would expect if the two variables were completely unrelated (independent).
+
+In other words it tests the following hypotheses:
+
+-   Null hypothesis ($H_0$): the two categorical variables are independent (no association)
+-   Alternate hypothesis ($H_1$): the two categorical variables are associated
+
+Before perfomring *any* statistical test, we need to first consider the assumptions of that test and ensure our data conforms to these. The assumptions of the ($\chi^2$) test are as follows:
+
+::: {.callout-warning title="Assumptions of the ($\chi^2$) test"}
+-   Observations are independent of one another (each mouse is only counted once, and they do not influence each other)
+-   The categories of each variable are mutually exclusive and exhaustive (every mouse falls into exactly one strain and one sex)
+-   Expected cell counts are reasonably large — a common rule of thumb is that no more than 20% of cells should have an expected count below 5. When this is violated (e.g. for small or sparse tables), use `fisher.test()` instead, which computes an exact p value.
+
+You can generally account for these assumptions in your study design.
+
+:::
+
+In order to conduct a ($\chi^2$) test, the first thing we need to do is construct a contingency table, that counts up the number of observations for every combination of our two categorical variables. In workshop 3, we discussed how to do this using `pivot_wider()` (see @sec-pivot-wider), mostly as an exercise to explain how to use that function.
+
+However, there is an easier way, using the base R function `table()`. Note that, for base R functions, we need to access the column names with `$`, as we did in workshop 1 (see @sec-dataframes).
+
+
+```{r}
+# assign it to a variable, we'll need this
+# later to do the test
+strain_sex_table <- table(dosage$mouse_strain, dosage$sex)
+
+# view the table
+strain_sex_table
+```
+As we can see, the counts in every cell are comfortably **above 5**, so a ($\chi^2$) test is appropriate here.
+
+You may also notice that the proportion of male and female mice looks very similar across all three strains, suggesting there may be no association between strain and sex. Let's still do the ($\chi^2$) test though, to learn how it works. We can do this using the `chisq.test()` function:
+
+```{r}
+chisq.test(strain_sex_table)
+```
+The test statistic is very small (0.05) and the p value (0.98) is far greater than 0.05, so we **fail to reject the null hypothesis**.
+
+We can therefore conclude that there is no evidence of an association between mouse strain and sex in our `dosage` data, which is consistent with sex being allocated at random with respect to strain as we would hope for a well-designed experiment.
+
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding! 
+
+::: question
+1\. We want to know whether mice were allocated evenly across the three experimental replicates (`replicate`), regardless of `mouse_strain`. Which line of code correctly generates the contingency table we would need to answer this?
+
+::: choices
+::: {.choice .correct-choice}
+`table(dosage$mouse_strain, dosage$replicate)`
+:::
+
+::: choice
+`table(dosage$replicate)`
+:::
+
+::: choice
+`chisq.test(dosage$mouse_strain, dosage$replicate)`
+:::
+
+::: choice
+`pivot_wider(dosage, mouse_strain, replicate)`
+:::
+:::
+:::
+
+::: question
+2\. Suppose the contingency table above has an expected count of 3 in one of its cells. What should we do?
+
+::: choices
+::: choice
+Nothing, the ($\chi^2$) test doesn't have any assumptions about cell counts
+:::
+
+::: choice
+Remove that cell from the table before running `chisq.test()`
+:::
+
+::: {.choice .correct-choice}
+Use `fisher.test()` instead, since the ($\chi^2$) approximation may not be reliable with such a small expected count
+:::
+
+::: choice
+Increase the sample size of just that cell
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1.  `table(dosage$mouse_strain, dosage$replicate)` builds a contingency table cross-tabulating the counts of every combination of `mouse_strain` and `replicate`, which is what we need before running a ($\chi^2$) test.
+2.  An expected cell count of 3 is below our rule-of-thumb threshold of 5, so the ($\chi^2$)  approximation may be unreliable here. `fisher.test()` calculates an exact p value instead and doesn't rely on this large-sample approximation.
+
+</details>
+:::
+
+### Fisher's exact test {#sec-fisher-exact}
+
+So far, our examples from the `dosage` data have had a large enough sample size that the assumptions of our ($\chi^2$) test are met. This means we haven't had a chance to use `fisher.test()` yet, so let's create some dummy data to try it out. Imagine a small pilot experiment: 10 knockout mice and 10 wildtype mice were each given mousezempic, and we recorded whether each one responded to treatment.
+
+These results are given in a matrix (we'll learn more about matrices in workshop 7):
+
+```{r}
+pilot_table <- matrix(
+  c(8, 2,
+    3, 7),
+  nrow = 2,
+  byrow = TRUE,
+  dimnames = list(
+    genotype = c("knockout", "wildtype"),
+    response = c("responder", "non_responder")
+  )
+)
+
+pilot_table
+```
+
+With only 20 mice split across four cells, several expected counts here will fall below 5, so the ($\chi^2$) test isn't appropriate. R will actually warn us about this if we try to use it:
+
+```{r}
+#| warning: true
+chisq.test(pilot_table)
+```
+
+Instead, we should use `fisher.test()`, which calculates an **exact** p value based on the hypergeometric distribution, rather than relying on a large-sample approximation:
+
+```{r}
+fisher.test(pilot_table)
+```
+
+Notice that this one doesn't give any warnings.
+
+## Comparing means: t-test and ANOVA {#sec-compare-means}
+
+Another very common statistical task is testing whether a continuous outcome differs between groups. For example, does `weight_lost_g` differ between male and female mice, or between mouse strains?
+
+::: {.callout-warning title="Assumptions of the t-test and ANOVA"}
+-   Observations are independent of one another
+-   The outcome is approximately normally distributed **within each group** (rather than in the dataset overall). If not, use a non-parametric test like `wilcox.test()` or `kruskal.test()`
+-   The groups have approximately equal variance. If not, use Welch's correction: `t.test(var.equal = FALSE)` or `oneway.test()`
+:::
+
+### Comparing two groups: the t-test {#sec-ttest}
+
+Let's use a t-test to determine whether `weight_lost_g` differs between male and female mice.
+
+First, it's always a good idea to visualise the data:
+
+```{r}
+ggplot(dosage, aes(x = sex, y = weight_lost_g)) +
+  geom_boxplot() +
+  # set ylim to 0 so as not to magnify small differences
+  ylim(0, 6.5)
+```
+
+Looking at the plot, it seems like there might be a slight difference, and the variances appear fairly similar
+
+
+Let's now check the normality assumption, using a QQ-plot for each group. A **QQ (quantile-quantile) plot** compares the quantiles of our data against the quantiles we would expect if the data was perfectly normally distributed. We can make a QQ-plot using `ggplot2` with `geom_qq()`, adding a reference line with `geom_qq_line()` to make it easier to judge how similar our data is to the normal distribution:
+
+```{r}
+ggplot(dosage, aes(sample = weight_lost_g)) +
+  geom_qq() +
+  geom_qq_line() +
+  # facet because we need to check normality for each group
+  facet_wrap(~sex)
+```
+
+If our data were normally distributed, the points would sit neatly along the diagonal reference line.
+
+Both groups show a distinct curve away from the straight reference line, which suggests `weight_lost_g` is not normally distributed in either group.
+
+We can confirm this with a Shapiro-Wilk test (using `shapiro.test()`) in each group:
+
+```{r}
+dosage %>%
+  filter(sex == "male") %>%
+  # shapiro.test() needs a vector, so use pull()
+  pull(weight_lost_g) %>%
+  shapiro.test()
+
+dosage %>%
+  filter(sex == "female") %>%
+  pull(weight_lost_g) %>%
+  shapiro.test()
+```
+
+Both p values are far below 0.05, so we reject normality in both groups.
+
+This means a t-test isn't actually valid here (we should use the non-parametric alternative `wilcox.test()` instead), but for the sake of showing you how one works in R, let's run it anyway. We can compare this to the non-parametric test in a minute.
+
+To run a t-test in R, use the `t.test()` function, and provide it three arguments:
+
+-   A formula of the format `y ~ x` (outcome ~ grouping variable)
+-   `data`, the dataframe that contains columns `y` and `x` from the formula
+-   `var.equal = TRUE` for a Student's t-test (assuming variances are equal) or `var.equal = FALSE` for Welch's t-test (assuming variances are not equal)
+
+```{r}
+t.test(
+  weight_lost_g ~ sex, # compare weight lost across sex
+  data = dosage, # use dosage data
+  var.equal = TRUE # student t-test
+  )
+```
+
+The p value (4.90e-16) is much smaller than 0.05, suggesting (as the output says), that there is a difference in the mean amount of weight lost by female and male mice. This is not unexpected: we know that male mice weigh more to begin with, so they therefore have more weight to lose than female mice.
+
+### Comparing more than two groups: ANOVA {#sec-anova}
+
+The t-test only compares two groups, so while we could use it to compare male vs female mice, if we want to compare `weight_lost_g` across all three mouse strains at once, we need its multi-group extension: the ANOVA (analysis of variance). Rather than comparing two means directly, ANOVA compares the variance **between** groups to the variance **within** groups, to test whether at least one group mean differs from the others.
+
+Again, let's begin by visualising what we are about to test:
+
+```{r}
+ggplot(dosage, aes(x = mouse_strain, y = weight_lost_g)) +
+  geom_boxplot()
+```
+
+Note that, just like for the t-test, ANOVA assumes our continuous variable is approximately normally distributed (which we can check using a QQ-plot or Shapiro-Wilks test):
+
+```{r}
+# make a qq plot
+ggplot(dosage, aes(sample = initial_weight_g)) +
+  geom_qq() +
+  geom_qq_line() +
+  # facet because we need to check normality for each group
+  facet_wrap(~mouse_strain)
+
+# shapiro-wilks test
+dosage %>%
+  filter(mouse_strain == "BALBc") %>%
+  # shapiro.test() needs a vector, so use pull()
+  pull(weight_lost_g) %>%
+  shapiro.test()
+
+dosage %>%
+  filter(mouse_strain == "Black6") %>%
+  pull(weight_lost_g) %>%
+  shapiro.test()
+
+dosage %>%
+  filter(mouse_strain == "CD1") %>%
+  pull(weight_lost_g) %>%
+  shapiro.test()
+```
+
+This time, we're actually only violating the normality assumption for the CD1 strain (p value 0.04)! We'll compare the result to a the non-parametric Kruskal-Wallace test later, but for now let's proceed with the ANOVA:
+
+We can perform an ANOVA in R using the `aov()` function, with the same `y ~ x` formula notation we used for the t-test:
+
+```{r}
+aov(weight_lost_g ~ mouse_strain, data = dosage)
+```
+Although the way we use the `aov()` function is quite similar to `t.test()`, the output looks very different! We can't see a p-value anywhere. This is because, statistically, ANOVAs are a special case of a linear model (see @sec-lm) and so the output of the `aov()` function inherits some quirks from how linear models are reported in R.
+
+To find the p-value and answer our question, we can pass this to the `summary()` function:
+
+```{r}
+aov(weight_lost_g ~ mouse_strain, data = dosage) %>% summary()
+```
+The p value is extremely small, so we conclude that `weight_lost_g` differs between at least one pair of strains. This matches our observation from the boxplot above, where Black-6 mice visibly lost more weight than BALBc or CD1 mice.
+
+We can also get a tidy version of this table with the `tidy()` function from the `broom` package:
+
+```{r}
+aov(weight_lost_g ~ mouse_strain, data = dosage) %>% tidy()
+```
+
+This could be useful if, for example, we wanted to extract the p value and use this in further R code (e.g. to label a plot).
+
+::: {.callout-tip title="Which pairs of groups differ?"}
+A significant ANOVA (or Kruskal-Wallis) result only tells us that one group differs from another, but it doesn't say which pair(s). We can find this by performing what's known as a 'post-hoc pairwise test' (e.g. Tukey's HSD (honest significant difference) test):
+
+```{r}
+aov(weight_lost_g ~ mouse_strain, data = dosage) %>% TukeyHSD()
+```
+This shows us that there is a statistically significant difference between Black-6 and BALBc mice, as well as betwen CD-1 and Black-6 mice, but **not** between CD-1 and BALBc mice, which matches our observations in the boxplot above.
+
+:::
+
+Unlike for `t.test()`, the `aov()` function doesn't have an argument for equal variances. If your variances aren't equal, you need to instead use the `oneway.test()` function, which does have this argument:
+
+```{r}
+oneway.test(weight_lost_g ~ mouse_strain, data = dosage, var.equal = FALSE)
+```
+
+### Non-parametric tests {#sec-non-para}
+
+When a parametric assumption (i.e. normality) is badly violated, we can turn to a non-parametric alternative instead. These tests don't assume the outcome is normally distributed and instead test for differences in the ranks of the data.
+
+::: {.callout-warning title="Assumptions of the Wilcoxon and Kruskal-Wallis tests"}
+-   Observations are independent of one another
+-   The outcome variable is at least ordinal (i.e. it can be meaningfully ranked)
+-   If you want to interpret the result as a difference in medians specifically (rather than just 'the distributions differ'), the groups should have similarly shaped distributions
+:::
+
+Non-parametric tests are more robust to outliers and skewed distributions than their parametric counterparts, **but** they can be somewhat less powerful to detect a true effect when the data are actually normally distributed. Therefore, you should only use them when you really need to.
+
+#### The Wilcoxon rank-sum test {#sec-wilcox}
+
+The Wilcoxon rank-sum test (also called the Mann-Whitney test when applied on two samples, like we will do here) is the non-parametric equivalent of the t-test we covered earlier. Instead of comparing means, it tests whether one group tends to have overall higher or lower ranked values than the other.
+
+Let's revisit our comparison of `weight_lost_g` between male and female mice. We can use it by simply replacing `t.test()` with `wilcox.test()`
+
+```{r}
+wilcox.test(weight_lost_g ~ sex, data = dosage)
+```
+
+The p value is again far smaller than 0.05, so both tests agree here: male and female mice differ in weight lost.
+
+#### The Kruskal-Wallis test {#sec-kruskal}
+
+The just like the t-test, the Wilcoxon test only compares two groups. The non-parametric version of the ANOVA we ran above is called the Kruskal-Wallis test, and we can run it using the `kruskal.test()` function:
+
+```{r}
+kruskal.test(weight_lost_g ~ mouse_strain, data = dosage)
+```
+
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding! 
+
+::: question
+1\. If you check the normality assumption for a continuous variable in two groups using a QQ plot and Shapiro-Wilk test, and find that the assumption is clearly violated in both groups, which test should you use to compare them?
+
+::: choices
+::: choice
+`t.test()`, since it's the standard test for comparing two groups
+:::
+
+::: {.choice .correct-choice}
+`wilcox.test()`, since it doesn't assume normality
+:::
+
+::: choice
+`aov()`, since it's more powerful
+:::
+
+::: choice
+`chisq.test()`, since the normality assumption is violated
+:::
+:::
+:::
+
+::: question
+2\. You want to compare a continuous variable across three or more groups, but a QQ plot shows the data is clearly non-normal in at least one group. Which function should you use?
+
+::: choices
+::: choice
+`aov()`
+:::
+
+::: choice
+`t.test()`
+:::
+
+::: {.choice .correct-choice}
+`kruskal.test()`
+:::
+
+::: choice
+`wilcox.test()`
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1.  When normality is clearly violated, `wilcox.test()` (the Wilcoxon rank-sum/Mann-Whitney test) is the appropriate choice, since it doesn't rely on the normality assumption that `t.test()` requires.
+2.  `kruskal.test()` is the non-parametric equivalent of a one-way ANOVA, and is the appropriate choice when comparing three or more groups and the normality assumption is violated.
+
+</details>
+:::
+
+## Correlation between continuous variables {#sec-correlation}
+
+So far, we have considered situations where both, or one of our variables were categorical. If both of our variables are continuous, we can measure the strength and direction of a linear relationship between them using a correlation coefficient.
+
+A correlation coefficient ranges from -1 to 1, where:
+
+-   Values close to **1** indicate a strong *positive* relationship (as one variable increases, so does the other)
+-   Values close to **-1** indicate a strong *negative* relationship (as one variable increases, the other decreases)
+-   Values close to **0** indicate little to no linear relationship
+
+::: {.callout-warning title="Assumptions of the Pearson correlation"}
+-   The relationship between the two variables is linear (check with a scatterplot before you calculate r!)
+-   Both variables are continuous
+-   No extreme outliers, which can heavily distort the correlation coefficient
+-   Ideally, both variables are roughly normally distributed
+
+If any of these are violated (e.g. the relationship is non-linear, or there are outliers), use the non-parametric Spearman correlation instead. Spearman correlation only assumes the relationship is monotonic, since it works on the ranks of the data rather than the raw values.
+:::
+
+Let's examine the correlation between `drug_dose_g` and `weight_lost_g`.
+
+First, check the linearity assumption with a scatterplot:
+
+```{r}
+ggplot(dosage, aes(x = drug_dose_g, y = weight_lost_g)) +
+  geom_point() +
+  # add geom_smooth to compare the points to a linear
+  # line of best fit
+  geom_smooth(method = "lm") +
+  labs(
+    x = "Drug dose (g)",
+    y = "Weight lost (g)",
+    title = "Correlation between drug dose and weight lost"
+  )
+```
+
+A straight line looks like a reasonable summary of this relationship, and there don't seem to be any crazy outliers, so let's go ahead and calculate the correlation coefficient. We can do this in R using `cor.test()`:
+
+```{r}
+# cor.test() takes two arguments, the x and y variables
+# remember these must be vectors: access from df with $
+cor.test(dosage$drug_dose_g, dosage$weight_lost_g)
+```
+
+The correlation coefficient (0.87) is close to 1, and the p value is far smaller than 0.05, so we have strong evidence of a **positive linear relationship** between drug dose and weight lost. In other words, mice given a higher dose of mousezempic tended to lose more weight.
+
+::: {.callout-note title="Pearson vs Spearman correlation"}
+`cor.test()` calculates a **Pearson correlation** by default, which as discussed above has a number of assumptions.
+
+If your data are not normally distributed, contain outliers, or the relationship is monotonic but not linear (e.g. curved but always increasing), a **Spearman correlation** is a better choice. You can perform one using the `method` argument of `cor.test()`:
+
+```{r}
+cor.test(dosage$drug_dose_g, dosage$weight_lost_g, method = "spearman")
+```
+:::
+
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding!
+
+::: question
+1\. I ran the code `cor.test(dosage$initial_weight_g, dosage$weight_lost_g)` and got a correlation coefficient of r = 0.59, with a p value below 0.05. What can I conclude?
+
+::: choices
+::: choice
+There is no relationship between the two variables
+:::
+
+::: {.choice .correct-choice}
+There is a moderate, statistically significant positive relationship between the two variables
+:::
+
+::: choice
+There is a strong negative relationship between the two variables
+:::
+
+::: choice
+The relationship is definitely non-linear
+:::
+:::
+:::
+
+::: question
+2\. If you suspect two continuous variables have a monotonic but non-linear relationship, with a couple of outliers, which correlation method is most appropriate?
+
+::: choices
+::: choice
+Pearson, since it's the default in `cor.test()`
+:::
+
+::: {.choice .correct-choice}
+Spearman, since it only assumes a monotonic relationship and is more robust to outliers
+:::
+
+::: choice
+Neither, correlation can't be calculated for non-linear relationships
+:::
+
+::: choice
+A linear model
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1.  A correlation coefficient of r = 0.59 indicates a moderate positive relationship (not strong, and not negative), and since the p value is below 0.05, this relationship is statistically significant.
+2.  Spearman correlation is the better choice here, since it only assumes the relationship is monotonic (rather than strictly linear) and is calculated on the ranks of the data, making it more robust to outliers.
+
+</details>
+:::
+
+## Visualising statistical tests with ggpubr {#sec-ggpubr}
+
+So far, we've been running our tests and making our plots in two separate steps. The `ggpubr` package (which extends ggplot2) makes it easy to combine the two, by adding the result of a statistical test directly onto a plot as an annotation. This is a great way to make quick, publication-ready figures without having to manually copy test statistics and p values into a title or label.
+
+### Adding a test result to a boxplot
+
+The `ggboxplot()` function works similarly to `ggplot() + geom_boxplot()`, but returns a plot we can layer statistical annotations onto with `stat_compare_means()`.
+
+Let's revisit our comparison of `weight_lost_g` between male and female mice, this time adding the t-test result directly onto the plot:
+
+```{r}
+ggboxplot(
+  data = dosage,
+  # unlike in the ggplot() function, x and y are
+  # supplied directly, not in aes()
+  x = "sex", y = "weight_lost_g",
+  # in ggpubr, you add jitter using the 'add' argument
+  add = "jitter") +
+  stat_compare_means(method = "t.test") +
+  labs(x = "Sex", y = "Weight lost (g)")
+```
+
+The same idea works for our three-strain comparison, using `method = "kruskal.test"` (or `method = "anova"`):
+
+```{r}
+ggboxplot(dosage, x = "mouse_strain", y = "weight_lost_g", add = "jitter") +
+  stat_compare_means(method = "kruskal.test") +
+  labs(x = "Mouse strain", y = "Weight lost (g)")
+```
+
+We can get `ggpubr` to add pairwise comparisons too, by supplying a list of the pairs we're interested in to the `comparisons` argument:
+
+```{r}
+ggboxplot(dosage, x = "mouse_strain", y = "weight_lost_g", add = "jitter") +
+  # get the pairwise comparisons
+  stat_compare_means(
+    comparisons = list(c("BALBc", "Black6"), c("BALBc", "CD1"), c("Black6", "CD1"))) +
+  # get the overall p value and test name
+  stat_compare_means(method = "kruskal.test", label.y = 8) +
+  labs(x = "Mouse strain", y = "Weight lost (g)")
+```
+
+This runs a pairwise Wilcoxon test for each pair of strains we listed, adding a significance bracket for each comparison, alongside the overall Kruskal-Wallis result. Annoyingly, we have to run `stat_compare_means()` twice, because each call only adds one type of label of the plot (either the pairwise comparisons **or** the overall p value and test name), but this is the struggle that comes with using functions written by other people, sometimes the interface doesn't quite make sense!
+
+### Adding a correlation to a scatterplot
+
+Similarly to `ggboxplot()`, `ggscatter()` is another higher-level plotting function from `ggpubr`. It creates a scatterplot that we can annotate with `stat_cor()` to show the correlation coefficient and p value:
+
+```{r}
+ggscatter(dosage, x = "drug_dose_g", y = "weight_lost_g", add = "reg.line") +
+  stat_cor(method = "pearson") +
+  labs(x = "Drug dose (g)", y = "Weight lost (g)")
+```
+
+Just like `cor.test()`, we can switch to a Spearman correlation with the `method` argument:
+
+```{r}
+ggscatter(dosage, x = "drug_dose_g", y = "weight_lost_g", add = "reg.line") +
+  stat_cor(method = "spearman") +
+  labs(x = "Drug dose (g)", y = "Weight lost (g)")
+```
+
+::: {.callout-note title="ggpubr and ggplot2"}
+Since `ggpubr` functions return ordinary ggplot objects, you can keep layers to them, like `theme_minimal()`, `labs()` or even `facet_wrap()`. This makes `ggpubr` a nice shortcut for making plots, while still retaining the customisation abilities you learnt in workshop 4.
+:::
+
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding!
+
+::: question
+1\. Which function would you add to a `ggboxplot()` to annotate it with the result of a statistical test?
+
+::: choices
+::: choice
+`stat_cor()`
+:::
+
+::: choice
+`geom_test()`
+:::
+
+::: {.choice .correct-choice}
+`stat_compare_means()`
+:::
+
+::: choice
+`labs()`
+:::
+:::
+:::
+
+::: question
+2\. I tried running the following code:
+
+```{r}
+#| error: true
+ggscatter(dosage, aes(x = "drug_dose_g", y = "weight_lost_g", add = "reg.line")) +
+  stat_cor(method = "pearson")
+```
+
+But I got an error. Why?
+
+::: choices
+::: choice
+Because you need to add the regression line with `geom_smooth()`
+:::
+
+::: {.choice .correct-choice}
+Because `ggpubr` plots don't use the `aes()` function
+:::
+
+::: choice
+Because `add` is not a valid `ggplot2` aesthetic
+:::
+
+::: choice
+Because you used the `ggscatter()` function instead of the `ggplot()` function
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1.  `stat_compare_means()` adds the result of a statistical test (e.g. t-test, Kruskal-Wallis, ANOVA, or pairwise comparisons) directly onto a `ggpubr` plot as an annotation. `stat_cor()` is the equivalent for annotating a correlation coefficient onto a scatterplot.
+2.  `ggscatter()` is the `ggpubr` function for creating scatterplots, and unlike the `ggplot()` function it doesn't use `aes()`, you just specify `x` and `y` directly to `ggscatter()`
+
+</details>
+:::
+
+## Linear modelling (in the tidyverse) {#sec-lm}
+
+As you may recall from lecture 4, linear models are very useful for testing for significant associations between variables, or significant differences between groups. They have the advantage of being able to correct for the effects of other variables, and thereby remove unwanted sources of variation that could otherwise reduce our ability to discover true relationships.
+
+::: {.callout-warning title="Assumptions of linear regression"}
+-   **Linearity**: the relationship between each predictor and the outcome is a straight line
+-   **Independence**: the residuals (the differences between observed and predicted values) are independent of one another
+-   **Homoscedasticity**: the residuals have roughly constant variance across the range of fitted values
+-   **Normality of residuals**: the residuals are approximately normally distributed (this matters most for small samples — with a large enough sample, the model is fairly robust to this)
+-   For multiple regression specifically: predictors shouldn't be too strongly correlated with one another (multicollinearity)
+:::
+
+### Testing differences between groups (discrete x)
+
+Earlier in this workshop (see @sec-ttest), we used an independent t-test to check whether `weight_lost_g` differs between male and female mice. A **simple linear regression** with a single, two-level categorical predictor is mathematically identical to that t-test.
+
+Let's try running one, using `lm()` to demonstrate this. Note that just like the `aov()` function, we need to pipe this into `summary()` to get a p value:
+
+```{r}
+lm(weight_lost_g ~ sex, data = dosage) %>% summary()
+```
+
+Compare the `statistic` and `p.value` for `sexmale` to the t-test we ran earlier (t = -8.54, p = 4.9e-16, using `var.equal = TRUE`) — they match exactly. The `intercept` term is the mean for the reference group (`female`, since it comes first alphabetically), and `sexmale` is the estimated *difference* between the male and female group means.
+
+The same is true of ANOVA: `lm(y ~ group)` with a 3+ level categorical predictor gives the same F-statistic and p value as `aov(y ~ group)`.
+
+### Testing differences relative to 0 (discrete x)
+
+But what if we don't want to compare the male vs female mice, and instead are just interested in knowing whether either sex lost a meaningful amount of weight at all? This type of model could be useful, for example, if you were doing an experiment to compare a standard cancer treatment to a new drug: you might want to see how much each of these treatments affect survival relative to the baseline.
+
+Keeping with the previous example of weight lost vs sex, if we use `lm(weight_lost_g ~ 0 + sex)` we get the mean weight lost per group as the `estimate`, and each group mean is tested against 0 rather than against the other group:
+
+```{r}
+lm(weight_lost_g ~ 0 + sex, data = dosage) %>% summary()
+```
+
+Both p values are very significant (because average weight lost is nowhere near 0 g in either group). However, it is important to note that we cannot conclude from this whether male and female mice differ *from each other*: that comparison requires the `weight_lost_g ~ sex` model we used above.
+
+### Testing associations between variables (continuous x)
+
+Of course, `lm_test()` works just as well for a continuous predictor. Earlier we used `cor.test()` to test the association between `drug_dose_g` and `weight_lost_g` (see the scatter plot with fitted line above), and a simple linear regression tests the same relationship, while additionally estimating a slope and intercept:
+
+```{r}
+lm(weight_lost_g ~ drug_dose_g, data = dosage) %>% summary()
+```
+
+The p value matches the significance we saw from `cor.test()`, and the (very large) slope tells us that weight lost increases steeply with drug dose. The slope is high because `drug_dose_g` is measured in tiny fractions of a gram, so a one-unit increase in dose is an enormous increase in practice.
+
+### Making linear modelling tidy
+Similarly to how the `tidy()` function from the `broom` package can be used to create tidy versions of the statistical tests we've covered throughout this workshop, the `lm_test()` function from the `tidyrstats` package can be used to make linear modelling tidy. This is helpful if you then want to go on to do additional calculations with the results, for example to create a `ggplot2` visualisation.
+
+Another advantage is that because `data` is the first argument of `lm_test()`, we can pipe data into it:
+
+```{r}
+dose_model <- dosage %>%
+  lm_test(weight_lost_g ~ drug_dose_g)
+
+dose_model
+```
+
+We can visualise this tidy fitted model with a scatterplot and a line of best fit:
+
+
+
+
+```{r}
+# pull out the intercept, slope and p value from the tidy model output
+model_intercept <- dose_model %>%
+  filter(term == "intercept") %>%
+  pull(estimate)
+
+model_slope <- dose_model %>%
+  filter(term == "drug_dose_g") %>%
+  pull(estimate)
+
+model_pvalue <- dose_model %>%
+  filter(term == "drug_dose_g") %>%
+  pull(p.value)
+
+ggplot(dosage, aes(x = drug_dose_g, y = weight_lost_g)) +
+  geom_point() +
+  # draw the fitted line using the intercept/slope estimated by lm_test()
+  geom_abline(intercept = model_intercept, slope = model_slope, colour = "blue") +
+  # add the p value as a text label in the top-left corner of the plot
+  annotate(
+    "text",
+    x = -Inf, y = Inf, # hack to put in top-left corner
+    hjust = -0.1, vjust = 2,
+    # format.pval is a base R function to format p values
+    # in a nice human readable way
+    label = paste0("p = ", format.pval(model_pvalue, digits = 3))
+  ) +
+  labs(
+    x = "Drug dose (g)",
+    y = "Weight lost (g)",
+    title = "Relationship between drug dose and weight lost"
+  )
+```
+
+You might be wondering why we would do this rather than simply using `geom_smooth()` or `ggscatter()`, as we have already done in this workshop. It's important to understand that these functions fit their own model as part of the plotting, between the x and y variables on your plot. For the simple model we have just fitted between drug dosage and weight loss, it doesn't matter, because the models made by `geom_smooth()` and `ggscatter()` are identical to the one we've done with `lm()`, but as your models become more complex, the `lm_test()` approach becomes necessary to visualise your actual model on a scatterplot.
+
+### Correcting for covariates
+
+So far we have tested relationships between a independent (x) and a dependent (y) variable.
+
+Often we want to ensure that other possible sources of variation are minimised so that we can better detect true differences in our 'main effect of interest'. Say we want to understand whether drug dose affects weight lost *regardless of mouse strain*. In other words, we want to subtract the mean effect of any strain-specific differences.
+
+We already saw in our ANOVA and Kruskal-Wallis tests earlier that `weight_lost_g` differs noticeably between strains (Black6 mice lose more weight on average). Therefore, mouse strain is a plausible confounder of the drug dose/weight lost relationship.
+
+To test the dose effect while correcting for strain, we can add `mouse_strain` to the model:
+
+```{r}
+dosage %>%
+  lm_test(weight_lost_g ~ drug_dose_g + mouse_strain)
+```
+
+The estimated slope for `drug_dose_g` drops from about 5015 (t ≈ 32.6) in the uncorrected model above, to about 4061 (t ≈ 13.2) once we adjust for strain — some of the raw dose/weight-lost association was indeed attributable to strain differences. Even so, the p value for `drug_dose_g` remains far below 0.05, so drug dose seems to have a genuine effect on weight lost that is only *partly* explained by strain.
+
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding. A code-based version of this exercise (investigating `drug_dose_g`, `tail_length_mm` and Simpson's paradox) is in the practice questions at the end of the chapter, if you'd like some more hands-on practice.
+
+::: question
+1\. You run `lm(weight_lost_g ~ drug_dose_g, data = dosage) %>% summary()` and get the following coefficients table:
+
+```
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept)     0.052      0.031    1.68    0.094
+drug_dose_g  5015.230    153.870   32.60   <2e-16 ***
+```
+
+What is the equation of the fitted regression line?
+
+::: choices
+::: {.choice .correct-choice}
+`weight_lost_g = 0.052 + 5015.230 * drug_dose_g`
+:::
+
+::: choice
+`weight_lost_g = 5015.230 + 0.052 * drug_dose_g`
+:::
+
+::: choice
+`weight_lost_g = 32.60 * drug_dose_g`
+:::
+
+::: choice
+`weight_lost_g = 0.094 + 5015.230 * drug_dose_g`
+:::
+:::
+:::
+
+::: question
+2\. Why might you want to add `mouse_strain` as a covariate when modelling the relationship between `drug_dose_g` and `tail_length_mm`?
+
+::: choices
+::: choice
+To make the p value smaller
+:::
+
+::: {.choice .correct-choice}
+To account for `mouse_strain` as a potential confounder, so we can isolate the effect of `drug_dose_g` on its own
+:::
+
+::: choice
+It's not necessary, `mouse_strain` has no relationship to either variable
+:::
+
+::: choice
+To calculate a correlation coefficient
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1.  A simple linear regression follows the format `y = intercept + slope * x`. Here, the `(Intercept)` row gives us the intercept (0.052) and the `drug_dose_g` row gives us the slope for that predictor (5015.230), so the fitted line is `weight_lost_g = 0.052 + 5015.230 * drug_dose_g`. The `t value` and `Pr(>|t|)` columns are used to test whether each coefficient is significantly different from 0, not to build the equation itself.
+2.  We add `mouse_strain` as a covariate to account for it as a potential confounder — this lets us isolate the effect of `drug_dose_g` on `tail_length_mm` that isn't attributable to strain differences.
+
+</details>
+:::
+
+Every model in this chapter has had a **continuous** outcome (y), such as amount of weight lost. But what if the outcome we care about is binary, for example did a mouse respond to treatment or not? In the further reading (see @sec-logistic-regression), we cover how **logistic regression** extends what we've covered here to binary outcomes.
+
+### The role of linear modelling in bioinformatics
+Everything we've covered today is the basic statistical foundation for the more advanced bioinformatics techniques we'll learn in upcoming workshops. A differential expression analysis, for example, fits exactly the same kind of linear model we've built today, just repeated across thousands of outcomes at once (individual genes, proteins or metabolites), while correcting for confounders like batch effects, and handling data that's rarely as well-behaved as ours (requiring extra filtering, transformation, and care around mean-variance relationships). Doing this at scale is a computationally demanding task, which is why R packages such as limma and edgeR, bundle the expression data, sample/gene metadata and model design together into a single specialised object, then fit all of the models and generate thousands of results in one command. We'll learn about this workflow in upcoming workshops.
+
+Linear modelling is also foundational to machine learning, which focuses on trying to use the coefficients from a fitted model, combined with the predict() function, to make predictions about new data. We'll explore machine learning in more detail in our final workshop.
+
+## Summary
+
+Today, we've covered a lot of statistical ground! Here's a quick summary of what we've learnt:
+
+-   How to check the assumptions behind a statistical test, using QQ plots and the Shapiro-Wilk test to check normality, and a scatterplot to check linearity
+-   How to test for an association between two categorical variables using `chisq.test()` (or `fisher.test()` for small/sparse tables)
+-   How to compare means with a **t-test** (two groups) or **ANOVA** (three or more groups), and the assumptions (normality within groups, equal variance) that underpin them
+-   How to choose a **non-parametric** alternative such as `wilcox.test()` or `kruskal.test()` when those assumptions are violated
+-   How to calculate and visualise a **correlation coefficient** between two continuous variables with `cor.test()`, and the difference between Pearson and Spearman correlation
+-   How to use the `ggpubr` package to add statistical test results directly onto a boxplot or scatterplot, for quick, publication-ready figures
+-   How to perform a simple linear regression with both categorical and continuous predictors
+-   How to build a **multiple linear regression** model to correct for confounders, and how this can reveal a true underlying relationship
+-   Why linear modelling at the scale used in bioinformatics (e.g. differential expression analysis) requires specialised tools like the Bioconductor packages limma and edgeR
+
+If you'd like to learn more, check out the further reading for this week, which covers logistic regression (extending everything we've done today to a binary outcome) along with a few other topics worth knowing about. Or check out the [Learning Statistics With R ebook](https://learningstatisticswithr.com/) to cover more of the maths behind the tests we've learnt today.
+
+You might also find this summary sheet helpful:
+
+{{< downloadthis resources/session_6_summary_sheet.pdf dname="session_6_summary_sheet" label="Download the summary sheet for workshop 6" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" >}}
+
+### Practice questions
+
+Try these practice questions to test your understanding! Each one revisits a question we asked earlier in the chapter, but this time you'll need to write and run the code yourself.
+
+1.  Were mice allocated evenly across the three experimental replicates (`replicate`), regardless of `mouse_strain` ?
+
+    a.  Build a contingency table of `mouse_strain` and `replicate`.
+    b.  Check your assumptions (i.e. expected cell counts).
+    c.  Run the appropriate test and state your conclusion in plain language: is there evidence of an association between strain and replicate?
+    d.  Bonus: also visualise this as a bar chart. Is your plot consistent with the result of the test?
+
+2.  Does a mouse's starting weight (`initial_weight_g`) differ by sex? And does tail length (`tail_length_mm`) differ by strain? For each question, first check your assumptions, and then use an appropriate statistical test.
+
+3.  Do heavier mice (at the start of the study) tend to lose more weight? And is there a relationship between a mouse's tail length and its starting weight? Visualise the relationship between the variables with a scatterplot to check the assumptions of Pearson correlation, and then perform an appropriate correlation calculation using `cor.test()`. Comment in words on each correlation.
+
+4.  Recreate your Kruskal-Wallis comparison of `tail_length_mm` across mouse strains (from question 2) as a `ggpubr` **violin** plot, with both the overall test result **and** pairwise comparisons annotated on the plot. Hint: try `ggviolin()` instead of `ggboxplot()`.
+
+5.  Investigate whether `drug_dose_g` predicts `tail_length_mm`, and whether `mouse_strain` confounds that relationship. Hint: pay close attention to the sign of the slope at each step, this is a bit tricky!
+
+    a.  Fit a linear model of drug dose (x) and tail length (y). Don't add covariates yet. Note the direction (sign) of the slope for `drug_dose_g`.
+    b.  Compute the mean `drug_dose_g` and mean `tail_length_mm` for each `mouse_strain` (hint: use the `summarise()` function from workshop 3). What do you notice about Black6 mice?
+    c.  Now fit the linear model with mouse strain as a covariate. What happens to the sign of the `drug_dose_g` slope compared to step (a)? Why might correcting for a confounder actually **reverse** the direction of an effect, not just weaken it?
+
+<details>
+
+<summary>Solutions</summary>
+
+1.
+
+```{r}
+strain_replicate_table <- table(dosage$mouse_strain, dosage$replicate)
+strain_replicate_table
+
+chisq.test(strain_replicate_table)
+```
+
+Expected counts are comfortably above 5 in every cell, so the chi-squared approximation is valid. The p value (0.51) is well above 0.05, so there is no evidence of an association between strain and replicate.
+
+For the bonus question, you can use `geom_bar()` as follows:
+
+```{r}
+dosage %>%
+  ggplot(aes(x = mouse_strain, fill = replicate)) +
+  # position = "fill" creates a stacked bar chart where the
+  # number of mice in each replicate are depicted as a proportion
+  # of the total mice for each strain. If you remove this, it
+  # will just be a normal stacked bar chart where the height of
+  # the bars represents count
+  geom_bar(position = "fill")
+```
+
+2.  Does a mouse's starting weight (`initial_weight_g`) differ by sex?
+
+```{r}
+# use QQ plot to check normality
+ggplot(dosage, aes(sample = initial_weight_g)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~sex)
+
+# QQ plot doesn't look great, check shapiro-wilk test
+dosage %>%
+  filter(sex == "male") %>%
+  pull() %>%
+  shapiro.test()
+
+dosage %>%
+  filter(sex == "female") %>%
+  pull() %>%
+  shapiro.test()
+
+# both p < 0.05: normality assumption is violated
+# need to use non-parametric test (wilcox)
+wilcox.test(initial_weight_g ~ sex, data = dosage)
+```
+
+`initial_weight_g` is non-normal in both groups (Shapiro-Wilk p value \< 0.001), so a Wilcoxon test is the best choice. It shows a statistically significant difference: males are heavier.
+
+Does tail length (`tail_length_mm`) differ by strain?
+
+```{r}
+# use QQ plot to check normality
+ggplot(dosage, aes(sample = tail_length_mm)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~mouse_strain)
+
+# QQ plot looks so-so, check shapiro-wilk test
+dosage %>%
+  filter(mouse_strain == "Black6") %>%
+  pull() %>%
+  shapiro.test()
+
+dosage %>%
+  filter(mouse_strain == "CD1") %>%
+  pull() %>%
+  shapiro.test()
+
+dosage %>%
+  filter(mouse_strain == "BALBc") %>%
+  pull() %>%
+  shapiro.test()
+
+# all <0.05, normality is violated. use kruskal wallace test
+kruskal.test(tail_length_mm ~ mouse_strain, data = dosage)
+```
+
+Tail length is non-normal, so the non-parametric Kruskal-Wallis test should be used. There is a statistically significant difference (Kruskal-Wallis p \< 0.001) in tail length between mouse strains.
+
+3.  Do heavier mice (at the start of the study) tend to lose more weight?
+
+```{r}
+ggplot(dosage, aes(x = initial_weight_g, y = weight_lost_g)) +
+  geom_point()
+cor.test(dosage$initial_weight_g, dosage$weight_lost_g)
+```
+
+`initial_weight_g` and `weight_lost_g` are moderately positively correlated (r ≈ 0.59, p \< 0.001), so heavier mice tended to lose more weight.
+
+Is there a relationship between a mouse's tail length and its starting weight?
+
+```{r}
+ggplot(dosage, aes(x = tail_length_mm, y = initial_weight_g)) +
+  geom_point()
+cor.test(dosage$tail_length_mm, dosage$initial_weight_g)
+```
+
+`tail_length_mm` and `initial_weight_g` are weakly negatively correlated (r ≈ -0.23, p \< 0.001), so mice with longer tails tend to weigh more.
+
+4.
+
+```{r}
+ggviolin(dosage, x = "mouse_strain", y = "tail_length_mm", add = "jitter") +
+  stat_compare_means(
+    comparisons = list(c("BALBc", "Black6"), c("BALBc", "CD1"), c("Black6", "CD1"))) +
+  # get the overall p value and test name
+  stat_compare_means(method = "kruskal.test", label.y = 9) +
+  labs(x = "Mouse strain", y = "Tail length (mm)")
+```
+
+5.
+
+```{r}
+dosage %>% lm_test(tail_length_mm ~ drug_dose_g)
+```
+
+The slope is -8188 indicating as drug dose increases, tail length decreases.
+
+```{r}
+dosage %>% summarise(
+  mean_dose = mean(drug_dose_g),
+  mean_tail_len = mean(tail_length_mm),
+  .by = mouse_strain)
+```
+
+We notice that Black-6 mice have (on average) higher drug dosages and shorter tails.
+
+```{r}
+dosage %>% lm_test(tail_length_mm ~ drug_dose_g + mouse_strain)
+```
+
+We can now see that the slope is 8288: it has changed sign from negative to positive.
+
+This is a good example of **Simpson's paradox**: the uncorrected slope for `drug_dose_g` is strongly negative (higher dose associated with shorter tails), but Black6 mice happen to have both a higher average dose and much shorter tails than the other strains. Once `mouse_strain` is added to the model, the `drug_dose_g` slope flips to strongly positive. That is, within any given strain, higher doses are actually associated with longer tails. **The uncorrected relationship was driven entirely by strain differences**, not a true dose effect in the opposite direction. We saw a similar flip in workshop 4, when adding colour to a scatterplot changed our interpretation of the relationship between initial weight and tail length (see @sec-workshop04).
+
+</details>
