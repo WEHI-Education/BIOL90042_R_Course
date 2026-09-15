@@ -59,7 +59,7 @@ book:
     - part: Week 8
       chapters:
         - workshop_6.qmd
-    #     - tutorial_8.qmd
+        - tutorial_8.qmd
         - wk8_fr.qmd
     # - part: Week 9
     #   chapters:

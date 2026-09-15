@@ -1,5 +1,471 @@
 ---
-title: "Tutorial 8"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: "In this session:"
 ---
 
-# Tutorial 8
+# Tutorial 8: Working with strings in R {#sec-tute08}
+
+So far in this subject, we've only worked with relatively short string (character) data, like the `mouse_strain` variable from the `dosage` dataset. Today, we'll work with longer, more complex strings and learn about a useful tidyverse package, `stringr`, that helps us to do this. These skills are very useful for cleaning up messy spreadsheet entries, or pull structured information out of free-text notes.
+
+Like last week's git tutorial, this is designed to be mostly self-paced: work through it independently or with friends, running the code as you go and having a go at the extra activities. We will be here to help, and can go through the trickier bits together as a class, so don't worry if something doesn't click on the first attempt.
+
+::: {.callout-tip title="Learning Objectives"}
+At the end of this session, learners should be able to:
+
+1.  Combine strings together using `paste()` and `paste0()`
+
+2.  Recognise a regular expression (regex) and be able to use them to select specific groups of characters
+
+3.  Detect whether a pattern is present in a string using `str_detect()`, and combine this with `filter()` to work with data frames
+
+4.  Subset a character vector using a pattern, with `str_subset()`
+
+5.  Extract the part of a string matching a pattern using `str_extract()`
+
+6.  Remove or replace characters matching a pattern using `str_remove()` and `str_replace()`
+:::
+
+## Introducing today's data
+
+Let's imagine that the mousezempic experiements went really well, and the drug (which has been creatively renamed **Humanzempic** for human use) has now progressed to a small Phase 1 human trial across two hospital sites: the Royal Melbourne Hospital (`RMH`) and Western Health (`WH`). As part of this trial, doctors have been recording basic patient information along with some free-text clinical notes.
+
+As always, let's start by loading the packages and reading in the data. Today, we'll read in data directly from the web, by supplying the URL to the read_csv() function instead of a local file path on your computer:
+
+```{r}
+#| message: false
+library(tidyverse)
+patients <- read_csv("https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/patient_data.csv")
+```
+
+Let's start by taking a look at the `patients` dataframe:
+
+```{r}
+patients
+```
+
+There are 8 columns:
+
+-   `site`: the hospital where this patient is enrolled in the trial
+
+-   `patient_num`: an ID assigned to each patient at each site
+
+-   `first_name` , `last_name` and `age`: basic information about the patients
+
+-   `blood_pressure`: a character string containing both the systolic and diastolic blood pressure
+
+-   `symptoms`: a comma-separated string of patient symptoms
+
+-   `clinical_notes`: a free-text field that includes the name of the treating doctor, and their clinical observations
+
+This data violates several of the rules of tidy data we learnt in @sec-workshop03, as many pieces of information are crammed into single columns (e.g. the `blood_pressure` column or `symptoms` columns), making it difficult to perform analysis.
+
+## Part 1: string basics
+
+First, let's work on cleaning up the `patients` data a little. We will use some of what we already know about data wrangling, while learning new things we can do with this string data.
+
+### Combining strings with `paste()` and `paste0()`
+
+Usually, when working with patient data, it should be anonymised, so we should use a unique patient ID rather than first and last names. Let's begin by creating a new column in `patients` with a patient ID, that is created by combining the `site` and `patient_num` columns (so `RMH-1`, `RMH-2`, etc)
+
+We can do this using the `paste()` or `paste0()` functions, which allow us to stick strings together. For example, let's say I wanted to combine the strings `"Hello"` and `"world"`:
+
+`paste()` combines its arguments into one string, with a space between each one by default:
+
+```{r}
+paste("Hello", "world")
+```
+
+You can change the separator using the `sep` argument:
+
+```{r}
+paste("Hello", "world", sep = "_")
+```
+
+`paste0()` is a shortcut for `paste(..., sep = "")`, so it joins strings with nothing in between:
+
+```{r}
+paste0("Hello", "world")
+```
+
+So, if we wanted to combine the `site` and `patient_num`, with a dash in-between we could run:
+
+```{r}
+# using paste
+paste(patients$site, patients$patient_num, sep = "-")
+
+# using paste0
+paste0(patients$site, "-", patients$patient_num)
+```
+
+We can apply this knowledge to create a `patient_id` column using `mutate()`, and then remove the first and last name columns to protect the patients privacy:
+
+```{r}
+patients_anon <- patients %>%
+  # use mutate to create
+  mutate(patient_id = paste0(site, "-", patient_num)) %>%
+  # use select with - sign to remove columns
+  select(-first_name, -last_name)
+```
+
+::: {.callout-important title="Practice activity: creating patient summary strings"}
+Although we want anonymised data for our analysis, the billing department needs the full names, ages and ID of the patients for their records.
+
+Use `paste0()` to create a new column called `patient_summary` that has the form `"Amara Osei (54), RMH-1"` (i.e. the patient's full name, their age in brackets, and their patient ID).
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  mutate(
+    patient_summary = paste0(
+      first_name, " ", last_name,  " (", age, "), ", site, "-", patient_num)) %>%
+  select(patient_summary)
+```
+
+</details>
+:::
+
+### Counting characters
+
+Next, the trial coordindator has asked us to flag any clinical notes that seem too short-- apparently some of the doctors have been slacking off lately!
+
+We can do this using the `nchar()` function, which counts the number of characters in a string:
+
+```{r}
+nchar("Humanzempic")
+```
+
+::: {.callout-important title="Practice activity: flagging brief notes"}
+Use `nchar()` and `filter()` to find any patients whose `clinical_notes` are shorter than 30 characters.
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  filter(nchar(clinical_notes) < 30)
+```
+
+There is just one: patient `RMH-7` (Ana Petrovic) has clinical notes that just say `"Dr. Lee: Stable."`. This doctor might need following up with!
+
+</details>
+:::
+
+### Reshaping data using string columns
+
+Back in workshop 3, we learnt about the `separate()` function from the `tidyr` package, and used it to split up a single character column of the form `gene_replicate` into separate `gene` and `replicate` columns (see @sec-separate). Let's revisit this concept now, using the `separate_longer_delim()` and `separate_wider_delim()` functions, which give us control over whether to split a string into more rows (longer), or more columns (wider).
+
+#### Getting one symptom per row with `separate_longer_delim()`
+
+Some patients have multiple symptoms, stored as a single comma-separated string, e.g `"nausea, fatigue"`. This isn't very tidy: if we want to count how common each symptom is, we first need **one row per symptom**, rather than one row per patient.
+
+This is what the `separate_longer_delim()` function does: it takes the name of a column and a delimiter, and creates a new row each time it finds that delimiter:
+
+```{r}
+patients %>%
+  separate_longer_delim(symptoms, delim = ", ")
+```
+
+Remember that a delimeter just means a character used to separate things, in this case a comma, but it can be any character, often a dash, space or underscore.
+
+Now that we have one symptom per row, we can use the `count()` function to see which symptoms are most common in the trial:
+
+```{r}
+patients %>%
+  separate_longer_delim(symptoms, delim = ", ") %>%
+  count(symptoms, sort = TRUE)
+```
+
+::: {.callout-important title="Practice activity: visualising symptom frequency"}
+Using the long-form data you made above, produce a bar chart showing how many patients reported each symptom, using `ggplot2`'s `geom_bar()`.
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  separate_longer_delim(symptoms, delim = ", ") %>%
+  # using fct_infreq() automatically converts symptoms to
+  # a factor, and orders it by frequency
+  ggplot(aes(y = fct_infreq(symptoms))) +
+    geom_bar() +
+    theme_classic() +
+    labs(
+      x = "Symptom", y = "Number of patients",
+      title = "Frequency of reported symptoms")
+```
+
+</details>
+:::
+
+#### Splitting blood pressure into two columns with `separate_wider_delim()`
+
+Unlike the `symptoms` column, the `blood_pressure` contains **two separate pieces of information** (systolic and diastolic blood pressure) that we'd like as their own columns, rather than as extra rows.
+
+We can do this using `separate_wider_delim()`, which takes in addition to the column you want to separate and the delimiter, also a vector of `names` for the new columns, like so:
+
+```{r}
+patients %>%
+  separate_wider_delim(
+    blood_pressure,
+    delim = "/",
+    names = c("systolic", "diastolic")
+  )
+```
+
+::: {.callout-important title="Practice activity: analysing blood pressure"}
+Now that the systolic and diastolic blood pressures are in their own columns, we can convert them to numeric and perform some analysis of them (e.g. calculating summary statistics).
+
+Find the mean of both systolic and diastolic blood pressure.
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+# first let's save our separated data as its own variable
+patients_bp_sep <- patients %>%
+  separate_wider_delim(
+    blood_pressure,
+    delim = "/",
+    names = c("systolic", "diastolic")
+  )
+
+# now, calculate summary stats for each:
+patients_bp_sep %>% 
+  # get systolic column
+  pull(systolic) %>%
+  # convert to numeric first 
+  as.numeric() %>%
+  summary()
+
+# repeat same for diastolic
+patients_bp_sep %>% 
+  pull(diastolic) %>%
+  as.numeric() %>%
+  summary()
+```
+
+</details>
+:::
+
+## Part 2: using `stringr` and regex
+
+For the rest of today's session, we'll be using functions from the [`stringr`](https://stringr.tidyverse.org/) package (loaded automatically as part of the tidyverse) to search for, extract and replace text.
+
+Most `stringr` functions take the same first two arguments:
+
+1.  `string`, which is the string you want to run the function on. This can be a single string like `"cats"` or a character vector.
+
+2.  `pattern`, which is the pattern you want to find/replace/extract etc. This is often, but not always, a regular expression.
+
+Note that because `stringr` functions work on vectors, to use them on columns in a data frame, you need to either use `dataframe$column` syntax, or use them within `dplyr` functions like `filter()` or `mutate()`.
+
+### Regular expressions
+
+Regular expressions (usually shortened to 'regex') are an extremely powerful (and complex!) language for describing patterns within strings. Have you ever created a new password for a website, and been told it isn't long enough, or doesn't contain a special character? These checks are handled by regex, and in data analysis you can use them to filter your data, or extract numbers from blocks of text.
+
+Regex is **extremely** complicated, and we could probably spend a whole semester on it alone. This quote sums it up nicely:
+
+> Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems.
+>
+> —Jamie Zawinski
+
+For today, let's just consider the following:
+
+| Pattern | Matches |
+|----|----|
+| `"fever"` | The exact text `fever` (a **fixed** pattern) |
+| `\\d` | Any single digit (0–9) |
+| `\\w` | Any letter or number |
+| `.` | Any single character |
+| `*` | 0 or more matches (e.g. `x*` matches `''` or `'x'` or `'xx'` and so on) |
+| `+` | 1 or more matches (e.g. `x*` matches `'x'` or `'xx'` and so on. Doesn't match empty string) |
+| `^` | The start of the string |
+| `$` | The end of the string |
+| `\\.` | A literal full stop (since `.` alone means 'any character', we need to 'escape' it with `\\`) |
+
+Don't worry if it doesn't make sense yet! We'll see some examples below, and regex is very much a 'learn by doing' skill so it will just take time. It's also completely fine to ask AI for help writing a tricky regex pattern, so long as you check and understand what it's doing before you use it!
+
+### Detecting patterns with `str_detect()`
+
+`str_detect(string, pattern)` checks whether a `pattern` is found anywhere inside each `string`, and returns `TRUE` or `FALSE`:
+
+```{r}
+str_detect("Patient reports mild fever", "fever")
+```
+
+Because it returns a logical value, `str_detect()` is extremely useful combined with `filter()`, to keep only the rows of a data frame where a pattern is present. For example, let's find every patient whose clinical notes mention `"fatigue"`:
+
+```{r}
+patients %>%
+  filter(str_detect(clinical_notes, "fatigue"))
+```
+
+::: {.callout-important title="Practice activity: finding a possible adverse event"}
+The trial coordinators are concerned about `Grace Thompson`'s case, and want to check whether any other patients have reported similar cardiac symptoms. Use `str_detect()` and `filter()` to find any patients whose `clinical_notes` mention `"chest pain"` and see whether this is something multiple people have experienced.
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  filter(str_detect(clinical_notes, "chest pain"))
+```
+
+Only `Grace Thompson` (`RMH-3`) mentions chest pain in this dataset, which is reassuring.
+
+</details>
+:::
+
+### Subsetting a character vector with `str_subset()`
+
+`str_detect()` tells you *whether* each string matches, but sometimes you just want the matching strings themselves, without having to use filter.
+
+`str_subset(string, pattern)` returns the values of `string` that contained `pattern`, but **it only works on a character vector**, not directly on a whole data frame.
+
+```{r}
+str_subset(patients$clinical_notes, "chest pain")
+```
+
+::: {.callout-important title="Practice activity: mild symptoms"}
+Imagine we are interested in patients experiencing 'mild' symptoms Use `str_subset()` to find all mentions of mild symptoms in the `clinical_notes` column.
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+str_subset(patients$clinical_notes, "mild")
+```
+
+</details>
+:::
+
+### Extracting parts of a string that match a pattern with `str_extract()`
+
+So far, we've learnt how to find patterns in our strings, but what if we want to extract just the parts of the string that match that pattern? This is where regular expressions start to become really powerful, when combined with `str_extract(string, pattern)` which returns the part of the string that matches the pattern (or `NA` if there's no match).
+
+For example, most of the clinical notes mention the Humanzempic dose, written as a number of digits followed directly by `"mg"`. We can extract the dose using the regex pattern `"\\d+mg"` (one or more digits, followed by `"mg"`):
+
+```{r}
+patients %>%
+  mutate(dose = str_extract(clinical_notes, "\\d+mg"))
+```
+
+::: {.callout-note title="How many matches?"}
+It's always good practice to check that your regex is working as intended. If you view the patients dataframe, you might notice that Noah Kim (patient ID: WH-2) was originally taking 1000mg, but the doctor has dropped the dose to 500mg. However, our `dose` column only contains the old dose, 1000mg.
+
+This is because the `stringr` functions find the **first** match, not all matches. Many of the functions, including `str_extract()` have a variant ending in `_all` that allow you to find all matches, like `str_extract_all()`.
+:::
+
+::: {.callout-important title="Practice activity: extracting the treating doctor"}
+Every clinical note begins with the treating doctor's surname, written in the format `"Dr. Surname:"` (for example, `"Dr. Chen:"`).
+
+Use `str_extract()` with the regex pattern `"Dr\\. \\w+"` to create a new column called `doctor` containing just this part of the note.
+
+(Pattern explanation: `\\w` matches any single 'word' character, i.e. a letter, digit or underscore, and `\\.` matches a literal full stop.)
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  mutate(doctor = str_extract(clinical_notes, "Dr\\. \\w+"))
+```
+
+</details>
+:::
+
+### Editing strings with `str_remove()` and `str_replace()`
+
+We often want to clean up messy text by removing or swapping out matched patterns entirely. `str_remove(string, pattern)` deletes the first match of `pattern` from each `string`, and `str_replace(string, pattern, replacement)` swaps it out for some new text instead.
+
+Let's use `str_remove()` to strip the `"Dr. Surname: "` prefix off the front of each note, so we're left with just the clinical content:
+
+```{r}
+patients %>%
+  mutate(clinical_notes = str_remove(clinical_notes, "^Dr\\. \\w+: "))
+```
+
+Notice the `^` at the start of the pattern. This 'anchors' the match to the *beginning* of the string, so we only remove the doctor's name if it appears right at the start (rather than accidentally matching a doctor's name mentioned anywhere else in the note).
+
+We could use `str_replace()` if, say, the trial had to be blinded and every mention of the drug name needed to be swapped out for a neutral placeholder:
+
+```{r}
+patients %>%
+  mutate(clinical_notes = str_replace(clinical_notes, "Humanzempic", "the study drug"))
+```
+
+::: {.callout-note title="str_remove() vs str_replace()"}
+`str_remove(string, pattern)` is actually a shortcut for `str_replace(string, pattern, "")`, because removing is just replacing with nothing! Keep in mind that both functions only act on the *first* match in each string. If you want to replace every match, use `str_remove_all()` or `str_replace_all()` instead.
+:::
+
+::: {.callout-important title="Practice activity: de-identifying dosage information"}
+For privacy reasons, the trial coordinators want a fully de-identified copy of the notes that hides the exact dosage. Use `str_replace_all()` to replace every digit in each patient's `clinical_notes` with the letter `"X"` (so `"500mg"` becomes `"XXXmg"`).
+
+(Hint: remember that `\\d` matches a single digit, and you'll want to replace *every* match, not just the first one.)
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  mutate(clinical_notes = str_replace_all(clinical_notes, "\\d", "X"))
+```
+
+</details>
+:::
+
+## Putting it all together
+
+Let's finish with one activity that combines several of today's functions.
+
+::: {.callout-important title="Practice activity: a tidy summary table"}
+Starting from the original `patients` data frame, write code that:
+
+1.  Extracts the Humanzempic dose from `clinical_notes` into a new column called `dose`
+2.  Filters the data to keep only patients whose clinical notes mention `"nausea"`
+3.  Removes the units in the `dose` column, and converts it to numeric
+4.  Calculates the mean dosage of patients experiencing nausea
+
+<details>
+
+<summary>Solution</summary>
+
+```{r}
+patients %>%
+  # extract the dose
+  mutate(
+    dose = str_extract(clinical_notes, "\\d+mg")
+  ) %>%
+  # filter to just patients with nausea
+  filter(str_detect(clinical_notes, "nausea")) %>%
+  # remove mg and convert dose to numeric
+  mutate(dose = as.numeric(str_remove(dose, "mg"))) %>%
+  # calculate the mean dose
+  pull(dose) %>%
+  mean()
+```
+
+</details>
+:::
+
+## Further resources for working with strings
+
+Today we've learnt the basics of `stringr` and regex, but there is a lot more to strings! If you'd like to go further, these are some good resources:
+
+-   The [stringr cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/strings.pdf) summarises the different functions in the `stringr` package, as well as some common regex patterns
+-   [Chapter 15 of R for Data Science](https://r4ds.hadley.nz/strings) covers strings and regular expressions in much greater depth
+-   [Regex101](https://regex101.com/) is a handy website that allows you to try out regex in your browser
+-   The [stringdist R package](https://github.com/markvanderloo/stringdist), which allows you to do 'fuzzy' (non-exact) matching, to tolerate typos
