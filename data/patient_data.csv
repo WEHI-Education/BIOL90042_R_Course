@@ -1,0 +1,14 @@
+site,patient_num,first_name,last_name,age,blood_pressure,symptoms,clinical_notes
+RMH,1,Amara,Osei,54,132/85,"nausea, fatigue",Dr. Chen: Patient reports mild nausea and fatigue since starting 500mg Humanzempic three weeks ago. Advised to take medication with food. Follow-up in 4 weeks.
+RMH,2,Liam,Fitzgerald,61,145/92,"headache, dizziness","Dr. Chen: Patient presents with headache and occasional dizziness. Currently on 250mg Humanzempic. Blood pressure elevated, monitor closely."
+WH,1,Priya,Nair,47,118/76,fatigue,"Dr. Rossi: Patient reports general fatigue, otherwise tolerating 500mg Humanzempic well. No further concerns."
+WH,2,Noah,Kim,39,122/80,"nausea, vomiting",Dr. Rossi: Patient experiencing nausea and occasional vomiting after 1000mg dose of Humanzempic. Recommend reducing to 500mg.
+RMH,3,Grace,Thompson,58,150/95,"chest pain, shortness of breath",Dr. Ahmed: Patient reports chest pain and shortness of breath. Humanzempic dose withheld pending cardiology review.
+WH,3,Ethan,Walsh,44,128/82,"fatigue, headache","Dr. Ahmed: Mild fatigue and intermittent headache noted. Continuing 500mg Humanzempic, no dose change."
+RMH,4,Zara,Ibrahim,29,110/70,nausea,"Dr. Singh: Patient reports transient nausea after 250mg Humanzempic, resolved within a week."
+WH,4,Oliver,Ngata,63,140/88,"fatigue, nausea",Dr. Singh: Ongoing fatigue and mild nausea on 500mg Humanzempic. Patient otherwise stable.
+RMH,5,Isla,MacDonald,51,135/86,headache,"Dr. Chen: Patient reports occasional headache, denies nausea or dizziness. Currently on 500mg Humanzempic."
+WH,5,Kai,Tupou,36,120/78,"fever, cough","Dr. Rossi: Patient presents with fever and cough, likely unrelated viral illness. Humanzempic dose unchanged at 500mg."
+RMH,6,Sofia,Marchetti,49,126/81,"nausea, fatigue","Dr. Ahmed: Patient reports nausea and fatigue, consistent with known side effects of 750mg Humanzempic."
+WH,6,Mateo,Silva,41,130/84,dizziness,"Dr. Singh: Patient reports mild dizziness, blood pressure stable. Continuing 500mg Humanzempic."
+RMH,7,Ana,Petrovic,55,129/83,fatigue,Dr. Lee: Stable.
