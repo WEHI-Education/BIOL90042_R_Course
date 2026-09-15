@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>20&nbsp; Further Reading – BIOL90042 ebook 2026</title>
+<title>21&nbsp; Further Reading – BIOL90042 ebook 2026</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./workshop_6.html" rel="prev">
+<link href="./tutorial_8.html" rel="prev">
 <link href="./favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -162,7 +162,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workshop_6.html">Week 8</a></li><li class="breadcrumb-item"><a href="./wk8_fr.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Further Reading</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workshop_6.html">Week 8</a></li><li class="breadcrumb-item"><a href="./wk8_fr.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Further Reading</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -405,8 +405,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./tutorial_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tutorial 8: Working with strings in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./wk8_fr.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
   </div>
 </li>
       </ul>
@@ -422,9 +428,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workshop_6.html">Week 8</a></li><li class="breadcrumb-item"><a href="./wk8_fr.html"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Further Reading</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workshop_6.html">Week 8</a></li><li class="breadcrumb-item"><a href="./wk8_fr.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Further Reading</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Further Reading</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i></button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Further Reading</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i></button></div></div>
 </div>
 
 
@@ -485,8 +491,8 @@ dbl (5): weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g, id_num
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<section id="sec-cor-plot" class="level2" data-number="20.1">
-<h2 data-number="20.1" class="anchored" data-anchor-id="sec-cor-plot"><span class="header-section-number">20.1</span> Calculating correlations between all pairs of continuous variables</h2>
+<section id="sec-cor-plot" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="sec-cor-plot"><span class="header-section-number">21.1</span> Calculating correlations between all pairs of continuous variables</h2>
 <p>In workshop 6, we learnt how to calculate a correlation coefficient for a pair of continuous variables (see <a href="workshop_6.html#sec-correlation" class="quarto-xref"><span>Section 19.3</span></a>). But what if we aren’t sure which pair of continuous variables we’re interested in? We can examine the correlation between every pair of continuous variables at once, and visualise the resulting correlation matrix as a heatmap using the <code>ggcorrplot</code> package.</p>
 <p>First, we need to install and load <code>ggcorrplot</code>:</p>
 <div class="cell">
@@ -520,8 +526,8 @@ dbl (5): weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g, id_num
 </div>
 <p>This gives us a great overview of all the numeric variables in our dataset!</p>
 </section>
-<section id="sec-logistic-regression" class="level2" data-number="20.2">
-<h2 data-number="20.2" class="anchored" data-anchor-id="sec-logistic-regression"><span class="header-section-number">20.2</span> Logistic regression</h2>
+<section id="sec-logistic-regression" class="level2" data-number="21.2">
+<h2 data-number="21.2" class="anchored" data-anchor-id="sec-logistic-regression"><span class="header-section-number">21.2</span> Logistic regression</h2>
 <p>Every model we fitted in workshop 6 had a continuous outcome (y), such as weight lost. But often in biology the outcome we care about is binary:</p>
 <ul>
 <li>Did a patient respond to treatment or not?</li>
@@ -552,8 +558,8 @@ dbl (5): weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g, id_num
 <p>Note that, unlike linear regression, logistic regression does <strong>not</strong> assume normally distributed or homoscedastic residuals, since the outcome is binary rather than continuous</p>
 </div>
 </div>
-<section id="create-a-binary-outcome" class="level3" data-number="20.2.1">
-<h3 data-number="20.2.1" class="anchored" data-anchor-id="create-a-binary-outcome"><span class="header-section-number">20.2.1</span> Create a binary outcome</h3>
+<section id="create-a-binary-outcome" class="level3" data-number="21.2.1">
+<h3 data-number="21.2.1" class="anchored" data-anchor-id="create-a-binary-outcome"><span class="header-section-number">21.2.1</span> Create a binary outcome</h3>
 <p>The mousezempic dosage data doesn’t come with a binary outcome built in, so let’s create one: we’ll define a mouse as a “responder” (1) if it lost more weight than the median mouse in the study, and a “non-responder” (0) otherwise.</p>
 <p>We’ll also rescale <code>drug_dose_g</code> (originally measured in tiny fractions of a gram) into a standardised z-score, so that the resulting odds ratio has a sensible interpretation (“per 1 standard deviation increase in dose”) rather than an astronomically large number per 1 g increase.</p>
 <div class="cell">
@@ -578,8 +584,8 @@ dbl (5): weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g, id_num
 </div>
 </div>
 </section>
-<section id="check-for-separation" class="level3" data-number="20.2.2">
-<h3 data-number="20.2.2" class="anchored" data-anchor-id="check-for-separation"><span class="header-section-number">20.2.2</span> Check for separation</h3>
+<section id="check-for-separation" class="level3" data-number="21.2.2">
+<h3 data-number="21.2.2" class="anchored" data-anchor-id="check-for-separation"><span class="header-section-number">21.2.2</span> Check for separation</h3>
 <p>Before fitting the model, we should check for separation, where a predictor perfectly separates responders from non-responders, which would make the model unstable. A quick contingency table is one way to check this by eye:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dosage<span class="sc">$</span>mouse_strain, dosage<span class="sc">$</span>responder)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -593,8 +599,8 @@ dbl (5): weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g, id_num
 </div>
 <p>Every strain contains a mix of responders and non-responders, so separation isn’t a concern here.</p>
 </section>
-<section id="fit-the-logistic-regression-model" class="level3" data-number="20.2.3">
-<h3 data-number="20.2.3" class="anchored" data-anchor-id="fit-the-logistic-regression-model"><span class="header-section-number">20.2.3</span> Fit the logistic regression model</h3>
+<section id="fit-the-logistic-regression-model" class="level3" data-number="21.2.3">
+<h3 data-number="21.2.3" class="anchored" data-anchor-id="fit-the-logistic-regression-model"><span class="header-section-number">21.2.3</span> Fit the logistic regression model</h3>
 <p>Does drug dose predict the probability of responding, after accounting for mouse strain? Use logistic regression to find out, with the <code>glm()</code> function:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save as variable so we can do more with it later</span></span>
@@ -631,8 +637,8 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </div>
 </div>
 </section>
-<section id="interpret-coefficients-as-odds-ratios" class="level3" data-number="20.2.4">
-<h3 data-number="20.2.4" class="anchored" data-anchor-id="interpret-coefficients-as-odds-ratios"><span class="header-section-number">20.2.4</span> Interpret coefficients as odds ratios</h3>
+<section id="interpret-coefficients-as-odds-ratios" class="level3" data-number="21.2.4">
+<h3 data-number="21.2.4" class="anchored" data-anchor-id="interpret-coefficients-as-odds-ratios"><span class="header-section-number">21.2.4</span> Interpret coefficients as odds ratios</h3>
 <p>The raw coefficients from <code>summary()</code> are on the log-odds scale, which isn’t very intuitive. We can make them easier to interpret by exponentiating them. ‘Exponentiating’ converts each coefficient into an <strong>odds ratio (OR)</strong>, which is how much the odds of responding multiply for each one-unit increase in that predictor (holding other predictors constant). The easiest way to do this is using the <code>tidy()</code> function from the <code>broom</code> package:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(logit_model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -711,8 +717,8 @@ Solution
 </div>
 </section>
 </section>
-<section id="other-topics-to-explore" class="level2" data-number="20.3">
-<h2 data-number="20.3" class="anchored" data-anchor-id="other-topics-to-explore"><span class="header-section-number">20.3</span> Other topics to explore</h2>
+<section id="other-topics-to-explore" class="level2" data-number="21.3">
+<h2 data-number="21.3" class="anchored" data-anchor-id="other-topics-to-explore"><span class="header-section-number">21.3</span> Other topics to explore</h2>
 <div class="callout callout-style-default callout-note callout-titled" title="Where to go next">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1192,8 +1198,8 @@ Solution
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./workshop_6.html" class="pagination-link" aria-label="Workshop 6: Statistics in R">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Workshop 6: Statistics in R</span></span>
+      <a href="./tutorial_8.html" class="pagination-link" aria-label="Tutorial 8: Working with strings in R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tutorial 8: Working with strings in R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
