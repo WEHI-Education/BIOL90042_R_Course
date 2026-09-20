@@ -1,5 +1,198 @@
 ---
-title: "Week 9: Further Reading"
+title: "Further Reading"
+toc: false
 ---
 
-# Week 9: Further Reading
+In this week's further reading, we will cover various aspects of RNA-seq analysis that didn't make it into workshop 7.
+
+```{r}
+# load required packages
+library(tidyverse)
+library(edgeR)
+library(limma)
+library(pheatmap)
+```
+
+## RNA-seq pre-processing {#sec-preprocessing} 
+
+briefly describe RNA-seq preprocessing here (how we get to the count matrix)
+
+## Creating a DGEList object {#sec-makedgelist} 
+
+In this section, we will describe how to create your own DGEList. This will be necessary if, for example, you want to analyse your own RNA-seq data.
+
+First, let's start by downloading and unzipping the data:
+```{r}
+download.file("https://github.com/Shians/BaseR_Intro/raw/master/data/workshop_data.zip", "./data/workshop_data.zip")
+unzip("./data/workshop_data.zip", exdir = "./data/rnaseq_data")
+unzip("./data/rnaseq_data/Ses3_counts.zip", exdir = "./data/rnaseq_data/counts")
+```
+
+The following metadata will be necessary for making our DGEList. They come from the names of the files that we just downloaded, and the groups (cell types) that they represent: 
+
+```{r}
+# experimental groups (cell types)
+# these are stored in a factor
+group <- parse_factor(
+  c("LP", "ML", "Basal", "Basal", "ML", "LP", "Basal", "ML", "LP"),
+  levels = c("Basal", "LP", "ML")
+)
+
+# sample names
+samplenames <- c(
+  "10_6_5_11", "9_6_5_11", "purep53", "JMS8-2", "JMS8-3",
+  "JMS8-4", "JMS8-5", "JMS9-P7c", "JMS9-P8c"
+)
+```
+
+There are two main methods for creating a `DGEList`. First, we will create a `DGEList` object following the `RNAseq123` workflow. 
+
+We can use the `readDGE()` function to read in count data from files. This is helpful when analysing publicly available data, like that from Sheridan et al. (2015) we are using here. We provide sample information to the `readDGE()` function and add in the gene annotation information afterwards.
+
+```{r, warning=FALSE, message=FALSE}
+# the dir() function allows us to create a vector of file names
+# in the path we specify, that match the pattern 
+# (GSM, followed by any characters, signified by the *)
+files <- dir(path = "./data/rnaseq_data/counts", pattern = "GSM*")
+
+# create DGEList object using readDGE
+dge <- readDGE(
+  files, # vector of the files to read in
+  path = "./data/rnaseq_data/counts",
+  columns = c(1, 3), # columns with gene names (1) and counts (3)
+  group = group, # vector of the experimental groups
+  labels = samplenames # vector of the sample names
+)
+
+# add gene annotation information
+dge$genes <- read_tsv("./data/rnaseq_data/Ses3_geneAnnot.tsv")
+```
+
+### Alternative construction of the DGEList object
+
+A more common way to create a `DGEList` object is to read in the count data as a matrix and then create the `DGEList` object using the `DGEList()` function, where you simply supply each of the samples, genes and counts individually. We can pull apart our existing `DGEList` object and recreate it using this method.
+
+```{r}
+counts <- dge$counts
+samples <- dge$samples
+genes <- dge$genes
+
+# create DGEList object
+dge <- DGEList(counts = counts, samples = samples, genes = genes)
+```
+
+Now we have a data object that can be used for downstream analysis.
+
+[add a callout here about featureCounts2DGEList and catchSalmon]
+
+## More about filtering {#sec-frfiltering} 
+
+## More about normalisation {#sec-frnormalisation}
+### Visualising the effect of normalisation
+
+To visualise the effect of TMM normalisation, we can plot the log-counts as a boxplot, and observe the effect of applying the normalisation. To create a boxplot of the log-counts, we can use `log(dge$counts + 0.5)` to create the log-count matrix. The addition of 0.5 is to avoid taking the log of zero. Then in order to use `ggplot2` for plotting, we must convert the matrix to a data frame. We can use the `as_tibble(rownames = "gene")` function to convert the matrix to a data frame where the rownames are converted to a column called "gene". We can then use the `pivot_longer()` function to convert the data frame from wide format to long format, where each row represents a single observation. This is necessary for `ggplot2` to plot the data correctly.
+
+```{r}
+as_tibble(log(dge$counts + 0.5), rownames = "gene") %>%
+  pivot_longer(
+    where(is.numeric),
+    names_to = "sample", values_to = "expression"
+  ) %>%
+  ggplot(aes(x = sample, y = expression)) +
+  geom_boxplot()
+```
+
+We can compare this to the cpm values which when calculated using the `cpm()` function, automatically applies normalisation factors if they are present.
+
+```{r}
+as_tibble(cpm(dge$counts, log = TRUE), rownames = "gene") %>%
+  pivot_longer(
+    where(is.numeric),
+    names_to = "sample", values_to = "expression"
+  ) %>%
+  ggplot(aes(x = sample, y = expression)) +
+  geom_boxplot()
+```
+
+We see that by performing normalisation on our data, the gene expression values of each sample now have similar medians and quantiles. This indicates that the relative expression values of each sample can be more meaningfully compared.
+
+## Making an MDS plot using ggplot2 {#sec-mdsggplot2}
+
+For more customisability and better consistency with the style of other plots, it'd be nice to be able to draw the MDS plot using `ggplot2`. In order to do this we would need the MDS coordinates calculated by `plotMDS()`. Luckily the documentation of `plotMDS()` shows that it returns multiple computed values.
+
+```{r}
+mds_result <- plotMDS(dge, plot = FALSE)
+mds_result
+```
+
+We see that there's are `x` and `y` values in the list returned by the `plotMDS()` function, we can put these into a table and see if they match up to the positions plotted by the function.
+
+```{r}
+mds_tibble <- tibble(
+  x = mds_result$x,
+  y = mds_result$y
+)
+
+ggplot(mds_tibble, aes(x = x, y = y)) +
+  geom_point()
+```
+
+The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just `ggplot2`.
+
+```{r}
+mds_tibble <- tibble(
+  x = mds_result$x,
+  y = mds_result$y,
+  sample = colnames(dge),
+  group = dge$samples$group
+)
+
+dim1_var_explained <- round(mds_result$var.explained[1] * 100)
+dim2_var_explained <- round(mds_result$var.explained[2] * 100)
+
+ggplot(mds_tibble, aes(x = x, y = y)) +
+  geom_text(aes(label = group)) +
+  labs(
+    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+  )
+```
+
+Now that we have our data in a nice tidy format we can use with ggplot, it's easy to create variations of the plot. For example we can draw points instead of group labels, and use colour to identify the groups.
+
+```{r}
+ggplot(mds_tibble, aes(x = x, y = y, col = group)) +
+  geom_point() +
+  labs(
+    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+  )
+```
+
+Alternatively we can also use the labels to identify the individual samples while colouring them by their group.
+
+```{r}
+ggplot(mds_tibble, aes(x = x, y = y, col = group)) +
+  geom_text(aes(label = sample)) +
+  labs(
+    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+  )
+```
+
+We see that some labels are very hard to read due to the overlapping, so we can use the `ggrepel` package to fix this. The `ggrepel` package creates labels that repel each other in order to avoid overlap. It's a good idea to use it in conjunction with `geom_point()` in order to keep track of exact coordinate of the data point.
+
+```{r}
+library(ggrepel)
+ggplot(mds_tibble, aes(x = x, y = y, col = group)) +
+  geom_point() +
+  geom_text_repel(aes(label = sample)) +
+  labs(
+    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+  )
+```
+
+## Making an MDS plot from arbitrary data {#sec-mds}
+how to make mds from arbitrary data
+example: use all vs all alignment distance matrix of nucleotides or amino acids short sequence
