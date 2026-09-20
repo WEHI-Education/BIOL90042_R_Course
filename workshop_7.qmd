@@ -10,61 +10,43 @@ format:
 
 # Workshop 7: RNA-seq analysis {#sec-workshop07}
 
-In this workshop, we will run through the basic steps for analysing a simple RNA-seq experiment using the [limma-voom workflow, as described in the RNA-seq123 workflow paper](https://f1000research.com/articles/5-1408). 
+In this workshop, we will run through the basic steps for analysing a simple RNA-seq experiment, using the [limma-voom workflow as described in the RNA-seq123 workflow paper](https://f1000research.com/articles/5-1408).
 
-This includes:
-- filtering out lowly expressed genes
-- normalisation
-- creating a multidimensional scaling (MDS) plot
-- creating a design matrix
-- fitting gene-wise linear models (with empirical Bayes moderation to more accurately estimate gene-wise variability)
-- performing statistical testing for differential expression
-
-The aim of this session is to give you experience with a real-world RNA-seq analysis, and using the popular `edgeR` and `limma` packages, which were developed here in Parkville. We will not cover the statistics in any depth. Instead, the goal is to understand how to use the functions in those packages to perform the analysis.
+The aim of this session is to give you experience with a real-world RNA-seq analysis, using the popular `edgeR` and `limma` packages, which were developed here in Melbourne. We will not cover the statistics in any depth as they are quite complex. Instead, the goal is to understand how to use the functions in these packages to perform the analysis.
 
 ::: {.callout-tip title="Learning Objectives"}
 At the end of this session, learners should be able to:
 
-- Perform filtering of lowly expressed genes, and describe why this is necessary
-- Normalise RNA-seq data to account for library size and RNA composition
-- Generate and interpret MDS plots
-- Fit a linear model to RNA-seq data, and construct the design and contrast matrices for the linear model
-- Model the mean-variance relationship using the `voom()` function
-- Perform statistical testing to identify differentially expressed genes
-- Visualise the results of DE analysis using an MA plot and volcano plot
+-   Perform filtering of lowly expressed genes, and describe why this is necessary
+-   Normalise RNA-seq data to account for library size and RNA composition
+-   Generate and interpret MDS plots
+-   Fit a linear model to RNA-seq data, and construct the design and contrast matrices for the linear model
+-   Model the mean-variance relationship using the `voom()` function
+-   Perform statistical testing to identify differentially expressed genes
+-   Visualise the results of DE analysis using an MA plot and volcano plot
 :::
 
 ## Setup
 
-In the interest of time, you are provided with a `DGEList` object, which contains three key pieces of data: 
-
-- `counts`: a matrix of count values with samples along the columns and features/genes along the rows.
-- `samples`: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.
-- `genes`: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.
-
-To learn how to construct a DGEList object yourself, consult the further reading for this week (@sec-makedgelist). Otherwise, run the following code to download and read in the DGEList for today:
-
-```{r}
-# download from github
-
-# read in
-```
-
-We also need to install some RNA-seq specific packages. We will do this by first installing `BiocManager`, which allows us to install packages from the `Bioconductor` project. Note that this may take a few minutes, as there are many dependencies.
+Unlike the basic statistical tests we performed last week, doing RNA-seq analysis in R requires RNA-seq specific packages. We will install these by first installing `BiocManager`, which allows us to install packages from the `Bioconductor` project. Note that this may take a few minutes, as there are many dependencies.
 
 ```{r}
 #| eval: false
 # BiocManager allows us to install Bioconductor packages
 install.packages("BiocManager")
+# RNAseq123 has edgeR, limma and other things we need
 BiocManager::install("RNAseq123")
 
 # pheatmap is used for making nice heatmaps
 install.packages("pheatmap")
+
+# ggrepel is used to label DE genes on plots
+install.packages("ggrepel")
 ```
 
 If you get a message similar to this in your console, type `n` to exit it without updating any of the packages (this would likely take a long time!)
 
-```
+```         
 Old packages: 'RcppArmadillo', 'usethis',
   'base64enc', 'bit64', 'bslib', 'class',
   'cluster', 'curl', 'data.table', 'httr',
@@ -75,8 +57,8 @@ Old packages: 'RcppArmadillo', 'usethis',
 Update all/some/none? [a/s/n]:
 ```
 
-::: {.callout-note title="Bioconductor"}
-explain what is bioconductor
+::: {.callout-note title="What is Bioconductor?"}
+[Bioconductor](https://bioconductor.org/) is an open-source R package repository, similar to [CRAN](https://cran.r-project.org/) (which is where we get packages from when we use `install.packages()`) that focuses specifically on the analysis of biological data. Bioconductor packages are designed to work well with one another, for example the `edgeR` and `limma` packages we will use today, and are peer-reviewed prior to being included in the project. If you need to analyse any biomedical data, see if there is a Bioconductor package that suits your needs!
 :::
 
 Once the necessary packages are installed, load them using the `library()` function:
@@ -87,87 +69,339 @@ library(tidyverse)
 library(edgeR)
 library(limma)
 library(pheatmap)
+library(ggrepel)
 ```
 
-## Background on the study
+In the interest of time, today you will be provided with a `DGEList` object to practice your RNA-seq on. A `DGEList` contains three key pieces of data:
 
-The data we are looking at comes from three cell populations (basal, luminal progenitor (LP) and mature luminal (ML)) sorted from the mammary glands of female virgin mice, each profiled in triplicate. These samples have been sequenced using Illumina RNAseq platforms and we will be using the `edgeR` package to analyse the data.
+-   `counts`: a matrix of count values with samples along the columns and features/genes along the rows.
+-   `samples`: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.
+-   `genes`: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.
 
-::: {.callout-note title="Data objects"}
-Data objects in general are a way to store related pieces of information together. Often they provide features to maintain the relationships between the pieces of information. For example, in a `DGEList` object, the `counts` are stored as a matrix while `samples` and `genes` are stored as data frames. When you subset the `DGEList` object, the rows and columns of the `counts` matrix are subset along with the corresponding rows of the `samples` and `genes` data frames. This prevents errors that can occur if the user tries to manually subset all three pieces of information separately.
-:::
-
-## An aside: other data types and structures in R
-### Factors
-Not that when we declared the `group` variable, we used factors. Factors are a special data type that is used to encode categorical variables. They have multiple useful properties in comparison to regular character vectors:
-- They allow you to specify the order of the levels.
-- They are stored as integers but displayed as labels.
-- They encode all the valid levels of the factor, even if they are not present in the data.
-
-Specifying the order of the levels is useful because it allows you to re-arrange labels when used in plots. In this data we would have the "Basal" group first, followed by "LP" and then "ML". Using `parse_factor()` also allows you to check that the values are all valid levels, for example if one of the samples was labelled "Bassal" instead of "Basal", it would throw an error. You can read the R for Data Science [chapter on factors](https://r4ds.had.co.nz/factors.html) for more information, as well as the [forcats package](https://forcats.tidyverse.org) for many useful functions for working with factors.
-
-### Lists
-brief description of lists, link back to replace_na function
-
-### Matrices
-intro matrices, explain why you might use them (assumption that everything is same type, so can do maths on whole matrix at once w/o mutate etc), use example of plate based data
-
-## Filtering
-
-The first step of our analysis is to filter out lowly expressed genes. There are two main problems with low abundant genes:
-
-- Technical variation is more problematic for low abundance genes. This variation is thought to be due to two factors; insufficient mixing and low sampling fraction [@mcintyre2011].
-  - Insufficient mixing of solutions during library preparation can result in uneven distribution of reads.
-  - RNA sequencing can be thought of as sampling. Measurement errors will occur simply due to the random nature of the sampling process. This problem affects lowly abundant RNA species more because the relative error for small count values is larger than it would be for more highly abundant RNA species.
-- Genes that are very lowly expressed do not produce sufficient information to be useful for biological interpretation. For example, it is very hard to believe the biological significance of genes that have counts ranging from 0 to 3 across samples even if come up as statistically significant.
-
-Removing these highly variable, lowly expressed genes increases your 'power' to detect differentially expressed genes [@bourgon2010], where 'power' is your ability to detect true positives. In testing for differential expression, a statistical test is conducted for each gene. When a high number of statistical tests are performed, a portion of them will be significant purely due to random chance. A common procedure to control for the number of false positive is to perform 'multiple testing correction' on the p-values. This adjusts the p-value in a way that reduces the number of false positives but comes at the cost of reduced power to detect true positives. If we filter out uninteresting, lowly expressed genes, we need to perform fewer statistical tests and reduce the impact that multiple testing adjustment has on detection power.
-
-The `edgeR` provides the `filterByExpr()` function to automate gene filtering. By default, it aims to keep genes with a count of 10 or more, in at least as many samples as the smallest experimental group. In our experiment, there are 3 phenotype groups each with 3 samples. Therefore we retain only genes that have 10 or more counts in 3 or more samples. The actual filtering is done on counts per million, prevent bias against samples with small library sizes. This complex procedure is the reason why the package provides a function to perform the filtering for you.
-
-The output of this function is a vector of logicals, indicating which genes (rows) should be kept and which filtered.
+To learn how to construct a DGEList object yourself, consult the further reading for this week (@sec-makedgelist). Otherwise, run the following code to download and read in the DGEList for today:
 
 ```{r}
-keep <- filterByExpr(dge)
-table(keep)
-proportions(table(keep))
+# download from github and save in your data/ directory
+download.file("https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda", "./data/DGEList.Rda")
 
+# read in
+dge <- readRDS("./data/DGEList.Rda")
+```
+
+::: {.callout-note title="What is a DGEList?"}
+A `DGEList` is a type of data object in R. Data objects are a way to store related pieces of information together and maintain the relationships between the pieces of information. For example, in a `DGEList` object, the `counts` are stored as a matrix while `samples` and `genes` are stored as data frames. When you subset the `DGEList` object (for example, to filter out lowly-expressed genes), the rows and columns of the `counts` matrix are subset along with the corresponding rows of the `samples` and `genes` data frames. This prevents errors that can occur if the user tries to manually subset all three pieces of information separately.
+:::
+
+## Background on today's data
+
+The data we are looking at today comes Sheridan et al. (2015), and contains three different cell populations: basal, luminal progenitor (LP) and mature luminal (ML) which were isolated from the mammary glands of female virgin mice, in triplicate [@sheridan2015a]. These samples have been sequenced using the Illumina HiSeq 2000 platform, and pre-processed using `featureCounts` from the `Rsubread` package (see @sec-preprocessing for more information about RNA-seq pre-processing).
+
+You might like to take a quick look at `dge`, our `DGEList` object. You can access the different parts ('samples', 'genes' and 'counts') using `$`, just like with columns in dataframes:
+
+```{r}
+dge$samples # the samples in the study
+dge$genes # the genes (ID and symbol)
+dge$counts # the counts
+```
+
+## An aside: other data types and structures in R {#sec-data-structures}
+
+Back in workshop 1, we discussed atomic data types and data structures (see @sec-datastructures). Today, we will learn
+
+### Factors
+
+If you take a look at the 'groups' of the samples in `dge`, you will find they have the class 'factor':
+
+```{r}
+dge$samples$group
+class(dge$samples$group)
+```
+Factors are a special data type in R used to encode categorical variables. They have several useful properties in comparison to regular character vectors:
+
+-   They allow you to specify the order of the levels.
+-   They are stored as integers (numbers) but displayed as labels. This is more computationally efficient.
+-   They encode all the valid 'levels' of the factor, even if some of those levels are not present in the data. This can help to make it clear that there are other valid values that were not observed in your experiment (for example, `adipocyte` might be a possible level, since it is a cell type in the mammary gland, even though it was not studied in this particular experiment).
+
+Specifying the order of the levels is useful because it allows you to re-arrange labels when used in plots. In this data we would have the 'Basal' group first, followed by 'LP' and then 'ML', because this is the order of the factor levels.
+
+You can reorder a factor by re-defining it, with levels in the order you desire. For example, to make the levels 'LP', then 'Basal' and finally 'ML' we could do:
+
+```{r}
+factor(dge$samples$group, levels = c("LP", "Basal", "ML"))
+```
+
+For more information, check out the R for Data Science [chapter on factors](https://r4ds.had.co.nz/factors.html), as well as the [forcats package](https://forcats.tidyverse.org) which provides many useful functions for working with factors.
+
+### Lists
+
+Another data type we've actually already been using without naming it is the **list**. A list is a flexible container that can hold multiple objects of different types and lengths, unlike a vector where every element must be the same type. A single list can hold a mix of numbers, character strings, data frames, and even other lists all at once.
+
+We first ran into lists back when we used `replace_na()` to fill in missing values (see @sec-missing): the function takes a `list()` where each element is named after the column we want to fix, paired with the value we want to replace `NA`s with in that column, e.g. `replace_na(list(weight_lost_g = 0, sex = "unknown"))`. The reason we had a use a list here is so we could associate column names with values of different types (a number for `weight_lost_g`, a character string for `sex`) in a single object.
+
+Many of the more complex data structures in R are built on top of lists. For example, the `DGEList` object we're using today is a special type of list. The most important thing you need to know about lists is that each of the named elements (e.g. `counts`, `samples` and `genes` in a `DGEList`) can be accessed using the `$` operator, similar to columns in a dataframe.
+
+### Matrices
+
+The last data structure we'll go over is the **matrix**, which we briefly discussed in the week 2 further reading (see @sec-matrices), and have already seen today in the form of the `counts` part of our `DGEList`. 
+
+A matrix looks a lot like a data frame, having rows and columns, but unlike a data frame, **every value in a matrix must be the same type** (usually all numeric). This is a stricter requirement than a data frame, where each column can be its own type, but it comes with a computational advantage: because R knows every value is the same type, it can perform mathematical operations on the entire matrix at once, rather than needing to specify which columns to operate on with something like `mutate()`.
+
+For example, if we had a 96-well plate of absorbance readings, we might store it as a matrix with rows for each row of the plate (A-H) and columns for each column (1-12). If we needed to subtract a background absorbance value from every well, we could do this with simple arithmetic on the whole matrix at once (e.g. `plate_matrix - background`):
+
+```{r}
+# generate some example data
+plate_matrix <- matrix(
+  # runif() samples from the uniform distribution
+  runif(96, min = 0.05, max = 1.2),
+  nrow = 8, ncol = 12,
+  dimnames = list(LETTERS[1:8], 1:12)
+)
+
+# let's say our background is 0.05
+background <- 0.05
+
+# subtract background absorbance from entire matrix 
+# to correct it 
+corrected_matrix <- plate_matrix - background
+```
+
+This is much simpler than using `mutate()`, which is what we would have had to do if this information was stored in a dataframe!
+
+This is exactly why the `counts` element of a `DGEList` is stored as a matrix rather than a data frame: operations like calculating counts per million need to be applied uniformly across every gene and every sample, and storing the data as a matrix makes this fast and straightforward.
+
+::::::::::::::::::::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
+
+:::::::: question
+1\. Why is the `counts` element of a `DGEList` stored as a matrix rather than a data frame?
+
+::::::: choices
+::: choice
+Because matrices are printed to the console more neatly than data frames
+:::
+
+::: {.choice .correct-choice}
+Because every value in a matrix must be the same type, which allows mathematical operations to be applied to the entire object at once, rather than column-by-column
+:::
+
+::: choice
+Because data frames aren't able to store numeric data
+:::
+
+::: choice
+Because matrices allow each column to have a different number of rows
+:::
+:::::::
+::::::::
+
+:::::::: question
+2\. Imagine I have a character column called `animals` in my dataframe that contains the values `"Zebra"`, `"Aardvark"` and `"Mongoose"`. By default, `ggplot2` will always put `"Aardvark"` first, because it starts with the letter 'A', but I really want `"Zebra"` plotted first. Which approach would achieve this?
+
+::::::: choices
+::: choice
+Store `animals` as a character vector, and sort the data frame by `animals` before plotting
+:::
+
+::: {.choice .correct-choice}
+Convert `animals` into a factor, explicitly specifying the desired order in the `levels` argument
+:::
+
+::: choice
+Store `animals` as a list instead of a character vector
+:::
+
+::: choice
+This isn't possible to control in `ggplot2` without manually editing the finished plot
+:::
+:::::::
+::::::::
+
+:::::::: question
+3\. Why does `replace_na()` require its argument to be wrapped in `list()`, rather than accepting the column names and their replacement values as two separate vectors?
+
+::::::: choices
+::: choice
+`list()` is required syntax for any function that takes more than one argument
+:::
+
+::: {.choice .correct-choice}
+A list can pair values of different types (e.g. a number and a character/string) together in a single object, which a vector can't do since every element of a vector must be the same type
+:::
+
+::: choice
+Wrapping the arguments in `list()` makes the function run faster
+:::
+
+::: choice
+`replace_na()` only works on numeric columns, and `list()` converts everything to numeric first
+:::
+:::::::
+::::::::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. A matrix requires every value to be the same type, which sounds like a limitation but is actually what allows R to apply a mathematical operation (like subtraction, or calculating counts per million) to the whole object at once, rather than needing to specify which columns to operate on.
+
+2\. Factors let you explicitly specify the order of the levels, independent of alphabetical order, which is exactly the kind of control we need here. A character vector has no concept of level order, so sorting the data doesn't change how categories are ordered in a plot.
+
+3\. A list can hold elements of different types, which allows us to have replacement values that are numeric for one column and character for another. A vector can't mix types like this; if you try to put a number and a character string in the same vector, R silently converts the number to a character too.
+
+</details>
+:::::::::::::::::::::
+
+## Filtering {#sec-filtering}
+
+The first step of our analysis is to filter out lowly expressed genes. Genes with very low counts across all samples provide little evidence of differential expression and are disproportionately affected by technical noise, so removing them increases our statistical power to detect true differences in the genes that remain [@mcintyre2011; @bourgon2010]. If you'd like more detail on why this matters, see the further reading (@sec-frfiltering).
+
+The `edgeR` package provides the `filterByExpr()` function to automate this process. By default, it aims to keep genes with a count of 10 or more in at least as many samples as the smallest experimental group. In our experiment, there are 3 groups each with 3 samples, so we retain only genes with 10 or more counts in at least 3 samples.
+
+Filtering is done on the 'counts per million' (CPM), which represents how many counts you would have for a gene if your library size was one million. This means we can work with proportions (to account for different library sizes, or numbers of reads per sample) while still keeping the numbers on a human-readable scale. A proportion of 0.01, or 1% equals 10,000 CPM.
+
+The output of `filterByExpr()` is a vector of the class logical, indicating which genes (rows) should be kept and which filtered out.
+
+```{r}
+# keep is our logical vector of which rows to keep
+keep <- filterByExpr(dge)
+
+# use the table() function to see how many genes we
+# will keep (TRUE) and how many we will filter out (FALSE)
+table(keep)
+# proportions gives us the proportions rather than
+# just the counts
+proportions(table(keep))
+```
+
+We can see that we now have 16,624 genes. We started with 27,179 genes, meaning that about \~40% of genes will be filtered out.
+
+To actually perform the filtering, we need to use square brackets `[]`, like so:
+
+```{r}
+# see more explanation of square bracket subsetting
+# in the note below, but it's not that important unless
+# you do a lot of RNA-seq
 dge <- dge[keep, , keep.lib.sizes = FALSE]
+
+# check the dimensions of the count matrix to see they 
+# have reduced
 dim(dge$counts)
 ```
 
-We can see that we now have 16624 genes. We started with 27179 genes - meaning that ~40% of genes have been filtered out.
+::: {.callout-note title="Two-dimensional subsetting with square brackets"}
+Back in workshop 1, we used square brackets to subset a single position out of a vector, like `letters[5]` (see @sec-vectorsubset). 
 
-## Library-size normalisation
+Data frames and matrices are two-dimensional (rows and columns), so they use the same square bracket syntax but with a comma inside to separate row and column indices: `object[rows, columns]`. This is the older, 'base R' way of subsetting dataframes, instead of using the `filter()` and `select()` functions from dplyr.
 
-After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias. This allows the data to be meaningfully compared across samples or experimental groups.
-
-There are two main factors that need to be normalised for in RNA-seq:
-
-- Sequencing depth/library size - technically, sequencing a sample to half the depth will give, on average, half the number of reads mapping to each gene [@robinson2010].
-- RNA composition - if a large number of genes are unique to, or highly expressed in, only one experimental condition, the sequencing capacity available for the remaining genes in that sample is decreased. For example, if there are only five genes being studied in two experimental groups, if one gene is particularly high in group A, then with limited sequencing depth, that gene will reduce the counts of the remaining four genes. The effect of this is that the remaining four genes appear under-expressed in group A compared to group B when the true amount of gene product is actually equal for these 4 genes [@robinson2010].
-
-Sequencing depth is accounted for by calculating the counts per million (cpm). This metric is calculated by:
-
-1.  taking the library size (sum of all counts for a sample),
-2.  dividing this by 1,000,000 to get the 'per million' scaling factor,
-3.  then dividing all read counts for each gene in that sample by the 'per million' scaling factor
-
-RNA composition can be accounted for by using more sophisticated normalisation methodologies. We will use 'trimmed mean of M-values' (TMM), which estimates relative RNA levels from RNA-seq data [@robinson2010]. Under the assumption that most genes are not differentially expressed, TMM calculates a library size scaling factor for each library (sample). This is done using the following steps:
-
-1.  calculate the gene expression log fold changes and absolute expression values for pair-wise samples (selecting one sample from the experiment as a reference)
-2.  remove the genes with the highest and lowest fold changes and absolute expression values
-3.  take a weighted mean of the remaining genes (where the weight is the inverse of the approximate asymptotic variances). This gives the normalisation factor for each library (sample)
-
-Subsequent steps in this analysis will use log-cpm values, calculated using the normalisation factors, which scales each library size.
-
-We can calculate the normalisation factors, specifying that we want to use the `"TMM"` method:
+We can try this on the `iris` data frame. To get the value in row 1, column 2:
 
 ```{r}
-dge <- calcNormFactors(dge, method = "TMM")
+iris[1, 2]
 ```
 
-This function calculates the normalisation factors for each library (sample) and puts this information in the `samples` data frame. Note that it takes dge (our `DGEList` object as input) and returns a `DGEList` object as well.
+If we leave one side of the comma blank, we will get everything. So to get every column for row 1 (i.e. the whole first row):
+
+```{r}
+iris[1, ]
+```
+
+And to get every row for column 2 (i.e. the whole `Sepal.Width` column):
+
+```{r}
+iris[, 2]
+```
+
+You can also subset using a vector of positions (or a logical vector), instead of just a single number, in either spot. For example, to get rows 1 to 3, and only the first two columns:
+
+```{r}
+iris[1:3, 1:2]
+```
+
+Rather than typing out row numbers ourselves, we can also generate a **logical vector**, like `keep`, and use that in the rows spot instead. For example, to keep only the flowers with a `Sepal.Length` greater than 7:
+
+```{r}
+# create a logical vector: one TRUE/FALSE per row of iris
+long_sepals <- iris$Sepal.Length > 7
+head(long_sepals)
+
+# use it to subset the rows, keeping every column
+iris[long_sepals, ]
+```
+
+Just like when using the `filter()` function, wherever there's a `TRUE`, that row is kept, and wherever there's a `FALSE`, it's dropped. 
+:::
+
+::::::::::::::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
+
+:::::::: question
+1\. If you skipped filtering and just used the raw `dge` object for differential expression testing, with all 27,179 genes still included, what would be the most likely consequence?
+
+::::::: choices
+::: choice
+No difference. `limma` automatically ignores lowly expressed genes internally when fitting the model
+:::
+
+::: {.choice .correct-choice}
+Reduced statistical power to detect true differentially expressed genes, since more (noisier) tests are being run and multiple testing correction has to account for all of them
+:::
+
+::: choice
+The `DGEList` object would fail to load due to there being too many genes
+:::
+
+::: choice
+The `voom()` mean-variance plot would no longer be produced
+:::
+:::::::
+::::::::
+
+:::::::: question
+2\. `filterByExpr()` bases its filtering decision on counts per million (CPM), rather than on the raw counts themselves. Why does this matter?
+
+::::::: choices
+::: choice
+CPM values are always larger than raw counts, so basing the filter on CPM removes fewer genes overall
+:::
+
+::: {.choice .correct-choice}
+It accounts for differences in library size between samples, so that a gene in a sample with a smaller library size isn't unfairly filtered out, even if it's genuinely well expressed relative to that sample's sequencing depth
+:::
+
+::: choice
+CPM values are simpler for R to store than raw integer counts
+:::
+
+::: choice
+It has no real effect, filtering on CPM and on raw counts gives identical results
+:::
+:::::::
+::::::::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. Skipping filtering means thousands of very lowly expressed, highly variable genes remain in the dataset. These genes add noise to the variance estimates and increase the number of statistical tests being performed, which in turn increases the impact of multiple testing correction, so we'd end up with *less* power to detect differential expression among the genes that actually matter.
+
+2\. Two samples with the same raw count for a gene could have very different library sizes, meaning that count represents a very different level of expression relative to each sample's total sequencing depth. Filtering on CPM instead of raw counts puts every sample on a roughly equal footing, so genes are filtered on their level of expression rather than based on how deeply each sample happened to be sequenced.
+
+</details>
+:::::::::::::::
+
+## Normalisation {#sec-normalisation}
+
+After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias, so that samples and experimental groups can be meaningfully compared. In RNA-seq, this mainly means accounting for differences in sequencing depth (library size, using CPM) and RNA composition between samples (using TMM normalisation) [@robinson2010]. If you'd like a full explanation of why these biases occur and how they're corrected for, see the further reading (@sec-frnormalisation).
+
+We'll use the 'trimmed mean of M-values' (TMM) method to calculate a normalisation factor for each sample, which, under the assumption that most genes are not differentially expressed, estimates relative RNA levels from the read counts [@robinson2010]. Subsequent steps in this analysis will use log-cpm values calculated using these normalisation factors.
+
+The `normLibSizes()` function (previously called `calcNormFactors()`) can be used to calculate normalisation factors, specifying that we want to use the `"TMM"` method:
+
+```{r}
+dge <- normLibSizes(dge, method = "TMM")
+```
+
+`normLibSizes()` calculates the normalisation factors for each library (sample) and puts this information in the `samples` data frame of the `DGEList`. It takes a `DGEList` as input, and returns one as an output so that you can use it as above, to normalise your `DGEList` and re-assign it to the same variable.
 
 Let's take a look at our normalisation factors:
 
@@ -177,11 +411,69 @@ dge$samples
 
 These normalisation factors are all close to 1 for all samples, suggesting minimal difference in RNA composition between samples.
 
-## MDS plots
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
 
-Before we perform statistical tests, it's useful to perform some exploratory visual analysis to get an overall idea of how our data is behaving.
+::: question
+1\. What might it mean if our normalisation factors were instead quite different from 1? For example, 0.4 for one sample and 2.5 for another?
 
-MDS is a way to visualise distances between sets of data points (samples in our case). It is a dimensionality reduction technique, similar to principal components analysis (PCA). We treat gene expression in samples as if they were coordinates in a high-dimensional coordinate system, then we can find "distances" between samples as we do between points in space. Then the goal of the algorithm is to find a representation in lower dimensional space such that points that the distance of two objects from each other in high dimensional space is preserved in lower dimensions.
+::: choices
+::: choice
+That those two samples were sequenced to very different depths (library sizes)
+:::
+
+::: {.choice .correct-choice}
+That there's likely a substantial difference in RNA composition between those samples, e.g. one sample may have a small number of genes that are extremely highly expressed relative to the rest, 'crowding out' sequencing capacity for everything else
+:::
+
+::: choice
+That a mistake has occurred, and those samples should be excluded from the analysis
+:::
+
+::: choice
+That those two samples must belong to different experimental groups
+:::
+:::
+:::
+
+::: question
+2\. Why do we use log-cpm values, rather than raw counts, as the input to our linear models?
+
+::: choices
+::: choice
+Because log-transforming makes the numbers smaller, so R can process them more quickly
+:::
+
+::: {.choice .correct-choice}
+Because raw RNA-seq counts aren't normally distributed, but log-transformed cpm values are roughly normally distributed and on a comparable scale across genes with very different expression levels — which better suits the assumptions underlying a linear model
+:::
+
+::: choice
+Because `limma` can only work with values that have a decimal point, not whole-number counts
+:::
+
+::: choice
+Because taking the log corrects for differences in gene length between genes
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. Normalisation factors are specifically designed to correct for differences in RNA composition, not library size (library size is already accounted for separately, via CPM). A factor far from 1 suggests that sample's RNA composition differs substantially from the rest of the dataset — for example, a small number of genes dominating that sample's sequencing capacity — rather than indicating anything about how deeply it was sequenced, or that anything has necessarily gone wrong.
+
+2\. Linear models (and the statistical tests built on them) work best when the data is roughly normally distributed. Raw RNA-seq counts are highly skewed and span several orders of magnitude between lowly and highly expressed genes, but log-transforming cpm values pulls in this skew and puts every gene on a more comparable numeric scale, which is why `voom()` works with log-cpm values rather than the raw counts.
+
+</details>
+:::
+
+## MDS plots {#sec-mds}
+
+Before statistical testing, we should always visualise our data! In RNA-seq, we want to check that our samples group together in the way we'd expect based on our experimental design (e.g. samples from the same phenotype group clustering together), which gives us some early confidence that the biological signal we're interested in is actually present in the data. A visual check can also reveal problems in our data, such as an unexpected outlier sample, a batch effect (where samples cluster by some technical factor, like the day they were processed or the sequencing run they came from), or a mislabelled sample.
+
+MDS is a way to visualise distances between sets of data points (samples in our case). It is a dimensionality reduction technique, similar to principal components analysis (PCA). We treat gene expression in samples as if they were coordinates in a high-dimensional coordinate system, which allows us to find 'distances' between samples as we do between points in space. Then the goal of the algorithm is to find a representation in lower dimensional space such that points that the distance of two objects from each other in high dimensional space is preserved in lower dimensions. In other words, it is a way of 'mapping out' our samples, to see which ones are most similar to one another.
 
 The `plotMDS()` from `limma` creates an MDS plot from a `DGEList` object.
 
@@ -189,118 +481,263 @@ The `plotMDS()` from `limma` creates an MDS plot from a `DGEList` object.
 plotMDS(dge)
 ```
 
-Each point on the plot represents one sample and is 'labelled' using the sample name. The distances between each sample in the resulting plot can be interpreted as the typical log2-fold-change between the samples, for the most differentially expressed genes.
+Each point on the plot represents one sample and is 'labelled' using the sample name. The distances between each sample in the resulting plot can be interpreted as the typical log2-fold-change between the samples, for the most differentially expressed genes (in other words, the similarity of their overall gene expression profiles). The labels on the x and y axis state the amount of variance that are explained by each of the dimensions. This gives you an idea of which factors are most strongly affecting gene expression.
 
-We can change the labelling to use the name of the group the sample belongs to instead:
+Note that this is what's known as a 'base R' plot, so it can't be customised in the same way as the ggplots we made in @sec-workshop04. If you want to learn how to make an MDS plot using `ggplot2`, see the further reading (@sec-mdsggplot2). 
+
+We can, however, change the labelling to use the name of the group the sample belongs to instead:
 
 ```{r}
-plotMDS(dge, labels = group)
+plotMDS(dge, labels = dge$samples$group)
 ```
 
-This shows us that the phenotype groups tend to cluster together, meaning that the gene expression profiles are similar for samples within a phenotype group. The 'Basal' type samples quite close together while the 'LP' (luminal progenitor) and 'ML' (mature luminal) type samples are further apart, signifying that their expression profiles are more variable.
+This shows us that the phenotype groups tend to cluster together, meaning that the gene expression profiles are similar for samples within a phenotype group.
 
-## Linear modelling
+::::::::::::::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
 
-To identify differentially expressed genes from our normalised gene expression data, we will use the `limma` package to fit linear models to the genes. A linear model is a broad class of statistical models that fit the value of an response (or dependent) variable as a linear function of one or more explanatory (or independent) variables (also called covariates).
+:::::::: question
+1\. On the MDS plot, the LP and ML samples appear further apart from each other than the Basal samples do from one another, even though all three groups have the same number of replicates. What does this most likely tell us?
 
-The general form of a linear model looks like this:
+::::::: choices
+::: choice
+That the LP and ML samples were sequenced on a different flow cell to the Basal samples
+:::
 
-$Y = \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2}... + \epsilon$
+::: choice
+That the LP and ML samples are very similar to eachother, at the gene expression level
+:::
 
-This equation is saying that a response variable of interest $Y$ is equal to a constant ($\beta_{0}$) plus the sum of the covariates ($X_{i}$) each multiplied by a constant coefficient ($\beta_{i}$) and some error term ($\epsilon$). The error term is the difference between the observed value and the predicted value of the model and is assumed to have a normal distribution with mean 0 and some variance.
+::: {.choice .correct-choice}
+That the gene expression profiles of LP and ML samples are more variable, or more distinct from one another, for the most differentially expressed genes than Basal samples are from each other
+:::
 
-Our experiment is quite simple, since there is only a single covariate, the cell type. The true benefit of using linear models is in its ability to accommodate more complex designs including multiple covariates.
+::: choice
+That we used the wrong distance metric when calling `plotMDS()`
+:::
+:::::::
+::::::::
 
-To fit the linear models in the limma-voom framework we need two objects in addition to our data:
+:::::::: question
+2\. Suppose two samples that are meant to be biological replicates of the same group appear much further apart on the MDS plot than any other pair of replicates. What, if anything should you do about this?
+
+::::::: choices
+::: choice
+Ignore it, MDS plots are only ever a rough visual guide and aren't worth investigating further
+:::
+
+::: choice
+Immediately remove one of the two samples from the analysis, since one of them is clearly the problem
+:::
+
+::: {.choice .correct-choice}
+Investigate further: check the sample metadata and QC metrics, since this could indicate a sample mix-up, a batch effect, or a quality issue
+:::
+
+::: choice
+Try a different `method` argument in `normLibSizes()` until the two samples group together
+:::
+:::::::
+::::::::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. The distance between samples on an MDS plot reflects the similarity of their gene expression profiles. LP and ML samples being further apart than Basal samples suggests their expression profiles are more variable within the group than the Basal replicates are from each other.
+
+2\. An unexpected outlier on an MDS plot is worth investigating as it could reflect something meaningful (whether biological or technical) that needs to be understood and taken into account in the analysis.
+
+</details>
+:::::::::::::::
+
+## Linear modelling for RNA-seq analysis {#sec-linear-models}
+
+As we learnt in workshop 6 (see @sec-lm) and lecture 4, a linear model is a broad class of statistical models that fit the value of a response (or dependent) variable as a linear function of one or more explanatory (or independent) variables (also called covariates). To identify differentially expressed genes from our normalised gene expression data, we will use the `limma` package to fit linear models to the genes, with the help of `voom` to transform our data to fit the statisical assumptions of linear models. 
+
+Our experiment is quite simple, since there is only a single covariate, the cell type. The true benefit of using linear models is their ability to accommodate complex designs including multiple covariates.
+
+To fit linear models in the limma-voom framework we need two objects in addition to our data:
 
 -   A design matrix, representing the covariates.
 -   A contrast matrix, representing the specific comparison we wish to make.
 
 ### Design matrix
 
-The first step to fitting a linear model is to specify a design matrix. The design matrix specifies the values of the covariates for each sample, and is represented as a matrix due to the mathematical convenience.
+The first step to fitting a linear model is to specify a design matrix. The design matrix specifies the values of the covariates for each sample, and is represented as a matrix for mathematical convenience.
 
-To generate a design matrix. We use the function `model.matrix()`, with the expression `~0 + group`. This returns a matrix representing the design where there is no intercept term and group is the only covariate. If we omit the `0` then there would be an intercept in the model, and if we included more covariates then more columns would be generated.
+To generate a design matrix, we use the function `model.matrix()`.
+
+For this experiment, we will use the expression `~0 + group`. This returns a matrix representing the design where there is no intercept term and `group` is the only covariate:
 
 ```{r}
 design <- model.matrix(~0 + group, data = dge$samples)
 design
 ```
 
-There are 9 rows, one for each sample. Along the columns are the names of the groups. The values in the cells denote membership of the particular sample for a particular group, as our groups in this case are mutually exclusive, each row contains only a single 1 to denote membership in a single group.
+There are 9 rows, one for each sample. We can see that the columns represent the groups, with the values in the cells being either 1 (this sample is a member of that group) or 0 (sample is not a member of that group). For example, the first sample `10_6_5_11`, belongs to the 'LP' group.
+
+If we omitted the `0`, there would be an intercept in the model, and if we included more covariates, then more columns would be generated (e.g. in a more complex experiment, we might have 'sex' or 'drug treatment' as covariates too).
+
+::: {.callout-note title="Why no intercept?"}
+You might wonder why we've deliberately excluded the intercept here, using ~0 + group rather than ~group. 
+
+With an intercept, model.matrix() picks one group (alphabetically first, so Basal in our case) as a reference/baseline, which gets absorbed into the intercept term, and the model will thus look at difference between the other groups and that baseline, rather than each group's own mean expression. This is fine if we just want to compare everything back to a single reference group (e.g. if we had a control sample, and two different drug treatments), but we're interested in every pairwise comparison between our three groups (Basal vs LP, Basal vs ML, and LP vs ML) in this study. By excluding the intercept, each coefficient in our model directly represents the mean expression of that group. This makes it much more straightforward to construct a contrast for any pair of groups we like, simply by subtracting one group's column from another's, as we'll see next.
+:::
 
 ### Contrasts
 
-Contrast matrices are companions to design matrices. They are used to specify the comparison of interest. In our case, we have three experimental groups: `Basal`, `LP` and `ML`. So if we are to perform differential expression analysis, we are most likely interested in the differences between only two of the groups at a time. Contrast matrices let use specify which comparison we'd like to make, and are also represented as a matrix just like the design.
+Contrast matrices are companions to design matrices. They are used to specify the comparison(s) of interest. 
 
-A contrast matrix can be made using the `makeContrasts()` function. Within this function, we specify the name of each specific contrast and the formula for that contrast. For example, the `BasalvsLP` contrasts compares the difference between the `Basal` and `LP` groups. Note that the name of the phenotype groups must be written exactly as they are in the column names of our design matrix (see above).
+A contrast matrix can be made using the `makeContrasts()` function. Within this function, we specify the name of each specific contrast and the formula for that contrast. For example, the `BasalvsLP` contrast compares the difference between the `Basal` and `LP` groups. Note that the name of the phenotype groups must be written **exactly** as they are in the column names of our design matrix (this is case-sensitive).
 
-In addition to the individual contrasts, the function must know about the design of the model. This is passed through the `levels` argument, which either accepts a matrix with the column names corresponding to levels of your experimental groups, or the levels themselves as a character vector. Here we first simplify the column names of our design matrix to make it easier to read. Then we create the contrast matrix using the `makeContrasts()` function.
+The `makeContrasts()` function also requires the design matrix, which you can supply to the `levels` argument.
+
+First though, we will simplify the column names of our design matrix to make it easier to read. 
+
+Then we can create the contrast matrix:
 
 ```{r}
+# rename the columns of the design matrix to be just 'Basal' instead of 'groupBasal', etc
 colnames(design) <- c("Basal", "LP", "ML")
 
+# make the contrast matrix
 contr_matrix <- makeContrasts(
+  # our three pairwise comparisons
   BasalvsLP = "Basal - LP",
   BasalvsML = "Basal - ML",
   LPvsML = "LP - ML",
-  levels = design # alternatively 'levels = colnames(design)'
+  levels = design
 )
 
 contr_matrix
 ```
 
-There are two things to note about a design matrix. First, the sum of the numbers in each row is equal to 0. Second, the way that you set up the equation in the matrix will determine the interpretation of the log-fold-change calculated later, as well as the meaning of up-regulated and down-regulated genes. For example, the contrast `Basal - LP` will give a positive log-fold-change for genes that are up-regulated in the `Basal` group compared to the `LP` group. If we had set up the contrast as `LP - Basal`, then the opposite would be true, and we would get a negative log-fold-change for genes that are up-regulated in the `Basal` group compared to the `LP` group.
+It is important to note that the way that you set up the contrast matrix will determine the interpretation of the log-fold-change calculated later, as well as the meaning of up-regulated and down-regulated genes. For example, the contrast `Basal - LP` will give a positive log-fold-change for genes that are up-regulated in the `Basal` group compared to the `LP` group. If we had set up the contrast as `LP - Basal`, then the opposite would be true, and we would get a negative log-fold-change for genes that are up-regulated in the `Basal` group compared to the `LP` group.
+
+::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
+
+::: question
+1\. A gene has a logFC of -1.8 under the contrast `LPvsML = "LP - ML"`. What would this gene's logFC be under the reverse contrast, `MLvsLP = "ML - LP"`, and is it up- or down-regulated?
+
+::: choices
+::: choice
+-1.8, and the gene is still down-regulated in LP relative to ML
+:::
+
+::: {.choice .correct-choice}
++1.8, indicating the gene is up-regulated in ML relative to LP
+:::
+
+::: choice
++1.8, indicating the gene is down-regulated in ML relative to LP
+:::
+
+::: choice
+-1.8, indicating the gene is up-regulated in ML relative to LP
+:::
+:::
+:::
+
+::: question
+2\. Imagine we'd instead fitted our model using `model.matrix(~group)` (i.e. *with* an intercept, using `Basal` as the reference level), and got an intercept coefficient of 4.5 and a `groupLP` coefficient of 1.2. What does that 1.2 actually represent, and how would you calculate the LP group's own mean log-cpm expression from these two numbers?
+
+::: choices
+::: choice
+1.2 is the mean log-cpm expression of the LP group, no further calculation needed
+:::
+
+::: {.choice .correct-choice}
+1.2 is the difference between the mean expression of LP and Basal (the reference group); LP's own mean expression would be the intercept plus this coefficient, i.e. 4.5 + 1.2 = 5.7
+:::
+
+::: choice
+1.2 is the mean expression of Basal, and the intercept (4.5) is unrelated to either group
+:::
+
+::: choice
+There's no way to recover the mean expression of LP from an intercept model. This is only possible with `~0 + group`
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. Reversing the order of a contrast reverses the sign of every logFC calculated from it, since we're now subtracting in the opposite direction. A logFC of -1.8 under `LP - ML` means expression in LP is lower than in ML for this gene; under `ML - LP`, the same underlying difference becomes +1.8, and a positive value here means expression in ML is higher than in LP. In other words, the gene is up-regulated in ML relative to LP, which is the same underlying biology described from the other direction.
+
+2\. With an intercept model, `model.matrix()` picks one group (here, `Basal`) as the reference, and every other column's coefficient represents the *difference* from that reference, not the group's own mean. So  the coefficient of 1.2 for `groupLP` means the mean log-cpm of LP is 1.2 higher than for Basal. Since the intercept (4.5) represents the own mean expression of Basal, the mean expression of LP is recovered by adding the two together: 4.5 + 1.2 = 5.7. This is in contrast to the no-intercept `~0 + group` model we actually used, where each column's coefficient is already a group's mean directly, with no addition required.
+
+</details>
+:::
 
 ### Variance modelling with voom
 
-We are now ready to fit our linear models. Limma fits linear models to the data with the assumption that the underlying data is normally distributed. Count data is generally not normally distributed, but log transforming count data gives it a roughly normal distribution sufficient for linear models to work well. To do this, limma transforms the raw count data to log-cpm using library sizes and the normalisation factors we calculated previously.
+As discussed earlier in this section, `limma` fits linear models, which assume that the underlying data is roughly normally distributed, but raw RNA-seq counts don't look anything like that! They're highly skewed, and their spread (variance) grows along with their size (mean), so lowly expressed genes are proportionally far noisier than highly expressed ones. Log-transforming the counts gets us to something close enough to normal for a linear model to work well, so before fitting anything, the `voom()` function of `limma` converts our raw counts to log-cpm values, using the library sizes and normalisation factors we calculated during the filtering and normalisation steps (see @sec-filter and @sec-normalisation).
 
-In addition to the normalisation steps, the limma-voom pipeline uses the `voom()` function to generate weights for the individual genes based on a modelled mean-variance relationship. This modelling allows use to get more information out of small sample sizes as the weights prevent our model from being more heavily influenced by more variable data points. The weights will then allow the linear model to be less influenced by genes with high variability, which is important for small sample sizes. The voom function also generates a mean-variance plot, which is useful for visualising the data.
+`voom()` also estimates that mean-variance relationship directly from the data, and turns it into a 'precision weight' for every individual observation. These weights then get fed into the linear model itself, so that noisier, lowly expressed genes have less influence than more reliable, highly expressed ones, which is especially important when working with small sample sizes, like we are today.
 
-The `voom()` function takes as arguments, our `DGEList` object and our design matrix. It also optionally outputs a plot of the mean-variance relationship of our data, called the 'voom-plot'.
+The `voom()` function takes our `DGEList` object and design matrix as arguments, and optionally produces a plot of this mean-variance relationship (turn this on with the `plot = TRUE` argument.
 
 ```{r}
 v <- voom(dge, design, plot = TRUE)
 ```
 
-The output of `voom()` (our variable `v`) is an `EList` object which contains the following elements:
+The output of `voom()` (saved in the variable `v`) is an `EList` object which contains the following elements:
 
--   `genes` - a data frame of gene annotation data.
--   `targets` - data frame of sample data.
--   `E` - numeric matrix of normalised log-cpm values.
--   `weights` - numeric matrix of precision weights.
--   `design` - the design matrix.
+-   `genes`: a data frame of gene annotation data.
+-   `targets`: data frame of sample data.
+-   `E`: numeric matrix of normalised log-cpm values.
+-   `weights`: numeric matrix of precision weights.
+-   `design`: the design matrix.
 
-The MA plot shows the mean-variance relationship of the data. The x-axis is the average log2 expression of each gene, and the y-axis is the log2 standard deviation of each gene. The idea is that the variance of a gene can be estimated as a function of its main expression, and that this estimate is more accurate than the direct calculation of the variance.
+The `voom` plot shows the mean-variance relationship: the x-axis is the average $\log_{2}$ expression of each gene, and the y-axis is the square root of the residual standard deviation of each gene. 
 
 ### Fitting the linear model
 
-We are now ready to fit our linear model with `lmFit()`, which calculates coefficients we defined in our design matrix `design`. The resulting object, `vfit` is a `MArrayLM` object. It contains a information about our genes (the same data frame as `genes` from our `EList` object `v` above), the design matrix and a number of statistical outputs. Of most interest to us is the coefficients, stored in an element called `coefficients`. The first rows of this matrix is shown below. Each gene is row and is labelled using the EntrezID. Each column gives coefficients for each of our phenotype groups. These coefficients are weighted averages of the log-cpm of each gene in each group.
+After running `voom`, we are now ready to fit our linear model with `lmFit()`, which calculates the coefficients we defined in our design matrix:
 
 ```{r}
+# fit linear model on voom output
 vfit <- lmFit(v)
+
+# check coefficients
 head(vfit$coefficients)
 ```
 
-We can then use `contrasts.fit()` to calculate coefficients for each contrast (or 'comparison') we specified in our `contr_matrix`. The output is also an object of the class `MArrayLM` (also known as an `MArrayLM` object). When we inspect the `coefficients` element now, we can see that each column is a contrast that we specified in our contrast matrix.
+The resulting object, `vfit`, is a `MArrayLM` object. It contains information about our genes (the same data frame as `genes` from our `EList` object `v` above), the design matrix, and a number of statistical outputs. 
+
+Of most interest to us are the coefficients, stored in an element called `coefficients`. The first rows of this matrix are shown above: each row is a gene, labelled using the EntrezID, and each column gives coefficients for each of our phenotype groups. These coefficients are weighted averages of the log-cpm of each gene in each group.
+
+We can then use `contrasts.fit()` to calculate coefficients for each contrast (or 'comparison') we specified in our `contr_matrix`. The output is also an object of the class `MArrayLM` (also known as an `MArrayLM` object). When we inspect the `coefficients` element now, we can see that each column is a contrast that we specified in our contrast matrix:
 
 ```{r}
 vfit <- contrasts.fit(vfit, contrasts = contr_matrix)
 head(vfit$coefficients)
 ```
 
-With these values we essentially want to know whether or not the difference in values is significantly different from 0. If the difference is not significantly different from 0, then we have failed to establish a difference in the expression of a particularly gene between two groups. If the difference is significantly greater than 0, then we have up-regulation in the first group of the contrast, and if the difference is significantly less than 0, then we have down-regulation in the first group of the contrast.
+To interpret these numbers, we want to know whether they (the difference in the expression of a given gene for each contrast) are significantly different from 0. 
 
-## Statistical testing
+If the difference is significantly greater than 0, then we have up-regulation in the first group of the contrast, and if the difference is significantly less than 0, then we have down-regulation in the first group of the contrast.
+
+## Statistical testing {#sec-statistical-tests}
 
 To actually test if the values are significantly different from 0, we use the `eBayes()` function to compute moderated t-statistics, moderated F-statistics and log-odds of differential expression for each gene, given a fitted linear model. 'Moderated' refers to empirical Bayes moderation, which borrows information across genes to obtain more accurate measures of variability for each gene. This also increases our power to detect differentially expressed genes.
 
 ```{r}
 efit <- eBayes(vfit)
+efit
 ```
 
-We can now look at the number of differentially expressed genes using the `decideTests()` function. The output of this function is a matrix where each column is a contrast (comparison of interest) and each row is a gene. The numbers 1, -1 and 0 mean up-regulated, down-regulated or not significantly differentially expressed, respectively.
+We can see that the `efit` object has a lot of information in it. We will need to use other functions and visualisations to help us interpret the results of our statistical tests.
+
+First, let's look at the *number* of differentially expressed genes using the `decideTests()` function. The output of this function is a matrix where each column is a contrast (comparison of interest) and each row is a gene. The elements are either:
+
+-   1: this gene is up-regulated 
+-   -1: this gene is down-regulated
+-   0: this gene is not significantly differentially expressed.
 
 Note that `decideTests()` also accounts for multiple testing. The default method is Benjamini and Hochberg [@benjamini1995] but several others are also available.
 
@@ -309,43 +746,119 @@ dt <- decideTests(efit)
 dt
 ```
 
-To obtain the total number of differentially expressed genes for each comparison, we can add the function `summary()`:
+To obtain the total number of differentially expressed genes for each comparison, we can run `summary()` on `dt`:
 
 ```{r}
 summary(dt)
 ```
 
-The function `topTable()` can be used to obtain more information on the differentially expressed genes for each contrast. `topTable()` takes as arguments the `MArrayLM` object output by `eBayes()` (`efit`), the contrast name of interest and the number of top differentially expressed genes to output. Note that the contrast name must be given in quotes and must be exactly as written in the contrast matrix `contr_matrix`.
+The function `topTable()` can be used to obtain more information on the differentially expressed genes for each contrast. 
 
-It outputs a data frame with the following information:
-
--   **Gene details** - gene information, from the `gene` element of the `MArrayLM` object (`efit`).
--   `logFC` - the log2 fold change of the contrast.
--   `AveExpr` - the average log2 expression of that gene.
--   `t` - moderated t-statistic.
--   `P.Value` - p value.
--   `adj.P.Val` - adjusted p value.
--   `B` - log-odds that the gene is differentially expressed.
+`topTable()` takes as arguments the output of `eBayes()` (`efit`), the contrast name of interest and the number of top differentially expressed genes to output. Note that the contrast name must be given in quotes and must be exactly as written in the contrast matrix `contr_matrix`:
 
 ```{r}
 top <- topTable(efit, coef = "BasalvsLP", n = Inf)
-head(top)
+
+# to make the dataframe print nicer, let's convert it to a tibble
+top_tibble <- as_tibble(top)
+top_tibble
 ```
 
-## MA Plot
+Notice how we converted `top` to a tibble, to make it print more nicely.
 
-The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), this is a common plot in RNA sequencing analysis to visualise the result of differential expression tests. It can be created using the `plotMA()` from the `limma` package. Creating this plot requires 3 pieces of information:
+Along with information about the genes, `top_tibble` contains the following columns:
 
--   `object = efit`: The the fitted object containing the log-fold-change and log-expression averages
--   `coef = 1`: The column number of the contrast to plot since there are 3 different contrasts fitted within the object.
--   `status = dt[, 1]`: A vector of numerics denoting whether a gene is up-regulated or down-regulated.
+-   `logFC`: the log2 fold change of the contrast.
+-   `AveExpr`: the average log2 expression of that gene.
+-   `t`: moderated t-statistic.
+-   `P.Value`: p value.
+-   `adj.P.Val`: adjusted p value.
+-   `B`: log-odds that the gene is differentially expressed.
+
+::::::::::::::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
+
+:::::::: question
+1\. `eBayes()` borrows information 'across genes' when estimating each gene's variability, rather than relying solely on each gene's own sample variance. Why is this necessary?
+
+::::::: choices
+::: choice
+Because gene expression values are always correlated with one another, so borrowing information is always statistically valid
+:::
+
+::: {.choice .correct-choice}
+Because with only a few replicates per group, each individual gene's own variance estimate is very unstable, and borrowing information across thousands of genes produces a more stable, reliable estimate
+:::
+
+::: choice
+Because it reduces the total number of statistical tests that need to be performed
+:::
+
+::: choice
+Because R is unable to calculate a variance from fewer than 30 observations
+:::
+:::::::
+::::::::
+
+:::::::: question
+2\. Suppose you used the raw, unadjusted `P.Value` column from `topTable()` to decide which of our \~16,000 genes were significant at p \< 0.05, instead of using `decideTests()`. What would be the main problem with this approach?
+
+::::::: choices
+::: choice
+Nothing. Un-adjusted p values are always the most accurate way to assess significance
+:::
+
+::: {.choice .correct-choice}
+With \~16,000 genes each being tested, you'd expect a substantial number to appear significant purely by chance, since running that many tests inflates the overall false positive rate
+:::
+
+::: choice
+Raw p values can't be calculated for RNA-seq data without first running `decideTests()`
+:::
+
+::: choice
+The logFC values reported for each gene would be biased
+:::
+:::::::
+::::::::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. With only 3 replicates per group, a single gene's own sample variance is a very noisy estimate. A run of unusually consistent or unusually variable values in just 3 samples can happen by chance. By borrowing information from the variance trend across all genes (which `eBayes()` does via empirical Bayes moderation), we get a much more stable and reliable estimate of each gene's true variability, which is exactly what gives `limma-voom` its power advantage with small sample sizes.
+
+2\. Testing thousands of genes simultaneously means that even if none of them were truly differentially expressed, we'd still expect roughly 5% of them (800 genes, out of the 16,000 we have here) to show p \< 0.05 purely by chance. `decideTests()` applies multiple testing correction (Benjamini-Hochberg by default) specifically to control this false positive rate, which is essential when testing this many genes at once.
+
+</details>
+:::::::::::::::
+
+## Visualising differential expression {#sec-visualisede}
+
+Now that we know which genes are differentially expressed for each of our contrasts, let's visualise these results. After all, a table of thousands of p values and fold-changes is hard to interpret! In this section, we'll build three of the most common plots used for visualising DE results: the MA plot, the volcano plot, and a heatmap of our top genes.
+
+### MA Plot
+
+The MA plot is a plot of log-fold-change (M-values) against log-expression averages (A-values), and is one of the most common plots used to visualise the results of differential expression testing. It can be created using the `plotMA()` function from the `limma` package.
+
+Creating this plot requires 3 pieces of information:
+
+-   `object`: the fitted object containing the log-fold-change and log-expression averages (in our case, `efit`).
+-   `coef`: the column number of the contrast to plot, since there are 3 different contrasts fitted within the object.
+-   `status = dt[, 1]`: a numeric vector denoting whether a gene is up-regulated or down-regulated.
 
 ```{r}
+# MA plot for Basal vs LP
 plotMA(efit, coef = 1, status = dt[, "BasalvsLP"])
 ```
 
-## Making an MA plot using ggplot2
-As before, we can try to re-create this plot using `ggplot2` to give us more flexibility in plotting. The information we'll need is the log-fold-change, the average log-expression and the differential expression status of each gene. We can extract this information from the `efit` and `top` data frame we created above, as well as gene names for annotation purposes.
+
+
+#### Making an MA plot using ggplot2
+
+Let's re-create the MA plot we just made using `ggplot2`, which gives us a bit more flexibility.
+
+We'll need the log-fold-change, average log-expression and differential expression status for each gene, all of which we can pull from the `efit` object and the `top` data frame we created earlier, along with gene names for labelling. We can assemble this information in a tibble using the following code:
 
 ```{r}
 ma_plot_data <- tibble(
@@ -357,7 +870,7 @@ ma_plot_data <- tibble(
 )
 ```
 
-With our tibble prepared, we can use `ggplot2` to create the plot as we have done before
+With our tibble prepared, we can use `ggplot2` to create the plot as we have done before:
 
 ```{r}
 ma_plot_data %>%
@@ -365,34 +878,35 @@ ma_plot_data %>%
   geom_point()
 ```
 
-While the coordinates of the points are the same, there is still quite a bit of work to do to make this plot look like the one produced by `plotMA()`. First we have the fix up the colours of the points. We also have to make it such that the non-significant points are plotted below the other points. To do this we would need to make it so that the non-significant points are plotted first. We can do this by reordering the levels of the `status` factor so that the non-significant points are plotted first. Labels can also be added using `ggrepel` for the top 15 most DE genes.
+While the coordinates of the points are the same, there is still quite a bit of work to do to make this plot look like the one produced by `plotMA()`.
+
+First, we need to fix up the colours of the points. We also want the non-significant points plotted underneath the significant ones, which we can achieve by reordering the levels of the `status` factor so the non-significant points are drawn first. Finally, it would be nice to add labels for the top 15 most differentially expressed genes, using `ggrepel` so they don't overlap:
 
 ```{r}
-library(ggrepel)
-
 ma_plot_data_fct <- ma_plot_data %>%
   mutate(
-    status = fct_recode(
+    # replace status with a new factor
+    status = factor(
       status,
-      "Not DE" = "0",
-      "Down" = "-1",
-      "Up" = "1"
+      # levels (order is not DE, down, up)
+      levels = c(0, -1, 1),
+      # labels for the numbers so they are readble
+      labels = c("Not DE", "Down", "Up")
     )
-  ) %>%
-  mutate(status = fct_relevel(status, "Not DE", "Down", "Up"))
+  )
 
+# find the top 15 most significant genes to label
 top_de_genes <- ma_plot_data_fct %>%
-  arrange(p_value) %>%
-  slice_head(n = 15)
+  slice_min(n = 15, p_value)
 
+# a named vector to colour the points by 
 scale_cols <- c(
   "Not DE" = "black",
-  "Down" = "blue",
-  "Up" = "red"
+  "Down" = "#1a0099",
+  "Up" = "#990000"
 )
 
-ma_plot <- ma_plot_data_fct %>%
-  ggplot(aes(x = AvgExpr, y = logFC, col = status)) +
+ggplot(ma_plot_data_fct, aes(x = AvgExpr, y = logFC, col = status)) +
   geom_point(data = ma_plot_data_fct %>% filter(status == "Not DE"), size = 0.1) +
   geom_point(data = ma_plot_data_fct %>% filter(status != "Not DE"), size = 1) +
   geom_label_repel(
@@ -401,16 +915,77 @@ ma_plot <- ma_plot_data_fct %>%
     max.overlaps = 20,
     show.legend = FALSE
   ) +
-  scale_colour_manual(values = scale_cols)
+  scale_colour_manual(values = scale_cols) + 
+  theme_classic() +
+  labs(title = "MA plot for Basal vs LP")
 ```
 
-## Volcano Plot
+Don't worry about memorising every aspect of this code, it's quite a lot! Just be able to use it, and try to understand what the different parts do.
 
-Since we have the tibble of the data prepared, we can also choose to create an alternative plot called a volcano plot. Which is also very popular in RNA-seq analysis. The volcano plot is a scatter plot of the negative log10 p-value against the log2 fold-change. This plot is useful for visualising the significance of the differentially expressed genes.
+::::::::::::::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
+
+:::::::: question
+1\. On the MA plot, the spread of logFC values is wider for genes with low average expression (left side of the plot) than for highly expressed genes (right side), even though we've already filtered out the very lowest expressed genes and used `voom()` weights in fitting the model. Why does this pattern remain?
+
+::::::: choices
+::: choice
+Because `voom()` and `eBayes()` moderation only apply to highly expressed genes
+:::
+
+::: {.choice .correct-choice}
+Because genes with lower average expression still carry less statistical information per read than highly expressed genes, so their fold-change estimates remain inherently noisier, even after filtering and moderation have reduced (but not eliminated) this effect
+:::
+
+::: choice
+Because filtering removes all sources of noise from lowly expressed genes
+:::
+
+::: choice
+Because `plotMA()` deliberately exaggerates fold changes for genes with low average expression, for visual clarity
+:::
+:::::::
+::::::::
+
+:::::::: question
+2\. Suppose a gene shows a large logFC on the MA plot, but is coloured as `"Not DE"` rather than `"Up"` or `"Down"`. What's the most likely explanation?
+
+::::::: choices
+::: {.choice .correct-choice}
+The gene has a large apparent effect size, but not enough statistical evidence (e.g. due to high variability across replicates) to be confidently called differentially expressed once multiple testing correction is applied
+:::
+
+::: choice
+`decideTests()` has made an error and should be re-run with a different method
+:::
+
+::: choice
+The gene's logFC value must be negative
+:::
+
+::: choice
+The gene wasn't included in the design matrix used to fit the model
+:::
+:::::::
+::::::::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. Filtering and voom weighting reduce the influence of noisy, lowly expressed genes on the model, but they don't make every gene equally reliable. A gene with fewer reads still gives a noisier estimate of its true expression level than a highly expressed gene does.  `voom()` models and downweights this mean-variance relationship, but does not remove it entirely.
+
+2\. A large logFC only tells us about the *size* of the apparent difference between groups, not whether we can be confident that difference is real. A gene can show a large fold-change purely by chance (especially if it's lowly expressed) without that difference holding up once we account for variability across replicates and correct for the fact that we're testing thousands of genes at once. This is why `decideTests()` calls a gene DE based on its adjusted p value, not its logFC alone.
+
+</details>
+:::::::::::::::
+
+### Volcano Plot
+
+Since we already have our tibble prepared, we can just as easily create a volcano plot. This is a scatter plot of the negative $\log_{10}$ p-value against the $\log_{2}$ fold-change, which is useful for visualising the significance of differentially expressed genes alongside the size of their effect.
 
 ```{r}
-volcano_plot <- ma_plot_data_fct %>%
-  ggplot(aes(x = logFC, y = -log10(p_value), col = status)) +
+ggplot(ma_plot_data_fct, aes(x = logFC, y = -log10(p_value), col = status)) +
   geom_point(data = ma_plot_data_fct %>% filter(status == "Not DE"), size = 0.1) +
   geom_point(data = ma_plot_data_fct %>% filter(status != "Not DE"), size = 1) +
   geom_label_repel(
@@ -419,43 +994,103 @@ volcano_plot <- ma_plot_data_fct %>%
     max.overlaps = 20,
     show.legend = FALSE
   ) +
-  scale_colour_manual(values = c("black", "blue", "red"))
+  scale_colour_manual(values = scale_cols) + 
+  theme_classic() +
+  labs(title = "Volcano plot for Basal vs LP")
 
-volcano_plot
 ```
 
-## Heatmap
+::::::::::::::: {.callout-important title="Practice exercises"}
+Try these practice questions to test your understanding.
 
-Finally we can create a heatmap of the differentially expressed genes. The heatmap is a useful way to visualise the expression of the differentially expressed genes across the samples. We can use the `pheatmap` package to create the heatmap.
+:::::::: question
+1\. A gene appears very high up on the volcano plot (a large -log10 p value), but sits very close to `logFC = 0`. How should this gene be interpreted?
 
-First we need to install the package if you haven't already
+::::::: choices
+::: choice
+As a strong, biologically important differentially expressed gene
+:::
 
-```{r, eval = FALSE}
-install.packages("pheatmap")
-```
+::: {.choice .correct-choice}
+As statistically significant, but with a very small effect size. We can be confident there's *some* difference in expression between groups, but the magnitude of that difference is small
+:::
 
-The data we will use for the heatmap is going to be the log2 cpm expression values of the top differentially expressed genes. We can use the `topTable()` function to get the top differentially expressed genes for each contrast. We can then use the `cpm()` function to get the expression values of these genes. We will take the top 50 genes from each contrast and combine them into a single data frame. We will then use extract the expression values for these genes from the full expression matrix. For more interpretable labels, we will use the gene symbols as the row names of the expression matrix.
+::: choice
+As a technical artefact that should always be discarded
+:::
 
-Note that by default the ENTREZID column is encoded as a numeric value, so to use it to subset our expression matrix we need to convert it to a character vector in order to select the matching IDs rather than trying to select the numerical rows of the data.
+::: choice
+As a gene that failed the `eBayes()` moderation step
+:::
+:::::::
+::::::::
+
+:::::::: question
+2\. Comparing two genes on the volcano plot: Gene A sits far to the right (a large positive logFC) but low down (a small -log10 p value), while Gene B sits only slightly to the right of `logFC = 0` but very high up. Which gene is the more robust candidate for further validation, and why?
+
+::::::: choices
+::: choice
+Gene A, since a bigger fold-change is always the more reliable finding
+:::
+
+::: {.choice .correct-choice}
+Gene B. Its low p value reflects strong statistical evidence of a genuine difference, even though the effect size is modest, whereas Gene A's large fold-change could easily reflect noisy estimation (e.g. from a highly variable gene) rather than a real, reproducible effect
+:::
+
+::: choice
+Both are equally strong candidates, since a large logFC and a small p value are just as important as eachother.
+:::
+
+::: choice
+Neither; only genes with `logFC` exactly equal to zero can be trusted
+:::
+:::::::
+::::::::
+
+<details>
+
+<summary>Solutions</summary>
+
+1\. The two axes of a volcano plot capture different information: the y-axis (-log10 p value) reflects how confident we are that a difference exists, while the x-axis (logFC) reflects how large that difference is. A gene high up but near `logFC = 0` has strong statistical confidence yet a small effect size.
+
+2\. A large fold-change tells you nothing about how reliable that estimate is, as a highly variable or lowly expressed gene can easily show a big apparent difference between groups just by chance. A low p value, on the other hand, specifically reflects that the observed difference is unlikely to have arisen by chance, given the variability in the data. Gene B, despite its smaller effect size, therefore represents stronger evidence of a genuine, reproducible difference than Gene A does.
+
+</details>
+:::::::::::::::
+
+### Heatmap
+
+Finally, let's create a heatmap of our differentially expressed genes, which is a useful way to visualise their expression across all of our samples at once, using the `pheatmap` package.
+
+The data we'll plot is the $\log_{2}$ CPM expression values of our top 30 differentially expressed genes. 
+
+We'll get the top 30 genes for each contrast using `topTable()`, combine them into a single data frame, then use `cpm()` to pull out their expression values from the full expression matrix. For more interpretable labels, we'll use gene symbols as the row names of this expression matrix.
+
+Note that the `ENTREZID` column is encoded as numeric by default, so before we can use it to subset our expression matrix, we need to convert it to a character vector. Otherwise R will try to select rows by their numerical position, rather than matching IDs.
 
 ```{r}
+# find the top 30 DE genes for each contrast
 top_genes <- bind_rows(
-  topTable(efit, coef = "BasalvsLP", n = 50),
-  topTable(efit, coef = "BasalvsML", n = 50),
-  topTable(efit, coef = "LPvsML", n = 50)
+  topTable(efit, coef = "BasalvsLP", n = 30),
+  topTable(efit, coef = "BasalvsML", n = 30),
+  topTable(efit, coef = "LPvsML", n = 30)
 ) %>%
   select(ENTREZID, SYMBOL, TXCHROM) %>%
+  # remove duplicates
   distinct()
 
+# filter the count matrix to find just those genes
 top_gene_expr <- cpm(dge, log = TRUE)[as.character(top_genes$ENTREZID), ]
 rownames(top_gene_expr) <- top_genes$SYMBOL
 ```
 
-To create the heatmap we will use the `pheatmap()` function with the expression matrix. We will add in arguments to provide our own colour scale, to scale the data along the rows with a z-score, adding in sample annotation and clustering the data by rows and columns. We will also add in the option to show the row names and column names, and set the font size of the row names. You can experiment with removing each of these options to see how they affect the heatmap, as well as investigate additional options in the `pheatmap()` documentation.
+We'll create the heatmap using the `pheatmap()` function with our expression matrix, supplying arguments to set our own colour scale, scale the data along the rows with a z-score, add sample annotation, cluster by rows and columns, and show both row and column names with a smaller font for the rows. 
+
+`pheatmap()`, like `ggplot2` offers lots of customisation, and we can't possibly cover it all in today's workshop. Have a look through the [documentation site](https://pheatmap.com/) or ask AI to help you make visual tweaks beyond what is shown here.
 
 ```{r}
-library(pheatmap)
 
+# annotation information for the heatmap
 sample_anno <- dge$samples %>%
   select(group)
 
@@ -473,29 +1108,21 @@ heatmap <- pheatmap(
 )
 ```
 
-## Saving all the results
+## Summary
 
-Now that we have produced a series of plots and the top genes table, we can save these files to a directory. These figures may form the basis for publication figures, and the results table can partially presented as a result, or the full table can be included as a supplementary file.
+With that we have reached the end of our whirlwind tour of (bulk) RNA-seq analysis! Although there is of course much more complex analysis that can be done, this should give you what you need to know for the final assessment, as well as to begin exploring your own RNA-seq data, if you have any
 
-```{r, warning=FALSE}
-dir.create("output")
+::: {.callout-note title="Further reading"}
+The following resources are recommended if you want to learn more about RNA-seq analysis in R:
 
-write_csv(top, "output/top_genes_BasalvsLP.csv")
-ggsave("output/ma_plot_BasalvsLP.png", ma_plot)
-ggsave("output/volcano_plot_BasalvsLP.png", volcano_plot)
-ggsave("output/heatmap_BasalvsLP.png", heatmap$gtable)
-```
+-   **The RNA-seq123 workflow paper**: today's workshop is based on the [RNA-seq123 workflow](https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html) (also available [in Chinese](https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow_CHN.html)), which covers the same analysis in more depth. There's also a dedicated paper on [constructing design matrices](https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/designmatrices.html) for more complex experimental designs than the one we used today.
+-   **User guides**: the [limma user guide](https://bioconductor.org/packages/2.11/bioc/vignettes/limma/inst/doc/usersguide.pdf) and [edgeR user guide](https://www.bioconductor.org/packages/devel/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) are comprehensive references for every function in both packages, including many options and use cases we didn't have time to cover today.
+-   **Getting help**: if you run into a question while using `limma` or `edgeR` on your own data, you can ask it on [Biostars](https://www.biostars.org/) or the [Bioconductor support site](https://support.bioconductor.org/). Prof. Gordon Smyth, the developer behind both packages, is active on both and is generally happy to help.
+-   **Single-cell RNA-seq**: the analysis we did today applies to 'bulk' RNA-seq, where each sample is a whole tissue or population of cells. If you're working with single-cell data, take a look at the [OSCA book](https://bioconductor.org/books/release/OSCA/) (a Bioconductor-based workflow) or [Seurat](https://satijalab.org/seurat/) (a popular alternative R package).
+:::
 
-With that we have come to the conclusion of the RNA-seq analysis and this course. You have now learned how to use various `tidyverse` packages to operate on data and create publication quality figures. You have also learned how to use the `limma` and `edgeR` packages to perform differential expression analysis on RNA-seq data. You should now be able to apply these skills to perform analysis on your own data.
+You might also find this summary sheet helpful:
 
-## Further reading and resources for RNA-seq 
-RNA-seq 123 https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html and in chinese https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow_CHN.html
-design matrix paper https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/designmatrices.html
-
-the limma user guide (https://bioconductor.org/packages//2.11/bioc/vignettes/limma/inst/doc/usersguide.pdf) and edgeR user guide (https://www.bioconductor.org/packages/devel/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
-
-If you have a question about using limma or edger, you can also ask it on biostars (https://www.biostars.org/) or bioconductor support site (https://support.bioconductor.org/). Gordon, the brains behind both of these packages is very active on both and will gladly help you out.
-
-for single cell RNAseq OSCA (https://bioconductor.org/books/release/OSCA/) or seurat (https://satijalab.org/seurat/)
+{{< downloadthis resources/session_7_summary_sheet.pdf dname="session_7_summary_sheet" label="Download the summary sheet for workshop 7" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" >}}
 
 ## References

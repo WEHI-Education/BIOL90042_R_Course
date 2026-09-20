@@ -13,22 +13,30 @@ library(limma)
 library(pheatmap)
 ```
 
-## RNA-seq pre-processing {#sec-preprocessing} 
+## RNA-seq pre-processing {#sec-preprocessing}
 
-briefly describe RNA-seq preprocessing here (how we get to the count matrix)
+In workshop 7, we started with a `DGEList` object that had already been built for us. But where does the underlying count matrix actually come from? Before analysis in R, raw sequencing data goes through several pre-processing steps:
 
-## Creating a DGEList object {#sec-makedgelist} 
+1.  **Quality control**: raw sequencing reads are first checked for quality issues (e.g. low base-call quality) using tools like [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/).
+2.  **Trimming**: low-quality bases and any leftover adapter sequences are removed from the reads, using a tool like [Trim Galore](https://github.com/FelixKrueger/TrimGalore).
+3.  **Alignment or pseudo-alignment**: the trimmed reads are then mapped to a reference genome (using an 'aligner') or transcriptome (using a 'pseudo-alginer'. 'Alignment' tools like `STAR`, `HISAT2`, or the Bioconductor package `Rsubread` (which you can run directly from R, and which also provides the `featureCounts` function we mention below) find where in the genome each read came from, while 'pseudo-alignment' tools like `salmon` or `kallisto` instead estimate which transcript each read most likely came from, without needing to find its exact genomic location, which is generally much faster.
+4.  **Quantification**: finally, the aligned or pseudo-aligned reads are summarised into a count matrix, with one row per gene (or transcript) and one column per sample, giving the number of reads assigned to each gene in each sample. Tools like `featureCounts` are commonly used for this step downstream of alignment, while pseudo-alignment tools like `salmon` produce these counts directly.
 
-In this section, we will describe how to create your own DGEList. This will be necessary if, for example, you want to analyse your own RNA-seq data.
+This count matrix (along with any sample and gene annotation) is then read into R to build a `DGEList` object, which is where our analysis in workshop 7 begins.
+
+## Creating a DGEList object {#sec-makedgelist}
+
+In this section, we will describe how to create your own DGEList. This will be necessary if you want to analyse your own RNA-seq data.
 
 First, let's start by downloading and unzipping the data:
+
 ```{r}
 download.file("https://github.com/Shians/BaseR_Intro/raw/master/data/workshop_data.zip", "./data/workshop_data.zip")
 unzip("./data/workshop_data.zip", exdir = "./data/rnaseq_data")
 unzip("./data/rnaseq_data/Ses3_counts.zip", exdir = "./data/rnaseq_data/counts")
 ```
 
-The following metadata will be necessary for making our DGEList. They come from the names of the files that we just downloaded, and the groups (cell types) that they represent: 
+The following metadata will be necessary for making our DGEList. They come from the names of the files that we just downloaded, and the groups (cell types) that they represent:
 
 ```{r}
 # experimental groups (cell types)
@@ -45,9 +53,9 @@ samplenames <- c(
 )
 ```
 
-There are two main methods for creating a `DGEList`. First, we will create a `DGEList` object following the `RNAseq123` workflow. 
+There are two main methods for creating a `DGEList`.
 
-We can use the `readDGE()` function to read in count data from files. This is helpful when analysing publicly available data, like that from Sheridan et al. (2015) we are using here. We provide sample information to the `readDGE()` function and add in the gene annotation information afterwards.
+First, we will create a `DGEList` object following the `RNAseq123` workflow. In this method, we use the `readDGE()` function to read in count data from files. We provide sample information to `readDGE()` and add in the gene annotation information afterwards.
 
 ```{r, warning=FALSE, message=FALSE}
 # the dir() function allows us to create a vector of file names
@@ -70,7 +78,9 @@ dge$genes <- read_tsv("./data/rnaseq_data/Ses3_geneAnnot.tsv")
 
 ### Alternative construction of the DGEList object
 
-A more common way to create a `DGEList` object is to read in the count data as a matrix and then create the `DGEList` object using the `DGEList()` function, where you simply supply each of the samples, genes and counts individually. We can pull apart our existing `DGEList` object and recreate it using this method.
+A more common way to create a `DGEList` object is to read in the count data as a matrix and then create the `DGEList` object using the `DGEList()` function, where you simply supply each of the samples, genes and counts individually.
+
+We can pull apart our existing `DGEList` object and recreate it using this method, as a demonstration:
 
 ```{r}
 counts <- dge$counts
@@ -83,14 +93,67 @@ dge <- DGEList(counts = counts, samples = samples, genes = genes)
 
 Now we have a data object that can be used for downstream analysis.
 
-[add a callout here about featureCounts2DGEList and catchSalmon]
+::: {.callout-note title="Building a DGEList using helper functions"}
+Depending on the pre-processing tool you used to go from raw reads to counts, there's likely an `edgeR` helper function to save you from having to build the `DGEList` by hand:
 
-## More about filtering {#sec-frfiltering} 
+-   If you used `featureCounts`, the `featureCounts2DGEList()` function converts its output straight into a `DGEList` object.
+-   If you used a pseudo-alignment tool like `salmon` or `kallisto`, the `catchSalmon()` function (or `catchKallisto`) reads in their quantification output and builds a `DGEList`, while also accounting for the additional uncertainty in assigning reads to transcripts that comes with pseudo-alignment.
+:::
+
+## More about filtering {#sec-frfiltering}
+
+In workshop 7 (@sec-workshop07), we filtered out lowly expressed genes before doing any further analysis. Here is some more information about why this is so important.
+
+There are two main problems with lowly abundant genes:
+
+-   **Technical variation** is more problematic for lowly abundant genes. This variation is thought to be due to two factors [@mcintyre2011]:
+    -   Insufficient mixing of solutions during library preparation can result in an uneven distribution of reads.
+    -   RNA sequencing can be thought of as a form of sampling, so measurement error occurs simply due to the random nature of the sampling process. This problem affects lowly abundant RNA species more, because the relative error for small count values is larger than it would be for more highly abundant RNA species.
+-   **Insufficient information for biological interpretation.** Genes that are very lowly expressed don't provide enough information to be biologically meaningful: if a gene's count increases from 0 to 3, even if it comes up as statistically significant, it's hard to believe that this would have any sort of biological effect.
+
+Removing these highly variable, lowly expressed genes increases our 'power' to detect differentially expressed genes [@bourgon2010]. In testing for differential expression, a statistical test is conducted for every gene. When a large number of statistical tests are performed, a portion of them will be significant purely due to random chance, so we perform 'multiple testing correction' on the p-values to control for this [@noble2009]. This adjustment reduces the number of false positives, but comes at the cost of reduced power to detect true positives. If we filter out uninteresting, lowly expressed genes first, we need to perform fewer statistical tests overall, which reduces the impact that multiple testing correction has on our power to detect the differentially expressed genes we do care about.
 
 ## More about normalisation {#sec-frnormalisation}
+
+In workshop 7 (@sec-workshop07), we normalised our data using the TMM method before proceeding with the rest of the analysis. Here's a closer look at why normalisation is necessary, and what TMM is actually doing.
+
+There are two main factors that need to be normalised for in RNA-seq:
+
+-   **Sequencing depth/library size**: sequencing a sample to half the depth will, on average, give half the number of reads mapping to each gene [@robinson2010].
+-   **RNA composition**: if a large number of genes are unique to, or highly expressed in, only one experimental condition, the sequencing capacity available for the remaining genes in that sample is reduced. For example, imagine only five genes are being studied across two experimental groups. If one gene is particularly highly expressed in group A, then (with a fixed sequencing depth) that gene will "use up" more of the available reads, reducing the counts of the remaining four genes. The effect is that those four genes appear under-expressed in group A relative to group B, even though the true amount of gene product is actually equal between the groups for those four genes [@robinson2010].
+
+Sequencing depth is accounted for by calculating counts per million (CPM). This metric is calculated by:
+
+1.  taking the library size (the sum of all counts for a sample),
+2.  dividing this by 1,000,000 to get the 'per million' scaling factor,
+3.  then dividing every gene's read count in that sample by this scaling factor.
+
+RNA composition, on the other hand, requires a more sophisticated normalisation approach. We used the 'trimmed mean of M-values' (TMM) method [@robinson2010], which, under the assumption that most genes are not differentially expressed, calculates a library size scaling factor for each sample using the following steps:
+
+1.  calculate the gene expression log fold changes and absolute expression values for pairs of samples (selecting one sample from the experiment as a reference);
+2.  remove the genes with the most extreme (highest and lowest) fold changes and absolute expression values;
+3.  take a weighted mean of the remaining genes (where the weight is the inverse of the approximate asymptotic variance). This gives the normalisation factor for that sample.
+
+Subsequent steps in the workshop 7 analysis use log-cpm values calculated using these normalisation factors, which is why we ran `normLibSizes()` before doing anything else with our filtered `dge` object.
+
 ### Visualising the effect of normalisation
 
-To visualise the effect of TMM normalisation, we can plot the log-counts as a boxplot, and observe the effect of applying the normalisation. To create a boxplot of the log-counts, we can use `log(dge$counts + 0.5)` to create the log-count matrix. The addition of 0.5 is to avoid taking the log of zero. Then in order to use `ggplot2` for plotting, we must convert the matrix to a data frame. We can use the `as_tibble(rownames = "gene")` function to convert the matrix to a data frame where the rownames are converted to a column called "gene". We can then use the `pivot_longer()` function to convert the data frame from wide format to long format, where each row represents a single observation. This is necessary for `ggplot2` to plot the data correctly.
+To visualise the effect of TMM normalisation, we can compare boxplots of the log-counts (before normalisation) and the log-cpm (after normalisation, by both CPM and TMM).
+
+First, let's filter and normalise our `dge`, just as we did in workshop 7:
+
+```{r}
+# filter out lowly expressed genes
+keep <- filterByExpr(dge)
+dge <- dge[keep, , keep.lib.sizes = FALSE]
+
+# normalise
+dge <- normLibSizes(dge, method = "TMM")
+```
+
+To create a boxplot of the log-counts, we can use `log(dge$counts + 0.5)` to create the log-count matrix (we need to add 0.5 to avoid taking the log of zero, which is undefined).
+
+Then in order to use `ggplot2` for plotting, we must convert the matrix to a data frame. We can use the `as_tibble(rownames = "gene")` function to convert the matrix to a data frame where the rownames are converted to a column called "gene". As this data is in wide format, which is unsuitable for `ggplot2`, we must then use the `pivot_longer()` function to convert it to a long format, where each row represents a single observation:
 
 ```{r}
 as_tibble(log(dge$counts + 0.5), rownames = "gene") %>%
@@ -99,10 +162,14 @@ as_tibble(log(dge$counts + 0.5), rownames = "gene") %>%
     names_to = "sample", values_to = "expression"
   ) %>%
   ggplot(aes(x = sample, y = expression)) +
-  geom_boxplot()
+  geom_boxplot() +
+  # some theming to make it look nicer
+  theme_classic() + 
+  # rotate x axis labels so they don't overlap
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-We can compare this to the cpm values which when calculated using the `cpm()` function, automatically applies normalisation factors if they are present.
+We can compare these log-counts to the log-cpm values which, when calculated using the `cpm()` function, automatically applies normalisation factors if they are present:
 
 ```{r}
 as_tibble(cpm(dge$counts, log = TRUE), rownames = "gene") %>%
@@ -111,21 +178,27 @@ as_tibble(cpm(dge$counts, log = TRUE), rownames = "gene") %>%
     names_to = "sample", values_to = "expression"
   ) %>%
   ggplot(aes(x = sample, y = expression)) +
-  geom_boxplot()
+  geom_boxplot() +
+  # some theming to make it look nicer
+  theme_classic() + 
+  # rotate x axis labels so they don't overlap
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-We see that by performing normalisation on our data, the gene expression values of each sample now have similar medians and quantiles. This indicates that the relative expression values of each sample can be more meaningfully compared.
+We see that by performing normalisation on our data, the gene expression values of each sample now have much more similar medians and quantiles. This indicates that the relative expression values of each sample can be more meaningfully compared.
 
 ## Making an MDS plot using ggplot2 {#sec-mdsggplot2}
 
-For more customisability and better consistency with the style of other plots, it'd be nice to be able to draw the MDS plot using `ggplot2`. In order to do this we would need the MDS coordinates calculated by `plotMDS()`. Luckily the documentation of `plotMDS()` shows that it returns multiple computed values.
+So that our MDS plots don't look so ugly, we might prefer to make them with `ggplot2`. This allows us to customise them more easily, and ensures they match stylistically with the plots we might have generated earlier in our analysis.
+
+In order to do this we need the MDS coordinates calculated by `plotMDS()`. Luckily the documentation of `plotMDS()` shows that it returns multiple computed values, including the x and y coordinates for each sample:
 
 ```{r}
 mds_result <- plotMDS(dge, plot = FALSE)
 mds_result
 ```
 
-We see that there's are `x` and `y` values in the list returned by the `plotMDS()` function, we can put these into a table and see if they match up to the positions plotted by the function.
+We can put these x and y coordinates into a tibble, and use this to make a scatterplot with `ggplot2`:
 
 ```{r}
 mds_tibble <- tibble(
@@ -137,9 +210,10 @@ ggplot(mds_tibble, aes(x = x, y = y)) +
   geom_point()
 ```
 
-The positions of the points and the range of the scales seem to match, so we want to add in more metadata to help use plot. We can try to recreate the MDS plot using just `ggplot2`.
+The positions of the points and the range of the scales seem to match the plot we made with `plotMDS()`, so let's add some more metadata to our tibble to make the plot more informative:
 
 ```{r}
+# add the sample names and groups
 mds_tibble <- tibble(
   x = mds_result$x,
   y = mds_result$y,
@@ -147,14 +221,19 @@ mds_tibble <- tibble(
   group = dge$samples$group
 )
 
+# retrieve the % variation explained for dimensions 1 and 2
+# so we can label the axes the same way as for plotMDS()
+# just need to multiply proportion by 100 to get percentage
+# then round to 2 dp 
 dim1_var_explained <- round(mds_result$var.explained[1] * 100)
 dim2_var_explained <- round(mds_result$var.explained[2] * 100)
 
 ggplot(mds_tibble, aes(x = x, y = y)) +
   geom_text(aes(label = group)) +
+  # label plot using paste0(), as in tutorial 8
   labs(
-    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
-    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+    x = paste0("Leading logFC dim 1 (", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 (", dim2_var_explained, "%)")
   )
 ```
 
@@ -164,23 +243,12 @@ Now that we have our data in a nice tidy format we can use with ggplot, it's eas
 ggplot(mds_tibble, aes(x = x, y = y, col = group)) +
   geom_point() +
   labs(
-    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
-    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+    x = paste0("Leading logFC dim 1 (", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 (", dim2_var_explained, "%)")
   )
 ```
 
-Alternatively we can also use the labels to identify the individual samples while colouring them by their group.
-
-```{r}
-ggplot(mds_tibble, aes(x = x, y = y, col = group)) +
-  geom_text(aes(label = sample)) +
-  labs(
-    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
-    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
-  )
-```
-
-We see that some labels are very hard to read due to the overlapping, so we can use the `ggrepel` package to fix this. The `ggrepel` package creates labels that repel each other in order to avoid overlap. It's a good idea to use it in conjunction with `geom_point()` in order to keep track of exact coordinate of the data point.
+We can even label our points using the `ggrepel` package, which creates labels that repel each other in order to avoid overlap (see @sec-ggplot-further for more detail). It's a good idea to use it in conjunction with `geom_point()` in order to keep track of exact coordinate of the data point:
 
 ```{r}
 library(ggrepel)
@@ -188,11 +256,52 @@ ggplot(mds_tibble, aes(x = x, y = y, col = group)) +
   geom_point() +
   geom_text_repel(aes(label = sample)) +
   labs(
-    x = paste0("Leading logFC dim 1 ", "(", dim1_var_explained, "%)"),
-    y = paste0("Leading logFC dim 2 ", "(", dim2_var_explained, "%)")
+    x = paste0("Leading logFC dim 1 (", dim1_var_explained, "%)"),
+    y = paste0("Leading logFC dim 2 (", dim2_var_explained, "%)")
   )
 ```
 
 ## Making an MDS plot from arbitrary data {#sec-mds}
-how to make mds from arbitrary data
-example: use all vs all alignment distance matrix of nucleotides or amino acids short sequence
+
+So far we've only made MDS plots directly from a `DGEList`, using `plotMDS()`. But the underlying technique of taking a matrix of pairwise distances between objects and finding a low-dimensional representation of those distances isn't specific to gene expression data. Any time you have an "all vs all" distance or dissimilarity matrix between a set of objects, you can use MDS to visualise how similar or different they are from one another.
+
+For example, say we had a handful of short DNA sequences (perhaps they are transcription factor binding motifs) and wanted to visualise how similar they are to one another, based on the number of edits (insertions, deletions or substitutions). We could construct a pairwise edit distance matrix using `adist()`:
+
+```{r}
+sequences <- c(
+  seq_1 = "ACGTACGTAC",
+  seq_2 = "ACGTACGTAG",
+  seq_3 = "ACGTTCGTAC",
+  seq_4 = "TTTTACGTAC",
+  seq_5 = "TTTTACGTAG"
+)
+
+# adist() calculates the pairwise edit distance between
+# every pair of strings in a character vector
+seq_dist <- adist(sequences)
+rownames(seq_dist) <- names(sequences)
+colnames(seq_dist) <- names(sequences)
+
+seq_dist
+```
+
+Rather than using `plotMDS()` (which is specific to gene expression data), we can perform classical MDS directly on this distance matrix using the base R function `cmdscale()`:
+
+```{r}
+mds_coords <- cmdscale(seq_dist, k = 2)
+mds_coords
+```
+
+`cmdscale()` takes a distance matrix and the number of dimensions we want to reduce it down to (`k = 2`, for a standard 2D plot), and returns a matrix of coordinates, with one row per object, with columns for each dimension. As before, we can convert this to a tibble and plot it with `ggplot2`:
+
+```{r}
+mds_tibble <- as_tibble(mds_coords, rownames = "sequence") %>%
+  rename(x = V1, y = V2)
+
+ggplot(mds_tibble, aes(x = x, y = y, label = sequence)) +
+  geom_point() +
+  geom_text_repel()
+```
+
+Sequences that differ by only a single edit (e.g. `seq_1` and `seq_2`) end up plotted close together, while more dissimilar sequences (e.g. `seq_1` and `seq_4`) are placed further apart.
+

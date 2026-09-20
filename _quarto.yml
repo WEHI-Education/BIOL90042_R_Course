@@ -61,11 +61,11 @@ book:
         - workshop_6.qmd
         - tutorial_8.qmd
         - wk8_fr.qmd
-    # - part: Week 9
-    #   chapters:
-    #     - workshop_7.qmd
+    - part: Week 9
+      chapters:
+        - workshop_7.qmd
     #     - tutorial_9.qmd
-    #     - wk9_fr.qmd
+        - wk9_fr.qmd
     # - part: Weeks 10
     #   chapters:
     #     - tutorial_10.qmd
