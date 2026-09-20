@@ -99,9 +99,9 @@ The data we are looking at today comes Sheridan et al. (2015), and contains thre
 You might like to take a quick look at `dge`, our `DGEList` object. You can access the different parts ('samples', 'genes' and 'counts') using `$`, just like with columns in dataframes:
 
 ```{r}
-dge$samples # the samples in the study
-dge$genes # the genes (ID and symbol)
-dge$counts # the counts
+head(dge$samples) # the samples in the study
+head(dge$genes) # the genes (ID and symbol)
+head(dge$counts) # the counts
 ```
 
 ## An aside: other data types and structures in R {#sec-data-structures}
