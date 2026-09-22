@@ -1,5 +1,334 @@
 ---
-title: "Tutorial 9"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: "In this session:"
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
-# Tutorial 9
+# Tutorial 9: BIOL90042 final project {#sec-tute09}
+
+In this tutorial, we will introduce the final group project for
+BIOL90042, where you will analyse several related datasets in the
+context of a research program on Parkinson's Disease.
+
+## Background
+
+### Parkinson's Disease
+
+Parkinson's Disease (PD) is a neurodegenerative condition caused by the
+progressive loss of dopamine-producing neurons in a region of the brain
+called the substantia nigra. Before these neurons die, misfolded
+alpha-synuclein protein starts to build up inside them and this
+build-up, along with mitochondrial dysfunction, oxidative stress and
+neuroinflammation, seems to play a key role in driving the disease.
+
+Patients with PD experience motor symptoms such as slowed movement,
+tremor, poor balance, an unsteady gait and more frequent falls.
+Non-motor symptoms like depression, fatigue, cognitive impairment,
+psychotic symptoms and dementia are also common, and can be just as
+disruptive to a patient's quality of life.
+
+What causes PD is not fully understood. Genome-wide association studies
+(GWAS) have identified many common genetic variants (SNPs) that are more
+common in PD patients than in the general population. Patients having
+many of these common SNPs are considered to have a high polygenic risk.
+A smaller group of patients (around 10%) instead carry one of a handful
+of rare, high-risk SNPs that substantially raise their chances of
+developing PD. For everyone else, the disease is considered ‘sporadic’,
+meaning it is not clearly tied to genetics, but might instead be linked
+to long-term exposure to pesticides, heavy metals or air pollution.
+
+PD motor symptoms can be managed in the early disease stage using the
+dopamine supplement L-DOPA, however treatments to prevent neuronal cell
+death are needed, and to date there is no cure for PD.
+
+### Project scenario
+
+In this project, your group is a team of biomedical researchers tasked
+with analysing the data from WEHI’s Parkinson’s Disease research
+program, which has the following four arms: 1. Population genetics 2.
+RNA-seq of patient iPSC-derived neurons 3. Drug screening 4. Clinical
+trial
+
+As a group, you will need to use R to analyse data from these four arms,
+and present them in both a **quarto report (`.qmd`, combining code,
+plots and explanations)** and **oral presentation**. Participants are
+identified by a unique donor id (`donorid` column in the datasets), and
+some participants took part in multiple study arms, so you may use them
+to connect the different datasets.
+
+## Overview of the datasets
+
+Each group will have their own simulated datasets, available to download
+from canvas. They are provided to you as R data files (`.Rda`), which
+you can read in using the `load()` function, or by clicking on them from
+the files panel.
+
+We will now go through the datasets and briefly explain their contents.
+
+```{r}
+#| message: false
+library(tidyverse)
+load("data/example_group_project_data/prs.Rda")
+load("data/example_group_project_data/rnaseq.Rda")
+load("data/example_group_project_data/rnaseq_gene_info.Rda")
+load("data/example_group_project_data/drugscreen.Rda")
+load("data/example_group_project_data/gait.Rda")
+```
+
+### Population genetics
+
+This data is in the `prs.Rda` file.
+
+A GWAS has been performed on Australian PD patients (cases) and healthy
+controls. The top hits are summarised in the `gwas_top_hits` dataframe:
+
+```{r}
+gwas_top_hits
+```
+
+For each of these 15 loci, the reference and alternative alleles are
+given, and a GWAS risk coefficient (`beta` column) has been calculated.
+You will need this information to calculate polygenic risk scores (PRS)
+for the patients in this study.
+
+The genotypes of 150 PD patients and 150 healthy controls at these 15
+loci were determined, and are provided in the `ca_co_genotypes`
+dataframe:
+
+```{r}
+ca_co_genotypes
+```
+
+There is one column for each risk locus, and the values in these columns
+represent the 'risk genotype dosage' (how many copies of the risky
+allele an individual has: 0, 1 or 2).
+
+To calculate the PRS of an individual, take the sum of each locus' risk
+genotype dosage by the corresponding GWAS risk coefficient.
+
+More information about GWAS can be found in lecture 7.
+
+### RNA-seq of patient iPSC-derived neurons
+
+This data is in the `rnsaeq.Rda` (DGEList) and `rnaseq_gene_info.Rda`
+(gene names and gene ontology data).
+
+To compare the transcriptional profiles of PD neurons compared to
+healthy controls, induced pluripotent stem cells (iPSCs) from 8 PD
+patients and 8 healthy age and sex-matched controls were differentiated
+into dopaminergic neurons. After two weeks in culture, RNA was isolated,
+sequenced and pre-processed to generate the DGEList object, `dge`.
+
+You are also provided with `entrez_genename_key`, a dataframe that
+connects the [Entrez
+IDs](https://pmc.ncbi.nlm.nih.gov/articles/PMC1761442/) of genes (as
+given in `dge$genes`) to the actual gene names and description:
+
+```{r}
+entrez_genename_key
+```
+
+[Gene ontology (GO)](https://geneontology.org/) information, which
+describes the broad biological functions of genes is provided in the
+`gene_ontology` dataframe:
+
+```{r}
+gene_ontology
+```
+
+GO is useful for interpreting the your differential expression (DE)
+results, without needing to do extensive research on all of your DE
+genes.
+
+More information about RNA-seq analysis can be found in workshop 7 (see
+@sec-workshop07).
+
+### Drug screening
+
+This data is in the `drugscreen.Rda` file.
+
+To identify chemical compounds that can protect neurons from cytotoxic
+stress, a drug screen was performed using a 1536-well plate containing
+dopaminergic neurons from a healthy donor. 192 test compounds, and 192
+control compounds were each tested in technical quadruplicate (i.e.,
+each compound in 4 separate wells). The compound in each cell is
+described in the `plate_meta` dataframe:
+
+```{r}
+plate_meta
+```
+
+Each test compound has a control which has the same molecular weight and
+molecular constituents, but different chemistry with no known biological
+activity. The enzyme target and mechanism of action for each of the test
+compounds is known, and described in the `compound_dict` dataframe:
+
+```{r}
+compound_dict
+```
+
+After adding the compound to the neurons, all wells were treated with
+MPP, a chemical that causes oxidative stress and mitochondrial damage to
+mimick PD disease biology. After 24 hours of incubation, neuronal
+viability was measured in a luminescence assay. Cells that survived and
+grew despite MPP exposure have the highest luminescence values, whereas
+those damaged by MPP have lower luminescence values. These luminescence
+values are given in relative light units (RLU) in the `plate1`
+dataframe:
+
+```{r}
+plate1
+```
+
+### Clinical trial
+
+This data is in the `gait.Rda` file.
+
+It turns out that one of the hits from the drug screen is already
+approved (for other diseases) by the Australian Therapeutic Goods
+Administration. Thus, a clinical trial is designed to test the effect of
+this drug on PD motor symptoms. 16 PD patients are andomly assigned to
+L-DOPA (current standard of care), or the trial drug. In addition, half
+of the patients in each treatment group are randomly assigned to a
+supervised daily exercise routine.
+
+All patients are given a smart watch to wear that measures their
+vertical orientation (in degrees off-axis) whilst walking throughout the
+day (every second, for 700 seconds). This measurement (in the `1_secs`,
+`2_secs`, etc columns), is a proxy for balance and smoothness of motion
+whilst walking. A measurement of 0 in indicates that the patient is
+standing perfectly upright.
+
+Note that watches are not worn during the exercise routine, just during
+everyday activities.
+
+```{r}
+gait_data
+```
+
+## Research questions
+
+You are welcome to explore the data as you wish, but **the following
+questions should be answered for each dataset in your quarto report**.
+Due to time constraints for the oral presentation, you will need to
+choose what you think is the most interesting/relevant to present
+
+### Population genetics
+
+1.  Calculate a PRS for each participant. Which participant has the
+    highest PRS? The lowest?
+2.  Plot and describe (with descriptive statistics) the distribution of
+    PRS for both cases and controls.
+3.  Is there a statistically significant difference in the PRS of cases
+    and controls? Ensure you check all the assumptions of the test you
+    choose.
+
+### RNA-seq of patient iPSC-derived neurons
+
+1.  Which genes are differentially expressed between PD cases and
+    healthy controls? Please also visualise your DE results with
+    appropriate plot(s).
+2.  Which gene ontology families do the DE genes belong to?
+3.  Is the clustering of samples by gene expression consistent with
+    their disease status as cases and controls?
+
+### Drug screening
+
+1.  Using the `geom_tile()` function, visualise the luminescence across
+    the plate. Do there appear to be any spatial patterns in this data?
+2.  Which compounds are statistically significantly associated with
+    increased neuronal viability after MPP exposure? Ensure that you
+    check your assumptions.
+3.  What are the mechanisms of action and targets of the compounds you
+    identify in Q2?
+
+### Clinical trial
+
+1.  Plot each participants' gait data and describe it using descriptive
+    statistics. Which of these descriptive statistics do you think is
+    most useful for capturing the overall gait smoothness and balance of
+    a participant?
+2.  Is there a statistically significant difference in gait between
+    participants receiving L-DOPA and the new compound? Ensure that you
+    check your assumptions.
+3.  Does either of age or the exercise regime affect gait? If so, take
+    this into consideration when investigating the relationship between
+    the treatment and gait.
+
+### Bringing it together/linking between datasets
+
+1.  Using their unique donor IDs, how many patients appear across all
+    four arms of the study?
+2.  Do any variables other than gene expression distinguish the RNA-seq
+    cases from controls? (Hint: try colouring points on your MDS plot by
+    other information you have about the donors, from the other
+    datasets)
+3.  Are any of the gene targets of hit compounds from the drug screen,
+    differentially expressed in RNA-seq? Which GO terms are they
+    associated with and what might this tell you about the pathology of
+    PD?
+4.  Is there any relationship between the PRS and gait of patients in
+    the clinical trial?
+5.  In a paragraph, summarise your findings and suggest directions for
+    future research.
+
+## Deliverables
+
+Each group will need to produce the following:
+
+### Quarto report (code)
+
+You should **begin by making an R project for your group** (see
+@sec-fr-project for instructions on how to do this) where you will store
+all of your data, code and any plots/outputs you save. Then, make a
+quarto report (`.qmd` file) that contains **both** your analysis code
+and explanations/interpretations of your findings. **You need to submit
+the entire R project**, as a zip file so that we can test your code on
+the data.
+
+Tips for code/organisation:
+
+-   You may produce multiple reports (for example one for each dataset)
+    if this is easier for you to manage within your groups, as long as
+    they are clearly named
+
+-   If you find it helpful, you are welcome to work within git (see
+    @sec-tute07) but this is not mandatory
+
+-   Ensure all of your code is well-commented and the logic behind what
+    you're doing is clear
+
+-   It is expected that all of the research questions will be addressed
+    in your report.
+
+Tips for data visualisation:
+
+-   Make sure the colour schemes are consistent (e.g. PD cases and
+    healthy controls should always use the same colours across all
+    plots)
+
+-   Make sure you label your plots nicely (headings, axis labels)
+
+-   Particularly for the oral presentation, make sure that the font size
+    on the plots is big enough that we can easily read it on the slide
+
+### Oral presentation
+
+In the final tutorial (week 12), we will go over some tips for science
+communication. In general though:
+
+-   Due to the time limit, it won't be possible to include all of your
+    results. Just choose a selection of the things you found most
+    interesting and focus on presenting those clearly without rushing
+
+-   Slides should focus primarily on graphical representations of the
+    data, with summary statistics or statistical test results (e.g. p
+    value) included as appropriate
+
+-   Be prepared to answer questions about your approach to answering the
+    questions (code), as well as your interpretation of the results

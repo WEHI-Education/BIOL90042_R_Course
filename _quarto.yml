@@ -64,7 +64,7 @@ book:
     - part: Week 9
       chapters:
         - workshop_7.qmd
-    #     - tutorial_9.qmd
+        - tutorial_9.qmd
         - wk9_fr.qmd
     # - part: Weeks 10
     #   chapters:
