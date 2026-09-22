@@ -332,3 +332,13 @@ communication. In general though:
 
 -   Be prepared to answer questions about your approach to answering the
     questions (code), as well as your interpretation of the results
+
+## A note on AI usage
+
+You are permitted to use AI to help you with this assessment, but
+remember that you are responsible for your code, so please check
+anything you get from AI thoroughly! Also, if your code isn't commented
+clearly, or you can't answer questions about why you chose a certain
+approach (particularly over one we covered in class), you will lose
+marks regardless of whether or not the output is correct, so you need to
+understand the code you submit.
