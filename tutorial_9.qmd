@@ -297,8 +297,7 @@ Tips for code/organisation:
     if this is easier for you to manage within your groups, as long as
     they are clearly named
 
--   If you find it helpful, you are welcome to work within git (see
-    @sec-tute07) but this is not mandatory
+-   If you find it helpful, you are welcome to work within git (see @sec-tute07) but this is not mandatory
 
 -   Ensure all of your code is well-commented and the logic behind what
     you're doing is clear
