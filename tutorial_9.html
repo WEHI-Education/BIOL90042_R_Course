@@ -449,6 +449,7 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
   <li><a href="#quarto-report-code" id="toc-quarto-report-code" class="nav-link" data-scroll-target="#quarto-report-code"><span class="header-section-number">23.4.1</span> Quarto report (code)</a></li>
   <li><a href="#oral-presentation" id="toc-oral-presentation" class="nav-link" data-scroll-target="#oral-presentation"><span class="header-section-number">23.4.2</span> Oral presentation</a></li>
   </ul></li>
+  <li><a href="#a-note-on-ai-usage" id="toc-a-note-on-ai-usage" class="nav-link" data-scroll-target="#a-note-on-ai-usage"><span class="header-section-number">23.5</span> A note on AI usage</a></li>
   </ul>
 </nav>
 <div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
@@ -518,21 +519,21 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <pre><code># A tibble: 15 × 7
    locus        ref   alt    beta   maf     se     pval
    &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
- 1 locus_1_A_C  A     C     0.163 0.284 0.0222 1.97e-13
- 2 locus_2_G_C  G     C     0.182 0.192 0.0254 7.87e-13
- 3 locus_3_C_G  C     G     0.177 0.187 0.0257 5.02e-12
- 4 locus_4_G_T  G     T     0.178 0.269 0.0226 3.33e-15
- 5 locus_5_T_A  T     A     0.213 0.174 0.0264 6.66e-16
- 6 locus_6_T_G  T     G     0.175 0.225 0.024  2.51e-13
- 7 locus_7_T_G  T     G     0.202 0.162 0.0271 9.81e-14
- 8 locus_8_C_G  C     G     0.198 0.167 0.0268 1.52e-13
- 9 locus_9_T_C  T     C     0.158 0.283 0.0222 9.51e-13
-10 locus_10_C_A C     A     0.173 0.289 0.0221 4.44e-15
-11 locus_11_T_G T     G     0.159 0.227 0.0239 2.54e-11
-12 locus_12_C_A C     A     0.165 0.274 0.0224 2.01e-13
-13 locus_13_G_T G     T     0.163 0.205 0.0248 5.04e-11
-14 locus_14_G_C G     C     0.187 0.264 0.0227 2.22e-16
-15 locus_15_T_C T     C     0.241 0.137 0.0291 2.22e-16</code></pre>
+ 1 locus_1_A_G  A     G     0.207 0.179 0.0261 1.78e-15
+ 2 locus_2_A_G  A     G     0.219 0.114 0.0315 3.47e-12
+ 3 locus_3_C_T  C     T     0.207 0.178 0.0261 2.44e-15
+ 4 locus_4_A_C  A     C     0.19  0.223 0.024  2.89e-15
+ 5 locus_5_A_G  A     G     0.176 0.247 0.0232 3.15e-14
+ 6 locus_6_C_T  C     T     0.223 0.127 0.03   1.24e-13
+ 7 locus_7_G_A  G     A     0.168 0.255 0.0229 2.25e-13
+ 8 locus_8_T_G  T     G     0.192 0.206 0.0247 9.1 e-15
+ 9 locus_9_C_A  C     A     0.183 0.192 0.0254 5.87e-13
+10 locus_10_C_T C     T     0.194 0.205 0.0248 5.11e-15
+11 locus_11_G_C G     C     0.163 0.231 0.0237 6.1 e-12
+12 locus_12_T_G T     G     0.251 0.105 0.0327 1.62e-14
+13 locus_13_A_G A     G     0.156 0.23  0.0237 4.62e-11
+14 locus_14_A_C A     C     0.206 0.145 0.0284 3.79e-13
+15 locus_15_T_G T     G     0.255 0.107 0.0323 3.33e-15</code></pre>
 </div>
 </div>
 <p>For each of these 15 loci, the reference and alternative alleles are given, and a GWAS risk coefficient (<code>beta</code> column) has been calculated. You will need this information to calculate polygenic risk scores (PRS) for the patients in this study.</p>
@@ -541,23 +542,23 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ca_co_genotypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 300 × 17
-   donorid status locus_1_A_C locus_2_G_C locus_3_C_G locus_4_G_T locus_5_T_A
+   donorid status locus_1_A_G locus_2_A_G locus_3_C_T locus_4_A_C locus_5_A_G
    &lt;chr&gt;   &lt;chr&gt;        &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;
- 1 d001    case             1           1           0           0           1
- 2 d002    case             0           0           0           1           0
- 3 d003    case             0           0           1           1           0
- 4 d004    case             2           0           0           0           0
- 5 d005    ctrl             1           0           1           0           0
- 6 d006    ctrl             1           1           0           0           1
- 7 d007    case             0           0           1           0           1
- 8 d008    case             0           1           0           2           0
- 9 d009    case             1           1           0           1           1
-10 d010    ctrl             0           0           0           0           1
+ 1 d001    case             1           0           1           1           0
+ 2 d002    ctrl             0           0           0           0           1
+ 3 d003    ctrl             1           1           0           0           0
+ 4 d004    ctrl             1           0           1           0           0
+ 5 d005    case             0           1           0           0           0
+ 6 d006    ctrl             0           0           0           0           1
+ 7 d007    ctrl             0           1           0           1           0
+ 8 d008    case             0           0           0           0           1
+ 9 d009    case             0           0           0           1           0
+10 d010    case             1           0           1           0           0
 # ℹ 290 more rows
-# ℹ 10 more variables: locus_6_T_G &lt;int&gt;, locus_7_T_G &lt;int&gt;, locus_8_C_G &lt;int&gt;,
-#   locus_9_T_C &lt;int&gt;, locus_10_C_A &lt;int&gt;, locus_11_T_G &lt;int&gt;,
-#   locus_12_C_A &lt;int&gt;, locus_13_G_T &lt;int&gt;, locus_14_G_C &lt;int&gt;,
-#   locus_15_T_C &lt;int&gt;</code></pre>
+# ℹ 10 more variables: locus_6_C_T &lt;int&gt;, locus_7_G_A &lt;int&gt;, locus_8_T_G &lt;int&gt;,
+#   locus_9_C_A &lt;int&gt;, locus_10_C_T &lt;int&gt;, locus_11_G_C &lt;int&gt;,
+#   locus_12_T_G &lt;int&gt;, locus_13_A_G &lt;int&gt;, locus_14_A_C &lt;int&gt;,
+#   locus_15_T_G &lt;int&gt;</code></pre>
 </div>
 </div>
 <p>There is one column for each risk locus, and the values in these columns represent the ‘risk genotype dosage’ (how many copies of the risky allele an individual has: 0, 1 or 2).</p>
@@ -621,16 +622,16 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <pre><code># A tibble: 32 × 49
    plate_row col1    col2  col3  col4  col5  col6  col7  col8  col9  col10 col11
    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
- 1 row1      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 2 row2      cmpd_7… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 1 row1      cmpd_7… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 2 row2      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
  3 row3      cmpd_7… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 4 row4      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 5 row5      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 6 row6      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 7 row7      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 8 row8      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
- 9 row9      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
-10 row10     cmpd_5… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 4 row4      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 5 row5      cmpd_5… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 6 row6      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 7 row7      cmpd_7… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 8 row8      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 9 row9      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+10 row10     cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
 # ℹ 22 more rows
 # ℹ 37 more variables: col12 &lt;chr&gt;, col13 &lt;chr&gt;, col14 &lt;chr&gt;, col15 &lt;chr&gt;,
 #   col16 &lt;chr&gt;, col17 &lt;chr&gt;, col18 &lt;chr&gt;, col19 &lt;chr&gt;, col20 &lt;chr&gt;,
@@ -647,16 +648,16 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <pre><code># A tibble: 192 × 4
    id        target_enzyme action     hgnc_symbol
    &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      
- 1 cmpd_4005          6041 agonist    RNASEL     
- 2 cmpd_4013          5211 antagonist PFKL       
- 3 cmpd_4014         55178 antagonist MRM3       
- 4 cmpd_4054         11240 agonist    PADI2      
- 5 cmpd_4060          8908 agonist    GYG2       
- 6 cmpd_4121          9601 antagonist PDIA4      
- 7 cmpd_4125        440307 agonist    TTLL13     
- 8 cmpd_4161         54490 agonist    UGT2B28    
- 9 cmpd_4186         23475 antagonist QPRT       
-10 cmpd_4197         51265 antagonist CDKL3      
+ 1 cmpd_4027          5446 agonist    PON3       
+ 2 cmpd_4030         27342 antagonist RABGEF1    
+ 3 cmpd_4032        375748 agonist    ERCC6L2    
+ 4 cmpd_4044         79912 antagonist PYROXD1    
+ 5 cmpd_4068        196074 antagonist METTL15    
+ 6 cmpd_4080         10390 agonist    CEPT1      
+ 7 cmpd_4094          6716 antagonist SRD5A2     
+ 8 cmpd_4143           222 antagonist ALDH3B2    
+ 9 cmpd_4144          7323 agonist    UBE2D3     
+10 cmpd_4174         89869 agonist    PLCZ1      
 # ℹ 182 more rows</code></pre>
 </div>
 </div>
@@ -667,16 +668,16 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <pre><code># A tibble: 32 × 49
    plate_row  col1  col2  col3  col4  col5  col6  col7  col8  col9 col10 col11
    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1 row1        503   508   500   458   478   511   497   530   499   483   519
- 2 row2        534   512   509   526   468   520   472   526   531   482   534
- 3 row3        519   486   510   482   528   486   520   481   454   529   516
- 4 row4        468   530   430   521   481   468   506   508   528   473   444
- 5 row5        486   460   491   484   462   532   498   475   535   480   501
- 6 row6        457   513   544   504   486   462   499   479   511   494   499
- 7 row7        469   550   494   495   466   526   530   476   462   462   528
- 8 row8        502   487   487   502   475   459   475   509   516   472   461
- 9 row9        491   501   457   500   489   497   455   658   489   534   470
-10 row10       493   562   489   529   497   522   482   506   490   485   518
+ 1 row1        526   485   509   513   481   503   553   484   728   546   462
+ 2 row2        507   487   521   537   507   516   508   505   570   516   519
+ 3 row3        489   534   520   492   480   497   452   523   496   505   502
+ 4 row4        450   497   529   513   502   451   525   474   509   541   480
+ 5 row5        554   472   472   532   489   511   693   547   503   499   467
+ 6 row6        510   530   547   495   509   501   470   464   513   498   474
+ 7 row7        500   501   511   489   475   506   507   515   503   506   480
+ 8 row8        485   507   555   447   482   478   455   496   461   509   500
+ 9 row9        496   500   481   531   535   535   480   472   470   467   501
+10 row10       502   486   498   541   464   462   474   494   535   505   491
 # ℹ 22 more rows
 # ℹ 37 more variables: col12 &lt;dbl&gt;, col13 &lt;dbl&gt;, col14 &lt;dbl&gt;, col15 &lt;dbl&gt;,
 #   col16 &lt;dbl&gt;, col17 &lt;dbl&gt;, col18 &lt;dbl&gt;, col19 &lt;dbl&gt;, col20 &lt;dbl&gt;,
@@ -699,22 +700,22 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <pre><code># A tibble: 16 × 704
    donorid treatment   age exercise `1_secs` `2_secs` `3_secs` `4_secs` `5_secs`
    &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
- 1 d024    New comp…  64.4 y           0.759    0.809     1.44    3.71    -1.73 
- 2 d030    L-DOPA c…  85.6 n           3.88    12.3      -3.11   12.0    -28.5  
- 3 d032    New comp…  64.2 y           2.68    -3.92     -1.89    0.582    3.28 
- 4 d049    L-DOPA c…  67.6 y          -0.696   10.5      -5.46   -8.03     1.81 
- 5 d064    New comp…  67.8 n          -3.70    16.5       4.88  -18.5      5.42 
- 6 d065    New comp…  81.9 n           6.30    16.4     -12.1    -0.994  -18.3  
- 7 d082    New comp…  82.8 n         -10.8     -2.11    -20.5   -31.8     16.8  
- 8 d090    New comp…  69.8 y           1.33    -5.30     -8.88   11.8    -17.0  
- 9 d102    L-DOPA c…  69.2 n         -20.1     -0.596   -11.5     4.76     6.28 
-10 d119    L-DOPA c…  71.4 y           4.70   -16.5       8.10    9.76     6.62 
-11 d169    L-DOPA c…  64.9 n           4.77    -4.15     26.0    -5.70    14.5  
-12 d170    New comp…  64.5 n          11.8      3.91      6.68   14.9      0.529
-13 d179    L-DOPA c…  66.2 n          -5.90     2.39     -4.47   11.4    -15.8  
-14 d221    L-DOPA c…  81.9 y          12.7     -6.64      8.83   13.3      0.872
-15 d274    New comp…  76.0 y          -0.700    8.52     -3.11   -3.58    -2.85 
-16 d296    L-DOPA c…  77.2 y           4.86    14.4       8.67   -1.91   -17.9  
+ 1 d055    L-DOPA c…  67.6 y          -0.696   10.5      -5.46   -8.03     1.81 
+ 2 d059    L-DOPA c…  77.2 y           4.86    14.4       8.67   -1.91   -17.9  
+ 3 d075    L-DOPA c…  71.4 y           4.70   -16.5       8.10    9.76     6.62 
+ 4 d116    L-DOPA c…  69.2 n         -20.1     -0.596   -11.5     4.76     6.28 
+ 5 d137    New comp…  81.9 n           6.30    16.4     -12.1    -0.994  -18.3  
+ 6 d147    New comp…  82.8 n         -10.8     -2.11    -20.5   -31.8     16.8  
+ 7 d167    New comp…  64.4 y           0.759    0.809     1.44    3.71    -1.73 
+ 8 d169    L-DOPA c…  81.9 y          12.7     -6.64      8.83   13.3      0.872
+ 9 d171    L-DOPA c…  64.9 n           4.77    -4.15     26.0    -5.70    14.5  
+10 d219    New comp…  76.0 y          -0.700    8.52     -3.11   -3.58    -2.85 
+11 d242    New comp…  64.5 n          11.8      3.91      6.68   14.9      0.529
+12 d261    New comp…  67.8 n          -3.70    16.5       4.88  -18.5      5.42 
+13 d262    L-DOPA c…  85.6 n           3.88    12.3      -3.11   12.0    -28.5  
+14 d286    L-DOPA c…  66.2 n          -5.90     2.39     -4.47   11.4    -15.8  
+15 d292    New comp…  69.8 y           1.33    -5.30     -8.88   11.8    -17.0  
+16 d298    New comp…  64.2 y           2.68    -3.92     -1.89    0.582    3.28 
 # ℹ 695 more variables: `6_secs` &lt;dbl&gt;, `7_secs` &lt;dbl&gt;, `8_secs` &lt;dbl&gt;,
 #   `9_secs` &lt;dbl&gt;, `10_secs` &lt;dbl&gt;, `11_secs` &lt;dbl&gt;, `12_secs` &lt;dbl&gt;,
 #   `13_secs` &lt;dbl&gt;, `14_secs` &lt;dbl&gt;, `15_secs` &lt;dbl&gt;, `16_secs` &lt;dbl&gt;,
@@ -781,10 +782,7 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <p>Tips for code/organisation:</p>
 <ul>
 <li><p>You may produce multiple reports (for example one for each dataset) if this is easier for you to manage within your groups, as long as they are clearly named</p></li>
-<li><p>If you find it helpful, you are welcome to work within git (see</p>
-<ol class="example" type="1">
-<li>but this is not mandatory</li>
-</ol></li>
+<li><p>If you find it helpful, you are welcome to work within git (see <a href="tutorial_7.html" class="quarto-xref"><span>Chapter 18</span></a>) but this is not mandatory</p></li>
 <li><p>Ensure all of your code is well-commented and the logic behind what you’re doing is clear</p></li>
 <li><p>It is expected that all of the research questions will be addressed in your report.</p></li>
 </ul>
@@ -803,11 +801,15 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <li><p>Slides should focus primarily on graphical representations of the data, with summary statistics or statistical test results (e.g.&nbsp;p value) included as appropriate</p></li>
 <li><p>Be prepared to answer questions about your approach to answering the questions (code), as well as your interpretation of the results</p></li>
 </ul>
+</section>
+</section>
+<section id="a-note-on-ai-usage" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="a-note-on-ai-usage"><span class="header-section-number">23.5</span> A note on AI usage</h2>
+<p>You are permitted to use AI to help you with this assessment, but remember that you are responsible for your code, so please check anything you get from AI thoroughly! Also, if your code isn’t commented clearly, or you can’t answer questions about why you chose a certain approach (particularly over one we covered in class), you will lose marks regardless of whether or not the output is correct, so you need to understand the code you submit.</p>
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1573,41 +1575,50 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <span id="cb18-315"><a href="#cb18-315" aria-hidden="true" tabindex="-1"></a>    if this is easier for you to manage within your groups, as long as</span>
 <span id="cb18-316"><a href="#cb18-316" aria-hidden="true" tabindex="-1"></a>    they are clearly named</span>
 <span id="cb18-317"><a href="#cb18-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-318"><a href="#cb18-318" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If you find it helpful, you are welcome to work within git (see</span>
-<span id="cb18-319"><a href="#cb18-319" aria-hidden="true" tabindex="-1"></a>    @sec-tute07) but this is not mandatory</span>
-<span id="cb18-320"><a href="#cb18-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-321"><a href="#cb18-321" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ensure all of your code is well-commented and the logic behind what</span>
-<span id="cb18-322"><a href="#cb18-322" aria-hidden="true" tabindex="-1"></a>    you're doing is clear</span>
-<span id="cb18-323"><a href="#cb18-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-324"><a href="#cb18-324" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It is expected that all of the research questions will be addressed</span>
-<span id="cb18-325"><a href="#cb18-325" aria-hidden="true" tabindex="-1"></a>    in your report.</span>
-<span id="cb18-326"><a href="#cb18-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a>Tips for data visualisation:</span>
-<span id="cb18-328"><a href="#cb18-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-329"><a href="#cb18-329" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Make sure the colour schemes are consistent (e.g. PD cases and</span>
-<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a>    healthy controls should always use the same colours across all</span>
-<span id="cb18-331"><a href="#cb18-331" aria-hidden="true" tabindex="-1"></a>    plots)</span>
-<span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Make sure you label your plots nicely (headings, axis labels)</span>
-<span id="cb18-334"><a href="#cb18-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-335"><a href="#cb18-335" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Particularly for the oral presentation, make sure that the font size</span>
-<span id="cb18-336"><a href="#cb18-336" aria-hidden="true" tabindex="-1"></a>    on the plots is big enough that we can easily read it on the slide</span>
-<span id="cb18-337"><a href="#cb18-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-338"><a href="#cb18-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Oral presentation</span></span>
-<span id="cb18-339"><a href="#cb18-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-340"><a href="#cb18-340" aria-hidden="true" tabindex="-1"></a>In the final tutorial (week 12), we will go over some tips for science</span>
-<span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a>communication. In general though:</span>
-<span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Due to the time limit, it won't be possible to include all of your</span>
-<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a>    results. Just choose a selection of the things you found most</span>
-<span id="cb18-345"><a href="#cb18-345" aria-hidden="true" tabindex="-1"></a>    interesting and focus on presenting those clearly without rushing</span>
-<span id="cb18-346"><a href="#cb18-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-347"><a href="#cb18-347" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Slides should focus primarily on graphical representations of the</span>
-<span id="cb18-348"><a href="#cb18-348" aria-hidden="true" tabindex="-1"></a>    data, with summary statistics or statistical test results (e.g. p</span>
-<span id="cb18-349"><a href="#cb18-349" aria-hidden="true" tabindex="-1"></a>    value) included as appropriate</span>
-<span id="cb18-350"><a href="#cb18-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-351"><a href="#cb18-351" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Be prepared to answer questions about your approach to answering the</span>
-<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a>    questions (code), as well as your interpretation of the results</span>
+<span id="cb18-318"><a href="#cb18-318" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If you find it helpful, you are welcome to work within git (see @sec-tute07) but this is not mandatory</span>
+<span id="cb18-319"><a href="#cb18-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-320"><a href="#cb18-320" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ensure all of your code is well-commented and the logic behind what</span>
+<span id="cb18-321"><a href="#cb18-321" aria-hidden="true" tabindex="-1"></a>    you're doing is clear</span>
+<span id="cb18-322"><a href="#cb18-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-323"><a href="#cb18-323" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It is expected that all of the research questions will be addressed</span>
+<span id="cb18-324"><a href="#cb18-324" aria-hidden="true" tabindex="-1"></a>    in your report.</span>
+<span id="cb18-325"><a href="#cb18-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-326"><a href="#cb18-326" aria-hidden="true" tabindex="-1"></a>Tips for data visualisation:</span>
+<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-328"><a href="#cb18-328" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Make sure the colour schemes are consistent (e.g. PD cases and</span>
+<span id="cb18-329"><a href="#cb18-329" aria-hidden="true" tabindex="-1"></a>    healthy controls should always use the same colours across all</span>
+<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a>    plots)</span>
+<span id="cb18-331"><a href="#cb18-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Make sure you label your plots nicely (headings, axis labels)</span>
+<span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-334"><a href="#cb18-334" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Particularly for the oral presentation, make sure that the font size</span>
+<span id="cb18-335"><a href="#cb18-335" aria-hidden="true" tabindex="-1"></a>    on the plots is big enough that we can easily read it on the slide</span>
+<span id="cb18-336"><a href="#cb18-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-337"><a href="#cb18-337" aria-hidden="true" tabindex="-1"></a><span class="fu">### Oral presentation</span></span>
+<span id="cb18-338"><a href="#cb18-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-339"><a href="#cb18-339" aria-hidden="true" tabindex="-1"></a>In the final tutorial (week 12), we will go over some tips for science</span>
+<span id="cb18-340"><a href="#cb18-340" aria-hidden="true" tabindex="-1"></a>communication. In general though:</span>
+<span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Due to the time limit, it won't be possible to include all of your</span>
+<span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a>    results. Just choose a selection of the things you found most</span>
+<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a>    interesting and focus on presenting those clearly without rushing</span>
+<span id="cb18-345"><a href="#cb18-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-346"><a href="#cb18-346" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Slides should focus primarily on graphical representations of the</span>
+<span id="cb18-347"><a href="#cb18-347" aria-hidden="true" tabindex="-1"></a>    data, with summary statistics or statistical test results (e.g. p</span>
+<span id="cb18-348"><a href="#cb18-348" aria-hidden="true" tabindex="-1"></a>    value) included as appropriate</span>
+<span id="cb18-349"><a href="#cb18-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-350"><a href="#cb18-350" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Be prepared to answer questions about your approach to answering the</span>
+<span id="cb18-351"><a href="#cb18-351" aria-hidden="true" tabindex="-1"></a>    questions (code), as well as your interpretation of the results</span>
+<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-353"><a href="#cb18-353" aria-hidden="true" tabindex="-1"></a><span class="fu">## A note on AI usage</span></span>
+<span id="cb18-354"><a href="#cb18-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-355"><a href="#cb18-355" aria-hidden="true" tabindex="-1"></a>You are permitted to use AI to help you with this assessment, but</span>
+<span id="cb18-356"><a href="#cb18-356" aria-hidden="true" tabindex="-1"></a>remember that you are responsible for your code, so please check</span>
+<span id="cb18-357"><a href="#cb18-357" aria-hidden="true" tabindex="-1"></a>anything you get from AI thoroughly! Also, if your code isn't commented</span>
+<span id="cb18-358"><a href="#cb18-358" aria-hidden="true" tabindex="-1"></a>clearly, or you can't answer questions about why you chose a certain</span>
+<span id="cb18-359"><a href="#cb18-359" aria-hidden="true" tabindex="-1"></a>approach (particularly over one we covered in class), you will lose</span>
+<span id="cb18-360"><a href="#cb18-360" aria-hidden="true" tabindex="-1"></a>marks regardless of whether or not the output is correct, so you need to</span>
+<span id="cb18-361"><a href="#cb18-361" aria-hidden="true" tabindex="-1"></a>understand the code you submit.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
