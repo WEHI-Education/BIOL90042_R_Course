@@ -90,7 +90,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./wk9_fr.html" rel="next">
+<link href="./tutorial_9.html" rel="next">
 <link href="./wk8_fr.html" rel="prev">
 <link href="./favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
@@ -455,8 +455,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./tutorial_9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Tutorial 9: BIOL90042 final project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./wk9_fr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
   </div>
 </li>
       </ul>
@@ -616,7 +622,7 @@ Update all/some/none? [a/s/n]:</code></pre>
 <li><code>samples</code>: a data frame containing annotation for the samples. The rows in this table describe the corresponding column of the counts data.</li>
 <li><code>genes</code>: a data frame containing annotation for the genes in the counts matrix. The rows in this table describe the corresponding row in the counts matrix.</li>
 </ul>
-<p>To learn how to construct a DGEList object yourself, consult the further reading for this week (<a href="wk9_fr.html#sec-makedgelist" class="quarto-xref"><span>Section 23.2</span></a>). Otherwise, run the following code to download and read in the DGEList for today:</p>
+<p>To learn how to construct a DGEList object yourself, consult the further reading for this week (<a href="wk9_fr.html#sec-makedgelist" class="quarto-xref"><span>Section 24.2</span></a>). Otherwise, run the following code to download and read in the DGEList for today:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># download from github and save in your data/ directory</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda"</span>, <span class="st">"./data/DGEList.Rda"</span>)</span>
@@ -640,7 +646,7 @@ Update all/some/none? [a/s/n]:</code></pre>
 </section>
 <section id="background-on-todays-data" class="level2" data-number="22.2">
 <h2 data-number="22.2" class="anchored" data-anchor-id="background-on-todays-data"><span class="header-section-number">22.2</span> Background on today’s data</h2>
-<p>The data we are looking at today comes Sheridan et al.&nbsp;(2015), and contains three different cell populations: basal, luminal progenitor (LP) and mature luminal (ML) which were isolated from the mammary glands of female virgin mice, in triplicate<span class="citation" data-cites="sheridan2015a"><sup><a href="#ref-sheridan2015a" role="doc-biblioref">1</a></sup></span>. These samples have been sequenced using the Illumina HiSeq 2000 platform, and pre-processed using <code>featureCounts</code> from the <code>Rsubread</code> package (see <a href="wk9_fr.html#sec-preprocessing" class="quarto-xref"><span>Section 23.1</span></a> for more information about RNA-seq pre-processing).</p>
+<p>The data we are looking at today comes Sheridan et al.&nbsp;(2015), and contains three different cell populations: basal, luminal progenitor (LP) and mature luminal (ML) which were isolated from the mammary glands of female virgin mice, in triplicate<span class="citation" data-cites="sheridan2015a"><sup><a href="#ref-sheridan2015a" role="doc-biblioref">1</a></sup></span>. These samples have been sequenced using the Illumina HiSeq 2000 platform, and pre-processed using <code>featureCounts</code> from the <code>Rsubread</code> package (see <a href="wk9_fr.html#sec-preprocessing" class="quarto-xref"><span>Section 24.1</span></a> for more information about RNA-seq pre-processing).</p>
 <p>You might like to take a quick look at <code>dge</code>, our <code>DGEList</code> object. You can access the different parts (‘samples’, ‘genes’ and ‘counts’) using <code>$</code>, just like with columns in dataframes:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dge<span class="sc">$</span>samples) <span class="co"># the samples in the study</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -842,7 +848,7 @@ Solutions
 </section>
 <section id="sec-filtering" class="level2" data-number="22.4">
 <h2 data-number="22.4" class="anchored" data-anchor-id="sec-filtering"><span class="header-section-number">22.4</span> Filtering</h2>
-<p>The first step of our analysis is to filter out lowly expressed genes. Genes with very low counts across all samples provide little evidence of differential expression and are disproportionately affected by technical noise, so removing them increases our statistical power to detect true differences in the genes that remain<span class="citation" data-cites="mcintyre2011 bourgon2010"><sup><a href="#ref-mcintyre2011" role="doc-biblioref">2</a>,<a href="#ref-bourgon2010" role="doc-biblioref">3</a></sup></span>. If you’d like more detail on why this matters, see the further reading (<a href="wk9_fr.html#sec-frfiltering" class="quarto-xref"><span>Section 23.3</span></a>).</p>
+<p>The first step of our analysis is to filter out lowly expressed genes. Genes with very low counts across all samples provide little evidence of differential expression and are disproportionately affected by technical noise, so removing them increases our statistical power to detect true differences in the genes that remain<span class="citation" data-cites="mcintyre2011 bourgon2010"><sup><a href="#ref-mcintyre2011" role="doc-biblioref">2</a>,<a href="#ref-bourgon2010" role="doc-biblioref">3</a></sup></span>. If you’d like more detail on why this matters, see the further reading (<a href="wk9_fr.html#sec-frfiltering" class="quarto-xref"><span>Section 24.3</span></a>).</p>
 <p>The <code>edgeR</code> package provides the <code>filterByExpr()</code> function to automate this process. By default, it aims to keep genes with a count of 10 or more in at least as many samples as the smallest experimental group. In our experiment, there are 3 groups each with 3 samples, so we retain only genes with 10 or more counts in at least 3 samples.</p>
 <p>Filtering is done on the ‘counts per million’ (CPM), which represents how many counts you would have for a gene if your library size was one million. This means we can work with proportions (to account for different library sizes, or numbers of reads per sample) while still keeping the numbers on a human-readable scale. A proportion of 0.01, or 1% equals 10,000 CPM.</p>
 <p>The output of <code>filterByExpr()</code> is a vector of the class logical, indicating which genes (rows) should be kept and which filtered out.</p>
@@ -1028,7 +1034,7 @@ Solutions
 </section>
 <section id="sec-normalisation" class="level2" data-number="22.5">
 <h2 data-number="22.5" class="anchored" data-anchor-id="sec-normalisation"><span class="header-section-number">22.5</span> Normalisation</h2>
-<p>After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias, so that samples and experimental groups can be meaningfully compared. In RNA-seq, this mainly means accounting for differences in sequencing depth (library size, using CPM) and RNA composition between samples (using TMM normalisation)<span class="citation" data-cites="robinson2010"><sup><a href="#ref-robinson2010" role="doc-biblioref">4</a></sup></span>. If you’d like a full explanation of why these biases occur and how they’re corrected for, see the further reading (<a href="wk9_fr.html#sec-frnormalisation" class="quarto-xref"><span>Section 23.4</span></a>).</p>
+<p>After filtering, our next step is to normalise the data. Normalisation refers to the process of adjusting the data to reduce or eliminate systematic bias, so that samples and experimental groups can be meaningfully compared. In RNA-seq, this mainly means accounting for differences in sequencing depth (library size, using CPM) and RNA composition between samples (using TMM normalisation)<span class="citation" data-cites="robinson2010"><sup><a href="#ref-robinson2010" role="doc-biblioref">4</a></sup></span>. If you’d like a full explanation of why these biases occur and how they’re corrected for, see the further reading (<a href="wk9_fr.html#sec-frnormalisation" class="quarto-xref"><span>Section 24.4</span></a>).</p>
 <p>We’ll use the ‘trimmed mean of M-values’ (TMM) method to calculate a normalisation factor for each sample, which, under the assumption that most genes are not differentially expressed, estimates relative RNA levels from the read counts<span class="citation" data-cites="robinson2010"><sup><a href="#ref-robinson2010" role="doc-biblioref">4</a></sup></span>. Subsequent steps in this analysis will use log-cpm values calculated using these normalisation factors.</p>
 <p>The <code>normLibSizes()</code> function (previously called <code>calcNormFactors()</code>) can be used to calculate normalisation factors, specifying that we want to use the <code>"TMM"</code> method:</p>
 <div class="cell">
@@ -1141,7 +1147,7 @@ Solutions
 </div>
 </div>
 <p>Each point on the plot represents one sample and is ‘labelled’ using the sample name. The distances between each sample in the resulting plot can be interpreted as the typical log2-fold-change between the samples, for the most differentially expressed genes (in other words, the similarity of their overall gene expression profiles). The labels on the x and y axis state the amount of variance that are explained by each of the dimensions. This gives you an idea of which factors are most strongly affecting gene expression.</p>
-<p>Note that this is what’s known as a ‘base R’ plot, so it can’t be customised in the same way as the ggplots we made in <a href="workshop_4.html" class="quarto-xref"><span>Chapter 13</span></a>. If you want to learn how to make an MDS plot using <code>ggplot2</code>, see the further reading (<a href="wk9_fr.html#sec-mdsggplot2" class="quarto-xref"><span>Section 23.5</span></a>).</p>
+<p>Note that this is what’s known as a ‘base R’ plot, so it can’t be customised in the same way as the ggplots we made in <a href="workshop_4.html" class="quarto-xref"><span>Chapter 13</span></a>. If you want to learn how to make an MDS plot using <code>ggplot2</code>, see the further reading (<a href="wk9_fr.html#sec-mdsggplot2" class="quarto-xref"><span>Section 24.5</span></a>).</p>
 <p>We can, however, change the labelling to use the name of the group the sample belongs to instead:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMDS</span>(dge, <span class="at">labels =</span> dge<span class="sc">$</span>samples<span class="sc">$</span>group)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2522,8 +2528,8 @@ Solutions
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./wk9_fr.html" class="pagination-link" aria-label="Further Reading">
-        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Further Reading</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tutorial_9.html" class="pagination-link" aria-label="Tutorial 9: BIOL90042 final project">
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Tutorial 9: BIOL90042 final project</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">

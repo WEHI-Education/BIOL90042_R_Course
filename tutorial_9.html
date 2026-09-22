@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>23&nbsp; Tutorial 9: BIOL90042 final project – BIOL90042 ebook 2026</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./wk9_fr.html" rel="next">
+<link href="./workshop_7.html" rel="prev">
+<link href="./favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-92c53e80b54600beea65138b11edf377.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-01dad528ea4b2cc3751805c162e776d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-FN78SCFVJJ"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
+</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workshop_7.html">Week 9</a></li><li class="breadcrumb-item"><a href="./tutorial_9.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Tutorial 9: BIOL90042 final project</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./WEHI_RGB_logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./WEHI_RGB_logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">BIOL90042 ebook 2026</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R (lecture 1)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tutorial 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk1_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Workshop 1: Introduction to R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Tutorial 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk2_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 3</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Workshop 2: Working with data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tutorial 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk3_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 4</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Workshop 3: Data-wrangling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Tutorial 4</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk4_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 5</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Workshop 4: Plotting with ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tutorial 5</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk5_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 6</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Workshop 5: Putting it all together</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Tutorial 6</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 7</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Tutorial 7: Using git and GitHub for version control</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 8</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Workshop 6: Statistics in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Tutorial 8: Working with strings in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk8_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 9</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Workshop 7: RNA-seq analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tutorial_9.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Tutorial 9: BIOL90042 final project</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk9_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">In this session:</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">23.1</span> Background</a>
+  <ul class="collapse">
+  <li><a href="#parkinsons-disease" id="toc-parkinsons-disease" class="nav-link" data-scroll-target="#parkinsons-disease"><span class="header-section-number">23.1.1</span> Parkinson’s Disease</a></li>
+  <li><a href="#project-scenario" id="toc-project-scenario" class="nav-link" data-scroll-target="#project-scenario"><span class="header-section-number">23.1.2</span> Project scenario</a></li>
+  </ul></li>
+  <li><a href="#overview-of-the-datasets" id="toc-overview-of-the-datasets" class="nav-link" data-scroll-target="#overview-of-the-datasets"><span class="header-section-number">23.2</span> Overview of the datasets</a>
+  <ul class="collapse">
+  <li><a href="#population-genetics" id="toc-population-genetics" class="nav-link" data-scroll-target="#population-genetics"><span class="header-section-number">23.2.1</span> Population genetics</a></li>
+  <li><a href="#rna-seq-of-patient-ipsc-derived-neurons" id="toc-rna-seq-of-patient-ipsc-derived-neurons" class="nav-link" data-scroll-target="#rna-seq-of-patient-ipsc-derived-neurons"><span class="header-section-number">23.2.2</span> RNA-seq of patient iPSC-derived neurons</a></li>
+  <li><a href="#drug-screening" id="toc-drug-screening" class="nav-link" data-scroll-target="#drug-screening"><span class="header-section-number">23.2.3</span> Drug screening</a></li>
+  <li><a href="#clinical-trial" id="toc-clinical-trial" class="nav-link" data-scroll-target="#clinical-trial"><span class="header-section-number">23.2.4</span> Clinical trial</a></li>
+  </ul></li>
+  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions"><span class="header-section-number">23.3</span> Research questions</a>
+  <ul class="collapse">
+  <li><a href="#population-genetics-1" id="toc-population-genetics-1" class="nav-link" data-scroll-target="#population-genetics-1"><span class="header-section-number">23.3.1</span> Population genetics</a></li>
+  <li><a href="#rna-seq-of-patient-ipsc-derived-neurons-1" id="toc-rna-seq-of-patient-ipsc-derived-neurons-1" class="nav-link" data-scroll-target="#rna-seq-of-patient-ipsc-derived-neurons-1"><span class="header-section-number">23.3.2</span> RNA-seq of patient iPSC-derived neurons</a></li>
+  <li><a href="#drug-screening-1" id="toc-drug-screening-1" class="nav-link" data-scroll-target="#drug-screening-1"><span class="header-section-number">23.3.3</span> Drug screening</a></li>
+  <li><a href="#clinical-trial-1" id="toc-clinical-trial-1" class="nav-link" data-scroll-target="#clinical-trial-1"><span class="header-section-number">23.3.4</span> Clinical trial</a></li>
+  <li><a href="#bringing-it-togetherlinking-between-datasets" id="toc-bringing-it-togetherlinking-between-datasets" class="nav-link" data-scroll-target="#bringing-it-togetherlinking-between-datasets"><span class="header-section-number">23.3.5</span> Bringing it together/linking between datasets</a></li>
+  </ul></li>
+  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables"><span class="header-section-number">23.4</span> Deliverables</a>
+  <ul class="collapse">
+  <li><a href="#quarto-report-code" id="toc-quarto-report-code" class="nav-link" data-scroll-target="#quarto-report-code"><span class="header-section-number">23.4.1</span> Quarto report (code)</a></li>
+  <li><a href="#oral-presentation" id="toc-oral-presentation" class="nav-link" data-scroll-target="#oral-presentation"><span class="header-section-number">23.4.2</span> Oral presentation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+<div class="quarto-sidebar-footer"><div class="sidebar-footer-item">
+<p><a href="https://wehi-education.github.io/BIOL90042_R_Course_2025/">Looking for the old 2025 version of the ebook?</a></p>
+</div></div></nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workshop_7.html">Week 9</a></li><li class="breadcrumb-item"><a href="./tutorial_9.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Tutorial 9: BIOL90042 final project</span></a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-tute09" class="quarto-section-identifier"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Tutorial 9: BIOL90042 final project</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i></button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this tutorial, we will introduce the final group project for BIOL90042, where you will analyse several related datasets in the context of a research program on Parkinson’s Disease.</p>
+<section id="background" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="background"><span class="header-section-number">23.1</span> Background</h2>
+<section id="parkinsons-disease" class="level3" data-number="23.1.1">
+<h3 data-number="23.1.1" class="anchored" data-anchor-id="parkinsons-disease"><span class="header-section-number">23.1.1</span> Parkinson’s Disease</h3>
+<p>Parkinson’s Disease (PD) is a neurodegenerative condition caused by the progressive loss of dopamine-producing neurons in a region of the brain called the substantia nigra. Before these neurons die, misfolded alpha-synuclein protein starts to build up inside them and this build-up, along with mitochondrial dysfunction, oxidative stress and neuroinflammation, seems to play a key role in driving the disease.</p>
+<p>Patients with PD experience motor symptoms such as slowed movement, tremor, poor balance, an unsteady gait and more frequent falls. Non-motor symptoms like depression, fatigue, cognitive impairment, psychotic symptoms and dementia are also common, and can be just as disruptive to a patient’s quality of life.</p>
+<p>What causes PD is not fully understood. Genome-wide association studies (GWAS) have identified many common genetic variants (SNPs) that are more common in PD patients than in the general population. Patients having many of these common SNPs are considered to have a high polygenic risk. A smaller group of patients (around 10%) instead carry one of a handful of rare, high-risk SNPs that substantially raise their chances of developing PD. For everyone else, the disease is considered ‘sporadic’, meaning it is not clearly tied to genetics, but might instead be linked to long-term exposure to pesticides, heavy metals or air pollution.</p>
+<p>PD motor symptoms can be managed in the early disease stage using the dopamine supplement L-DOPA, however treatments to prevent neuronal cell death are needed, and to date there is no cure for PD.</p>
+</section>
+<section id="project-scenario" class="level3" data-number="23.1.2">
+<h3 data-number="23.1.2" class="anchored" data-anchor-id="project-scenario"><span class="header-section-number">23.1.2</span> Project scenario</h3>
+<p>In this project, your group is a team of biomedical researchers tasked with analysing the data from WEHI’s Parkinson’s Disease research program, which has the following four arms: 1. Population genetics 2. RNA-seq of patient iPSC-derived neurons 3. Drug screening 4. Clinical trial</p>
+<p>As a group, you will need to use R to analyse data from these four arms, and present them in both a <strong>quarto report (<code>.qmd</code>, combining code, plots and explanations)</strong> and <strong>oral presentation</strong>. Participants are identified by a unique donor id (<code>donorid</code> column in the datasets), and some participants took part in multiple study arms, so you may use them to connect the different datasets.</p>
+</section>
+</section>
+<section id="overview-of-the-datasets" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="overview-of-the-datasets"><span class="header-section-number">23.2</span> Overview of the datasets</h2>
+<p>Each group will have their own simulated datasets, available to download from canvas. They are provided to you as R data files (<code>.Rda</code>), which you can read in using the <code>load()</code> function, or by clicking on them from the files panel.</p>
+<p>We will now go through the datasets and briefly explain their contents.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/prs.Rda"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/rnaseq.Rda"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/rnaseq_gene_info.Rda"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/drugscreen.Rda"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/gait.Rda"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="population-genetics" class="level3" data-number="23.2.1">
+<h3 data-number="23.2.1" class="anchored" data-anchor-id="population-genetics"><span class="header-section-number">23.2.1</span> Population genetics</h3>
+<p>This data is in the <code>prs.Rda</code> file.</p>
+<p>A GWAS has been performed on Australian PD patients (cases) and healthy controls. The top hits are summarised in the <code>gwas_top_hits</code> dataframe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gwas_top_hits</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 7
+   locus        ref   alt    beta   maf     se     pval
+   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 locus_1_A_C  A     C     0.163 0.284 0.0222 1.97e-13
+ 2 locus_2_G_C  G     C     0.182 0.192 0.0254 7.87e-13
+ 3 locus_3_C_G  C     G     0.177 0.187 0.0257 5.02e-12
+ 4 locus_4_G_T  G     T     0.178 0.269 0.0226 3.33e-15
+ 5 locus_5_T_A  T     A     0.213 0.174 0.0264 6.66e-16
+ 6 locus_6_T_G  T     G     0.175 0.225 0.024  2.51e-13
+ 7 locus_7_T_G  T     G     0.202 0.162 0.0271 9.81e-14
+ 8 locus_8_C_G  C     G     0.198 0.167 0.0268 1.52e-13
+ 9 locus_9_T_C  T     C     0.158 0.283 0.0222 9.51e-13
+10 locus_10_C_A C     A     0.173 0.289 0.0221 4.44e-15
+11 locus_11_T_G T     G     0.159 0.227 0.0239 2.54e-11
+12 locus_12_C_A C     A     0.165 0.274 0.0224 2.01e-13
+13 locus_13_G_T G     T     0.163 0.205 0.0248 5.04e-11
+14 locus_14_G_C G     C     0.187 0.264 0.0227 2.22e-16
+15 locus_15_T_C T     C     0.241 0.137 0.0291 2.22e-16</code></pre>
+</div>
+</div>
+<p>For each of these 15 loci, the reference and alternative alleles are given, and a GWAS risk coefficient (<code>beta</code> column) has been calculated. You will need this information to calculate polygenic risk scores (PRS) for the patients in this study.</p>
+<p>The genotypes of 150 PD patients and 150 healthy controls at these 15 loci were determined, and are provided in the <code>ca_co_genotypes</code> dataframe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ca_co_genotypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 300 × 17
+   donorid status locus_1_A_C locus_2_G_C locus_3_C_G locus_4_G_T locus_5_T_A
+   &lt;chr&gt;   &lt;chr&gt;        &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;       &lt;int&gt;
+ 1 d001    case             1           1           0           0           1
+ 2 d002    case             0           0           0           1           0
+ 3 d003    case             0           0           1           1           0
+ 4 d004    case             2           0           0           0           0
+ 5 d005    ctrl             1           0           1           0           0
+ 6 d006    ctrl             1           1           0           0           1
+ 7 d007    case             0           0           1           0           1
+ 8 d008    case             0           1           0           2           0
+ 9 d009    case             1           1           0           1           1
+10 d010    ctrl             0           0           0           0           1
+# ℹ 290 more rows
+# ℹ 10 more variables: locus_6_T_G &lt;int&gt;, locus_7_T_G &lt;int&gt;, locus_8_C_G &lt;int&gt;,
+#   locus_9_T_C &lt;int&gt;, locus_10_C_A &lt;int&gt;, locus_11_T_G &lt;int&gt;,
+#   locus_12_C_A &lt;int&gt;, locus_13_G_T &lt;int&gt;, locus_14_G_C &lt;int&gt;,
+#   locus_15_T_C &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>There is one column for each risk locus, and the values in these columns represent the ‘risk genotype dosage’ (how many copies of the risky allele an individual has: 0, 1 or 2).</p>
+<p>To calculate the PRS of an individual, take the sum of each locus’ risk genotype dosage by the corresponding GWAS risk coefficient.</p>
+<p>More information about GWAS can be found in lecture 7.</p>
+</section>
+<section id="rna-seq-of-patient-ipsc-derived-neurons" class="level3" data-number="23.2.2">
+<h3 data-number="23.2.2" class="anchored" data-anchor-id="rna-seq-of-patient-ipsc-derived-neurons"><span class="header-section-number">23.2.2</span> RNA-seq of patient iPSC-derived neurons</h3>
+<p>This data is in the <code>rnsaeq.Rda</code> (DGEList) and <code>rnaseq_gene_info.Rda</code> (gene names and gene ontology data).</p>
+<p>To compare the transcriptional profiles of PD neurons compared to healthy controls, induced pluripotent stem cells (iPSCs) from 8 PD patients and 8 healthy age and sex-matched controls were differentiated into dopaminergic neurons. After two weeks in culture, RNA was isolated, sequenced and pre-processed to generate the DGEList object, <code>dge</code>.</p>
+<p>You are also provided with <code>entrez_genename_key</code>, a dataframe that connects the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1761442/">Entrez IDs</a> of genes (as given in <code>dge$genes</code>) to the actual gene names and description:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>entrez_genename_key</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 24,463 × 3
+   gene_name    entrezid description                                        
+   &lt;chr&gt;           &lt;int&gt; &lt;chr&gt;                                              
+ 1 DDX11L1     100287596 "DEAD/H-box helicase 11 like 1 "                   
+ 2 MIR6859-1   102466751 "microRNA 6859-1 "                                 
+ 3 MIR1302-2HG 105376912 "microRNA 1302-2 "                                 
+ 4 FAM138A        654835 "family with sequence similarity 138 member A "    
+ 5 OR4F5           79501 "olfactory receptor family 4 subfamily F member 5 "
+ 6 FO538757.2  107984078 "NULL"                                             
+ 7 MIR6859-2   102465909 "microRNA 6859-2 "                                 
+ 8 AL669831.3  101928626 "NULL"                                             
+ 9 MIR6723     102465432 "microRNA 6723 "                                   
+10 FAM87B         400728 "family with sequence similarity 87 member B "     
+# ℹ 24,453 more rows</code></pre>
+</div>
+</div>
+<p><a href="https://geneontology.org/">Gene ontology (GO)</a> information, which describes the broad biological functions of genes is provided in the <code>gene_ontology</code> dataframe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gene_ontology</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 288 × 3
+   go_id      desc                  entrezgene_id
+   &lt;chr&gt;      &lt;chr&gt;                         &lt;int&gt;
+ 1 GO:0006954 Inflammatory response          4067
+ 2 GO:0006954 Inflammatory response         54093
+ 3 GO:0006954 Inflammatory response          4799
+ 4 GO:0006954 Inflammatory response        144811
+ 5 GO:0006954 Inflammatory response          9252
+ 6 GO:0006954 Inflammatory response          8639
+ 7 GO:0006954 Inflammatory response         65266
+ 8 GO:0006954 Inflammatory response          3373
+ 9 GO:0006954 Inflammatory response           814
+10 GO:0006954 Inflammatory response          4069
+# ℹ 278 more rows</code></pre>
+</div>
+</div>
+<p>GO is useful for interpreting the your differential expression (DE) results, without needing to do extensive research on all of your DE genes.</p>
+<p>More information about RNA-seq analysis can be found in workshop 7 (see <a href="workshop_7.html" class="quarto-xref"><span>Chapter 22</span></a>).</p>
+</section>
+<section id="drug-screening" class="level3" data-number="23.2.3">
+<h3 data-number="23.2.3" class="anchored" data-anchor-id="drug-screening"><span class="header-section-number">23.2.3</span> Drug screening</h3>
+<p>This data is in the <code>drugscreen.Rda</code> file.</p>
+<p>To identify chemical compounds that can protect neurons from cytotoxic stress, a drug screen was performed using a 1536-well plate containing dopaminergic neurons from a healthy donor. 192 test compounds, and 192 control compounds were each tested in technical quadruplicate (i.e., each compound in 4 separate wells). The compound in each cell is described in the <code>plate_meta</code> dataframe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plate_meta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32 × 49
+   plate_row col1    col2  col3  col4  col5  col6  col7  col8  col9  col10 col11
+   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 row1      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 2 row2      cmpd_7… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 3 row3      cmpd_7… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 4 row4      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 5 row5      cmpd_4… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 6 row6      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 7 row7      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 8 row8      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+ 9 row9      cmpd_6… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+10 row10     cmpd_5… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd… cmpd…
+# ℹ 22 more rows
+# ℹ 37 more variables: col12 &lt;chr&gt;, col13 &lt;chr&gt;, col14 &lt;chr&gt;, col15 &lt;chr&gt;,
+#   col16 &lt;chr&gt;, col17 &lt;chr&gt;, col18 &lt;chr&gt;, col19 &lt;chr&gt;, col20 &lt;chr&gt;,
+#   col21 &lt;chr&gt;, col22 &lt;chr&gt;, col23 &lt;chr&gt;, col24 &lt;chr&gt;, col25 &lt;chr&gt;,
+#   col26 &lt;chr&gt;, col27 &lt;chr&gt;, col28 &lt;chr&gt;, col29 &lt;chr&gt;, col30 &lt;chr&gt;,
+#   col31 &lt;chr&gt;, col32 &lt;chr&gt;, col33 &lt;chr&gt;, col34 &lt;chr&gt;, col35 &lt;chr&gt;,
+#   col36 &lt;chr&gt;, col37 &lt;chr&gt;, col38 &lt;chr&gt;, col39 &lt;chr&gt;, col40 &lt;chr&gt;, …</code></pre>
+</div>
+</div>
+<p>Each test compound has a control which has the same molecular weight and molecular constituents, but different chemistry with no known biological activity. The enzyme target and mechanism of action for each of the test compounds is known, and described in the <code>compound_dict</code> dataframe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>compound_dict</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 192 × 4
+   id        target_enzyme action     hgnc_symbol
+   &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      
+ 1 cmpd_4005          6041 agonist    RNASEL     
+ 2 cmpd_4013          5211 antagonist PFKL       
+ 3 cmpd_4014         55178 antagonist MRM3       
+ 4 cmpd_4054         11240 agonist    PADI2      
+ 5 cmpd_4060          8908 agonist    GYG2       
+ 6 cmpd_4121          9601 antagonist PDIA4      
+ 7 cmpd_4125        440307 agonist    TTLL13     
+ 8 cmpd_4161         54490 agonist    UGT2B28    
+ 9 cmpd_4186         23475 antagonist QPRT       
+10 cmpd_4197         51265 antagonist CDKL3      
+# ℹ 182 more rows</code></pre>
+</div>
+</div>
+<p>After adding the compound to the neurons, all wells were treated with MPP, a chemical that causes oxidative stress and mitochondrial damage to mimick PD disease biology. After 24 hours of incubation, neuronal viability was measured in a luminescence assay. Cells that survived and grew despite MPP exposure have the highest luminescence values, whereas those damaged by MPP have lower luminescence values. These luminescence values are given in relative light units (RLU) in the <code>plate1</code> dataframe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plate1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32 × 49
+   plate_row  col1  col2  col3  col4  col5  col6  col7  col8  col9 col10 col11
+   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 row1        503   508   500   458   478   511   497   530   499   483   519
+ 2 row2        534   512   509   526   468   520   472   526   531   482   534
+ 3 row3        519   486   510   482   528   486   520   481   454   529   516
+ 4 row4        468   530   430   521   481   468   506   508   528   473   444
+ 5 row5        486   460   491   484   462   532   498   475   535   480   501
+ 6 row6        457   513   544   504   486   462   499   479   511   494   499
+ 7 row7        469   550   494   495   466   526   530   476   462   462   528
+ 8 row8        502   487   487   502   475   459   475   509   516   472   461
+ 9 row9        491   501   457   500   489   497   455   658   489   534   470
+10 row10       493   562   489   529   497   522   482   506   490   485   518
+# ℹ 22 more rows
+# ℹ 37 more variables: col12 &lt;dbl&gt;, col13 &lt;dbl&gt;, col14 &lt;dbl&gt;, col15 &lt;dbl&gt;,
+#   col16 &lt;dbl&gt;, col17 &lt;dbl&gt;, col18 &lt;dbl&gt;, col19 &lt;dbl&gt;, col20 &lt;dbl&gt;,
+#   col21 &lt;dbl&gt;, col22 &lt;dbl&gt;, col23 &lt;dbl&gt;, col24 &lt;dbl&gt;, col25 &lt;dbl&gt;,
+#   col26 &lt;dbl&gt;, col27 &lt;dbl&gt;, col28 &lt;dbl&gt;, col29 &lt;dbl&gt;, col30 &lt;dbl&gt;,
+#   col31 &lt;dbl&gt;, col32 &lt;dbl&gt;, col33 &lt;dbl&gt;, col34 &lt;dbl&gt;, col35 &lt;dbl&gt;,
+#   col36 &lt;dbl&gt;, col37 &lt;dbl&gt;, col38 &lt;dbl&gt;, col39 &lt;dbl&gt;, col40 &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+<section id="clinical-trial" class="level3" data-number="23.2.4">
+<h3 data-number="23.2.4" class="anchored" data-anchor-id="clinical-trial"><span class="header-section-number">23.2.4</span> Clinical trial</h3>
+<p>This data is in the <code>gait.Rda</code> file.</p>
+<p>It turns out that one of the hits from the drug screen is already approved (for other diseases) by the Australian Therapeutic Goods Administration. Thus, a clinical trial is designed to test the effect of this drug on PD motor symptoms. 16 PD patients are andomly assigned to L-DOPA (current standard of care), or the trial drug. In addition, half of the patients in each treatment group are randomly assigned to a supervised daily exercise routine.</p>
+<p>All patients are given a smart watch to wear that measures their vertical orientation (in degrees off-axis) whilst walking throughout the day (every second, for 700 seconds). This measurement (in the <code>1_secs</code>, <code>2_secs</code>, etc columns), is a proxy for balance and smoothness of motion whilst walking. A measurement of 0 in indicates that the patient is standing perfectly upright.</p>
+<p>Note that watches are not worn during the exercise routine, just during everyday activities.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gait_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 704
+   donorid treatment   age exercise `1_secs` `2_secs` `3_secs` `4_secs` `5_secs`
+   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 d024    New comp…  64.4 y           0.759    0.809     1.44    3.71    -1.73 
+ 2 d030    L-DOPA c…  85.6 n           3.88    12.3      -3.11   12.0    -28.5  
+ 3 d032    New comp…  64.2 y           2.68    -3.92     -1.89    0.582    3.28 
+ 4 d049    L-DOPA c…  67.6 y          -0.696   10.5      -5.46   -8.03     1.81 
+ 5 d064    New comp…  67.8 n          -3.70    16.5       4.88  -18.5      5.42 
+ 6 d065    New comp…  81.9 n           6.30    16.4     -12.1    -0.994  -18.3  
+ 7 d082    New comp…  82.8 n         -10.8     -2.11    -20.5   -31.8     16.8  
+ 8 d090    New comp…  69.8 y           1.33    -5.30     -8.88   11.8    -17.0  
+ 9 d102    L-DOPA c…  69.2 n         -20.1     -0.596   -11.5     4.76     6.28 
+10 d119    L-DOPA c…  71.4 y           4.70   -16.5       8.10    9.76     6.62 
+11 d169    L-DOPA c…  64.9 n           4.77    -4.15     26.0    -5.70    14.5  
+12 d170    New comp…  64.5 n          11.8      3.91      6.68   14.9      0.529
+13 d179    L-DOPA c…  66.2 n          -5.90     2.39     -4.47   11.4    -15.8  
+14 d221    L-DOPA c…  81.9 y          12.7     -6.64      8.83   13.3      0.872
+15 d274    New comp…  76.0 y          -0.700    8.52     -3.11   -3.58    -2.85 
+16 d296    L-DOPA c…  77.2 y           4.86    14.4       8.67   -1.91   -17.9  
+# ℹ 695 more variables: `6_secs` &lt;dbl&gt;, `7_secs` &lt;dbl&gt;, `8_secs` &lt;dbl&gt;,
+#   `9_secs` &lt;dbl&gt;, `10_secs` &lt;dbl&gt;, `11_secs` &lt;dbl&gt;, `12_secs` &lt;dbl&gt;,
+#   `13_secs` &lt;dbl&gt;, `14_secs` &lt;dbl&gt;, `15_secs` &lt;dbl&gt;, `16_secs` &lt;dbl&gt;,
+#   `17_secs` &lt;dbl&gt;, `18_secs` &lt;dbl&gt;, `19_secs` &lt;dbl&gt;, `20_secs` &lt;dbl&gt;,
+#   `21_secs` &lt;dbl&gt;, `22_secs` &lt;dbl&gt;, `23_secs` &lt;dbl&gt;, `24_secs` &lt;dbl&gt;,
+#   `25_secs` &lt;dbl&gt;, `26_secs` &lt;dbl&gt;, `27_secs` &lt;dbl&gt;, `28_secs` &lt;dbl&gt;,
+#   `29_secs` &lt;dbl&gt;, `30_secs` &lt;dbl&gt;, `31_secs` &lt;dbl&gt;, `32_secs` &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="research-questions" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="research-questions"><span class="header-section-number">23.3</span> Research questions</h2>
+<p>You are welcome to explore the data as you wish, but <strong>the following questions should be answered for each dataset in your quarto report</strong>. Due to time constraints for the oral presentation, you will need to choose what you think is the most interesting/relevant to present</p>
+<section id="population-genetics-1" class="level3" data-number="23.3.1">
+<h3 data-number="23.3.1" class="anchored" data-anchor-id="population-genetics-1"><span class="header-section-number">23.3.1</span> Population genetics</h3>
+<ol type="1">
+<li>Calculate a PRS for each participant. Which participant has the highest PRS? The lowest?</li>
+<li>Plot and describe (with descriptive statistics) the distribution of PRS for both cases and controls.</li>
+<li>Is there a statistically significant difference in the PRS of cases and controls? Ensure you check all the assumptions of the test you choose.</li>
+</ol>
+</section>
+<section id="rna-seq-of-patient-ipsc-derived-neurons-1" class="level3" data-number="23.3.2">
+<h3 data-number="23.3.2" class="anchored" data-anchor-id="rna-seq-of-patient-ipsc-derived-neurons-1"><span class="header-section-number">23.3.2</span> RNA-seq of patient iPSC-derived neurons</h3>
+<ol type="1">
+<li>Which genes are differentially expressed between PD cases and healthy controls? Please also visualise your DE results with appropriate plot(s).</li>
+<li>Which gene ontology families do the DE genes belong to?</li>
+<li>Is the clustering of samples by gene expression consistent with their disease status as cases and controls?</li>
+</ol>
+</section>
+<section id="drug-screening-1" class="level3" data-number="23.3.3">
+<h3 data-number="23.3.3" class="anchored" data-anchor-id="drug-screening-1"><span class="header-section-number">23.3.3</span> Drug screening</h3>
+<ol type="1">
+<li>Using the <code>geom_tile()</code> function, visualise the luminescence across the plate. Do there appear to be any spatial patterns in this data?</li>
+<li>Which compounds are statistically significantly associated with increased neuronal viability after MPP exposure? Ensure that you check your assumptions.</li>
+<li>What are the mechanisms of action and targets of the compounds you identify in Q2?</li>
+</ol>
+</section>
+<section id="clinical-trial-1" class="level3" data-number="23.3.4">
+<h3 data-number="23.3.4" class="anchored" data-anchor-id="clinical-trial-1"><span class="header-section-number">23.3.4</span> Clinical trial</h3>
+<ol type="1">
+<li>Plot each participants’ gait data and describe it using descriptive statistics. Which of these descriptive statistics do you think is most useful for capturing the overall gait smoothness and balance of a participant?</li>
+<li>Is there a statistically significant difference in gait between participants receiving L-DOPA and the new compound? Ensure that you check your assumptions.</li>
+<li>Does either of age or the exercise regime affect gait? If so, take this into consideration when investigating the relationship between the treatment and gait.</li>
+</ol>
+</section>
+<section id="bringing-it-togetherlinking-between-datasets" class="level3" data-number="23.3.5">
+<h3 data-number="23.3.5" class="anchored" data-anchor-id="bringing-it-togetherlinking-between-datasets"><span class="header-section-number">23.3.5</span> Bringing it together/linking between datasets</h3>
+<ol type="1">
+<li>Using their unique donor IDs, how many patients appear across all four arms of the study?</li>
+<li>Do any variables other than gene expression distinguish the RNA-seq cases from controls? (Hint: try colouring points on your MDS plot by other information you have about the donors, from the other datasets)</li>
+<li>Are any of the gene targets of hit compounds from the drug screen, differentially expressed in RNA-seq? Which GO terms are they associated with and what might this tell you about the pathology of PD?</li>
+<li>Is there any relationship between the PRS and gait of patients in the clinical trial?</li>
+<li>In a paragraph, summarise your findings and suggest directions for future research.</li>
+</ol>
+</section>
+</section>
+<section id="deliverables" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="deliverables"><span class="header-section-number">23.4</span> Deliverables</h2>
+<p>Each group will need to produce the following:</p>
+<section id="quarto-report-code" class="level3" data-number="23.4.1">
+<h3 data-number="23.4.1" class="anchored" data-anchor-id="quarto-report-code"><span class="header-section-number">23.4.1</span> Quarto report (code)</h3>
+<p>You should <strong>begin by making an R project for your group</strong> (see <a href="wk2_fr.html#sec-fr-project" class="quarto-xref"><span>Section 6.1</span></a> for instructions on how to do this) where you will store all of your data, code and any plots/outputs you save. Then, make a quarto report (<code>.qmd</code> file) that contains <strong>both</strong> your analysis code and explanations/interpretations of your findings. <strong>You need to submit the entire R project</strong>, as a zip file so that we can test your code on the data.</p>
+<p>Tips for code/organisation:</p>
+<ul>
+<li><p>You may produce multiple reports (for example one for each dataset) if this is easier for you to manage within your groups, as long as they are clearly named</p></li>
+<li><p>If you find it helpful, you are welcome to work within git (see</p>
+<ol class="example" type="1">
+<li>but this is not mandatory</li>
+</ol></li>
+<li><p>Ensure all of your code is well-commented and the logic behind what you’re doing is clear</p></li>
+<li><p>It is expected that all of the research questions will be addressed in your report.</p></li>
+</ul>
+<p>Tips for data visualisation:</p>
+<ul>
+<li><p>Make sure the colour schemes are consistent (e.g.&nbsp;PD cases and healthy controls should always use the same colours across all plots)</p></li>
+<li><p>Make sure you label your plots nicely (headings, axis labels)</p></li>
+<li><p>Particularly for the oral presentation, make sure that the font size on the plots is big enough that we can easily read it on the slide</p></li>
+</ul>
+</section>
+<section id="oral-presentation" class="level3" data-number="23.4.2">
+<h3 data-number="23.4.2" class="anchored" data-anchor-id="oral-presentation"><span class="header-section-number">23.4.2</span> Oral presentation</h3>
+<p>In the final tutorial (week 12), we will go over some tips for science communication. In general though:</p>
+<ul>
+<li><p>Due to the time limit, it won’t be possible to include all of your results. Just choose a selection of the things you found most interesting and focus on presenting those clearly without rushing</p></li>
+<li><p>Slides should focus primarily on graphical representations of the data, with summary statistics or statistical test results (e.g.&nbsp;p value) included as appropriate</p></li>
+<li><p>Be prepared to answer questions about your approach to answering the questions (code), as well as your interpretation of the results</p></li>
+</ul>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./workshop_7.html" class="pagination-link" aria-label="Workshop 7: RNA-seq analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Workshop 7: RNA-seq analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./wk9_fr.html" class="pagination-link" aria-label="Further Reading">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Further Reading</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "In this session:"</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> </span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">  markdown: </span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">    wrap: 72</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tutorial 9: BIOL90042 final project {#sec-tute09}</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>In this tutorial, we will introduce the final group project for</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>BIOL90042, where you will analyse several related datasets in the</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>context of a research program on Parkinson's Disease.</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Background</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parkinson's Disease</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>Parkinson's Disease (PD) is a neurodegenerative condition caused by the</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>progressive loss of dopamine-producing neurons in a region of the brain</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>called the substantia nigra. Before these neurons die, misfolded</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>alpha-synuclein protein starts to build up inside them and this</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>build-up, along with mitochondrial dysfunction, oxidative stress and</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>neuroinflammation, seems to play a key role in driving the disease.</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>Patients with PD experience motor symptoms such as slowed movement,</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>tremor, poor balance, an unsteady gait and more frequent falls.</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>Non-motor symptoms like depression, fatigue, cognitive impairment,</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>psychotic symptoms and dementia are also common, and can be just as</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>disruptive to a patient's quality of life.</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>What causes PD is not fully understood. Genome-wide association studies</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>(GWAS) have identified many common genetic variants (SNPs) that are more</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>common in PD patients than in the general population. Patients having</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>many of these common SNPs are considered to have a high polygenic risk.</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>A smaller group of patients (around 10%) instead carry one of a handful</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>of rare, high-risk SNPs that substantially raise their chances of</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>developing PD. For everyone else, the disease is considered ‘sporadic’,</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>meaning it is not clearly tied to genetics, but might instead be linked</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>to long-term exposure to pesticides, heavy metals or air pollution.</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>PD motor symptoms can be managed in the early disease stage using the</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>dopamine supplement L-DOPA, however treatments to prevent neuronal cell</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>death are needed, and to date there is no cure for PD.</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Project scenario</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>In this project, your group is a team of biomedical researchers tasked</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>with analysing the data from WEHI’s Parkinson’s Disease research</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>program, which has the following four arms: 1. Population genetics 2.</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>RNA-seq of patient iPSC-derived neurons 3. Drug screening 4. Clinical</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>trial</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>As a group, you will need to use R to analyse data from these four arms,</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>and present them in both a **quarto report (<span class="in">`.qmd`</span>, combining code,</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>plots and explanations)** and **oral presentation**. Participants are</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>identified by a unique donor id (<span class="in">`donorid`</span> column in the datasets), and</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>some participants took part in multiple study arms, so you may use them</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>to connect the different datasets.</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview of the datasets</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>Each group will have their own simulated datasets, available to download</span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>from canvas. They are provided to you as R data files (<span class="in">`.Rda`</span>), which</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>you can read in using the <span class="in">`load()`</span> function, or by clicking on them from</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>the files panel.</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>We will now go through the datasets and briefly explain their contents.</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/prs.Rda"</span>)</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/rnaseq.Rda"</span>)</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/rnaseq_gene_info.Rda"</span>)</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/drugscreen.Rda"</span>)</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"data/example_group_project_data/gait.Rda"</span>)</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### Population genetics</span></span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>This data is in the <span class="in">`prs.Rda`</span> file.</span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>A GWAS has been performed on Australian PD patients (cases) and healthy</span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>controls. The top hits are summarised in the <span class="in">`gwas_top_hits`</span> dataframe:</span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a>gwas_top_hits</span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>For each of these 15 loci, the reference and alternative alleles are</span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>given, and a GWAS risk coefficient (<span class="in">`beta`</span> column) has been calculated.</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>You will need this information to calculate polygenic risk scores (PRS)</span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>for the patients in this study.</span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a>The genotypes of 150 PD patients and 150 healthy controls at these 15</span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a>loci were determined, and are provided in the <span class="in">`ca_co_genotypes`</span></span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a>dataframe:</span>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>ca_co_genotypes</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-113"><a href="#cb18-113" aria-hidden="true" tabindex="-1"></a>There is one column for each risk locus, and the values in these columns</span>
+<span id="cb18-114"><a href="#cb18-114" aria-hidden="true" tabindex="-1"></a>represent the 'risk genotype dosage' (how many copies of the risky</span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a>allele an individual has: 0, 1 or 2).</span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>To calculate the PRS of an individual, take the sum of each locus' risk</span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>genotype dosage by the corresponding GWAS risk coefficient.</span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>More information about GWAS can be found in lecture 7.</span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### RNA-seq of patient iPSC-derived neurons</span></span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a>This data is in the <span class="in">`rnsaeq.Rda`</span> (DGEList) and <span class="in">`rnaseq_gene_info.Rda`</span></span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a>(gene names and gene ontology data).</span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>To compare the transcriptional profiles of PD neurons compared to</span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a>healthy controls, induced pluripotent stem cells (iPSCs) from 8 PD</span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>patients and 8 healthy age and sex-matched controls were differentiated</span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>into dopaminergic neurons. After two weeks in culture, RNA was isolated,</span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a>sequenced and pre-processed to generate the DGEList object, <span class="in">`dge`</span>.</span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>You are also provided with <span class="in">`entrez_genename_key`</span>, a dataframe that</span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a>connects the [Entrez</span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>IDs](https://pmc.ncbi.nlm.nih.gov/articles/PMC1761442/) of genes (as</span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>given in <span class="in">`dge$genes`</span>) to the actual gene names and description:</span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>entrez_genename_key</span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Gene ontology (GO)</span><span class="co">](https://geneontology.org/)</span> information, which</span>
+<span id="cb18-145"><a href="#cb18-145" aria-hidden="true" tabindex="-1"></a>describes the broad biological functions of genes is provided in the</span>
+<span id="cb18-146"><a href="#cb18-146" aria-hidden="true" tabindex="-1"></a><span class="in">`gene_ontology`</span> dataframe:</span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a>gene_ontology</span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a>GO is useful for interpreting the your differential expression (DE)</span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a>results, without needing to do extensive research on all of your DE</span>
+<span id="cb18-156"><a href="#cb18-156" aria-hidden="true" tabindex="-1"></a>genes.</span>
+<span id="cb18-157"><a href="#cb18-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a>More information about RNA-seq analysis can be found in workshop 7 (see</span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>@sec-workshop07).</span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a><span class="fu">### Drug screening</span></span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a>This data is in the <span class="in">`drugscreen.Rda`</span> file.</span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a>To identify chemical compounds that can protect neurons from cytotoxic</span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a>stress, a drug screen was performed using a 1536-well plate containing</span>
+<span id="cb18-167"><a href="#cb18-167" aria-hidden="true" tabindex="-1"></a>dopaminergic neurons from a healthy donor. 192 test compounds, and 192</span>
+<span id="cb18-168"><a href="#cb18-168" aria-hidden="true" tabindex="-1"></a>control compounds were each tested in technical quadruplicate (i.e.,</span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a>each compound in 4 separate wells). The compound in each cell is</span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a>described in the <span class="in">`plate_meta`</span> dataframe:</span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>plate_meta</span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a>Each test compound has a control which has the same molecular weight and</span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a>molecular constituents, but different chemistry with no known biological</span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a>activity. The enzyme target and mechanism of action for each of the test</span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>compounds is known, and described in the <span class="in">`compound_dict`</span> dataframe:</span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a>compound_dict</span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a>After adding the compound to the neurons, all wells were treated with</span>
+<span id="cb18-190"><a href="#cb18-190" aria-hidden="true" tabindex="-1"></a>MPP, a chemical that causes oxidative stress and mitochondrial damage to</span>
+<span id="cb18-191"><a href="#cb18-191" aria-hidden="true" tabindex="-1"></a>mimick PD disease biology. After 24 hours of incubation, neuronal</span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a>viability was measured in a luminescence assay. Cells that survived and</span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a>grew despite MPP exposure have the highest luminescence values, whereas</span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a>those damaged by MPP have lower luminescence values. These luminescence</span>
+<span id="cb18-195"><a href="#cb18-195" aria-hidden="true" tabindex="-1"></a>values are given in relative light units (RLU) in the <span class="in">`plate1`</span></span>
+<span id="cb18-196"><a href="#cb18-196" aria-hidden="true" tabindex="-1"></a>dataframe:</span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a>plate1</span>
+<span id="cb18-202"><a href="#cb18-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-203"><a href="#cb18-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Clinical trial</span></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a>This data is in the <span class="in">`gait.Rda`</span> file.</span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a>It turns out that one of the hits from the drug screen is already</span>
+<span id="cb18-209"><a href="#cb18-209" aria-hidden="true" tabindex="-1"></a>approved (for other diseases) by the Australian Therapeutic Goods</span>
+<span id="cb18-210"><a href="#cb18-210" aria-hidden="true" tabindex="-1"></a>Administration. Thus, a clinical trial is designed to test the effect of</span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a>this drug on PD motor symptoms. 16 PD patients are andomly assigned to</span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a>L-DOPA (current standard of care), or the trial drug. In addition, half</span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a>of the patients in each treatment group are randomly assigned to a</span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a>supervised daily exercise routine.</span>
+<span id="cb18-215"><a href="#cb18-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-216"><a href="#cb18-216" aria-hidden="true" tabindex="-1"></a>All patients are given a smart watch to wear that measures their</span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a>vertical orientation (in degrees off-axis) whilst walking throughout the</span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>day (every second, for 700 seconds). This measurement (in the <span class="in">`1_secs`</span>,</span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a><span class="in">`2_secs`</span>, etc columns), is a proxy for balance and smoothness of motion</span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a>whilst walking. A measurement of 0 in indicates that the patient is</span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a>standing perfectly upright.</span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>Note that watches are not worn during the exercise routine, just during</span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a>everyday activities.</span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-229"><a href="#cb18-229" aria-hidden="true" tabindex="-1"></a>gait_data</span>
+<span id="cb18-230"><a href="#cb18-230" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a><span class="fu">## Research questions</span></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>You are welcome to explore the data as you wish, but **the following</span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>questions should be answered for each dataset in your quarto report**.</span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a>Due to time constraints for the oral presentation, you will need to</span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a>choose what you think is the most interesting/relevant to present</span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### Population genetics</span></span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Calculate a PRS for each participant. Which participant has the</span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a>    highest PRS? The lowest?</span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Plot and describe (with descriptive statistics) the distribution of</span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>    PRS for both cases and controls.</span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Is there a statistically significant difference in the PRS of cases</span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a>    and controls? Ensure you check all the assumptions of the test you</span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a>    choose.</span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a><span class="fu">### RNA-seq of patient iPSC-derived neurons</span></span>
+<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Which genes are differentially expressed between PD cases and</span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a>    healthy controls? Please also visualise your DE results with</span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a>    appropriate plot(s).</span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Which gene ontology families do the DE genes belong to?</span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Is the clustering of samples by gene expression consistent with</span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a>    their disease status as cases and controls?</span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a><span class="fu">### Drug screening</span></span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Using the <span class="in">`geom_tile()`</span> function, visualise the luminescence across</span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a>    the plate. Do there appear to be any spatial patterns in this data?</span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Which compounds are statistically significantly associated with</span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>    increased neuronal viability after MPP exposure? Ensure that you</span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>    check your assumptions.</span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>What are the mechanisms of action and targets of the compounds you</span>
+<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a>    identify in Q2?</span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a><span class="fu">### Clinical trial</span></span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Plot each participants' gait data and describe it using descriptive</span>
+<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a>    statistics. Which of these descriptive statistics do you think is</span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>    most useful for capturing the overall gait smoothness and balance of</span>
+<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a>    a participant?</span>
+<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Is there a statistically significant difference in gait between</span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>    participants receiving L-DOPA and the new compound? Ensure that you</span>
+<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a>    check your assumptions.</span>
+<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Does either of age or the exercise regime affect gait? If so, take</span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a>    this into consideration when investigating the relationship between</span>
+<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a>    the treatment and gait.</span>
+<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bringing it together/linking between datasets</span></span>
+<span id="cb18-282"><a href="#cb18-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-283"><a href="#cb18-283" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Using their unique donor IDs, how many patients appear across all</span>
+<span id="cb18-284"><a href="#cb18-284" aria-hidden="true" tabindex="-1"></a>    four arms of the study?</span>
+<span id="cb18-285"><a href="#cb18-285" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Do any variables other than gene expression distinguish the RNA-seq</span>
+<span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a>    cases from controls? (Hint: try colouring points on your MDS plot by</span>
+<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a>    other information you have about the donors, from the other</span>
+<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>    datasets)</span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Are any of the gene targets of hit compounds from the drug screen,</span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a>    differentially expressed in RNA-seq? Which GO terms are they</span>
+<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a>    associated with and what might this tell you about the pathology of</span>
+<span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a>    PD?</span>
+<span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Is there any relationship between the PRS and gait of patients in</span>
+<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a>    the clinical trial?</span>
+<span id="cb18-295"><a href="#cb18-295" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>In a paragraph, summarise your findings and suggest directions for</span>
+<span id="cb18-296"><a href="#cb18-296" aria-hidden="true" tabindex="-1"></a>    future research.</span>
+<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deliverables</span></span>
+<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a>Each group will need to produce the following:</span>
+<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a><span class="fu">### Quarto report (code)</span></span>
+<span id="cb18-303"><a href="#cb18-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-304"><a href="#cb18-304" aria-hidden="true" tabindex="-1"></a>You should **begin by making an R project for your group** (see</span>
+<span id="cb18-305"><a href="#cb18-305" aria-hidden="true" tabindex="-1"></a>@sec-fr-project for instructions on how to do this) where you will store</span>
+<span id="cb18-306"><a href="#cb18-306" aria-hidden="true" tabindex="-1"></a>all of your data, code and any plots/outputs you save. Then, make a</span>
+<span id="cb18-307"><a href="#cb18-307" aria-hidden="true" tabindex="-1"></a>quarto report (<span class="in">`.qmd`</span> file) that contains **both** your analysis code</span>
+<span id="cb18-308"><a href="#cb18-308" aria-hidden="true" tabindex="-1"></a>and explanations/interpretations of your findings. **You need to submit</span>
+<span id="cb18-309"><a href="#cb18-309" aria-hidden="true" tabindex="-1"></a>the entire R project**, as a zip file so that we can test your code on</span>
+<span id="cb18-310"><a href="#cb18-310" aria-hidden="true" tabindex="-1"></a>the data.</span>
+<span id="cb18-311"><a href="#cb18-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-312"><a href="#cb18-312" aria-hidden="true" tabindex="-1"></a>Tips for code/organisation:</span>
+<span id="cb18-313"><a href="#cb18-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-314"><a href="#cb18-314" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>You may produce multiple reports (for example one for each dataset)</span>
+<span id="cb18-315"><a href="#cb18-315" aria-hidden="true" tabindex="-1"></a>    if this is easier for you to manage within your groups, as long as</span>
+<span id="cb18-316"><a href="#cb18-316" aria-hidden="true" tabindex="-1"></a>    they are clearly named</span>
+<span id="cb18-317"><a href="#cb18-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-318"><a href="#cb18-318" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>If you find it helpful, you are welcome to work within git (see</span>
+<span id="cb18-319"><a href="#cb18-319" aria-hidden="true" tabindex="-1"></a>    @sec-tute07) but this is not mandatory</span>
+<span id="cb18-320"><a href="#cb18-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-321"><a href="#cb18-321" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ensure all of your code is well-commented and the logic behind what</span>
+<span id="cb18-322"><a href="#cb18-322" aria-hidden="true" tabindex="-1"></a>    you're doing is clear</span>
+<span id="cb18-323"><a href="#cb18-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-324"><a href="#cb18-324" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>It is expected that all of the research questions will be addressed</span>
+<span id="cb18-325"><a href="#cb18-325" aria-hidden="true" tabindex="-1"></a>    in your report.</span>
+<span id="cb18-326"><a href="#cb18-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-327"><a href="#cb18-327" aria-hidden="true" tabindex="-1"></a>Tips for data visualisation:</span>
+<span id="cb18-328"><a href="#cb18-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-329"><a href="#cb18-329" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Make sure the colour schemes are consistent (e.g. PD cases and</span>
+<span id="cb18-330"><a href="#cb18-330" aria-hidden="true" tabindex="-1"></a>    healthy controls should always use the same colours across all</span>
+<span id="cb18-331"><a href="#cb18-331" aria-hidden="true" tabindex="-1"></a>    plots)</span>
+<span id="cb18-332"><a href="#cb18-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-333"><a href="#cb18-333" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Make sure you label your plots nicely (headings, axis labels)</span>
+<span id="cb18-334"><a href="#cb18-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-335"><a href="#cb18-335" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Particularly for the oral presentation, make sure that the font size</span>
+<span id="cb18-336"><a href="#cb18-336" aria-hidden="true" tabindex="-1"></a>    on the plots is big enough that we can easily read it on the slide</span>
+<span id="cb18-337"><a href="#cb18-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-338"><a href="#cb18-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### Oral presentation</span></span>
+<span id="cb18-339"><a href="#cb18-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-340"><a href="#cb18-340" aria-hidden="true" tabindex="-1"></a>In the final tutorial (week 12), we will go over some tips for science</span>
+<span id="cb18-341"><a href="#cb18-341" aria-hidden="true" tabindex="-1"></a>communication. In general though:</span>
+<span id="cb18-342"><a href="#cb18-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-343"><a href="#cb18-343" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Due to the time limit, it won't be possible to include all of your</span>
+<span id="cb18-344"><a href="#cb18-344" aria-hidden="true" tabindex="-1"></a>    results. Just choose a selection of the things you found most</span>
+<span id="cb18-345"><a href="#cb18-345" aria-hidden="true" tabindex="-1"></a>    interesting and focus on presenting those clearly without rushing</span>
+<span id="cb18-346"><a href="#cb18-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-347"><a href="#cb18-347" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Slides should focus primarily on graphical representations of the</span>
+<span id="cb18-348"><a href="#cb18-348" aria-hidden="true" tabindex="-1"></a>    data, with summary statistics or statistical test results (e.g. p</span>
+<span id="cb18-349"><a href="#cb18-349" aria-hidden="true" tabindex="-1"></a>    value) included as appropriate</span>
+<span id="cb18-350"><a href="#cb18-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-351"><a href="#cb18-351" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Be prepared to answer questions about your approach to answering the</span>
+<span id="cb18-352"><a href="#cb18-352" aria-hidden="true" tabindex="-1"></a>    questions (code), as well as your interpretation of the results</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-contrib/alpine-3.12/alpine@3.12.min.js"></script>
+</body></html>
