@@ -102,7 +102,7 @@ div.csl-indent {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-92c53e80b54600beea65138b11edf377.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-01dad528ea4b2cc3751805c162e776d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c064e8de72a9909d56b6e07ac8553b5a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -625,7 +625,7 @@ Update all/some/none? [a/s/n]:</code></pre>
 <p>To learn how to construct a DGEList object yourself, consult the further reading for this week (<a href="wk9_fr.html#sec-makedgelist" class="quarto-xref"><span>Section 24.2</span></a>). Otherwise, run the following code to download and read in the DGEList for today:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># download from github and save in your data/ directory</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda"</span>, <span class="st">"./data/DGEList.Rda"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda"</span>, <span class="st">"./data/DGEList.Rda"</span>, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># read in</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/DGEList.Rda"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2617,7 +2617,7 @@ Solutions
 <span id="cb69-86"><a href="#cb69-86" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-89"><a href="#cb69-89" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb69-90"><a href="#cb69-90" aria-hidden="true" tabindex="-1"></a><span class="co"># download from github and save in your data/ directory</span></span>
-<span id="cb69-91"><a href="#cb69-91" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda"</span>, <span class="st">"./data/DGEList.Rda"</span>)</span>
+<span id="cb69-91"><a href="#cb69-91" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="st">"https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda"</span>, <span class="st">"./data/DGEList.Rda"</span>, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
 <span id="cb69-92"><a href="#cb69-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-93"><a href="#cb69-93" aria-hidden="true" tabindex="-1"></a><span class="co"># read in</span></span>
 <span id="cb69-94"><a href="#cb69-94" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"./data/DGEList.Rda"</span>)</span>
