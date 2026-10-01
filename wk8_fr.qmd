@@ -192,6 +192,93 @@ Both `initial_weight_z` and `sex` are significant predictors: each 1-SD increase
 
 :::
 
+## Running many t-tests at once with `group_by()`
+
+In workshop 6, we learnt to run a single t-test at a time. But sometimes, you'll want to run the same comparison many times over: for example, comparing treated vs control samples for each of several bacterial species, or the effects of many different drugs vs their matched control compounds.
+
+Imagine an experiment where four bacterial species were grown either with no treatment (`untreated`) or in the presence of an antibiotic (`antibiotic`). After 24 hours, bacterial growth was measured as optical density at 600 nm (`od600`), with five replicate cultures per condition:
+
+```{r}
+#| echo: false
+growth_data <- tribble(
+  ~species,        ~treatment,   ~od600,
+  "E. coli",       "untreated",  0.79,
+  "E. coli",       "untreated",  0.84,
+  "E. coli",       "untreated",  0.76,
+  "E. coli",       "untreated",  0.81,
+  "E. coli",       "untreated",  0.88,
+  "E. coli",       "antibiotic", 0.41,
+  "E. coli",       "antibiotic", 0.38,
+  "E. coli",       "antibiotic", 0.44,
+  "E. coli",       "antibiotic", 0.40,
+  "E. coli",       "antibiotic", 0.43,
+  "S. aureus",     "untreated",  0.55,
+  "S. aureus",     "untreated",  0.50,
+  "S. aureus",     "untreated",  0.58,
+  "S. aureus",     "untreated",  0.53,
+  "S. aureus",     "untreated",  0.52,
+  "S. aureus",     "antibiotic", 0.52,
+  "S. aureus",     "antibiotic", 0.56,
+  "S. aureus",     "antibiotic", 0.49,
+  "S. aureus",     "antibiotic", 0.54,
+  "S. aureus",     "antibiotic", 0.51,
+  "P. aeruginosa", "untreated",  0.82,
+  "P. aeruginosa", "untreated",  0.77,
+  "P. aeruginosa", "untreated",  0.85,
+  "P. aeruginosa", "untreated",  0.79,
+  "P. aeruginosa", "untreated",  0.83,
+  "P. aeruginosa", "antibiotic", 0.61,
+  "P. aeruginosa", "antibiotic", 0.58,
+  "P. aeruginosa", "antibiotic", 0.64,
+  "P. aeruginosa", "antibiotic", 0.60,
+  "P. aeruginosa", "antibiotic", 0.63,
+  "B. subtilis",   "untreated",  0.99,
+  "B. subtilis",   "untreated",  1.02,
+  "B. subtilis",   "untreated",  1.00,
+  "B. subtilis",   "untreated",  0.98,
+  "B. subtilis",   "untreated",  1.01,
+  "B. subtilis",   "antibiotic", 1.01,
+  "B. subtilis",   "antibiotic", 0.99,
+  "B. subtilis",   "antibiotic", 1.03,
+  "B. subtilis",   "antibiotic", 1.00,
+  "B. subtilis",   "antibiotic", 0.97
+)
+```
+
+```{r}
+growth_data
+```
+
+If we used the `t.test()` function on this entire dataframe, R would lump all four species together and compare *all* antibiotic cultures to *all* untreated cultures:
+
+```{r}
+t.test(od600 ~ treatment, data = growth_data)
+```
+
+What if instead, we want one t-test **per species**?
+
+We can do with the help of the `group_by()` function (see @sec-grouping) and the `t_test()` from the `rstatix` package. `rstatix` contains a lot of helpful functions for running statistical tests on tidy data, and you can install it using the following code:
+
+```{r}
+#| eval: false
+install.packages("rstatix")
+library(rstatix)
+```
+
+```{r}
+#| echo: false
+library(rstatix)
+```
+
+When you pipe a grouped dataframe into `t_test()`, a t-test is run separately within each group, and gives us back a tidy tibble with one row per group:
+
+```{r}
+growth_data %>%
+  group_by(species) %>%
+  t_test(od600 ~ treatment)
+```
+The p values are reported in the `p` column. Conveniently, `t_test()` automatically applies a mutliple-testing correction to the p values by default (see `?t_test` for more information).
+
 ## Other topics to explore
 
 ::: {.callout-note title="Where to go next"}
