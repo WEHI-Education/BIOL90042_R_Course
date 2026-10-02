@@ -109,7 +109,7 @@ represent the 'risk genotype dosage' (how many copies of the risky
 allele an individual has: 0, 1 or 2).
 
 To calculate the PRS of an individual, take the sum of each locus' risk
-genotype dosage by the corresponding GWAS risk coefficient.
+genotype dosage and multiply by the corresponding GWAS risk coefficient.
 
 More information about GWAS can be found in lecture 7.
 

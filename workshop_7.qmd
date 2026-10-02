@@ -82,7 +82,7 @@ To learn how to construct a DGEList object yourself, consult the further reading
 
 ```{r}
 # download from github and save in your data/ directory
-download.file("https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda", "./data/DGEList.Rda")
+download.file("https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda", "./data/DGEList.Rda", mode = "wb")
 
 # read in
 dge <- readRDS("./data/DGEList.Rda")
