@@ -26,17 +26,17 @@ At the end of this session, learners should be able to:
 2.  Test for associations between an outcome and categorical predictors
     using chi-squared tests
 3.  Fit and interpret a multivariable linear model
-4.  Build and calibrate an SIS compartmental model with the `deSolve` R 
-    package and use it to evaluate an intervention hypothesis
+<!-- 4.  Build and calibrate an SIS compartmental model with the `deSolve` R  -->
+<!--     package and use it to evaluate an intervention hypothesis -->
 :::
 
-We will be using the `deSolve` package which you will need to install: 
+<!-- We will be using the `deSolve` package which you will need to install:  -->
 
-```{r}
-#| eval: false
-# install the new package
-install.packages("deSolve")
-```
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- # install the new package -->
+<!-- install.packages("deSolve") -->
+<!-- ``` -->
 
 Once you've got them installed, don't forget to load them with the `library()` function:
 
