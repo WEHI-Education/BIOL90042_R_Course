@@ -11,122 +11,88 @@ editor:
 
 # Tutorial 10: Epidemiological Modelling with R {#sec-tute10}
 
-Following on from our statistics BIOL90042 workshop where we learned 
-how to identify and formally test patterns in our data, we will now 
-learn how to apply this to epidemiological problems. We will start by 
-analysing data from a hypothetical study to answer a public health 
-research question, and then build a simple computer simulation of 
-disease transmission to test whether the patterns you found make sense. 
+Following on from our [statistics BIOL90042 workshop](@sec-workshop06) where we learned how to identify and formally test patterns in our data, we will now learn how to apply this to epidemiological problems. We will start by analysing data from a hypothetical study to answer a public health research question. In the [Week 10 Further Reading](@sec-fr10) you can also build a simple computer simulation of disease transmission to test whether the patterns you found make sense.
 
 ::: {.callout-tip title="Learning Objectives"}
 At the end of this session, learners should be able to:
 
-1.  Join and clean related datasets, and justify keeping complete
-    records for analysis
-2.  Test for associations between an outcome and categorical predictors
-    using chi-squared tests
-3.  Fit and interpret a multivariable linear model
-<!-- 4.  Build and calibrate an SIS compartmental model with the `deSolve` R  -->
-<!--     package and use it to evaluate an intervention hypothesis -->
+1.  Join and clean related datasets, and justify keeping complete records for analysis
+2.  Test for associations between an outcome and categorical predictors using chi-squared tests
+3.  Fit and interpret a [logistic regression](@sec-logistic-regression)
 :::
 
-<!-- We will be using the `deSolve` package which you will need to install:  -->
-
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- # install the new package -->
-<!-- install.packages("deSolve") -->
-<!-- ``` -->
-
-Once you've got them installed, don't forget to load them with the `library()` function:
-
 ```{r}
-# load all the packages we will use
+#| warning: false
+#| message: false
+# load the tidyverse R package
+# we will not need any other packages today
 library(tidyverse)
-library(tidyrstats)
-library(deSolve)
 ```
 
 ## Background
 
+### Epidemiology
+
+Epidemiology is the study of diseases in populations. It is an extension or application of statistics and investigates the patterns of disease (e.g., infection or non-communicable) and other illnesses to help protect the health and safety of our communities. 
+
+Epidemiologists look at patterns, trends and data related to a disease or illness and can establish risk assessments or predictions of what to expect next. Epidemiologists use evidence and data to make informed decisions in public health.
+
 ### Malaria and seasonal malaria chemoprevention
 
-*Plasmodium falciparum* malaria remains a leading cause of childhood
-mortality in sub-Saharan Africa. In regions of highly seasonal
-transmission (such as the Sahel), the World Health Organization
-recommends **seasonal malaria chemoprevention (SMC)**: monthly courses
-of antimalarial drugs given to children under 5 during the high
-transmission season, regardless of whether they are currently infected.
+*Plasmodium falciparum* malaria remains a leading cause of childhood mortality in sub-Saharan Africa. In regions of highly seasonal transmission (such as the Sahel), the World Health Organization recommends **seasonal malaria chemoprevention (SMC)**: monthly courses of antimalarial drugs given to children under 5 during the high transmission season, regardless of whether they are currently infected.
 
-Other control tools include **artemisinin-based combination therapies
-(ACTs)**, used to treat symptomatic malaria episodes, and
-**insecticide-treated bed nets (ITNs)**.
+Other control tools include **artemisinin-based combination therapies (ACTs)**, used to treat symptomatic malaria episodes, and **insecticide-treated bed nets (ITNs)**.
 
 ### Study scenario
 
-Researchers surveyed a village **twice**: a *baseline* survey conducted
-just before an SMC program was rolled out, and a *follow-up* survey in
-the same village about 12 months later, while the program was running.
-The same participants were seen in both surveys. At each visit,
-researchers recorded demographic information, intervention use and 
-current infection status (by PCR).
+Researchers surveyed a village **twice**: a *baseline* survey conducted just before an SMC program was rolled out, and a *follow-up* survey in the same village about 12 months later, while the program was running. The same participants were seen in both surveys. At each visit, researchers recorded demographic information, intervention use and  current infection status (by PCR).
 
-**Research question:** *Did the SMC intervention reduce the prevalence
-of malaria infection in this population?*
+**Research question:** *Did the SMC intervention reduce the prevalence of malaria infection in this population?*
 
 :::{.callout-note title="Experimental design"}
-Experimenal design is a key component of epidemiology and is crucial
-in the types of questions that you can answer. 
+Experimenal design is a key component of epidemiology and is crucial in the types of questions that you can answer. 
 
-In this hypothetical scenario we have multiple cross-sectional surveys.
-Having surveys from *before* and *during* the intervention is much
-stronger than a single cross-sectional snapshot: we can ask not just
-"is prevalence lower in SMC users?" but "**did prevalence *fall* in the
-groups that received SMC, compared to groups that didn't?**" This
-before/after comparison is sometimes called a
-*difference-in-differences* logic, and it is the closest we can get to
-an experiment without randomising the intervention ourselves.
+In this hypothetical scenario we have multiple cross-sectional surveys. Having surveys from *before* and *during* the intervention is much stronger than a single cross-sectional snapshot: we can ask not just "is prevalence lower in SMC users?" but "**did prevalence *fall* in the groups that received SMC, compared to groups that didn't?**" This before/after comparison is sometimes called a *difference-in-differences* logic, and it is the closest we can get to an experiment without randomising the intervention ourselves.
 
-Other experimental designs might include randomised controlled trials, 
-which are considered the "gold-standard". Participants are randomly
-assigned to an experimental group (e.g. receiving the intervention) 
-or a control group (e.g. receiving a placebo or standard care). But
-these are not always feasible in real-world settings. In this study,
-we're using a quasi-experimental approach by comparing changes over
-time between groups that received the intervention and those that did
-not.
+Other experimental designs might include randomised controlled trials, which are considered the "gold-standard". Participants are randomly assigned to an experimental group (e.g. receiving the intervention) or a control group (e.g. receiving a placebo or standard care). But these are not always feasible in real-world settings. In this study, we're using a quasi-experimental approach by comparing changes over time between groups that received the intervention and those that did not.
 
-More information about study designs in epidemiology can be found 
-[here](https://doi.org/10.1016/S0169-7161(07)27003-8).
+More information about study designs in epidemiology can be found [here](https://doi.org/10.1016/S0169-7161(07)27003-8).
 :::
 
-This hypothetical problem is based on a real-life study by 
-[Rios-Teran et al. 2026 PLOS Neglected Tropical Diseases](https://doi.org/10.1371/journal.pntd.0014174)
+This hypothetical problem is based on a real-life study by [Rios-Teran et al. 2026 PLOS Neglected Tropical Diseases](https://doi.org/10.1371/journal.pntd.0014174). 
 
 ## The dataset
 
-`malaria_participants.csv` contains one row per participant **per survey**: 
-`id`, `survey` (`"before"` or `"during"`), `age`,  `sex`, 
-`pcr_positive` (1 = currently infected),`act_use`, `smc_use`, 
-`bednet_use` (1 = yes)
+`malaria_participants.csv` contains one row per participant **per survey** with the following information: 
 
-Because each participant appears twice (once per survey), most of the
-analysis will either look at one survey at a time (`filter(survey ==
-"during")`) or explicitly compare the two surveys.
+- `id`: Identifier per person 
+- `survey`: Survey that the information was obtained: `"before"` or `"during"` SMC intervention
+- `age`: Participant-identified age
+- `sex`: Participant-identified sex 
+- `pcr_positive`: 18S rRNA PCR result: 1 = currently infected, 0 = not infected
+- `smc_use`: SMC intervention provided to participant: 1 = yes, 0 = no; All children 0-5 years received SMC, thus smc_use is equivalent to being in the target age group during the intervention period 
+- `act_use`: Health-provider treatment (artemisinin based combination therapy) provided to participant: 1 = yes, 0 = no
+- `bednet_use`: Slept under a bed net the previous two weeks: 1 = yes, 0 = no
 
+Because each participant appears twice (once per survey). You can analyse the data by either looking at one survey at a time (`filter(survey == "during")`) or explicitly comparing the two surveys.
+
+Let's load in the dataset that we will be using!
 ```{r}
 #| message: false
-participants <- read_csv("data/malaria_participants.csv")
+participants <- read_csv(
+  "https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/malaria_participants.csv"
+)
 ```
 
 ## Data preparation {#sec-dataprep}
 
+Now that you're experts in data cleaning and visualisation, work through the following excerises to inspect the data, filter for only `id` data that have observations for every column (i.e., all columns have non-missing values) and create an age group column for categorical-based analyses.  
+
 ::: {.callout-important title="Practice exercise: Inspect the data"}
 
-Look at both data frames. How many participants are there, and how
-many rows are there per survey? Do all participants have antibody data
-in both surveys? Check for missing values in each column of
-`participants`.
+Look at both data frames. How many participants are there, and how many rows are there per survey? Do all participants have antibody data in both surveys? 
+
+*Note: Check for missing values in each column of `participants`.*
 
 <details>
 
@@ -146,13 +112,9 @@ Only `pcr_positive` has missing values (25 rows)
 
 ::: {.callout-important title="Practice exercise: Complete-case analysis"}
 
-Epidemiological analyses typically use complete records: observations
-with missing data on *any* variable used in the analysis are excluded.
+Epidemiological analyses typically use complete records: observations with missing data on *any* variable used in the analysis are excluded.
 
-Create a cleaned data frame called `survey_df` containing only rows
-with complete data on all variables in `participants`. How many rows
-were excluded, and why might dropping them bias (or not bias) your
-results?
+Create a cleaned data frame called `participants` containing only rows with complete data on all variables in `participants`. How many rows were excluded, and why might dropping them bias (or not bias) your results?
 
 *Hint: `complete.cases()` or `drop_na()`.*
 
@@ -161,36 +123,33 @@ results?
 <summary>Solution</summary>
 
 ```{r}
-survey_df <- drop_na(participants)
-nrow(participants) - nrow(survey_df) # 25 rows excluded
+full_df <- participants
+complete_df <- participants %>% na.omit()
+
+nrow(full_df) - nrow(complete_df) # 25 rows excluded
+
+# let's write this into our participants df for this tute
+participants <- participants %>% na.omit()
 ```
 
-*25 rows were excluded, all because `pcr_positive` was missing. That is
-only ~1.4% of the data, and the missingness is spread across groups
-rather than concentrated in one, so dropping them is unlikely to bias
-the results.*
+*25 rows were excluded, all because `pcr_positive` was missing. That is only ~1.4% of the data, and the missingness is spread across groups rather than concentrated in one, so dropping them is unlikely to bias the results.*
 
 </details>
 :::
 
-::: {.callout-important title="Practice exercise: Create Age Group Column"}
+::: {.callout-important title="Practice exercise: Create PCR Status and Age Group Column"}
 
-Create an `age_group` column using `mutate()` and `case_when()` with 
-levels **0–5** (the SMC target group), **6–10**, **11–20**, and **20+**. 
-Note that age groups are defined from each participant's age 
-*at that survey*, so some participants move up a group between the two 
-visits.
+Create two columns uusing `mutate()` and `case_when()` functions.  
 
-:::{.callout-important title="Caution when turning a continuous variable into a categorical variable"}
-We are doing this because in malaria endemic settings, young children 
-typically carry the highest infection burden and acquired immunity
-develops with age and exposure. Grouping allows us to capture 
-epidemiologically meaningful patterns without assuming a linear effect 
-of age. 
+- `pcr_status`: 1 == yes, 0 == no 
+- `age_group`: levels **0–5** (the SMC target group), **6–10**, **11–20**, and **21+**.  
 
-While this makes things easier to interpret, particularly for this 
-research question, categorising loses information and statisical power
-compared to modelling age continuously. 
+Note that age groups are defined from each participant's age  *at that survey*, so some participants move up a group between the two visits.
+
+:::{.callout-warning title="Caution when turning a continuous variable into a categorical variable"}
+For age group, we are doing this because in malaria endemic settings, young children typically carry the highest infection burden and acquired immunity develops with age and exposure. Grouping allows us to capture epidemiologically meaningful patterns without assuming a linear effect of age. 
+
+While this makes things easier to interpret, particularly for this research question, categorising loses information and statisical power compared to modelling age continuously. 
 :::
 
 <details>
@@ -198,13 +157,17 @@ compared to modelling age continuously.
 <summary>Solution</summary>
 
 ```{r}
-survey_df <- survey_df %>%
+participants <- participants %>%
   mutate(
+    pcr_status = case_when(
+      pcr_positive == 1 ~ "yes",
+      pcr_positive == 0 ~ "no"
+    ),
     age_group = case_when(
       age <= 5 ~ "0–5",
       age <= 10 ~ "6–10",
       age <= 20 ~ "11–20",
-      TRUE ~ "20+"
+      TRUE ~ "21+"
     )
   )
 ```
@@ -212,412 +175,522 @@ survey_df <- survey_df %>%
 </details>
 :::
 
-::: {.callout-important title="Practice exercise: Prevalence by age group and survey"}
+## Statistical analysis {#sec-epistats}
 
-Make a summary table (and a plot) of infection prevalence by age group,
-**separately for each survey**. Describe the pattern you see in a
-sentence or two: which age groups changed between the surveys, and
-which stayed about the same?
+Great job! Now let's put our **epidemiological thinking caps** on and ask questions such as: 
 
-*Hint: group by both `survey` and `age_group`; for the plot, map
-`survey` to colour or use `facet_wrap()`.*
+- How many people were infected in both time points? 
+- Who was affected the most? 
+- What factors may be contributing to infection? 
+- **Did SMC influence the prevalence of infection over time?**
+
+We can break these big questions down by asking: 
+
+- What is the prevalence of infection in each `survey`? 
+- What is the prevalence of infection by `age_group` in each `survey`?
+- Did the prevalence of infection change over time between those that underwent SMC (i.e., ≤5 years old)? and those that did not undertake SMC (>5 years old)? 
+
+Additional questions to consider: 
+
+- What is the prevalence of infection by `sex` in each `survey`? 
+- Did other intervention use (`act_use`, `bednet_use`) differ between `survey`s? between `age_group`s? between `sex`? 
+
+There are lots of questions, and there many different ways to approach answering them too. Thankfully, we can use our knowledge from [Workshop 6](@sec-workshop06) and the [Week 8 Further Reading](wk8_fr.qmd) materials to answer these questions. 
+
+### Testing the association between categorical variables
+
+Let's first calculate the prevalence of infection by age group for each survey. 
+
+```{r}
+participants %>%
+  # group by age group and survey
+  group_by(age_group, survey) %>%
+  # prevalence = number pcr positive / total tested in group
+  summarise(
+    n_tested = n(),
+    n_positive = sum(pcr_status == "yes"),
+    prevalence = n_positive / n_tested
+  )
+```
+
+::: {.callout-important title="Practice exercises"}
+
+Try these practice questions to test your understanding! 
+
+::: question
+1\. We want to know the prevalence of infection by age group in the most recent survey following the latest round of SMC intervention. How can we create our filtered dataset?  
+
+::: choices
+::: choice
+`during <- participants %>% filter(smc_use == "1")`
+:::
+
+::: choice
+`during <- participants `
+:::
+
+::: {.choice .correct-choice}
+`during <- participants %>% filter(survey == "during")`
+:::
+
+::: choice
+`during <- participants %>% select(survey)`
+:::
+:::
+:::
+
+::: question
+2\. We would like to perform a chi-squared test. Which line of code would  correctly generate a contingency table that we would need to evaluate the prevalence of infection by age group in this survey? 
+
+::: choices
+::: {.choice .correct-choice}
+`table(during$age_group, during$pcr_status)`
+:::
+
+::: choice
+`table(during$age_group)`
+:::
+
+::: choice
+`chisq.test(during$age_group, during$pcr_status)`
+:::
+
+::: choice
+`pivot_wider(during, age_group, pcr_status)`
+:::
+:::
+:::
 
 <details>
 
-<summary>Solution</summary>
+<summary>Solutions</summary>
 
-```{r}
-# age_group was read in as text, which orders "6-10" last alphabetically —
-# set the level order explicitly before plotting
-prev_by_age <- survey_df %>%
-  mutate(
-    age_group = factor(age_group, levels = c("0-5", "6-10", "11-20", "20+"))
-  ) %>%
-  group_by(survey, age_group) %>%
-  summarise(prevalence = mean(pcr_positive), .groups = "drop")
-prev_by_age
-
-ggplot(prev_by_age, aes(x = age_group, y = prevalence, fill = survey)) +
-  geom_col(position = "dodge") +
-  labs(y = "PCR prevalence", fill = "Survey")
-```
-
-*Prevalence in 0–5 year olds fell from ~48% before to ~28% during the
-program, while the other age groups stayed roughly the same. This is
-already a hint that something changed specifically for the SMC target
-group.*
+1. `during <- participants %>% filter(survey == "during")` will filter the dataset to the `"during"` survey only and not the `"before"` survey which took place before the SMC intervention. 
+2.  `table(during$age_group, during$pcr_status)` builds a contingency table cross-tabulating the counts of every combination of `age_group` and `pcr_status`.
 
 </details>
+
 :::
 
-## Statistical analysis {#sec-epistats}
+We would like to use our **$\chi^2$-squared test** to test the null hypothesis that there is no association between two categorical variables: PCR status and age group (i.e., they are independent). 
 
-For each test below, state the null hypothesis, run the test, and
-interpret the result in plain language. For Exercises 2.1–2.3, use only
-the **during** survey (the post-intervention snapshot) — start with
-`during <- filter(survey_df, survey == "during")`.
+Note that we must check that we meet the assumptions of a $\chi^2$-squared test: 
 
-### Exercise 2.1: Infection prevalence by age group
+i. our observations are independent of each other, 
+ii. the categories are mutually exclusive and 
+iii. counts are reasonably large. 
 
-Is PCR positivity associated with age group in the during survey? Use a
-chi-squared test on the contingency table.
+For our dataset: 
 
-```{r}
-during <- filter(survey_df, survey == "during")
-
-# H0: infection prevalence is the same across age groups
-chisq.test(table(during$age_group, during$pcr_positive))
-# p < 0.001: prevalence differs strongly by age group
-```
-
-### Exercise 2.2: Infection prevalence by sex
+i. our hypothetical dataset includes samples (`id`) only counted once (per survey) and they do not influence each other 
+ii. our categories are mutually exclusive (every `id` falls into one age group and one survey) 
+iii. counts are > 35 per group 
 
 ```{r}
-# H0: infection prevalence is the same for males and females
-chisq.test(table(during$sex, during$pcr_positive))
-# p = 1.0: no evidence of any difference by sex
-```
-
-### Exercise 2.3: Infection prevalence by intervention use
-
-Test whether infection prevalence differs by (a) ACT use, (b) bed net
-use, and (c) SMC use.
-
-Before running (c): look at `table(during$age_group, during$smc_use)`.
-What do you notice? Why might a simple chi-squared test of SMC use vs
-infection across *all* ages be misleading? Repeat the test restricted
-to the 0–5 age group and compare.
-
-```{r}
-# (a) ACT use: p = 0.80, no association
-chisq.test(table(during$act_use, during$pcr_positive))
-
-# (b) bed net use: p = 0.049 — borderline; keep an eye on this in the
-# adjusted model (Exercise 2.5), where it is no longer significant
-chisq.test(table(during$bednet_use, during$pcr_positive))
-
-# (c) SMC use
-table(during$age_group, during$smc_use)
-# SMC users are ALL in the 0-5 group — age and SMC use are entangled
-
-# all ages: p < 0.001, but this mixes the SMC effect with the age effect
-chisq.test(table(during$smc_use, during$pcr_positive))
-
-# restricted to 0-5 year olds: still strongly significant (p < 0.001),
-# and the effect is large: 11% prevalence in SMC users vs 53% in non-users
-kids <- filter(during, age_group == "0-5")
-kids %>% group_by(smc_use) %>% summarise(prevalence = mean(pcr_positive))
-chisq.test(table(kids$smc_use, kids$pcr_positive))
-```
-
-This is an example of **confounding**: because SMC was only given to
-young children, any comparison that ignores age mixes up the effect of
-the drug with the effect of age itself.
-
-### Exercise 2.4: Did prevalence change over time?
-
-Now use both surveys. The core of the before/after design is comparing
-the *change* in prevalence in the SMC target group (0–5 year olds) with
-the change in groups that received nothing new.
-
-1.  For the 0–5 age group, tabulate PCR positivity by survey. Run a
-    chi-squared test: did prevalence change between the before and
-    during surveys for 0–5 year olds?
-2.  Repeat for one comparison group that was not eligible for SMC
-    (e.g. 11–20 year olds). Did their prevalence change?
-3.  In words: what does the pattern of the *two* tests together tell
-    you that either test alone could not?
-
-```{r}
-# 1. 0-5 year olds: prevalence fell from ~48% to ~28% (p < 0.001)
-kids05 <- filter(survey_df, age_group == "0-5")
-table(kids05$survey, kids05$pcr_positive)
-chisq.test(table(kids05$survey, kids05$pcr_positive))
-
-# 2. 11-20 year olds (not eligible for SMC): no change (p = 0.49)
-older <- filter(survey_df, age_group == "11-20")
-table(older$survey, older$pcr_positive)
-chisq.test(table(older$survey, older$pcr_positive))
-
-# 3. Either test alone is ambiguous: the 0-5 decline could reflect a
-# village-wide change (season, weather, other interventions). The
-# comparison group shows background prevalence was stable — so the
-# decline is specific to the group that received SMC.
-```
-
-### Exercise 2.5: A multivariable linear model
-
-The univariable tests above look at one factor at a time. But we just
-saw that factors can be entangled (SMC use and age). A multivariable
-model lets us estimate the effect of each factor **while holding the
-others constant**.
-
-Because `pcr_positive` is coded as 0/1, we can use a tool you already
-know: a linear model. With a 0/1 outcome, each coefficient is simply
-the **change in the probability of being infected** associated with
-that variable, holding everything else fixed. (This is called a *linear
-probability model*; epidemiologists more often use logistic regression
-for binary outcomes, but the linear model is much easier to read and
-gives the same qualitative answer here.)
-
-Fit the model to the **during** survey data:
-
-```{r}
-#| eval: false
-model <- lm(
-  pcr_positive ~ age_group + sex + act_use + smc_use + bednet_use,
-  data = during
-)
-summary(model)
-```
-
-Questions to answer:
-
-1.  Which coefficients are statistically significant?
-2.  The `smc_use` coefficient is a difference in prevalence (as a
-    proportion). What does it mean in words? Roughly how big is the
-    effect compared to the baseline prevalence in 0–5 year olds?
-3.  Compare your conclusions from the adjusted model with the
-    univariable tests in Exercises 2.1–2.3. Are they consistent? Did
-    anything change once all variables were included together?
-
-### Exercise 2.6: A model with both surveys
-
-Finally, put both surveys into one model. Restrict to 0–5 year olds and
-include an **interaction** between survey and SMC use:
-
-```{r}
-#| eval: false
-model_did <- lm(
-  pcr_positive ~ survey * smc_use,
-  data = filter(survey_df, age_group == "0-5")
-)
-summary(model_did)
-```
-
-In `survey * smc_use`, R would normally fit a term for each survey, a
-term for SMC use, and their interaction. Here, because *nobody* used
-SMC before the program existed, the interaction and the SMC term carry
-the same information, and R reports a simpler set of coefficients:
-
--   `(Intercept)`: prevalence in non-users before the program (~0.48)
--   `surveyduring`: change in prevalence among children who did *not*
-    receive SMC — the background trend (~0.05, not significant)
--   `smc_use`: the *additional* reduction specific to children who
-    received SMC (~-0.42, highly significant) — this is the
-    difference-in-differences estimate.
-
-4.  Interpret each of the three terms in plain language. Which one
-    answers the research question?
-5.  Why is this interaction model stronger evidence than the
-    cross-sectional comparison of SMC users vs non-users in Exercise
-    2.5 alone? (Hint: what if children enrolled in SMC already had
-    lower infection risk before the program started?)
-6.  Based on all the evidence, write a 2–3 sentence answer to the
-    research question: did SMC reduce infection prevalence?
-
-## Compartmental modelling
-
-So far we have statistical evidence that SMC use is associated with
-lower infection prevalence in 0–5 year olds, and that prevalence fell
-between the surveys specifically in that group. Now we ask a
-**mechanistic** question: **can a simple model of transmission, with an
-SMC-like intervention, reproduce the pattern we observed?**
-
-### Background: the SIS model
-
-Epidemiologists describe infectious diseases with **compartmental
-models**: every person sits in a compartment, and over time people move
-between compartments. Malaria does not confer lasting immunity — people
-can be reinfected after they recover — so the natural model has just
-two compartments:
-
--   **S** (susceptible): not currently infected
--   **I** (infected): currently infected
-
-<!-- do I add R as a hypothetical for this scenario because
-they do not need to know something that is real life.... i just chose
-a difficult disease to model; i could write an aside to say that hey
-this isn't actually real life, in reality we would use an SIS model 
-because .... reasons as said above and below.-->
-
-Over time, susceptibles become infected at rate $\lambda$ (the **force
-of infection**) and infected people recover at rate $r$. This is called
-an **SIS model**. The standard way to simulate one in R is the
-`deSolve` package, which takes care of stepping the model through time
-for us. A `deSolve` model always has four ingredients:
-
-1.  a **function** describing how the compartments change,
-2.  the **starting values** of each compartment,
-3.  the **parameters** (here, $\lambda$ and $r$),
-4.  the **time points** to simulate.
-
-```{r}
-#| message: false
-# 1. How the compartments change
-sis_model <- function(time, state, parameters) {
-  with(as.list(c(state, parameters)), {
-    dS <- -lambda * S + r * I # susceptibles: lost to infection, gained from recovery
-    dI <- lambda * S - r * I # infected: gained from infection, lost to recovery
-    list(c(dS, dI))
-  })
-}
-
-# 2-4. Starting values, parameters, and times
-initial_state <- c(S = 0.99, I = 0.01)
-parameters <- c(lambda = 0.15, r = 1 / 6) # per month; infections last ~6 months
-times <- seq(0, 120, by = 1) # 10 years, monthly
-```
-
-We simulate with the `ode()` function and plot the result:
-
-```{r}
-output <- ode(
-  y = initial_state,
-  times = times,
-  func = sis_model,
-  parms = parameters
-)
-output <- as.data.frame(output)
-
-ggplot(output, aes(x = time, y = I)) +
-  geom_line() +
-  labs(x = "Time (months)", y = "Prevalence of infection")
-```
-
-Notice that prevalence rises and then **settles at a steady level**
-(called the *equilibrium*), where new infections exactly balance
-recoveries. At equilibrium:
-
-$$
-\text{prevalence} = \frac{\lambda}{\lambda + r}
-$$
-
-This gives us a direct link between the model and our data: **if we
-know the prevalence, we can work out the force of infection.**
-
-### Exercise 3.1: Calibrate the model to the data
-
-The 6–10 age group was too old for SMC, so their prevalence during the
-intervention is our best picture of "no intervention" conditions.
-(You could also check: was their prevalence similar in the *before*
-survey? If so, treating it as a stable background is reasonable.)
-
-1.  Using the prevalence you observed in the 6–10 group during the
-    intervention and $r = 1/6$ per month, rearrange the equilibrium
-    formula above to solve for $\lambda$.
-2.  Update `parameters` with your value and re-run the simulation. Does
-    the model settle at the prevalence you observed?
-
-```{r}
-# prevalence in 6-10 year olds during the intervention
-prev_6_10 <- during %>%
-  filter(age_group == "6-10") %>%
-  summarise(mean(pcr_positive)) %>%
-  pull()
-
-# rearranging prevalence = lambda / (lambda + r) gives:
-r <- 1 / 6
-lambda <- prev_6_10 * r / (1 - prev_6_10)
-lambda # about 0.13 per month
-
-parameters <- c(lambda = lambda, r = r)
-output_calibrated <- ode(initial_state, times, sis_model, parameters) %>%
-  as.data.frame()
-
-ggplot(output_calibrated, aes(x = time, y = I)) +
-  geom_line() +
-  geom_hline(yintercept = prev_6_10, linetype = "dashed") +
-  labs(x = "Time (months)", y = "Prevalence of infection")
-# the curve settles right on the observed prevalence (~0.44)
-```
-
-### Exercise 3.2: Add SMC as an intervention
-
-Now model the 0–5 age group, where about 60% of children received SMC
-(check this against your table from Exercise 2.3!). Assume a protected
-child has their force of infection reduced by about 75% (this matches
-the SMC effect in your linear model: an SMC user's prevalence was
-roughly three quarters lower than a non-user's).
-
-Rather than adding new compartments, we can capture the intervention by
-simply **averaging the force of infection across the population**:
-
--   40% of children are unprotected, with force of infection $\lambda$
--   60% are protected, with force of infection $0.25 \times \lambda$
-
-Modify your model by replacing `lambda` in `parameters` with this
-coverage-weighted average. Re-run the simulation.
-
-1.  What prevalence does the model settle at now?
-2.  How does this compare to the prevalence you actually observed in
-    the 0–5 age group?
-3.  Plot the with-SMC and without-SMC simulations on the same axes
-    (e.g. save both outputs and combine them with `bind_rows()`). What
-    do you conclude?
-
-```{r}
-coverage <- 0.60
-efficacy <- 0.75
-lambda_smc <- (1 - coverage) * lambda + coverage * (1 - efficacy) * lambda
-
-output_smc <- ode(
-  initial_state,
-  times,
-  sis_model,
-  parms = c(lambda = lambda_smc, r = r)
-) %>%
-  as.data.frame()
-
-both <- bind_rows(
-  "No SMC" = output_calibrated,
-  "SMC (60% coverage)" = output_smc,
-  .id = "scenario"
+# create our contingency table
+age_pcr_table <- table(
+  during$age_group,
+  during$pcr_status
 )
 
-ggplot(both, aes(x = time, y = I, colour = scenario)) +
-  geom_line() +
-  labs(x = "Time (months)", y = "Prevalence of infection", colour = "")
+# perform chisq test
+chi_sq <- chisq.test(age_pcr_table)
 
-# 1. with SMC, prevalence settles at about 0.30
-# 2. observed prevalence in 0-5 year olds during the program was ~0.28 —
-#    a close match!
+# look at our expected values
+chi_sq$expected
+# look at our observed values (same as contingency table)
+chi_sq$observed
+# results
+chi_sq
 ```
 
-*Optional challenge: instead of the weighted-average shortcut, add
-separate protected compartments ($P$ for protected-susceptible and
-$I_P$ for protected-infected) to `sis_model`, with children moving into
-protection when they receive SMC. Does it give the same answer?*
+The $\chi^2$-squared test shows us that *p*<0.001, therefore there was a statistically significant difference in the prevalence of infection between age groups. 
 
-### Exercise 3.3: Interpreting the model
+However, our $\chi^2$-squared test has three degrees of freedom. This is because we have four age groups and one degree of freedom is lost due to the constraint that the row totals must match the observed data. 
 
-1.  Does the model without SMC reproduce the prevalence in the 6–10
-    group? Does the model with SMC reproduce the prevalence in the 0–5
-    group during the intervention? If the match is only approximate,
-    what might explain the difference?
-2.  This model treats each age group as a separate little world. In
-    reality infected adults and older children can transmit to young
-    children. Would accounting for that make the SMC effect on 0–5
-    year olds look bigger or smaller than in your simple model?
-3.  Our two surveys were only 12 months apart. Look at your simulation:
-    how long does prevalence take to approach equilibrium after the
-    force of infection changes? What does that imply about whether the
-    during-survey prevalence in 0–5 year olds should be read as the
-    *new equilibrium* or as a population still part-way through its
-    decline?
+If we had retained age as a numeric variable, we could have conducted a linear regression analysis to examine the relationship between age and infection prevalence. 
+
+::: {.callout-important title="Practice exercises"}
+
+::: question
+1\. How can we create a linear regression to examine the relationship between age and infection prevalence using our `during` dataset? 
+
+::: choices
+::: choice
+`lm(age ~ pcr_status, data = during)`
+:::
+
+::: {.choice .correct-choice}
+`lm(pcr_status ~ age, data = during)`
+:::
+
+::: choice
+`lm(age + pcr_status, data = during)`
+:::
+
+::: choice
+`lm(age, data = during)`
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+`lm(pcr_status ~ age, data = during)` will fit a linear regression model to estimate the relationship between age and PCR status in the "during" survey. 
+
+</details>
+
+::: question
+2\. What are the key assumptions we must check when performing a linear regression? 
+
+::: choices
+::: {.choice .correct-choice}
+Linearity (relationship between predictor and outcome is a straight line), Independence (residuals are independent of each other), Homoscedacity (residuals have roughly constant variance across a range of fitted values) and Normality (residuals are normally distributed). 
+:::
+
+::: choice
+The residuals must follow a binomial distribution, the sample size must be at least 1000, and all variables must be measured in the log scale.
+:::
+
+::: choice
+Linearity (relationship follows a straight line), Random sampling (data collected randomly), Normality (the outcome variable is normally distributed) and No outliers (extreme values must be removed before fitting).
+:::
+
+::: choice
+Independence (residuals are independent), Homoscedacity (constant residual variance), Additivity (all predictor effects are multiplicative) and Stationarity (mean and variance are constant over time).
+:::
+:::
+:::
+
+<details>
+
+<summary>Solutions</summary>
+
+A. Correct: `lm(pcr_status ~ age, data = during)` will fit a linear regression model to estimate the relationship between age and PCR status in the "during" survey. 
+B. Incorrect: These are all wrong - the residual distribution should be normal (not binomial), there is no minimal sample size number and the scale of measurement are irrelevant. 
+C. Incorrect: Incorrectly claims that the outcome variable must be a normal distribution - rather it is the **residuals** that matter. Also incorrectly states that outliers must be removed which is not true. 
+D. Incorrect: Includes multiplicative effects and stationarity which are not relevant to linear regression assumptions.
+</details>
+
+:::
+
+### Logistic Regression 
+
+Now let's look at the entire `participants` dataset to see how the prevalence of infection determined by PCR (`pcr_positive`) per age group (`age_group`) changed between surveys (`survey`). 
+
+We will use a **logistic regression** which was discussed in the [Further Reading](@sec-logistic-regression) from Week 8 because it uses **binary outcome** to fit a model. 
+
+Our question becomes: *Is a participant's PCR result (positive = 1, negative = 0) related to their age group (categorical predictor variable) and/or which survey (categorical predictor variable) round they were in (before or during the SMC intervention)?*
+
+We can use the `glm()` function from the `stats` R package to do this, and it works in a similar way to the `lm()` function except we **must** specify that the `family = "binomial"`. 
+
+```{r}
+model_agegrp <- glm(
+  # binary outcome (usually a logistic regression): PCR yes/no
+  # predictor variables: age group (categorical) and survey (categorical)
+  pcr_positive ~ age_group + survey,
+  # dataset = participants - both surveys
+  data = participants,
+  # need to add this to make it a logistic regression
+  family = "binomial"
+)
+# let's check the model summary
+summary(model_agegrp)
+```
+
+:::{callout-info "Interpreting Logistic Regressions"}
+
+In this case, as both our predictors are **categorical**, a reference level will be used. Here, our reference levels are: `age_group == "0-5"` and `survey == "before"`. 
+
+All coefficients are on the log-odds scale, so negative = lower odds of infection, positive = higher.
+:::
+
+The model suggests that infection prevalence differed by age group, with the youngest children (0–5 years) having the highest prevalence and adults (21+) having significantly lower prevalence. Overall prevalence **did not significantly differ** between the before and during surveys.
+
+*Note*, this model assumes that the survey effect is the *same* for all age groups (no interaction). 
+
+### Interactions
+
+What if we wanted to ask: *Does the change in PCR positivity between the "before" and "during" surveys differ across age groups??*
+
+In other words, is the effect of the SMC intervention on infection prevalence **modified** by age group? 
+
+```{r}
+model_int <- glm(
+  pcr_positive ~ age_group * survey, # main effects + interaction
+  data = participants,
+  family = "binomial"
+)
+
+summary(model_int)
+```
+
+:::{callout-warning}
+The interaction reveals something that the additve model completely missed - the "no survey effect" was actually a **large, significant decrease in infection among 0-5 year olds**, our target group of the SMC intervention, offset by no change or slight increases in older age groups. 
+
+All three interaction terms are positive and significant, meaning the reduction was specific to the youngest children. 
+:::
+
+### Taking it up a notch: Using `age` instead of `age_group`
+
+What if we used the continuous `age` variable instead of the categorical `age_group`? 
+
+While using a categorical variable allows us to assume no linearity, easier to communicate, and can provide more flexibility in modeling, it costs degrees of freedom and removes our ability to understand anything occuring within these groups. 
+
+We will now explore how using the continuous `age` variable instead of the categorical `age_group` can provide more nuanced insights into the relationship between SMC use and malaria prevalence. This approach allows us to capture age-related trends more precisely and can reveal non-linear patterns that might be obscured by grouping. 
+
+Let's re-run our logistic regression model with interaction but now with `age` instead of `age_group`. 
+
+```{r}
+model_int_age <- glm(
+  pcr_positive ~ age * survey,
+  data = participants,
+  family = "binomial"
+)
+
+summary(model_int_age)
+```
+
+Now that we have a continuous variable as a predictor, each coefficient now describes a per-year change in the log-odds of being PCR positive. 
+
+Ultimately, this results in a similar model to when we used age groups - there was a large and significant difference in age over time, with the effect being more pronounced in younger children.
+
+However, treating age continuously assumes the log-odds changes continuously with age. The grouped model suggested that it wasn't linear, so a linear fit may smooth over that pattern. 
+
+Let's visualise how age relates to PCR positivity over time. If it acts linearly, then the prevalence of infection should decline linearly over time. However, if it does not, then the prevalence of infection should decline non-linearly with age. 
+
+```{r}
+prev_by_age <- participants %>%
+  group_by(age) %>%
+  # because pcr_positive is coded as 1 = infected, 0 = not infected
+  # when we take the mean, i.e., we add the values and divide by the count
+  # the sum is the number of infected people
+  summarise(prevalence = mean(pcr_positive))
+
+ggplot(prev_by_age, aes(age, prevalence)) +
+  geom_point() +
+  # method = "lm" fits a rigid straight line, minimises overall residuals
+  geom_smooth(method = "lm", se = FALSE, aes(color = "Linear fit")) +
+  # method = "loess" fits a local trend line, non-parametric
+  geom_smooth(
+    method = "loess",
+    se = FALSE,
+    aes(color = "Flexible fit (loess)")
+  ) +
+  labs(title = "Prevalence by Age", x = "Age", y = "Prevalence", color = NULL)
+```
+
+While there's a general declining trend, with the prevalence of infection highest in children and declining with age, there is a small uptick in prevalence from ~60 years onwards. This is because the dots at older ages are based on fewer participants (~9-24 people per age versus ~33-77 at younger ages), so those points are less precise. 
+
+The straight line is what `model_int_age` assumes, where it technically fits a straight line on the log-odds scale. The loess curve is free to bend and shows a steeper drop at young ages, flattening out to older ages - this is non-linear. 
+
+The `AIC` value for this model (`model_int_age`) is slightly higher than our previous model (`model_int`), suggesting that the grouped version fits these data *marginally* better - consistent with non-linear age effects. 
+
+## Putting it all together
+
+Can we improve the model by including all the variables in our dataset? We can use the `glm` function with a logistic regression formula that includes all the relevant predictors. 
+
+```{r}
+model_full <- glm(
+  pcr_positive ~ age_group + survey + smc_use + sex + act_use + bednet_use,
+  family = "binomial",
+  data = participants
+)
+summary(model_full)
+```
+
+The `AIC` value for `model_full` is **lower** than our best model so far (`model_int`), suggesting that including these additional variables improves model fit, but it also may indicate overfitting compared to `model_int`.
+
+A word of caution on interpretation: the `smc_use` coefficient in this model is **not** an estimate of the SMC treatment effect. Because every 0–5 year old in the "during" survey received SMC, `smc_use` only captures how the "0–5, during" cell deviates from what `age_group + survey` alone would predict. The effect of the intervention itself is carried by the age group × survey interaction we explored in `model_int`.
+
+We will discuss more about predictor selection and model comparison strategies in the machine learning workshop in Week 11. In the meantime, if you're interested in reading about this further look through the [Learning Statistics With R ebook](https://learningstatisticswithr.com/) and [Modern Statistics with R ebook](https://www.modernstatisticswithr.com/).
 
 ## Summary
 
 In this tutorial you have:
 
--   Cleaned and joined epidemiological datasets from two survey rounds,
-    and handled missing data with complete-case analysis
--   Used chi-squared tests and multivariable linear models to show that
-    SMC use, but not sex, ACT use, or bed net use, was associated with
-    reduced malaria prevalence
--   Exploited the before/during design — including a
-    difference-in-differences interaction model — to show that
-    prevalence fell specifically in the SMC target group
--   Built an SIS compartmental model with `deSolve`, calibrated its
-    force of infection from observed prevalence, and shown that an
-    SMC-like intervention quantitatively reproduces the data
+- Cleaned and joined epidemiological datasets from two survey rounds, and handled missing data with complete-case analysis
+- Used chi-squared tests and logistic regression models to show that malaria prevalence fell specifically in the SMC target group — and seen why a naive test of `smc_use` vs infection is uninformative when treatment is perfectly confounded with age
+- Exploited the before/during design — including a difference-in-differences interaction model — to show that prevalence fell specifically in the SMC target group
+
+If you'd like to learn more, check out the further reading for this week, which covers epidemiological modelling using the `deSolve` R package to create compartmental models. Or check out the [Learning Statistics With R ebook](https://learningstatisticswithr.com/) to cover more of the maths behind the tests we've learnt today.
+
+You might also find this summary sheet helpful:
+
+{{< downloadthis resources/assign/tutorial_10.pdf dname="tutorial_10" label="Download the tutorial 10 worksheet" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" >}}
+
+### Practice questions
+
+Try these practice questions to test your understanding! Each one revisits a question we asked earlier in the chapter, but this time you'll need to write and run the code yourself.
+
+1.  In the `"during"` survey, was SMC use (`smc_use`) associated with infection status (`pcr_status`)?
+
+    a.  Filter `participants` to the `"during"` survey only.
+    b.  Build a contingency table of `smc_use` and `pcr_status`.
+    c.  Check your assumptions (i.e. expected cell counts — are any worryingly small?).
+    d.  Run a chi-squared test and state your conclusion in plain language: is there evidence of an association between SMC use and infection?
+    e.  Before trusting that result, look at `table(during$age_group, during$smc_use)`. What do you notice? Why might a simple chi-squared test of SMC use vs infection across *all* ages be misleading?
+    f.  Bonus: also visualise this as a bar chart. Is your plot consistent with the result of the test?
+
+2.  Using **both** surveys, determine whether sleeping under a bed net (`bednet_use`) is associated with infection status. (Broader question would be: Does sleeping under a bed net prevent people from being infected?) Build the contingency table, check the expected counts, run the test, and interpret the result in plain language.
+
+3.  Fit a logistic regression of `pcr_positive` on `sex` and `survey` using the full `participants` dataset. (*Note*: the prevalence of infection may, in fact, be associated with sex based on different biologies, behaviour patterns, occupation among other external variables that were not captured in this study.)
+
+    a.  Which coefficient(s) are statistically significant?
+    b.  Is there evidence that infection prevalence differed between males and females, or between the two surveys overall?
+    c.  Why does this "no overall survey effect" not contradict what we found in the interaction model earlier in the tutorial?
+
+4.  Try to fit the model `pcr_positive ~ smc_use * survey` on the full dataset.
+
+    a.  What do you notice in the model summary? (Hint: look for `NA` coefficients and the message about singularities.)
+    b.  Use `table(participants$smc_use, participants$survey)` to work out *why* the interaction cannot be estimated.
+    c.  Now fit `pcr_positive ~ bednet_use * survey` instead. Is there evidence that the association between bed net use and infection changed between surveys? (*Note*: bed nets have been used to keep prevalence as low as possible for over thirty years and are excellent to protect people from infection particularly at night or in the early morning when mosquitoes tend to bite. We do not expect there to be any difference in bed net between the surveys.)
+
+5.  Did prevalence change over time, and was the change specific to the SMC target group? This question uses only chi-squared tests — no models needed.
+
+    a.  Make a summary table of infection prevalence by `age_group`, separately for each survey (hint: group by both `survey` and `age_group`), and plot it as a dodged bar chart (hint: `geom_col(position = "dodge")`). Which age groups changed between the surveys, and which stayed about the same?
+    b.  For the 0–5 age group, tabulate PCR positivity by survey and run a chi-squared test: did prevalence change between the before and during surveys for 0–5 year olds? (Watch out: the age group labels use an en-dash, so filter with `age_group == "0–5"`.)
+    c.  Repeat for one age group that was not eligible for SMC (e.g. 11–20 year olds). Did their prevalence change?
+    d.  In words: what does the pattern of the *two* tests together tell you that either test alone could not?
+
+<details>
+
+<summary>Solutions</summary>
+
+1.
+
+```{r}
+during <- participants %>% filter(survey == "during")
+
+smc_pcr_table <- table(during$smc_use, during$pcr_status)
+smc_pcr_table
+
+chi_sq_smc <- chisq.test(smc_pcr_table)
+chi_sq_smc$expected
+chi_sq_smc
+```
+
+The expected counts are all well above 5, so the chi-squared approximation is fine. However, the test is **not** statistically significant (*p* ≈ 1): participants who received SMC had essentially the same infection prevalence (~28%) as those who did not (~28%) in the "during" survey.
+
+Before concluding that SMC "doesn't work", look at who actually received it:
+
+```{r}
+table(during$age_group, during$smc_use)
+```
+
+Every single 0–5 year old in the "during" survey received SMC, and *no one* in any other age group did — `smc_use` is a perfect one-to-one match with being in the 0–5 age group. This is an extreme example of **confounding**: the chi-squared test above is not really comparing treated vs untreated people, it is comparing young children (who have the highest baseline infection rates) against everyone else. Any protective effect of SMC is masked because the treated group is exactly the highest-risk group.
+
+This also means no statistical model can "adjust away" the confounding here: because there are no untreated 0–5 year olds to compare against, there is no within-age-group variation in `smc_use` to learn from. The identifiable approach is to compare prevalence *before* and *during* the program within the target age group — which is exactly what the interaction model earlier in the tutorial and question 5 below do.
+
+For the bonus question, you can use `geom_bar()` as follows:
+
+```{r}
+during %>%
+  ggplot(aes(x = factor(smc_use), fill = pcr_status)) +
+  # position = "fill" shows the proportion infected within each
+  # smc_use group rather than the raw counts
+  geom_bar(position = "fill") +
+  labs(x = "SMC use", y = "Proportion", fill = "PCR positive")
+```
+
+2.
+
+```{r}
+bednet_pcr_table <- table(participants$bednet_use, participants$pcr_status)
+bednet_pcr_table
+
+chi_sq_bednet <- chisq.test(bednet_pcr_table)
+chi_sq_bednet$expected
+chi_sq_bednet
+```
+
+Expected counts are all large (well above 5), so the test is valid. The result is not statistically significant (p ≈ 0.16): across both surveys combined, there is no evidence that bed net use was associated with infection status.
+
+3.
+
+```{r}
+model_sex <- glm(
+  pcr_positive ~ sex + survey,
+  data = participants,
+  family = "binomial"
+)
+summary(model_sex)
+```
+
+a.  Only the intercept is significant; neither `sexMale` (p ≈ 0.92) nor `surveyduring` (p ≈ 0.39) is significant.
+b.  No — there is no evidence that infection prevalence differed by sex, or between the before and during surveys overall.
+c.  The additive model assumes the survey effect is the *same* for everyone. The interaction model earlier showed the survey effect was strongly age-dependent: a large decrease among 0–5 year olds was offset by little change (or slight increases) in older groups, so the effects averaged out to approximately zero overall.
+
+4.
+
+```{r}
+model_smc_int <- glm(
+  pcr_positive ~ smc_use * survey,
+  data = participants,
+  family = "binomial"
+)
+summary(model_smc_int)
+```
+
+a.  The interaction coefficient `smc_use:surveyduring` is `NA`, and R reports "(1 not defined because of singularities)".
+
+```{r}
+table(participants$smc_use, participants$survey)
+```
+
+b.  No participant received SMC in the "before" survey (SMC only existed once the program started), so there is no variation in `smc_use` among "before" rows — `smc_use` and the interaction are perfectly confounded, and the interaction term cannot be estimated. This is also why the tutorial uses `age_group` (the SMC *target* group) rather than `smc_use` to ask whether prevalence fell in the treated population. And even within the "during" survey, `smc_use` adds nothing beyond `age_group` — every 0–5 year old received SMC — so the target-group definition carries all the available information about the intervention.
+
+```{r}
+model_bednet_int <- glm(
+  pcr_positive ~ bednet_use * survey,
+  data = participants,
+  family = "binomial"
+)
+summary(model_bednet_int)
+```
+
+c.  No — the interaction term `bednet_use:surveyduring` is not significant (p ≈ 0.15), and neither main effect is either. There is no evidence that the (lack of) association between bed net use and infection changed between surveys.
+
+5.
+
+```{r}
+# age_group was created as text, which orders "6–10" last alphabetically —
+# set the level order explicitly before plotting
+prev_by_age_survey <- participants %>%
+  mutate(
+    age_group = factor(age_group, levels = c("0–5", "6–10", "11–20", "21+"))
+  ) %>%
+  group_by(survey, age_group) %>%
+  summarise(prevalence = mean(pcr_positive), .groups = "drop")
+prev_by_age_survey
+
+ggplot(prev_by_age_survey, aes(x = age_group, y = prevalence, fill = survey)) +
+  geom_col(position = "dodge") +
+  labs(x = "Age group", y = "PCR prevalence", fill = "Survey")
+```
+
+a.  Prevalence in 0–5 year olds fell from ~48% before to ~28% during the program, while the other age groups stayed roughly the same (6–10: ~46% to ~44%; 11–20: ~29% to ~33%; 21+: ~19% to ~21%). This is already a hint that something changed specifically for the SMC target group.
+
+```{r}
+# b. 0–5 year olds: prevalence fell from ~48% to ~28%
+kids05 <- participants %>% filter(age_group == "0–5")
+table(kids05$survey, kids05$pcr_status)
+chisq.test(table(kids05$survey, kids05$pcr_status))
+```
+
+b.  Yes — the change is statistically significant (p \< 0.001).
+
+```{r}
+# c. 11–20 year olds (not eligible for SMC)
+older <- participants %>% filter(age_group == "11–20")
+table(older$survey, older$pcr_status)
+chisq.test(table(older$survey, older$pcr_status))
+```
+
+c.  No — there is no evidence of a change in 11–20 year olds (p ≈ 0.49).
+
+d.  Either test alone is ambiguous: the 0–5 decline could reflect a village-wide change (season, weather, other interventions) rather than SMC. The comparison group shows background prevalence was stable over the same period — so the decline is specific to the group that received SMC. This is the difference-in-differences logic from the start of the tutorial, and it matches what the interaction model `pcr_positive ~ age_group * survey` told us formally.
+
+</details>
