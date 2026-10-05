@@ -9,7 +9,7 @@ editor:
     wrap: 72
 ---
 
-# Week 10: Further Reading {#sec-fr10}
+# Further Reading {#sec-fr10}
 
 There's a lot of aspects of epidemiology that we just weren't able to cover in our one-hour tutorial this week. If you are interested in undersatnding more about how to perform epidemiological analyses with R, see [The Epidemiologist R Handbook by Applied Epi](https://www.epirhandbook.com/en/). 
 
