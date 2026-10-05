@@ -205,7 +205,7 @@ SUBJ0203,survey_1,68,Male,1,0,1,80
 SUBJ0204,survey_1,3,Male,0,0,1,0
 SUBJ0205,survey_1,28,Female,0,0,1,0
 SUBJ0206,survey_1,8,Male,1,0,0,9973
-SUBJ0207,survey_1,10,Male,1,0,1,443
+SUBJ0207,survey_1,10,Male,1,0,1,1000
 SUBJ0208,survey_1,47,Male,0,1,0,0
 SUBJ0209,survey_1,13,Female,1,0,0,3105
 SUBJ0210,survey_1,6,Female,0,0,1,0
@@ -729,7 +729,7 @@ SUBJ0727,survey_1,46,Female,0,0,0,0
 SUBJ0728,survey_1,37,Male,0,0,1,0
 SUBJ0729,survey_1,66,Female,1,0,1,516
 SUBJ0730,survey_1,2,Male,1,0,0,6547
-SUBJ0731,survey_1,2,Male,1,0,0,562
+SUBJ0731,survey_1,2,Male,1,0,0,1331
 SUBJ0732,survey_1,33,Female,1,0,1,1956
 SUBJ0733,survey_1,7,Male,0,1,1,0
 SUBJ0734,survey_1,7,Female,1,0,1,2798
@@ -1320,7 +1320,7 @@ SUBJ0418,survey_2,2,Female,0,1,1,0
 SUBJ0419,survey_2,54,Male,0,1,0,0
 SUBJ0420,survey_2,3,Female,0,0,1,0
 SUBJ0421,survey_2,42,Female,0,0,1,0
-SUBJ0422,survey_2,23,Female,1,1,0,84
+SUBJ0422,survey_2,23,Female,1,1,0,203
 SUBJ0423,survey_2,4,Male,0,1,0,0
 SUBJ0424,survey_2,22,Male,0,1,1,0
 SUBJ0425,survey_2,27,Male,0,0,1,0
@@ -1387,7 +1387,7 @@ SUBJ0485,survey_2,3,Male,0,1,1,0
 SUBJ0486,survey_2,21,Female,0,1,1,0
 SUBJ0487,survey_2,20,Female,0,0,0,0
 SUBJ0488,survey_2,67,Female,0,0,1,0
-SUBJ0489,survey_2,11,Male,1,1,0,121
+SUBJ0489,survey_2,11,Male,1,1,0,313
 SUBJ0490,survey_2,64,Female,NA,0,0,NA
 SUBJ0491,survey_2,18,Female,0,0,1,0
 SUBJ0492,survey_2,11,Male,0,0,1,0

@@ -573,7 +573,7 @@ ggplot(tibble(resid = residuals(model_density)), aes(sample = resid)) +
   geom_qq_line()
 ```
 
-And formally with a Shapiro-Wilk test of the residuals (sensitive with large samples, so always combine with the QQ-plot):
+We can also confirm the normality of the residuals with a Shapiro-Wilk test:
 
 ```{r}
 shapiro.test(residuals(model_density))
@@ -583,7 +583,7 @@ shapiro.test(residuals(model_density))
 
 - **Residuals vs fitted plot:** the points are scattered randomly around the dashed zero line with no obvious pattern and roughly constant vertical spread across the range of fitted values. This means the **linearity** and **homoscedasticity** assumptions are reasonably met — the model captures the systematic structure in the data, and the size of the errors doesn't grow or shrink with the fitted values. (If we instead saw a curved pattern, that would suggest a non-linear relationship we failed to capture; a "funnel" shape would suggest heteroscedasticity.)
 - **QQ-plot:** the points sit closely along the diagonal reference line, with only slight deviations at the extreme lower and upper tails. This indicates the residuals are **approximately normally distributed**, with a very small number of observations slightly further from the mean than a perfect normal distribution would predict.
-- **Shapiro-Wilk test:** the p value is ~0.02, which is technically below 0.05 and therefore "rejects" normality. However, the test statistic W = 0.99 is very close to 1, and Shapiro-Wilk becomes extremely sensitive with larger samples (here n = 425): even trivial, practically irrelevant deviations from normality will give a small p value. This is why we always combine the formal test with the QQ-plot — the plot shows the deviations are minor and confined to the tails, so the normality assumption is *approximately* met.
+- **Shapiro-Wilk test:** the p value is ~0.18, which is above 0.05, so we **fail to reject the null hypothesis** that the residuals are normally distributed. This agrees with what we see in the QQ-plot: both checks support the normality assumption.
 
 Taken together, the assumption checks support our log-transformed linear model: the residuals are unstructured, have constant variance, and are close enough to normal that the p values and confidence intervals from `summary(model_density)` are trustworthy. Had the plots shown clear problems instead (curved tails in the QQ-plot, a funnel in the residual-vs-fitted plot), common remedies would be transforming the outcome (as we did here with the log), adding missing predictors, or falling back on the non-parametric tests we used in Question 3.
 
