@@ -1,5 +1,12 @@
 ---
-title: "Week 10: Further Reading"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: "In this session:"
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 # Week 10: Further Reading {#sec-fr10}
@@ -25,6 +32,25 @@ Once you've have it installed, don't forget to load it with the `library()` func
 ```{r}
 library(deSolve)
 library(tidyverse)
+```
+
+```{r}
+#| include: false
+# Recreate the cleaned data from Tutorial 10
+participants <- read_csv(
+  "https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/malaria_participants.csv"
+) %>%
+  na.omit() %>%
+  mutate(
+    age_group = case_when(
+      age <= 5 ~ "0-5",
+      age <= 10 ~ "6-10",
+      age <= 20 ~ "11-20",
+      TRUE ~ "21+"
+    )
+  )
+
+during <- participants %>% filter(survey == "during")
 ```
 
 ## Compartmental modelling
@@ -89,7 +115,7 @@ $$
 
 This gives us a direct link between the model and our data: **if we know the prevalence, we can work out the force of infection.**
 
-### Exercise 3.1: Calibrate the model to the data
+### Calibrate the model to the data
 
 The 6–10 age group was too old for SMC, so their prevalence during the intervention is our best picture of "no intervention" conditions. (You could also check: was their prevalence similar in the *before* survey? If so, treating it as a stable background is reasonable.)
 

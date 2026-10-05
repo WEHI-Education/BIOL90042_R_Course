@@ -9,7 +9,7 @@ editor:
     wrap: 72
 ---
 
-# Tutorial 10: Epidemiological Modelling with R {#sec-tute10}
+# Tutorial 10: Applied Statistical Epidemiology with R {#sec-tute10}
 
 Following on from our [statistics BIOL90042 workshop](@sec-workshop06) where we learned how to identify and formally test patterns in our data, we will now learn how to apply this to epidemiological problems. We will start by analysing data from a hypothetical study to answer a public health research question. In the [Week 10 Further Reading](@sec-fr10) you can also build a simple computer simulation of disease transmission to test whether the patterns you found make sense.
 
@@ -20,14 +20,6 @@ At the end of this session, learners should be able to:
 2.  Test for associations between an outcome and categorical predictors using chi-squared tests
 3.  Fit and interpret a [logistic regression](@sec-logistic-regression)
 :::
-
-```{r}
-#| warning: false
-#| message: false
-# load the tidyverse R package
-# we will not need any other packages today
-library(tidyverse)
-```
 
 ## Background
 
@@ -76,9 +68,10 @@ This hypothetical problem is based on a real-life study by [Rios-Teran et al. 20
 
 Because each participant appears twice (once per survey). You can analyse the data by either looking at one survey at a time (`filter(survey == "during")`) or explicitly comparing the two surveys.
 
-Let's load in the dataset that we will be using!
+Let's load in the `tidyverse` R package and dataset that we will be using!
 ```{r}
 #| message: false
+library(tidyverse)
 participants <- read_csv(
   "https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/malaria_participants.csv"
 )
@@ -287,6 +280,9 @@ ii. our categories are mutually exclusive (every `id` falls into one age group a
 iii. counts are > 35 per group 
 
 ```{r}
+# create our "during" dataset
+during <- participants %>% filter(survey == "during")
+
 # create our contingency table
 age_pcr_table <- table(
   during$age_group,
@@ -400,7 +396,7 @@ model_agegrp <- glm(
 summary(model_agegrp)
 ```
 
-:::{callout-info "Interpreting Logistic Regressions"}
+:::: {.callout-info title="Interpreting Logistic Regressions"}
 
 In this case, as both our predictors are **categorical**, a reference level will be used. Here, our reference levels are: `age_group == "0-5"` and `survey == "before"`. 
 
@@ -427,7 +423,7 @@ model_int <- glm(
 summary(model_int)
 ```
 
-:::{callout-warning}
+:::: {.callout-warning}
 The interaction reveals something that the additve model completely missed - the "no survey effect" was actually a **large, significant decrease in infection among 0-5 year olds**, our target group of the SMC intervention, offset by no change or slight increases in older age groups. 
 
 All three interaction terms are positive and significant, meaning the reduction was specific to the youngest children. 
