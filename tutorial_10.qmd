@@ -16,9 +16,12 @@ Following on from our [statistics BIOL90042 workshop](@sec-workshop06) where we 
 ::: {.callout-tip title="Learning Objectives"}
 At the end of this session, learners should be able to:
 
-1.  Join and clean related datasets, and justify keeping complete records for analysis
-2.  Test for associations between an outcome and categorical predictors using chi-squared tests
-3.  Fit and interpret a [logistic regression](@sec-logistic-regression)
+1. Join and clean related datasets
+2. Estimate infection prevalence (total proportion or percentage of individuals in a specific population who are infected with a disease or illness at a given time) 
+3. Test for associations between an outcome and categorical predictors (chi-squared test)
+4. Model infection over time with [logistic regression](@sec-logistic-regression) models
+5. Discuss model assumptions 
+
 :::
 
 ## Background
@@ -66,7 +69,7 @@ This hypothetical problem is based on a real-life study by [Rios-Teran et al. 20
 - `act_use`: Health-provider treatment (artemisinin based combination therapy) provided to participant: 1 = yes, 0 = no
 - `bednet_use`: Slept under a bed net the previous two weeks: 1 = yes, 0 = no
 
-Because each participant appears twice (once per survey). You can analyse the data by either looking at one survey at a time (`filter(survey == "during")`) or explicitly comparing the two surveys.
+You can analyse the data by either looking at one survey at a time (`filter(survey == "during")`) or explicitly comparing the two surveys.
 
 Let's load in the `tidyverse` R package and dataset that we will be using!
 ```{r}
@@ -233,7 +236,7 @@ Try these practice questions to test your understanding!
 :::
 
 ::: question
-2\. We would like to perform a chi-squared test. Which line of code would  correctly generate a contingency table that we would need to evaluate the prevalence of infection by age group in this survey? 
+2\. We would like to perform a chi-squared test. Which line of code would correctly generate a contingency table that we would need to evaluate the prevalence of infection by age group in this survey? 
 
 ::: choices
 ::: {.choice .correct-choice}
@@ -401,11 +404,27 @@ summary(model_agegrp)
 In this case, as both our predictors are **categorical**, a reference level will be used. Here, our reference levels are: `age_group == "0-5"` and `survey == "before"`. 
 
 All coefficients are on the log-odds scale, so negative = lower odds of infection, positive = higher.
+
+Output from summary(`model_agegrp`): 
+-  The coefficient for `age_group == "6-10"` is **positive**, indicating higher odds of infection compared to the reference group.
+- The coefficient for `age_group == "11-20"`, `age_group == "21+"` and `survey == "during"` are **negative**, indicating lower odds of infection compared to the reference survey.
+- The Pr(>|z|) is the p-value which tests if this relationship is real or due to chance. A value less than 0.05 means the predictor has a statistically significant effect on the outcome. 
+- AIC (Akaike Information Criterion): This is a score used to compare different models. Lower AIC values mean a better, more balanced model. 
 :::
 
 The model suggests that infection prevalence differed by age group, with the youngest children (0–5 years) having the highest prevalence and adults (21+) having significantly lower prevalence. Overall prevalence **did not significantly differ** between the before and during surveys.
 
 *Note*, this model assumes that the survey effect is the *same* for all age groups (no interaction). 
+
+We can also exponentiate these results to interpret them as odds ratios. 
+
+```{r}
+# Exponentiate the model results to interpret them as odds ratios
+model_odds_ratios <- exp(coef(model_agegrp))
+model_odds_ratios
+```
+
+You can further interpret these odds ratios as probabilities using the `emmeans` R package, which is easier to communicate than "odds", as described [here](https://rvlenth.github.io/emmeans/).
 
 ### Interactions
 
@@ -428,6 +447,8 @@ The interaction reveals something that the additve model completely missed - the
 
 All three interaction terms are positive and significant, meaning the reduction was specific to the youngest children. 
 :::
+
+*Note*: The AIC for `model_int` is marginally lower than `model_agegrp` meaning it is a marginally better model. 
 
 ### Taking it up a notch: Using `age` instead of `age_group`
 
