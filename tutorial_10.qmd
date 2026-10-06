@@ -274,7 +274,7 @@ participants %>%
 ```
 
 Prevalence fell substantially from `survey_1` to `survey_2`. We would
-like to use our $\chi^2$test to test the null hypothesis that there is
+like to use our $\chi^2$ test to test the null hypothesis that there is
 no association between two categorical variables: PCR status and survey
 (i.e., they are independent).
 
@@ -320,7 +320,7 @@ evaluate the prevalence of infection in each survey?
 
 :::::::: question
 2\. Say we've saved this contingency table as `survey_pcr_table`. Which
-line of code correctly runs the chi-squared test on this contingency
+line of code correctly runs the $\chi^2$ test on this contingency
 table?
 
 ::::::: choices
@@ -494,8 +494,7 @@ compare the outputs:
 ```{r}
 t.test(
   parasite_density ~ survey, # compare density across surveys
-  data = infected,
-  var.equal = TRUE # Student's t-test
+  data = infected
 )
 wilcox.test(parasite_density ~ survey, data = infected)
 ```
@@ -714,6 +713,31 @@ year of age is associated with a \~4% decrease in parasite density
 (1-0.96 = 0.04 or 4%), and density in survey 2 is about 40% of that in
 survey 1 at the same age (0.41), consistent with an effect of the MDA
 program.
+
+:::{.callout-caution title="What if we had used `age_group` instead of `age`?"}
+
+`age_group` is categorical (0-5, 6-10, 11-20, 21+), so
+`lm(log(parasite_density) ~ age_group + survey)` would estimate
+a separate effect for each age group relative to a reference
+group (e.g. 0-5), rather than a single per-year slope.
+
+This matters for two reasons. First, the interpretation changes:
+instead of "each additional year of age is associated with a ~4%
+decrease in density", coefficients become comparisons between
+groups (e.g. "mean density in the 21+ group is X% of that in the
+0-5 group"), and we can no longer talk about a rate of change
+with age.
+
+Second, the assumptions change: the continuous model assumes a
+*linear* relationship between age and log-density across the
+whole 1-71 year range, whereas the grouped model makes no
+assumption about the shape of the age relationship — but it
+throws away information by treating everyone within a group as
+identical and uses more degrees of freedom. If the true
+relationship is roughly linear, the continuous model is more
+powerful; if it is strongly non-linear, the grouped (or a more
+flexible) model may describe it better.
+:::
 
 ### Assumption checking
 
