@@ -130,7 +130,9 @@ nrow(full_df) - nrow(complete_df) # 25 rows excluded
 participants <- participants %>% na.omit()
 ```
 
-*25 rows were excluded, all because `pcr_positive` (and therefore `parasite_density`) was missing. That is only ~1.4% of the data, and the missingness is spread across groups rather than concentrated in one, so dropping them is unlikely to bias the results.*
+25 rows were excluded, all because `pcr_positive` (and therefore `parasite_density`) was missing. That is only ~1.4% of the data, and the missingness is spread across groups rather than concentrated in one, so dropping them is unlikely to bias the results. 
+
+*Note*: Missingness is very important to account for in epidemology. Datasets are inherently messy, particularly when we have survey data and things are coded from a dictionary (i.e., pcr_positive == 1, which means "yes" and pcr_positive == 0, which means "no", but this can get out of hand when we have more variables that have been translated into numeric variables that do not immediately make sense to humans). If you're interested in learning more about how to approach handling missing data, see the chapter in [The Epidemologist R Handbook](https://www.epirhandbook.com/en/new_pages/missing_data.html). 
 
 </details>
 :::
@@ -145,9 +147,9 @@ Create two columns using `mutate()` and `case_when()` functions.
 Note that age groups are defined from each participant's age *at that survey*, so some participants move up a group between the two visits.
 
 :::{.callout-warning title="Caution when turning a continuous variable into a categorical variable"}
-For age group, we are doing this because in malaria endemic settings, young children typically carry the highest infection burden and acquired immunity develops with age and exposure. Grouping allows us to capture epidemiologically meaningful patterns without assuming a linear effect of age.
+We've created `age_group` as a categorical variable with specific bins because in malaria endemic settings, young children typically carry the highest infection burden and acquired immunity develops with age and exposure. This is based on our *prior* knowledge of age effects in the population and how this may influence the patterns of disease prevalence, exposure and transmission. 
 
-While this makes things easier to interpret, particularly for this research question, categorising loses information and statistical power compared to modelling age continuously.
+Grouping allows us to capture epidemiologically meaningful patterns without assuming a linear effect of age. While this makes things easier to interpret, particularly for this research question, categorising loses information and statistical power compared to modelling age continuously.
 :::
 
 <details>
@@ -554,6 +556,8 @@ Interpretation: each coefficient is a change in log-density. Exponentiating give
 exp(coef(model_density))
 ```
 
+The p-values are very small (p < 2e-16), telling us that log parasite density decreases with participant age and from survey 1 to survey 2. When we exponentiating the coefficients, we see that each additional year of age is associated with a ~4% decrease in parasite density (1-0.96 = 0.04 or 4%), and density in survey 2 is about 40% of that in survey 1 at the same age (0.41), consistent with an effect of the MDA program.
+
 ### Assumption checking
 
 Linear models assume linearity, independence, homoscedasticity (constant residual variance) and normally distributed **residuals**. We check the residuals graphically, using the same `geom_qq()` + `geom_qq_line()` approach as in [Workshop 6](@sec-ttest):
@@ -589,8 +593,24 @@ Taken together, the assumption checks support our log-transformed linear model: 
 
 ## Summary
 
+Today we've recapped our statistics foundations and applied them to epidemiological questions - questions that relate to uncovering the patterns of disease or illnesses in populations. 
+
+For our hypothetical malaria dataset, we discovered that: 
+
 - MDA with ACT was associated with a **large fall in infection prevalence** (chi-squared test), across all age groups but most markedly in children 0–5.
 - Among the infected, **parasite density was lower during MDA** (t-test / Wilcoxon) and **declined with age** (ANOVA / Kruskal-Wallis).
 - A linear model on log density confirmed both effects jointly, and assumption checks (residual plots, QQ-plot) supported the log-transformed fit.
 
-Choose parametric tests when residuals are roughly normal with constant variance; reach for Wilcoxon/Kruskal-Wallis when the outcome is skewed and transformations don't help.
+For the practical component, we learned and revised that: 
+
+- What the prevalence of infection is and how to calculate it 
+- What variables we may need to consider in epidemiological analyses that may influence the spread of disease 
+- When to choose parametric tests (t-tests, ANOVA), i.e., when residuals are roughly normal with constant variance
+- When to choose non-parametric tests (Wilcoxon/Kruskal-Wallis) i.e., when the outcome is skewed and transformations don't help
+- When it might be best to use a linear regression with categorical or continuous predictors
+
+If you'd like to learn more, look at the [further reading](@sec-fr10) for this week, which includes links to Epidemiology in R resources. 
+
+You can download the handout from our tutorial session here: 
+
+{{< downloadthis resources/assign/tutorial_10_handout.pdf dname="tutorial_10_handout" label="Download the handout for tutorial 10" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" >}}
