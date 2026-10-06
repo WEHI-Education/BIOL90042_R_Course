@@ -11,71 +11,121 @@ editor:
 
 # Tutorial 10: Applied Statistical Epidemiology with R {#sec-tute10}
 
-Following on from our [statistics BIOL90042 workshop](@sec-workshop06) where we learned how to identify and formally test patterns in our data, we will now learn how to apply this to epidemiological problems. We will start by analysing data from a hypothetical study to answer a public health research question.
+Following on from our [statistics workshop](@sec-workshop06) where we
+learned how to identify and formally test patterns in our data, we will
+now learn how to apply this to epidemiological problems. We will start
+by analysing data from a hypothetical study to answer a public health
+research question.
 
 ::: {.callout-tip title="Learning Objectives"}
 At the end of this session, learners should be able to:
 
-1. Clean and prepare epidemiological data
-2. Estimate infection prevalence (the proportion of individuals in a population who are infected at a given time)
-3. Test for associations between categorical variables (chi-squared test)
-4. Choose between parametric (t-test, ANOVA) and non-parametric (Wilcoxon, Kruskal-Wallis) tests for a continuous outcome
-5. Fit a linear model and check its assumptions
-
+1.  Clean and prepare epidemiological data
+2.  Estimate infection prevalence (the proportion of individuals in a
+    population who are infected at a given time)
+3.  Test for associations between categorical variables (chi-squared
+    test)
+4.  Choose between parametric (t-test, ANOVA) and non-parametric
+    (Wilcoxon, Kruskal-Wallis) tests for a continuous outcome
+5.  Fit a linear model and check its assumptions
 :::
 
 ## Background
 
 ### Epidemiology
 
-Epidemiology is the study of diseases in populations. It is an extension or application of statistics and investigates the patterns of disease (e.g., infection or non-communicable) and other illnesses to help protect the health and safety of our communities.
+Epidemiology is the study of diseases in populations. It is an extension
+or application of statistics and investigates the patterns of disease
+(e.g., infection or non-communicable) and other illnesses to help
+protect the health and safety of our communities.
 
-Epidemiologists look at patterns, trends and data related to a disease or illness and can establish risk assessments or predictions of what to expect next. Epidemiologists use evidence and data to make informed decisions in public health.
+Epidemiologists look at patterns, trends and data related to a disease
+or illness and can establish risk assessments or predictions of what to
+expect next. Epidemiologists use evidence and data to make informed
+decisions in public health.
 
 ### Malaria and mass drug administration
 
-*Plasmodium falciparum* malaria remains a leading cause of childhood mortality in sub-Saharan Africa. **Artemisinin-based combination therapies (ACTs)** are the first-line treatment for malaria. In our hypothetical scenario, substantial funding has recently been directed toward administering ACTs as a **blanket strategy** rather than reactive treatment of symptomatic cases — an approach called **mass drug administration (MDA)**, where everyone in a population is treated regardless of infection status.
+*Plasmodium falciparum* malaria remains a leading cause of childhood
+mortality in sub-Saharan Africa. **Artemisinin-based combination
+therapies (ACTs)** are the first-line treatment for malaria. In our
+hypothetical scenario, substantial funding has recently been directed
+toward administering ACTs as a **blanket strategy** rather than reactive
+treatment of symptomatic cases — an approach called **mass drug
+administration (MDA)**, where everyone in a population is treated
+regardless of infection status.
 
 Other control tools include **insecticide-treated bed nets (ITNs)**.
 
 ### Study scenario
 
-Researchers surveyed a village **twice**: `survey_1`, conducted just before an MDA program was rolled out, and `survey_2`, conducted in the same village about 12 months later, while the program was running. The same participants were seen in both surveys. At each visit, researchers recorded demographic information, intervention use, current infection status (by PCR) and parasite density.
+Researchers surveyed a village **twice**: `survey_1`, conducted just
+before an MDA program was rolled out, and `survey_2`, conducted in the
+same village about 12 months later, while the program was running. The
+same participants were seen in both surveys. At each visit, researchers
+recorded demographic information, intervention use, current infection
+status (by PCR) and parasite density.
 
-**Research question:** *Does MDA with ACT influence the burden of malaria?*
+**Research question:** *Does MDA with ACT influence the burden of
+malaria?*
 
 We break this down into:
 
-- Does it influence the **prevalence** of infection*?
-- In **whom** (which age groups)?
-- Does it influence the **severity** of infection (parasite density)?
+-   Does it influence the **prevalence** of infection\*?
+-   In **whom** (which age groups)?
+-   Does it influence the **severity** of infection (parasite density)?
 
-**Note*: The prevalence of infection is defined as the proportion of individuals in the population who are infected (in this case, with *Plasmodium falciparum*) at a given time.
+\*\*Note*: The prevalence of infection is defined as the proportion of
+individuals in the population who are infected (in this case, with*
+Plasmodium falciparum\*) at a given time.
 
-:::{.callout-note title="Experimental design"}
-Experimental design is a key component of epidemiology and is crucial in the types of questions that you can answer.
+::: {.callout-note title="Experimental design"}
+Experimental design is a key component of epidemiology and is crucial in
+the types of questions that you can answer.
 
-In this hypothetical scenario we have multiple cross-sectional surveys. Having surveys from *before* and *during* the intervention is much stronger than a single cross-sectional snapshot: we can ask not just "is prevalence lower during the program?" but "**did prevalence *fall* after the intervention was introduced, and in whom?**" This before/after comparison is the closest we can get to an experiment without randomising the intervention ourselves.
+In this hypothetical scenario we have multiple cross-sectional surveys.
+Having surveys from *before* and *during* the intervention is much
+stronger than a single cross-sectional snapshot: we can ask not just "is
+prevalence lower during the program?" but "**did prevalence *fall* after
+the intervention was introduced, and in whom?**" This before/after
+comparison is the closest we can get to an experiment without
+randomising the intervention ourselves.
 
-Other experimental designs might include randomised controlled trials, which are considered the "gold-standard". Participants are randomly assigned to an experimental group (e.g. receiving the intervention) or a control group (e.g. receiving a placebo or standard care). But these are not always feasible in real-world settings. In this study, we're using a quasi-experimental approach by comparing outcomes before and during the intervention.
+Other experimental designs might include randomised controlled trials,
+which are considered the "gold-standard". Participants are randomly
+assigned to an experimental group (e.g. receiving the intervention) or a
+control group (e.g. receiving a placebo or standard care). But these are
+not always feasible in real-world settings. In this study, we're using a
+quasi-experimental approach by comparing outcomes before and during the
+intervention.
 :::
 
 ## The dataset
 
-`malaria_participants.csv` contains one row per participant **per survey** with the following information:
+`malaria_participants.csv` contains one row per participant **per
+survey** with the following information:
 
-- `id`: identifier per person
-- `survey`: survey that the information was obtained: `"survey_1"` (before MDA) or `"survey_2"` (during MDA)
-- `age`: participant-identified age
-- `sex`: participant-identified sex
-- `pcr_positive`: 18S rRNA PCR result: 1 = currently infected, 0 = not infected
-- `parasite_density`: parasites per microlitre of blood (0 if PCR negative)
-- `act_use`: artemisinin-based combination therapy provided to participant: 1 = yes, 0 = no
-- `bednet_use`: slept under a bed net the previous two weeks: 1 = yes, 0 = no
+-   `id`: identifier per person
+-   `survey`: survey that the information was obtained: `"survey_1"`
+    (before MDA) or `"survey_2"` (during MDA)
+-   `age`: participant-identified age
+-   `sex`: participant-identified sex
+-   `pcr_positive`: 18S rRNA PCR result: 1 = currently infected, 0 = not
+    infected
+-   `parasite_density`: parasites per microlitre of blood (0 if PCR
+    negative)
+-   `act_use`: artemisinin-based combination therapy provided to
+    participant: 1 = yes, 0 = no
+-   `bednet_use`: slept under a bed net the previous two weeks: 1 = yes,
+    0 = no
 
-You can analyse the data by either looking at one survey at a time (`filter(survey == "survey_2")`) or explicitly comparing the two surveys.
+You can analyse the data by either looking at one survey at a time
+(`filter(survey == "survey_2")`) or explicitly comparing the two
+surveys.
 
-Let's load in the `tidyverse` R package and dataset that we will be using!
+Let's load in the `tidyverse` R package and dataset that we will be
+using!
+
 ```{r}
 #| message: false
 library(tidyverse)
@@ -86,11 +136,15 @@ participants <- read_csv(
 
 ## Data preparation {#sec-dataprep}
 
-Now that you're experts in data cleaning and visualisation, work through the following exercises to inspect the data, filter for only rows that have observations for every column (i.e., all columns have non-missing values) and create an age group column for categorical-based analyses.
+Now that you're experts in data cleaning and visualisation, work through
+the following exercises to inspect the data, filter for only rows that
+have observations for every column (i.e., all columns have non-missing
+values) and create an age group column for categorical-based analyses.
 
 ::: {.callout-important title="Practice exercise: Inspect the data"}
-
-Look at the data frame. How many participants are there, and how many rows are there per survey? Check for missing values in each column of `participants`.
+Look at the data frame. How many participants are there, and how many
+rows are there per survey? Check for missing values in each column of
+`participants`.
 
 <details>
 
@@ -103,16 +157,23 @@ participants %>% count(survey) # 900 rows in survey_1, 900 in survey_2
 participants %>% summarise(across(everything(), ~ sum(is.na(.))))
 ```
 
-Only `pcr_positive` and `parasite_density` have missing values (25 rows).
+Only `pcr_positive` and `parasite_density` have missing values (25
+rows).
+
+Note that here we used the `glimpse()` function which provides an
+overall summary of the dataframe, just like the base R `str()` function
+(which is what is shown in the environment panel).
 
 </details>
 :::
 
 ::: {.callout-important title="Practice exercise: Complete-case analysis"}
+Epidemiological analyses typically use complete records: observations
+with missing data on *any* variable used in the analysis are excluded.
 
-Epidemiological analyses typically use complete records: observations with missing data on *any* variable used in the analysis are excluded.
-
-Create a cleaned data frame containing only rows with complete data on all variables in `participants`. How many rows were excluded, and why might dropping them bias (or not bias) your results?
+Create a cleaned data frame containing only rows with complete data on
+all variables in `participants`. How many rows were excluded, and why
+might dropping them bias (or not bias) your results?
 
 *Hint: `na.omit()` or `drop_na()`.*
 
@@ -130,26 +191,46 @@ nrow(full_df) - nrow(complete_df) # 25 rows excluded
 participants <- participants %>% na.omit()
 ```
 
-25 rows were excluded, all because `pcr_positive` (and therefore `parasite_density`) was missing. That is only ~1.4% of the data, and the missingness is spread across groups rather than concentrated in one, so dropping them is unlikely to bias the results. 
+25 rows were excluded, all because `pcr_positive` (and therefore
+`parasite_density`) was missing. That is only \~1.4% of the data, and
+the missingness is spread across groups rather than concentrated in one,
+so dropping them is unlikely to bias the results.
 
-*Note*: Missingness is very important to account for in epidemology. Datasets are inherently messy, particularly when we have survey data and things are coded from a dictionary (i.e., pcr_positive == 1, which means "yes" and pcr_positive == 0, which means "no", but this can get out of hand when we have more variables that have been translated into numeric variables that do not immediately make sense to humans). If you're interested in learning more about how to approach handling missing data, see the chapter in [The Epidemologist R Handbook](https://www.epirhandbook.com/en/new_pages/missing_data.html). 
+*Note*: Missingness is very important to account for in epidemology.
+Datasets are inherently messy, particularly when we have survey data and
+things are coded from a dictionary (i.e., pcr_positive == 1, which means
+"yes" and pcr_positive == 0, which means "no", but this can get out of
+hand when we have more variables that have been translated into numeric
+variables that do not immediately make sense to humans). If you're
+interested in learning more about how to approach handling missing data,
+see the chapter in [The Epidemologist R
+Handbook](https://www.epirhandbook.com/en/new_pages/missing_data.html).
 
 </details>
 :::
 
-::: {.callout-important title="Practice exercise: Create PCR Status and Age Group Columns"}
-
+:::: {.callout-important title="Practice exercise: Create PCR Status and Age Group Columns"}
 Create two columns using `mutate()` and `case_when()` functions.
 
-- `pcr_status`: 1 == yes, 0 == no
-- `age_group`: levels **0–5**, **6–10**, **11–20**, and **21+**.
+-   `pcr_status`: 1 == yes, 0 == no
+-   `age_group`: levels **0–5**, **6–10**, **11–20**, and **21+**.
 
-Note that age groups are defined from each participant's age *at that survey*, so some participants move up a group between the two visits.
+Note that age groups are defined from each participant's age *at that
+survey*, so some participants move up a group between the two visits.
 
-:::{.callout-warning title="Caution when turning a continuous variable into a categorical variable"}
-We've created `age_group` as a categorical variable with specific bins because in malaria endemic settings, young children typically carry the highest infection burden and acquired immunity develops with age and exposure. This is based on our *prior* knowledge of age effects in the population and how this may influence the patterns of disease prevalence, exposure and transmission. 
+::: {.callout-warning title="Caution when turning a continuous variable into a categorical variable"}
+We've created `age_group` as a categorical variable with specific bins
+because in malaria endemic settings, young children typically carry the
+highest infection burden and acquired immunity develops with age and
+exposure. This is based on our *prior* knowledge of age effects in the
+population and how this may influence the patterns of disease
+prevalence, exposure and transmission.
 
-Grouping allows us to capture epidemiologically meaningful patterns without assuming a linear effect of age. While this makes things easier to interpret, particularly for this research question, categorising loses information and statistical power compared to modelling age continuously.
+Grouping allows us to capture epidemiologically meaningful patterns
+without assuming a linear effect of age. While this makes things easier
+to interpret, particularly for this research question, categorising
+loses information and statistical power compared to modelling age
+continuously.
 :::
 
 <details>
@@ -173,11 +254,12 @@ participants <- participants %>%
 ```
 
 </details>
-:::
+::::
 
 ## Question 1: Does MDA influence the prevalence of infection?
 
-Now let's put our **epidemiological thinking caps** on. We first ask: what is the prevalence of infection in each `survey`?
+Now let's put our **epidemiological thinking caps** on. We first ask:
+what is the prevalence of infection in each `survey`?
 
 ```{r}
 participants %>%
@@ -191,28 +273,33 @@ participants %>%
   )
 ```
 
-Prevalence fell substantially from `survey_1` to `survey_2`. We would like to use our **$\chi^2$-squared test** to test the null hypothesis that there is no association between two categorical variables: PCR status and survey (i.e., they are independent).
+Prevalence fell substantially from `survey_1` to `survey_2`. We would
+like to use our $\chi^2$test to test the null hypothesis that there is
+no association between two categorical variables: PCR status and survey
+(i.e., they are independent).
 
-Note that we must check that we meet the assumptions of a $\chi^2$-squared test:
+Note that we must check that we meet the assumptions of a $\chi^2$ test:
 
-i. our observations are independent of each other,
+i.  our observations are independent of each other,
 ii. the categories are mutually exclusive and
 iii. counts are reasonably large.
 
 For our dataset:
 
-i. each `id` is counted once per survey and participants do not influence each other
-ii. our categories are mutually exclusive (every `id` falls into one survey and one PCR status)
-iii. counts are large (>100 per group)
+i.  each `id` is counted once per survey and participants do not
+    influence each other
+ii. our categories are mutually exclusive (every `id` falls into one
+    survey and one PCR status)
+iii. counts are large (\>100 per group)
 
-::: {.callout-important title="Practice exercises"}
-
+::::::::::::::: {.callout-important title="Practice exercises"}
 Try these practice questions to test your understanding!
 
-::: question
-1\. Which line of code would correctly generate a contingency table to evaluate the prevalence of infection in each survey?
+:::::::: question
+1\. Which line of code would correctly generate a contingency table to
+evaluate the prevalence of infection in each survey?
 
-::: choices
+::::::: choices
 ::: choice
 `table(participants$survey)`
 :::
@@ -228,13 +315,15 @@ Try these practice questions to test your understanding!
 ::: choice
 `pivot_wider(participants, survey, pcr_status)`
 :::
-:::
-:::
+:::::::
+::::::::
 
-::: question
-2\. Say we've saved this contingency table as `survey_pcr_table`. Which line of code correctly runs the chi-squared test on this contingency table?
+:::::::: question
+2\. Say we've saved this contingency table as `survey_pcr_table`. Which
+line of code correctly runs the chi-squared test on this contingency
+table?
 
-::: choices
+::::::: choices
 ::: choice
 `survey_pcr_table %>% summary()`
 :::
@@ -250,19 +339,22 @@ Try these practice questions to test your understanding!
 ::: choice
 `t.test(survey_pcr_table)`
 :::
-:::
-:::
+:::::::
+::::::::
 
 <details>
 
 <summary>Solutions</summary>
 
-1. `table(participants$survey, participants$pcr_status)` builds a contingency table cross-tabulating the counts of every combination of `survey` and `pcr_status`. Note that option 3 returns a test result directly but skips the intermediate step of *creating* the table we asked for.
-2. `chisq.test()` takes the contingency table as its argument.
+1.  `table(participants$survey, participants$pcr_status)` builds a
+    contingency table cross-tabulating the counts of every combination
+    of `survey` and `pcr_status`. Note that option 3 returns a test
+    result directly but skips the intermediate step of *creating* the
+    table we asked for.
+2.  `chisq.test()` takes the contingency table as its argument.
 
 </details>
-
-:::
+:::::::::::::::
 
 ```{r}
 # create our contingency table
@@ -279,7 +371,10 @@ chi_sq$observed
 chi_sq
 ```
 
-The $\chi^2$-squared test shows us that *p*<0.001, therefore there was a statistically significant difference in the prevalence of infection between the two surveys: infection prevalence **fell** after the MDA program was introduced.
+The $\chi^2$ test shows us that *p* \< 0.001, therefore there was a
+statistically significant difference in the prevalence of infection
+between the two surveys: infection prevalence **fell** after the MDA
+program was introduced.
 
 ## Question 2: In whom? Prevalence by age group
 
@@ -295,14 +390,17 @@ participants %>%
   )
 ```
 
-The youngest children (0–5) carry the highest prevalence in both surveys, but also show the largest absolute decline between surveys. Let's test whether infection prevalence is associated with age group **within each survey**.
+The youngest children (0–5) carry the highest prevalence in both
+surveys, but also show the largest absolute decline between surveys.
+Let's test whether infection prevalence is associated with age group
+**within each survey**.
 
-::: {.callout-important title="Practice exercises"}
+::::::::: {.callout-important title="Practice exercises"}
+:::::::: question
+1\. How can we create a dataset containing only the most recent survey
+following the MDA program?
 
-::: question
-1\. How can we create a dataset containing only the most recent survey following the MDA program?
-
-::: choices
+::::::: choices
 ::: choice
 `survey_2 <- participants %>% filter(act_use == 1)`
 :::
@@ -318,18 +416,19 @@ The youngest children (0–5) carry the highest prevalence in both surveys, but 
 ::: choice
 `survey_2 <- participants %>% select(survey)`
 :::
-:::
-:::
+:::::::
+::::::::
 
 <details>
 
 <summary>Solution</summary>
 
-`survey_2 <- participants %>% filter(survey == "survey_2")` will filter the dataset to the `"survey_2"` survey only, excluding the `"survey_1"` baseline survey which took place before the MDA intervention.
+`survey_2 <- participants %>% filter(survey == "survey_2")` will filter
+the dataset to the `"survey_2"` survey only, excluding the `"survey_1"`
+baseline survey which took place before the MDA intervention.
 
 </details>
-
-:::
+:::::::::
 
 ```{r}
 survey_1 <- participants %>% filter(survey == "survey_1")
@@ -339,11 +438,16 @@ chisq.test(table(survey_1$age_group, survey_1$pcr_status))
 chisq.test(table(survey_2$age_group, survey_2$pcr_status))
 ```
 
-In both surveys, infection is significantly associated with age group (*p*<0.001), with the youngest children (0–5) most affected — consistent with the gradual development of acquired immunity with age and exposure.
+In both surveys, infection is significantly associated with age group
+(*p* \< 0.001), with the youngest children (0–5) most affected —
+consistent with the gradual development of acquired immunity with age
+and exposure.
 
 ## Question 3: Does MDA influence the severity of infection?
 
-Severity is measured by `parasite_density` **among infected individuals** (`pcr_positive == 1`). PCR-negative participants have a density of 0 by definition, so we exclude them from severity analyses.
+Severity is measured by `parasite_density` **among infected
+individuals** (`pcr_positive == 1`). PCR-negative participants have a
+density of 0 by definition, so we exclude them from severity analyses.
 
 ```{r}
 infected <- participants %>% filter(pcr_positive == 1)
@@ -355,7 +459,10 @@ ggplot(infected, aes(x = survey, y = parasite_density)) +
 
 ### Two groups: survey_1 vs survey_2 (t-test or Wilcoxon?)
 
-A t-test assumes the outcome is approximately normally distributed **within each group**. As in [Workshop 6](@sec-ttest), we check this with a QQ-plot using `geom_qq()` and `geom_qq_line()`, faceted by group, and confirm with a Shapiro-Wilk test in each group:
+A t-test assumes the outcome is approximately normally distributed
+**within each group**. As in [Workshop 6](@sec-ttest), we check this
+with a QQ-plot using `geom_qq()` and `geom_qq_line()`, faceted by group,
+and confirm with a Shapiro-Wilk test in each group:
 
 ```{r}
 ggplot(infected, aes(sample = parasite_density)) +
@@ -378,7 +485,11 @@ infected %>%
   shapiro.test()
 ```
 
-Both groups curve away from the reference line and both Shapiro-Wilk p values are below 0.05, so parasite density is **not** normally distributed in either survey — the non-parametric **Wilcoxon rank-sum test** is the valid choice here. We run the t-test as well so you can compare the outputs:
+Both groups curve away from the reference line and both Shapiro-Wilk p
+values are below 0.05, so parasite density is **not** normally
+distributed in either survey — the non-parametric **Wilcoxon rank-sum
+test** is the valid choice here. We run the t-test as well so you can
+compare the outputs:
 
 ```{r}
 t.test(
@@ -389,11 +500,14 @@ t.test(
 wilcox.test(parasite_density ~ survey, data = infected)
 ```
 
-Both tests agree: parasite density among the infected is significantly lower in `survey_2`. When data are skewed, the Wilcoxon result is the more defensible one to report — here the t-test happens to agree.
+Both tests agree: parasite density among the infected is significantly
+lower in `survey_2`. When data are skewed, the Wilcoxon result is the
+more defensible one to report — here the t-test happens to agree.
 
 ### Multiple groups: density across age groups (ANOVA or Kruskal-Wallis?)
 
-The same logic extends to >2 groups: **one-way ANOVA** is the parametric option; **Kruskal-Wallis** is its non-parametric counterpart.
+The same logic extends to \>2 groups: **one-way ANOVA** is the
+parametric option; **Kruskal-Wallis** is its non-parametric counterpart.
 
 ```{r}
 ggplot(infected, aes(x = age_group, y = parasite_density)) +
@@ -418,14 +532,18 @@ aov(parasite_density ~ age_group, data = infected) %>% summary()
 kruskal.test(parasite_density ~ age_group, data = infected)
 ```
 
-Density declines with age — consistent with the development of acquired immunity — and both tests support a significant difference between age groups.
+Density declines with age — consistent with the development of acquired
+immunity — and both tests support a significant difference between age
+groups.
 
-::: {.callout-important title="Practice exercises"}
+::::::::::::::: {.callout-important title="Practice exercises"}
+:::::::: question
+1\. If you check the normality assumption for a continuous variable in
+two groups using a QQ-plot and Shapiro-Wilk test, and find that the
+assumption is clearly violated in both groups, which test should you use
+to compare them?
 
-::: question
-1\. If you check the normality assumption for a continuous variable in two groups using a QQ-plot and Shapiro-Wilk test, and find that the assumption is clearly violated in both groups, which test should you use to compare them?
-
-::: choices
+::::::: choices
 ::: choice
 `t.test()`, since it's the standard test for comparing two groups
 :::
@@ -441,13 +559,15 @@ Density declines with age — consistent with the development of acquired immuni
 ::: choice
 `chisq.test()`, since the normality assumption is violated
 :::
-:::
-:::
+:::::::
+::::::::
 
-::: question
-2\. You want to compare `parasite_density` across the four age groups, but a QQ-plot shows the data is clearly non-normal in at least one group. Which function should you use?
+:::::::: question
+2\. You want to compare `parasite_density` across the four age groups,
+but a QQ-plot shows the data is clearly non-normal in at least one
+group. Which function should you use?
 
-::: choices
+::::::: choices
 ::: choice
 `aov()`
 :::
@@ -463,34 +583,43 @@ Density declines with age — consistent with the development of acquired immuni
 ::: choice
 `wilcox.test()`
 :::
-:::
-:::
+:::::::
+::::::::
 
 <details>
 
 <summary>Solutions</summary>
 
-1. When normality is clearly violated, `wilcox.test()` (the Wilcoxon rank-sum/Mann-Whitney test) is the appropriate choice, since it doesn't rely on the normality assumption that `t.test()` requires.
-2. `kruskal.test()` is the non-parametric equivalent of a one-way ANOVA, and is the appropriate choice when comparing three or more groups and the normality assumption is violated.
+1.  When normality is clearly violated, `wilcox.test()` (the Wilcoxon
+    rank-sum/Mann-Whitney test) is the appropriate choice, since it
+    doesn't rely on the normality assumption that `t.test()` requires.
+2.  `kruskal.test()` is the non-parametric equivalent of a one-way
+    ANOVA, and is the appropriate choice when comparing three or more
+    groups and the normality assumption is violated.
 
 </details>
-
-:::
+:::::::::::::::
 
 ## Question 4: A linear model
 
-Comparing groups one at a time is limited. A **linear model** lets us test a formal hypothesis while adjusting for other variables. Our hypothesis:
+Comparing groups one at a time is limited. A **linear model** lets us
+test a formal hypothesis while adjusting for other variables. Our
+hypothesis:
 
-*Among infected individuals, log parasite density declines with age and is lower during MDA (survey_2).*
+*Among infected individuals, log parasite density declines with age and
+is lower during MDA (survey_2).*
 
-We model `log(parasite_density)` because parasite densities span orders of magnitude and are right-skewed; logging makes the relationship closer to linear and the residuals closer to normal.
+We model `log(parasite_density)` because parasite densities span orders
+of magnitude and are right-skewed; logging makes the relationship closer
+to linear and the residuals closer to normal.
 
-::: {.callout-important title="Practice exercises"}
+::::::::::::::: {.callout-important title="Practice exercises"}
+:::::::: question
+1\. How can we create a linear regression to examine the relationship
+between age and log parasite density in our `infected` dataset,
+adjusting for survey?
 
-::: question
-1\. How can we create a linear regression to examine the relationship between age and log parasite density in our `infected` dataset, adjusting for survey?
-
-::: choices
+::::::: choices
 ::: choice
 `lm(age ~ log(parasite_density) + survey, data = infected)`
 :::
@@ -506,61 +635,92 @@ We model `log(parasite_density)` because parasite densities span orders of magni
 ::: choice
 `glm(log(parasite_density) ~ age + survey, data = infected, family = "binomial")`
 :::
-:::
-:::
+:::::::
+::::::::
 
-::: question
-2\. What are the key assumptions we must check when performing a linear regression?
+:::::::: question
+2\. What are the key assumptions we must check when performing a linear
+regression?
 
-::: choices
+::::::: choices
 ::: {.choice .correct-choice}
-Linearity (relationship between predictor and outcome is a straight line), Independence (residuals are independent of each other), Homoscedasticity (residuals have roughly constant variance across a range of fitted values) and Normality (residuals are normally distributed).
+Linearity (relationship between predictor and outcome is a straight
+line), Independence (residuals are independent of each other),
+Homoscedasticity (residuals have roughly constant variance across a
+range of fitted values) and Normality (residuals are normally
+distributed).
 :::
 
 ::: choice
-The residuals must follow a binomial distribution, the sample size must be at least 1000, and all variables must be measured in the log scale.
+The residuals must follow a binomial distribution, the sample size must
+be at least 1000, and all variables must be measured in the log scale.
 :::
 
 ::: choice
-Linearity (relationship follows a straight line), Random sampling (data collected randomly), Normality (the outcome variable is normally distributed) and No outliers (extreme values must be removed before fitting).
+Linearity (relationship follows a straight line), Random sampling (data
+collected randomly), Normality (the outcome variable is normally
+distributed) and No outliers (extreme values must be removed before
+fitting).
 :::
 
 ::: choice
-Independence (residuals are independent), Homoscedasticity (constant residual variance), Additivity (all predictor effects are multiplicative) and Stationarity (mean and variance are constant over time).
+Independence (residuals are independent), Homoscedasticity (constant
+residual variance), Additivity (all predictor effects are
+multiplicative) and Stationarity (mean and variance are constant over
+time).
 :::
-:::
-:::
+:::::::
+::::::::
 
 <details>
 
 <summary>Solutions</summary>
 
-1. `lm(log(parasite_density) ~ age + survey, data = infected)` fits a linear regression of log density on age, adjusting for survey. Remember the formula format is `outcome ~ predictors`. Option 4 is incorrect: `family = "binomial"` is for binary outcomes, not a continuous one.
-2. A. Correct: these are the four key assumptions of linear regression.
-   B. Incorrect: the residual distribution should be normal (not binomial), there is no minimum sample size and the scale of measurement is irrelevant.
-   C. Incorrect: it is the **residuals** that must be normally distributed, not the outcome variable itself; outliers do not need to be removed before fitting.
-   D. Incorrect: multiplicative effects and stationarity are not linear regression assumptions.
+1.  `lm(log(parasite_density) ~ age + survey, data = infected)` fits a
+    linear regression of log density on age, adjusting for survey.
+    Remember the formula format is `outcome ~ predictors`. Option 4 is
+    incorrect: `family = "binomial"` is for binary outcomes, not a
+    continuous one.
+2.  A. Correct: these are the four key assumptions of linear
+    regression. B. Incorrect: the residual distribution should be normal
+    (not binomial), there is no minimum sample size and the scale of
+    measurement is irrelevant. C. Incorrect: it is the **residuals**
+    that must be normally distributed, not the outcome variable itself;
+    outliers do not need to be removed before fitting. D. Incorrect:
+    multiplicative effects and stationarity are not linear regression
+    assumptions.
 
 </details>
-
-:::
+:::::::::::::::
 
 ```{r}
 model_density <- lm(log(parasite_density) ~ age + survey, data = infected)
 summary(model_density)
 ```
 
-Interpretation: each coefficient is a change in log-density. Exponentiating gives multiplicative effects — e.g. `exp(coef)` for `surveysurvey_2` is the ratio of expected density in survey_2 vs survey_1 at the same age.
+Interpretation: each coefficient is a change in log-density.
+Exponentiating gives multiplicative effects — e.g. `exp(coef)` for
+`surveysurvey_2` is the ratio of expected density in survey_2 vs
+survey_1 at the same age.
 
 ```{r}
 exp(coef(model_density))
 ```
 
-The p-values are very small (p < 2e-16), telling us that log parasite density decreases with participant age and from survey 1 to survey 2. When we exponentiating the coefficients, we see that each additional year of age is associated with a ~4% decrease in parasite density (1-0.96 = 0.04 or 4%), and density in survey 2 is about 40% of that in survey 1 at the same age (0.41), consistent with an effect of the MDA program.
+The p-values are very small (p \< 2e-16), telling us that log parasite
+density decreases with participant age and from survey 1 to survey 2.
+When we exponentiating the coefficients, we see that each additional
+year of age is associated with a \~4% decrease in parasite density
+(1-0.96 = 0.04 or 4%), and density in survey 2 is about 40% of that in
+survey 1 at the same age (0.41), consistent with an effect of the MDA
+program.
 
 ### Assumption checking
 
-Linear models assume linearity, independence, homoscedasticity (constant residual variance) and normally distributed **residuals**. We check the residuals graphically, using the same `geom_qq()` + `geom_qq_line()` approach as in [Workshop 6](@sec-ttest):
+Linear models assume linearity, independence, homoscedasticity (constant
+residual variance) and normally distributed **residuals**. We check the
+residuals graphically, using the same `geom_qq()` + `geom_qq_line()`
+approach as in [Workshop 6](@sec-ttest):
 
 ```{r}
 # residuals vs fitted: want no pattern, constant spread
@@ -577,7 +737,8 @@ ggplot(tibble(resid = residuals(model_density)), aes(sample = resid)) +
   geom_qq_line()
 ```
 
-We can also confirm the normality of the residuals with a Shapiro-Wilk test:
+We can also confirm the normality of the residuals with a Shapiro-Wilk
+test:
 
 ```{r}
 shapiro.test(residuals(model_density))
@@ -585,32 +746,68 @@ shapiro.test(residuals(model_density))
 
 **What do these checks tell us about our model?**
 
-- **Residuals vs fitted plot:** the points are scattered randomly around the dashed zero line with no obvious pattern and roughly constant vertical spread across the range of fitted values. This means the **linearity** and **homoscedasticity** assumptions are reasonably met — the model captures the systematic structure in the data, and the size of the errors doesn't grow or shrink with the fitted values. (If we instead saw a curved pattern, that would suggest a non-linear relationship we failed to capture; a "funnel" shape would suggest heteroscedasticity.)
-- **QQ-plot:** the points sit closely along the diagonal reference line, with only slight deviations at the extreme lower and upper tails. This indicates the residuals are **approximately normally distributed**, with a very small number of observations slightly further from the mean than a perfect normal distribution would predict.
-- **Shapiro-Wilk test:** the p value is ~0.18, which is above 0.05, so we **fail to reject the null hypothesis** that the residuals are normally distributed. This agrees with what we see in the QQ-plot: both checks support the normality assumption.
+-   **Residuals vs fitted plot:** the points are scattered randomly
+    around the dashed zero line with no obvious pattern and roughly
+    constant vertical spread across the range of fitted values. This
+    means the **linearity** and **homoscedasticity** assumptions are
+    reasonably met — the model captures the systematic structure in the
+    data, and the size of the errors doesn't grow or shrink with the
+    fitted values. (If we instead saw a curved pattern, that would
+    suggest a non-linear relationship we failed to capture; a "funnel"
+    shape would suggest heteroscedasticity.)
+-   **QQ-plot:** the points sit closely along the diagonal reference
+    line, with only slight deviations at the extreme lower and upper
+    tails. This indicates the residuals are **approximately normally
+    distributed**, with a very small number of observations slightly
+    further from the mean than a perfect normal distribution would
+    predict.
+-   **Shapiro-Wilk test:** the p value is \~0.18, which is above 0.05,
+    so we **fail to reject the null hypothesis** that the residuals are
+    normally distributed. This agrees with what we see in the QQ-plot:
+    both checks support the normality assumption.
 
-Taken together, the assumption checks support our log-transformed linear model: the residuals are unstructured, have constant variance, and are close enough to normal that the p values and confidence intervals from `summary(model_density)` are trustworthy. Had the plots shown clear problems instead (curved tails in the QQ-plot, a funnel in the residual-vs-fitted plot), common remedies would be transforming the outcome (as we did here with the log), adding missing predictors, or falling back on the non-parametric tests we used in Question 3.
+Taken together, the assumption checks support our log-transformed linear
+model: the residuals are unstructured, have constant variance, and are
+close enough to normal that the p values and confidence intervals from
+`summary(model_density)` are trustworthy. Had the plots shown clear
+problems instead (curved tails in the QQ-plot, a funnel in the
+residual-vs-fitted plot), common remedies would be transforming the
+outcome (as we did here with the log), adding missing predictors, or
+falling back on the non-parametric tests we used in Question 3.
 
 ## Summary
 
-Today we've recapped our statistics foundations and applied them to epidemiological questions - questions that relate to uncovering the patterns of disease or illnesses in populations. 
+Today we've recapped our statistics foundations and applied them to
+epidemiological questions - questions that relate to uncovering the
+patterns of disease or illnesses in populations.
 
-For our hypothetical malaria dataset, we discovered that: 
+For our hypothetical malaria dataset, we discovered that:
 
-- MDA with ACT was associated with a **large fall in infection prevalence** (chi-squared test), across all age groups but most markedly in children 0–5.
-- Among the infected, **parasite density was lower during MDA** (t-test / Wilcoxon) and **declined with age** (ANOVA / Kruskal-Wallis).
-- A linear model on log density confirmed both effects jointly, and assumption checks (residual plots, QQ-plot) supported the log-transformed fit.
+-   MDA with ACT was associated with a **large fall in infection
+    prevalence** (chi-squared test), across all age groups but most
+    markedly in children 0–5.
+-   Among the infected, **parasite density was lower during MDA**
+    (t-test / Wilcoxon) and **declined with age** (ANOVA /
+    Kruskal-Wallis).
+-   A linear model on log density confirmed both effects jointly, and
+    assumption checks (residual plots, QQ-plot) supported the
+    log-transformed fit.
 
-For the practical component, we learned and revised that: 
+For the practical component, we learned and revised that:
 
-- What the prevalence of infection is and how to calculate it 
-- What variables we may need to consider in epidemiological analyses that may influence the spread of disease 
-- When to choose parametric tests (t-tests, ANOVA), i.e., when residuals are roughly normal with constant variance
-- When to choose non-parametric tests (Wilcoxon/Kruskal-Wallis) i.e., when the outcome is skewed and transformations don't help
-- When it might be best to use a linear regression with categorical or continuous predictors
+-   What the prevalence of infection is and how to calculate it
+-   What variables we may need to consider in epidemiological analyses
+    that may influence the spread of disease
+-   When to choose parametric tests (t-tests, ANOVA), i.e., when
+    residuals are roughly normal with constant variance
+-   When to choose non-parametric tests (Wilcoxon/Kruskal-Wallis) i.e.,
+    when the outcome is skewed and transformations don't help
+-   When it might be best to use a linear regression with categorical or
+    continuous predictors
 
-If you'd like to learn more, look at the [further reading](@sec-fr10) for this week, which includes links to Epidemiology in R resources. 
+If you'd like to learn more, look at the [further reading](@sec-fr10)
+for this week, which includes links to Epidemiology in R resources.
 
-You can download the handout from our tutorial session here: 
+You can download the handout from our tutorial session here:
 
 {{< downloadthis resources/assign/tutorial_10_handout.pdf dname="tutorial_10_handout" label="Download the handout for tutorial 10" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" >}}
