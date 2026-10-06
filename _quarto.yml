@@ -66,10 +66,10 @@ book:
         - workshop_7.qmd
         - tutorial_9.qmd
         - wk9_fr.qmd
-    # - part: Weeks 10
-    #   chapters:
-    #     - tutorial_10.qmd
-    #     - wk10_fr.qmd
+    - part: Weeks 10
+      chapters:
+        - tutorial_10.qmd
+        - wk10_fr.qmd
     # - part: Week 11
     #   chapters:
     #     - workshop_8.qmd
