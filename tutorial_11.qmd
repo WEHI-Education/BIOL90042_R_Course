@@ -1,5 +1,19 @@
 ---
-title: "Tutorial 11"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-title: "In this session:"
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
-# Tutorial 11
+# Tutorial 11: Machine Learning in R Part 2: Unsupervised {#sec-tute10}
+
+Workshop 8 focussed on how we develop supervised machine learning models in R using the `tidymodels` R packages, and this can be used when our data has labels - where we know what each grouping should be. 
+
+But what happens when we don't? 
+
+This is when we used **Unsupervised** Machine Learning. You have probably come across many unsupervised machine learning applications in your research so far - Principle Components Analysis (PCA), Multidimensional Scaling (MDS), k-means clustering and hierarchical clustering are examples of unsupervised methods that try to discover patterns or structures in the data **without prior knowledge of the groupings**.
+
