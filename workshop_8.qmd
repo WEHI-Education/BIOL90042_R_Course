@@ -597,17 +597,20 @@ turn as the positive class against the other two.
 
 ![Two side-by-side plots comparing three classifier models (A, B, and C) of differing quality. Left: a precision-recall curve with recall (0 to 1) on the x-axis and precision (0 to 1) on the y-axis. Right: an ROC curve with 1 - specificity (false positive rate, 0 to 1) on the x-axis and sensitivity (true positive rate, 0 to 1) on the y-axis, with a dashed diagonal line representing chance performance.](images/S08F03_PRC_ROC.png)
 
-PR curves (Left) show how the trade-off between **precision** and
-**recall** changes as the classification threshold varies. It plots
-precision (y-axis; of the cases the model calls positive, the proportion
-that truly are) against recall (x-axis; of all true positive cases, the
-proportion the model finds).
+PR curves (Left) show the trade-off between **precision** (y-axis; e.g.,
+out of all the mice classified as CD1, how many were actually CD1?) and
+**recall** or sensitivity (x-axis; e.g., out of all the real CD1 mice in
+the dataset, how many did the model successfully classify?) as the
+classification threshold varies.
 
-ROC curves (Right) plot the **true positive rate** (sensitivity) against 
-the **false positive rate** (1 - specificity) as the classification 
-threshold varies. A curve that bows toward the top-left corner indicates 
-better discrimination between classes, and an AUC closer to 1.0 
-indicates better overall classification performance.
+ROC curves (Right) plot the **true positive rate** or sensitivity
+(y-axis; e.g., out of all the real CD1 mice in the dataset, how many did
+the model successfully classify?) against the **false positive rate** or
+1 - specificity (x-axis; e.g., out of all the non-CD1 mice in the
+dataset, how many did the model wrongly mistake for CD1?) as the
+classification threshold varies. A curve that bows toward the top-left
+corner indicates better discrimination between classes, and an AUC
+closer to 1.0 indicates better overall classification performance.
 :::
 
 ### Precision-Recall Curve {#sec-prc}
@@ -729,8 +732,7 @@ set
 1.  Correct! Black6's PR curve stays nearest the top-right corner (AUPR
    ≈ 0.999), indicating the model identifies Black6 mice with both high
    precision and high recall. BALBc is the least prevalent class
-   (~20% of the test set), so its "no-skill" baseline equals its
-   prevalence (~0.2), and with fewer positive cases its precision
+   (~20% of the test set), and with fewer positive cases its precision
    estimates are noisier and the curve less stable.
 2.  Incorrect — BALBc actually has the *lowest* AUPR (~0.84) of the
    three strains, and a low prevalence lowers, not raises, the baseline
