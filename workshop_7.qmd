@@ -82,7 +82,11 @@ To learn how to construct a DGEList object yourself, consult the further reading
 
 ```{r}
 # download from github and save in your data/ directory
-download.file("https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda", "./data/DGEList.Rda", mode = "wb")
+download.file(
+  "https://github.com/WEHI-Education/BIOL90042_R_Course/raw/refs/heads/main/data/DGEList.Rda",
+  "./data/DGEList.Rda",
+  mode = "wb"
+)
 
 # read in
 dge <- readRDS("./data/DGEList.Rda")
@@ -153,15 +157,16 @@ For example, if we had a 96-well plate of absorbance readings, we might store it
 plate_matrix <- matrix(
   # runif() samples from the uniform distribution
   runif(96, min = 0.05, max = 1.2),
-  nrow = 8, ncol = 12,
+  nrow = 8,
+  ncol = 12,
   dimnames = list(LETTERS[1:8], 1:12)
 )
 
 # let's say our background is 0.05
 background <- 0.05
 
-# subtract background absorbance from entire matrix 
-# to correct it 
+# subtract background absorbance from entire matrix
+# to correct it
 corrected_matrix <- plate_matrix - background
 ```
 
@@ -283,7 +288,7 @@ To actually perform the filtering, we need to use square brackets `[]`, like so:
 # you do a lot of RNA-seq
 dge <- dge[keep, , keep.lib.sizes = FALSE]
 
-# check the dimensions of the count matrix to see they 
+# check the dimensions of the count matrix to see they
 # have reduced
 dim(dge$counts)
 ```
@@ -571,7 +576,7 @@ To generate a design matrix, we use the function `model.matrix()`.
 For this experiment, we will use the expression `~0 + group`. This returns a matrix representing the design where there is no intercept term and `group` is the only covariate:
 
 ```{r}
-design <- model.matrix(~0 + group, data = dge$samples)
+design <- model.matrix(~ 0 + group, data = dge$samples)
 design
 ```
 
@@ -899,7 +904,7 @@ ma_plot_data_fct <- ma_plot_data %>%
 top_de_genes <- ma_plot_data_fct %>%
   slice_min(n = 15, p_value)
 
-# a named vector to colour the points by 
+# a named vector to colour the points by
 scale_cols <- c(
   "Not DE" = "black",
   "Down" = "#1a0099",
@@ -907,7 +912,10 @@ scale_cols <- c(
 )
 
 ggplot(ma_plot_data_fct, aes(x = AvgExpr, y = logFC, col = status)) +
-  geom_point(data = ma_plot_data_fct %>% filter(status == "Not DE"), size = 0.1) +
+  geom_point(
+    data = ma_plot_data_fct %>% filter(status == "Not DE"),
+    size = 0.1
+  ) +
   geom_point(data = ma_plot_data_fct %>% filter(status != "Not DE"), size = 1) +
   geom_label_repel(
     data = top_de_genes,
@@ -915,7 +923,7 @@ ggplot(ma_plot_data_fct, aes(x = AvgExpr, y = logFC, col = status)) +
     max.overlaps = 20,
     show.legend = FALSE
   ) +
-  scale_colour_manual(values = scale_cols) + 
+  scale_colour_manual(values = scale_cols) +
   theme_classic() +
   labs(title = "MA plot for Basal vs LP")
 ```
@@ -986,7 +994,10 @@ Since we already have our tibble prepared, we can just as easily create a volcan
 
 ```{r}
 ggplot(ma_plot_data_fct, aes(x = logFC, y = -log10(p_value), col = status)) +
-  geom_point(data = ma_plot_data_fct %>% filter(status == "Not DE"), size = 0.1) +
+  geom_point(
+    data = ma_plot_data_fct %>% filter(status == "Not DE"),
+    size = 0.1
+  ) +
   geom_point(data = ma_plot_data_fct %>% filter(status != "Not DE"), size = 1) +
   geom_label_repel(
     data = top_de_genes,
@@ -994,10 +1005,9 @@ ggplot(ma_plot_data_fct, aes(x = logFC, y = -log10(p_value), col = status)) +
     max.overlaps = 20,
     show.legend = FALSE
   ) +
-  scale_colour_manual(values = scale_cols) + 
+  scale_colour_manual(values = scale_cols) +
   theme_classic() +
   labs(title = "Volcano plot for Basal vs LP")
-
 ```
 
 ::::::::::::::: {.callout-important title="Practice exercises"}
@@ -1089,7 +1099,6 @@ We'll create the heatmap using the `pheatmap()` function with our expression mat
 `pheatmap()`, like `ggplot2` offers lots of customisation, and we can't possibly cover it all in today's workshop. Have a look through the [documentation site](https://pheatmap.com/) or ask AI to help you make visual tweaks beyond what is shown here.
 
 ```{r}
-
 # annotation information for the heatmap
 sample_anno <- dge$samples %>%
   select(group)

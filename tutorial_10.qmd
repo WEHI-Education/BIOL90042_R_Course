@@ -535,6 +535,10 @@ Density declines with age — consistent with the development of acquired
 immunity — and both tests support a significant difference between age
 groups.
 
+<!-- insert for 2027: comment about log parasite density and what would
+happen if we re-did the parametric tests following this transformation, 
+what that would do to the outcome, and why transformation is important. -->
+
 ::::::::::::::: {.callout-important title="Practice exercises"}
 :::::::: question
 1\. If you check the normality assumption for a continuous variable in
