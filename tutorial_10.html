@@ -471,6 +471,29 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true">
+ <span class="menu-text">Week 11</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workshop_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Workshop 8: Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./wk11_fr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Further Reading</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
     <nav id="TOC" role="doc-toc" class="toc-active">
@@ -1128,6 +1151,9 @@ Kruskal-Wallis chi-squared = 183.74, df = 3, p-value &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Density declines with age — consistent with the development of acquired immunity — and both tests support a significant difference between age groups.</p>
+<!-- insert for 2027: comment about log parasite density and what would
+happen if we re-did the parametric tests following this transformation, 
+what that would do to the outcome, and why transformation is important. -->
 <div class="callout callout-style-default callout-important callout-titled" title="Practice exercises">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2395,306 +2421,310 @@ W = 0.99495, p-value = 0.1803</code></pre>
 <span id="cb53-563"><a href="#cb53-563" aria-hidden="true" tabindex="-1"></a>immunity — and both tests support a significant difference between age</span>
 <span id="cb53-564"><a href="#cb53-564" aria-hidden="true" tabindex="-1"></a>groups.</span>
 <span id="cb53-565"><a href="#cb53-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-566"><a href="#cb53-566" aria-hidden="true" tabindex="-1"></a>::::::::::::::: {.callout-important title="Practice exercises"}</span>
-<span id="cb53-567"><a href="#cb53-567" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb53-568"><a href="#cb53-568" aria-hidden="true" tabindex="-1"></a>1<span class="sc">\.</span> If you check the normality assumption for a continuous variable in</span>
-<span id="cb53-569"><a href="#cb53-569" aria-hidden="true" tabindex="-1"></a>two groups using a QQ-plot and Shapiro-Wilk test, and find that the</span>
-<span id="cb53-570"><a href="#cb53-570" aria-hidden="true" tabindex="-1"></a>assumption is clearly violated in both groups, which test should you use</span>
-<span id="cb53-571"><a href="#cb53-571" aria-hidden="true" tabindex="-1"></a>to compare them?</span>
-<span id="cb53-572"><a href="#cb53-572" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-573"><a href="#cb53-573" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb53-574"><a href="#cb53-574" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-575"><a href="#cb53-575" aria-hidden="true" tabindex="-1"></a><span class="in">`t.test()`</span>, since it's the standard test for comparing two groups</span>
-<span id="cb53-576"><a href="#cb53-576" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-577"><a href="#cb53-577" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-578"><a href="#cb53-578" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb53-579"><a href="#cb53-579" aria-hidden="true" tabindex="-1"></a><span class="in">`wilcox.test()`</span>, since it doesn't assume normality</span>
+<span id="cb53-566"><a href="#cb53-566" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- insert for 2027: comment about log parasite density and what would</span></span>
+<span id="cb53-567"><a href="#cb53-567" aria-hidden="true" tabindex="-1"></a><span class="co">happen if we re-did the parametric tests following this transformation, </span></span>
+<span id="cb53-568"><a href="#cb53-568" aria-hidden="true" tabindex="-1"></a><span class="co">what that would do to the outcome, and why transformation is important. --&gt;</span></span>
+<span id="cb53-569"><a href="#cb53-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-570"><a href="#cb53-570" aria-hidden="true" tabindex="-1"></a>::::::::::::::: {.callout-important title="Practice exercises"}</span>
+<span id="cb53-571"><a href="#cb53-571" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb53-572"><a href="#cb53-572" aria-hidden="true" tabindex="-1"></a>1<span class="sc">\.</span> If you check the normality assumption for a continuous variable in</span>
+<span id="cb53-573"><a href="#cb53-573" aria-hidden="true" tabindex="-1"></a>two groups using a QQ-plot and Shapiro-Wilk test, and find that the</span>
+<span id="cb53-574"><a href="#cb53-574" aria-hidden="true" tabindex="-1"></a>assumption is clearly violated in both groups, which test should you use</span>
+<span id="cb53-575"><a href="#cb53-575" aria-hidden="true" tabindex="-1"></a>to compare them?</span>
+<span id="cb53-576"><a href="#cb53-576" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-577"><a href="#cb53-577" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
+<span id="cb53-578"><a href="#cb53-578" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-579"><a href="#cb53-579" aria-hidden="true" tabindex="-1"></a><span class="in">`t.test()`</span>, since it's the standard test for comparing two groups</span>
 <span id="cb53-580"><a href="#cb53-580" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-581"><a href="#cb53-581" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-582"><a href="#cb53-582" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-583"><a href="#cb53-583" aria-hidden="true" tabindex="-1"></a><span class="in">`aov()`</span>, since it's more powerful</span>
+<span id="cb53-582"><a href="#cb53-582" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb53-583"><a href="#cb53-583" aria-hidden="true" tabindex="-1"></a><span class="in">`wilcox.test()`</span>, since it doesn't assume normality</span>
 <span id="cb53-584"><a href="#cb53-584" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-585"><a href="#cb53-585" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-586"><a href="#cb53-586" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-587"><a href="#cb53-587" aria-hidden="true" tabindex="-1"></a><span class="in">`chisq.test()`</span>, since the normality assumption is violated</span>
+<span id="cb53-587"><a href="#cb53-587" aria-hidden="true" tabindex="-1"></a><span class="in">`aov()`</span>, since it's more powerful</span>
 <span id="cb53-588"><a href="#cb53-588" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-589"><a href="#cb53-589" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb53-590"><a href="#cb53-590" aria-hidden="true" tabindex="-1"></a>::::::::</span>
-<span id="cb53-591"><a href="#cb53-591" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-592"><a href="#cb53-592" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb53-593"><a href="#cb53-593" aria-hidden="true" tabindex="-1"></a>2<span class="sc">\.</span> You want to compare <span class="in">`parasite_density`</span> across the four age groups,</span>
-<span id="cb53-594"><a href="#cb53-594" aria-hidden="true" tabindex="-1"></a>but a QQ-plot shows the data is clearly non-normal in at least one</span>
-<span id="cb53-595"><a href="#cb53-595" aria-hidden="true" tabindex="-1"></a>group. Which function should you use?</span>
-<span id="cb53-596"><a href="#cb53-596" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-597"><a href="#cb53-597" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb53-598"><a href="#cb53-598" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-599"><a href="#cb53-599" aria-hidden="true" tabindex="-1"></a><span class="in">`aov()`</span></span>
-<span id="cb53-600"><a href="#cb53-600" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-601"><a href="#cb53-601" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-589"><a href="#cb53-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-590"><a href="#cb53-590" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-591"><a href="#cb53-591" aria-hidden="true" tabindex="-1"></a><span class="in">`chisq.test()`</span>, since the normality assumption is violated</span>
+<span id="cb53-592"><a href="#cb53-592" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-593"><a href="#cb53-593" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb53-594"><a href="#cb53-594" aria-hidden="true" tabindex="-1"></a>::::::::</span>
+<span id="cb53-595"><a href="#cb53-595" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-596"><a href="#cb53-596" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb53-597"><a href="#cb53-597" aria-hidden="true" tabindex="-1"></a>2<span class="sc">\.</span> You want to compare <span class="in">`parasite_density`</span> across the four age groups,</span>
+<span id="cb53-598"><a href="#cb53-598" aria-hidden="true" tabindex="-1"></a>but a QQ-plot shows the data is clearly non-normal in at least one</span>
+<span id="cb53-599"><a href="#cb53-599" aria-hidden="true" tabindex="-1"></a>group. Which function should you use?</span>
+<span id="cb53-600"><a href="#cb53-600" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-601"><a href="#cb53-601" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
 <span id="cb53-602"><a href="#cb53-602" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-603"><a href="#cb53-603" aria-hidden="true" tabindex="-1"></a><span class="in">`t.test()`</span></span>
+<span id="cb53-603"><a href="#cb53-603" aria-hidden="true" tabindex="-1"></a><span class="in">`aov()`</span></span>
 <span id="cb53-604"><a href="#cb53-604" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-605"><a href="#cb53-605" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-606"><a href="#cb53-606" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb53-607"><a href="#cb53-607" aria-hidden="true" tabindex="-1"></a><span class="in">`kruskal.test()`</span></span>
+<span id="cb53-606"><a href="#cb53-606" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-607"><a href="#cb53-607" aria-hidden="true" tabindex="-1"></a><span class="in">`t.test()`</span></span>
 <span id="cb53-608"><a href="#cb53-608" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-609"><a href="#cb53-609" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-610"><a href="#cb53-610" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-611"><a href="#cb53-611" aria-hidden="true" tabindex="-1"></a><span class="in">`wilcox.test()`</span></span>
+<span id="cb53-610"><a href="#cb53-610" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb53-611"><a href="#cb53-611" aria-hidden="true" tabindex="-1"></a><span class="in">`kruskal.test()`</span></span>
 <span id="cb53-612"><a href="#cb53-612" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-613"><a href="#cb53-613" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb53-614"><a href="#cb53-614" aria-hidden="true" tabindex="-1"></a>::::::::</span>
-<span id="cb53-615"><a href="#cb53-615" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-616"><a href="#cb53-616" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb53-617"><a href="#cb53-617" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-618"><a href="#cb53-618" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb53-613"><a href="#cb53-613" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-614"><a href="#cb53-614" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-615"><a href="#cb53-615" aria-hidden="true" tabindex="-1"></a><span class="in">`wilcox.test()`</span></span>
+<span id="cb53-616"><a href="#cb53-616" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-617"><a href="#cb53-617" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb53-618"><a href="#cb53-618" aria-hidden="true" tabindex="-1"></a>::::::::</span>
 <span id="cb53-619"><a href="#cb53-619" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-620"><a href="#cb53-620" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>When normality is clearly violated, <span class="in">`wilcox.test()`</span> (the Wilcoxon</span>
-<span id="cb53-621"><a href="#cb53-621" aria-hidden="true" tabindex="-1"></a>    rank-sum/Mann-Whitney test) is the appropriate choice, since it</span>
-<span id="cb53-622"><a href="#cb53-622" aria-hidden="true" tabindex="-1"></a>    doesn't rely on the normality assumption that <span class="in">`t.test()`</span> requires.</span>
-<span id="cb53-623"><a href="#cb53-623" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span><span class="in">`kruskal.test()`</span> is the non-parametric equivalent of a one-way</span>
-<span id="cb53-624"><a href="#cb53-624" aria-hidden="true" tabindex="-1"></a>    ANOVA, and is the appropriate choice when comparing three or more</span>
-<span id="cb53-625"><a href="#cb53-625" aria-hidden="true" tabindex="-1"></a>    groups and the normality assumption is violated.</span>
-<span id="cb53-626"><a href="#cb53-626" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-627"><a href="#cb53-627" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb53-628"><a href="#cb53-628" aria-hidden="true" tabindex="-1"></a>:::::::::::::::</span>
-<span id="cb53-629"><a href="#cb53-629" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-630"><a href="#cb53-630" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question 4: A linear model</span></span>
-<span id="cb53-631"><a href="#cb53-631" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-632"><a href="#cb53-632" aria-hidden="true" tabindex="-1"></a>Comparing groups one at a time is limited. A **linear model** lets us</span>
-<span id="cb53-633"><a href="#cb53-633" aria-hidden="true" tabindex="-1"></a>test a formal hypothesis while adjusting for other variables. Our</span>
-<span id="cb53-634"><a href="#cb53-634" aria-hidden="true" tabindex="-1"></a>hypothesis:</span>
+<span id="cb53-620"><a href="#cb53-620" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb53-621"><a href="#cb53-621" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-622"><a href="#cb53-622" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb53-623"><a href="#cb53-623" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-624"><a href="#cb53-624" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>When normality is clearly violated, <span class="in">`wilcox.test()`</span> (the Wilcoxon</span>
+<span id="cb53-625"><a href="#cb53-625" aria-hidden="true" tabindex="-1"></a>    rank-sum/Mann-Whitney test) is the appropriate choice, since it</span>
+<span id="cb53-626"><a href="#cb53-626" aria-hidden="true" tabindex="-1"></a>    doesn't rely on the normality assumption that <span class="in">`t.test()`</span> requires.</span>
+<span id="cb53-627"><a href="#cb53-627" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span><span class="in">`kruskal.test()`</span> is the non-parametric equivalent of a one-way</span>
+<span id="cb53-628"><a href="#cb53-628" aria-hidden="true" tabindex="-1"></a>    ANOVA, and is the appropriate choice when comparing three or more</span>
+<span id="cb53-629"><a href="#cb53-629" aria-hidden="true" tabindex="-1"></a>    groups and the normality assumption is violated.</span>
+<span id="cb53-630"><a href="#cb53-630" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-631"><a href="#cb53-631" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb53-632"><a href="#cb53-632" aria-hidden="true" tabindex="-1"></a>:::::::::::::::</span>
+<span id="cb53-633"><a href="#cb53-633" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-634"><a href="#cb53-634" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question 4: A linear model</span></span>
 <span id="cb53-635"><a href="#cb53-635" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-636"><a href="#cb53-636" aria-hidden="true" tabindex="-1"></a>*Among infected individuals, log parasite density declines with age and</span>
-<span id="cb53-637"><a href="#cb53-637" aria-hidden="true" tabindex="-1"></a>is lower during MDA (survey_2).*</span>
-<span id="cb53-638"><a href="#cb53-638" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-639"><a href="#cb53-639" aria-hidden="true" tabindex="-1"></a>We model <span class="in">`log(parasite_density)`</span> because parasite densities span orders</span>
-<span id="cb53-640"><a href="#cb53-640" aria-hidden="true" tabindex="-1"></a>of magnitude and are right-skewed; logging makes the relationship closer</span>
-<span id="cb53-641"><a href="#cb53-641" aria-hidden="true" tabindex="-1"></a>to linear and the residuals closer to normal.</span>
+<span id="cb53-636"><a href="#cb53-636" aria-hidden="true" tabindex="-1"></a>Comparing groups one at a time is limited. A **linear model** lets us</span>
+<span id="cb53-637"><a href="#cb53-637" aria-hidden="true" tabindex="-1"></a>test a formal hypothesis while adjusting for other variables. Our</span>
+<span id="cb53-638"><a href="#cb53-638" aria-hidden="true" tabindex="-1"></a>hypothesis:</span>
+<span id="cb53-639"><a href="#cb53-639" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-640"><a href="#cb53-640" aria-hidden="true" tabindex="-1"></a>*Among infected individuals, log parasite density declines with age and</span>
+<span id="cb53-641"><a href="#cb53-641" aria-hidden="true" tabindex="-1"></a>is lower during MDA (survey_2).*</span>
 <span id="cb53-642"><a href="#cb53-642" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-643"><a href="#cb53-643" aria-hidden="true" tabindex="-1"></a>::::::::::::::: {.callout-important title="Practice exercises"}</span>
-<span id="cb53-644"><a href="#cb53-644" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb53-645"><a href="#cb53-645" aria-hidden="true" tabindex="-1"></a>1<span class="sc">\.</span> How can we create a linear regression to examine the relationship</span>
-<span id="cb53-646"><a href="#cb53-646" aria-hidden="true" tabindex="-1"></a>between age and log parasite density in our <span class="in">`infected`</span> dataset,</span>
-<span id="cb53-647"><a href="#cb53-647" aria-hidden="true" tabindex="-1"></a>adjusting for survey?</span>
-<span id="cb53-648"><a href="#cb53-648" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-649"><a href="#cb53-649" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb53-650"><a href="#cb53-650" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-651"><a href="#cb53-651" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(age ~ log(parasite_density) + survey, data = infected)`</span></span>
-<span id="cb53-652"><a href="#cb53-652" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-653"><a href="#cb53-653" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-654"><a href="#cb53-654" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb53-655"><a href="#cb53-655" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(log(parasite_density) ~ age + survey, data = infected)`</span></span>
+<span id="cb53-643"><a href="#cb53-643" aria-hidden="true" tabindex="-1"></a>We model <span class="in">`log(parasite_density)`</span> because parasite densities span orders</span>
+<span id="cb53-644"><a href="#cb53-644" aria-hidden="true" tabindex="-1"></a>of magnitude and are right-skewed; logging makes the relationship closer</span>
+<span id="cb53-645"><a href="#cb53-645" aria-hidden="true" tabindex="-1"></a>to linear and the residuals closer to normal.</span>
+<span id="cb53-646"><a href="#cb53-646" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-647"><a href="#cb53-647" aria-hidden="true" tabindex="-1"></a>::::::::::::::: {.callout-important title="Practice exercises"}</span>
+<span id="cb53-648"><a href="#cb53-648" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb53-649"><a href="#cb53-649" aria-hidden="true" tabindex="-1"></a>1<span class="sc">\.</span> How can we create a linear regression to examine the relationship</span>
+<span id="cb53-650"><a href="#cb53-650" aria-hidden="true" tabindex="-1"></a>between age and log parasite density in our <span class="in">`infected`</span> dataset,</span>
+<span id="cb53-651"><a href="#cb53-651" aria-hidden="true" tabindex="-1"></a>adjusting for survey?</span>
+<span id="cb53-652"><a href="#cb53-652" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-653"><a href="#cb53-653" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
+<span id="cb53-654"><a href="#cb53-654" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-655"><a href="#cb53-655" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(age ~ log(parasite_density) + survey, data = infected)`</span></span>
 <span id="cb53-656"><a href="#cb53-656" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-657"><a href="#cb53-657" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-658"><a href="#cb53-658" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-659"><a href="#cb53-659" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(log(parasite_density) + age + survey, data = infected)`</span></span>
+<span id="cb53-658"><a href="#cb53-658" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb53-659"><a href="#cb53-659" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(log(parasite_density) ~ age + survey, data = infected)`</span></span>
 <span id="cb53-660"><a href="#cb53-660" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb53-661"><a href="#cb53-661" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-662"><a href="#cb53-662" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-663"><a href="#cb53-663" aria-hidden="true" tabindex="-1"></a><span class="in">`glm(log(parasite_density) ~ age + survey, data = infected, family = "binomial")`</span></span>
+<span id="cb53-663"><a href="#cb53-663" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(log(parasite_density) + age + survey, data = infected)`</span></span>
 <span id="cb53-664"><a href="#cb53-664" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-665"><a href="#cb53-665" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb53-666"><a href="#cb53-666" aria-hidden="true" tabindex="-1"></a>::::::::</span>
-<span id="cb53-667"><a href="#cb53-667" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-668"><a href="#cb53-668" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb53-669"><a href="#cb53-669" aria-hidden="true" tabindex="-1"></a>2<span class="sc">\.</span> What are the key assumptions we must check when performing a linear</span>
-<span id="cb53-670"><a href="#cb53-670" aria-hidden="true" tabindex="-1"></a>regression?</span>
+<span id="cb53-665"><a href="#cb53-665" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-666"><a href="#cb53-666" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-667"><a href="#cb53-667" aria-hidden="true" tabindex="-1"></a><span class="in">`glm(log(parasite_density) ~ age + survey, data = infected, family = "binomial")`</span></span>
+<span id="cb53-668"><a href="#cb53-668" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-669"><a href="#cb53-669" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb53-670"><a href="#cb53-670" aria-hidden="true" tabindex="-1"></a>::::::::</span>
 <span id="cb53-671"><a href="#cb53-671" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-672"><a href="#cb53-672" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb53-673"><a href="#cb53-673" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb53-674"><a href="#cb53-674" aria-hidden="true" tabindex="-1"></a>Linearity (relationship between predictor and outcome is a straight</span>
-<span id="cb53-675"><a href="#cb53-675" aria-hidden="true" tabindex="-1"></a>line), Independence (residuals are independent of each other),</span>
-<span id="cb53-676"><a href="#cb53-676" aria-hidden="true" tabindex="-1"></a>Homoscedasticity (residuals have roughly constant variance across a</span>
-<span id="cb53-677"><a href="#cb53-677" aria-hidden="true" tabindex="-1"></a>range of fitted values) and Normality (residuals are normally</span>
-<span id="cb53-678"><a href="#cb53-678" aria-hidden="true" tabindex="-1"></a>distributed).</span>
-<span id="cb53-679"><a href="#cb53-679" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-680"><a href="#cb53-680" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-681"><a href="#cb53-681" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-682"><a href="#cb53-682" aria-hidden="true" tabindex="-1"></a>The residuals must follow a binomial distribution, the sample size must</span>
-<span id="cb53-683"><a href="#cb53-683" aria-hidden="true" tabindex="-1"></a>be at least 1000, and all variables must be measured in the log scale.</span>
-<span id="cb53-684"><a href="#cb53-684" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-685"><a href="#cb53-685" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-686"><a href="#cb53-686" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-687"><a href="#cb53-687" aria-hidden="true" tabindex="-1"></a>Linearity (relationship follows a straight line), Random sampling (data</span>
-<span id="cb53-688"><a href="#cb53-688" aria-hidden="true" tabindex="-1"></a>collected randomly), Normality (the outcome variable is normally</span>
-<span id="cb53-689"><a href="#cb53-689" aria-hidden="true" tabindex="-1"></a>distributed) and No outliers (extreme values must be removed before</span>
-<span id="cb53-690"><a href="#cb53-690" aria-hidden="true" tabindex="-1"></a>fitting).</span>
-<span id="cb53-691"><a href="#cb53-691" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-692"><a href="#cb53-692" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-693"><a href="#cb53-693" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb53-694"><a href="#cb53-694" aria-hidden="true" tabindex="-1"></a>Independence (residuals are independent), Homoscedasticity (constant</span>
-<span id="cb53-695"><a href="#cb53-695" aria-hidden="true" tabindex="-1"></a>residual variance), Additivity (all predictor effects are</span>
-<span id="cb53-696"><a href="#cb53-696" aria-hidden="true" tabindex="-1"></a>multiplicative) and Stationarity (mean and variance are constant over</span>
-<span id="cb53-697"><a href="#cb53-697" aria-hidden="true" tabindex="-1"></a>time).</span>
-<span id="cb53-698"><a href="#cb53-698" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-699"><a href="#cb53-699" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb53-700"><a href="#cb53-700" aria-hidden="true" tabindex="-1"></a>::::::::</span>
-<span id="cb53-701"><a href="#cb53-701" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-702"><a href="#cb53-702" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb53-703"><a href="#cb53-703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-704"><a href="#cb53-704" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb53-672"><a href="#cb53-672" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb53-673"><a href="#cb53-673" aria-hidden="true" tabindex="-1"></a>2<span class="sc">\.</span> What are the key assumptions we must check when performing a linear</span>
+<span id="cb53-674"><a href="#cb53-674" aria-hidden="true" tabindex="-1"></a>regression?</span>
+<span id="cb53-675"><a href="#cb53-675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-676"><a href="#cb53-676" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
+<span id="cb53-677"><a href="#cb53-677" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb53-678"><a href="#cb53-678" aria-hidden="true" tabindex="-1"></a>Linearity (relationship between predictor and outcome is a straight</span>
+<span id="cb53-679"><a href="#cb53-679" aria-hidden="true" tabindex="-1"></a>line), Independence (residuals are independent of each other),</span>
+<span id="cb53-680"><a href="#cb53-680" aria-hidden="true" tabindex="-1"></a>Homoscedasticity (residuals have roughly constant variance across a</span>
+<span id="cb53-681"><a href="#cb53-681" aria-hidden="true" tabindex="-1"></a>range of fitted values) and Normality (residuals are normally</span>
+<span id="cb53-682"><a href="#cb53-682" aria-hidden="true" tabindex="-1"></a>distributed).</span>
+<span id="cb53-683"><a href="#cb53-683" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-684"><a href="#cb53-684" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-685"><a href="#cb53-685" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-686"><a href="#cb53-686" aria-hidden="true" tabindex="-1"></a>The residuals must follow a binomial distribution, the sample size must</span>
+<span id="cb53-687"><a href="#cb53-687" aria-hidden="true" tabindex="-1"></a>be at least 1000, and all variables must be measured in the log scale.</span>
+<span id="cb53-688"><a href="#cb53-688" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-689"><a href="#cb53-689" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-690"><a href="#cb53-690" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-691"><a href="#cb53-691" aria-hidden="true" tabindex="-1"></a>Linearity (relationship follows a straight line), Random sampling (data</span>
+<span id="cb53-692"><a href="#cb53-692" aria-hidden="true" tabindex="-1"></a>collected randomly), Normality (the outcome variable is normally</span>
+<span id="cb53-693"><a href="#cb53-693" aria-hidden="true" tabindex="-1"></a>distributed) and No outliers (extreme values must be removed before</span>
+<span id="cb53-694"><a href="#cb53-694" aria-hidden="true" tabindex="-1"></a>fitting).</span>
+<span id="cb53-695"><a href="#cb53-695" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-696"><a href="#cb53-696" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-697"><a href="#cb53-697" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb53-698"><a href="#cb53-698" aria-hidden="true" tabindex="-1"></a>Independence (residuals are independent), Homoscedasticity (constant</span>
+<span id="cb53-699"><a href="#cb53-699" aria-hidden="true" tabindex="-1"></a>residual variance), Additivity (all predictor effects are</span>
+<span id="cb53-700"><a href="#cb53-700" aria-hidden="true" tabindex="-1"></a>multiplicative) and Stationarity (mean and variance are constant over</span>
+<span id="cb53-701"><a href="#cb53-701" aria-hidden="true" tabindex="-1"></a>time).</span>
+<span id="cb53-702"><a href="#cb53-702" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-703"><a href="#cb53-703" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb53-704"><a href="#cb53-704" aria-hidden="true" tabindex="-1"></a>::::::::</span>
 <span id="cb53-705"><a href="#cb53-705" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-706"><a href="#cb53-706" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span><span class="in">`lm(log(parasite_density) ~ age + survey, data = infected)`</span> fits a</span>
-<span id="cb53-707"><a href="#cb53-707" aria-hidden="true" tabindex="-1"></a>    linear regression of log density on age, adjusting for survey.</span>
-<span id="cb53-708"><a href="#cb53-708" aria-hidden="true" tabindex="-1"></a>    Remember the formula format is <span class="in">`outcome ~ predictors`</span>. Option 4 is</span>
-<span id="cb53-709"><a href="#cb53-709" aria-hidden="true" tabindex="-1"></a>    incorrect: <span class="in">`family = "binomial"`</span> is for binary outcomes, not a</span>
-<span id="cb53-710"><a href="#cb53-710" aria-hidden="true" tabindex="-1"></a>    continuous one.</span>
-<span id="cb53-711"><a href="#cb53-711" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>A. Correct: these are the four key assumptions of linear</span>
-<span id="cb53-712"><a href="#cb53-712" aria-hidden="true" tabindex="-1"></a>    regression. B. Incorrect: the residual distribution should be normal</span>
-<span id="cb53-713"><a href="#cb53-713" aria-hidden="true" tabindex="-1"></a>    (not binomial), there is no minimum sample size and the scale of</span>
-<span id="cb53-714"><a href="#cb53-714" aria-hidden="true" tabindex="-1"></a>    measurement is irrelevant. C. Incorrect: it is the **residuals**</span>
-<span id="cb53-715"><a href="#cb53-715" aria-hidden="true" tabindex="-1"></a>    that must be normally distributed, not the outcome variable itself;</span>
-<span id="cb53-716"><a href="#cb53-716" aria-hidden="true" tabindex="-1"></a>    outliers do not need to be removed before fitting. D. Incorrect:</span>
-<span id="cb53-717"><a href="#cb53-717" aria-hidden="true" tabindex="-1"></a>    multiplicative effects and stationarity are not linear regression</span>
-<span id="cb53-718"><a href="#cb53-718" aria-hidden="true" tabindex="-1"></a>    assumptions.</span>
-<span id="cb53-719"><a href="#cb53-719" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-720"><a href="#cb53-720" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb53-721"><a href="#cb53-721" aria-hidden="true" tabindex="-1"></a>:::::::::::::::</span>
-<span id="cb53-722"><a href="#cb53-722" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-725"><a href="#cb53-725" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-726"><a href="#cb53-726" aria-hidden="true" tabindex="-1"></a>model_density <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(parasite_density) <span class="sc">~</span> age <span class="sc">+</span> survey, <span class="at">data =</span> infected)</span>
-<span id="cb53-727"><a href="#cb53-727" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_density)</span>
-<span id="cb53-728"><a href="#cb53-728" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-729"><a href="#cb53-729" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-730"><a href="#cb53-730" aria-hidden="true" tabindex="-1"></a>Interpretation: each coefficient is a change in log-density.</span>
-<span id="cb53-731"><a href="#cb53-731" aria-hidden="true" tabindex="-1"></a>Exponentiating gives multiplicative effects — e.g. <span class="in">`exp(coef)`</span> for</span>
-<span id="cb53-732"><a href="#cb53-732" aria-hidden="true" tabindex="-1"></a><span class="in">`surveysurvey_2`</span> is the ratio of expected density in survey_2 vs</span>
-<span id="cb53-733"><a href="#cb53-733" aria-hidden="true" tabindex="-1"></a>survey_1 at the same age.</span>
-<span id="cb53-734"><a href="#cb53-734" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-737"><a href="#cb53-737" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-738"><a href="#cb53-738" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(model_density))</span>
-<span id="cb53-739"><a href="#cb53-739" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-740"><a href="#cb53-740" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-741"><a href="#cb53-741" aria-hidden="true" tabindex="-1"></a>The p-values are very small (p <span class="sc">\&lt;</span> 2e-16), telling us that log parasite</span>
-<span id="cb53-742"><a href="#cb53-742" aria-hidden="true" tabindex="-1"></a>density decreases with participant age and from survey 1 to survey 2.</span>
-<span id="cb53-743"><a href="#cb53-743" aria-hidden="true" tabindex="-1"></a>When we exponentiating the coefficients, we see that each additional</span>
-<span id="cb53-744"><a href="#cb53-744" aria-hidden="true" tabindex="-1"></a>year of age is associated with a \~4% decrease in parasite density</span>
-<span id="cb53-745"><a href="#cb53-745" aria-hidden="true" tabindex="-1"></a>(1-0.96 = 0.04 or 4%), and density in survey 2 is about 40% of that in</span>
-<span id="cb53-746"><a href="#cb53-746" aria-hidden="true" tabindex="-1"></a>survey 1 at the same age (0.41), consistent with an effect of the MDA</span>
-<span id="cb53-747"><a href="#cb53-747" aria-hidden="true" tabindex="-1"></a>program.</span>
-<span id="cb53-748"><a href="#cb53-748" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-749"><a href="#cb53-749" aria-hidden="true" tabindex="-1"></a>:::{.callout-caution title="What if we had used <span class="in">`age_group`</span> instead of <span class="in">`age`</span>?"}</span>
-<span id="cb53-750"><a href="#cb53-750" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-751"><a href="#cb53-751" aria-hidden="true" tabindex="-1"></a><span class="in">`age_group`</span> is categorical (0-5, 6-10, 11-20, 21+), so</span>
-<span id="cb53-752"><a href="#cb53-752" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(log(parasite_density) ~ age_group + survey)`</span> would estimate</span>
-<span id="cb53-753"><a href="#cb53-753" aria-hidden="true" tabindex="-1"></a>a separate effect for each age group relative to a reference</span>
-<span id="cb53-754"><a href="#cb53-754" aria-hidden="true" tabindex="-1"></a>group (e.g. 0-5), rather than a single per-year slope.</span>
-<span id="cb53-755"><a href="#cb53-755" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-756"><a href="#cb53-756" aria-hidden="true" tabindex="-1"></a>This matters for two reasons. First, the interpretation changes:</span>
-<span id="cb53-757"><a href="#cb53-757" aria-hidden="true" tabindex="-1"></a>instead of "each additional year of age is associated with a ~4%</span>
-<span id="cb53-758"><a href="#cb53-758" aria-hidden="true" tabindex="-1"></a>decrease in density", coefficients become comparisons between</span>
-<span id="cb53-759"><a href="#cb53-759" aria-hidden="true" tabindex="-1"></a>groups (e.g. "mean density in the 21+ group is X% of that in the</span>
-<span id="cb53-760"><a href="#cb53-760" aria-hidden="true" tabindex="-1"></a>0-5 group"), and we can no longer talk about a rate of change</span>
-<span id="cb53-761"><a href="#cb53-761" aria-hidden="true" tabindex="-1"></a>with age.</span>
-<span id="cb53-762"><a href="#cb53-762" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-763"><a href="#cb53-763" aria-hidden="true" tabindex="-1"></a>Second, the assumptions change: the continuous model assumes a</span>
-<span id="cb53-764"><a href="#cb53-764" aria-hidden="true" tabindex="-1"></a>*linear* relationship between age and log-density across the</span>
-<span id="cb53-765"><a href="#cb53-765" aria-hidden="true" tabindex="-1"></a>whole 1-71 year range, whereas the grouped model makes no</span>
-<span id="cb53-766"><a href="#cb53-766" aria-hidden="true" tabindex="-1"></a>assumption about the shape of the age relationship — but it</span>
-<span id="cb53-767"><a href="#cb53-767" aria-hidden="true" tabindex="-1"></a>throws away information by treating everyone within a group as</span>
-<span id="cb53-768"><a href="#cb53-768" aria-hidden="true" tabindex="-1"></a>identical and uses more degrees of freedom. If the true</span>
-<span id="cb53-769"><a href="#cb53-769" aria-hidden="true" tabindex="-1"></a>relationship is roughly linear, the continuous model is more</span>
-<span id="cb53-770"><a href="#cb53-770" aria-hidden="true" tabindex="-1"></a>powerful; if it is strongly non-linear, the grouped (or a more</span>
-<span id="cb53-771"><a href="#cb53-771" aria-hidden="true" tabindex="-1"></a>flexible) model may describe it better.</span>
-<span id="cb53-772"><a href="#cb53-772" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb53-773"><a href="#cb53-773" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-774"><a href="#cb53-774" aria-hidden="true" tabindex="-1"></a><span class="fu">### Assumption checking</span></span>
-<span id="cb53-775"><a href="#cb53-775" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-776"><a href="#cb53-776" aria-hidden="true" tabindex="-1"></a>Linear models assume linearity, independence, homoscedasticity (constant</span>
-<span id="cb53-777"><a href="#cb53-777" aria-hidden="true" tabindex="-1"></a>residual variance) and normally distributed **residuals**. We check the</span>
-<span id="cb53-778"><a href="#cb53-778" aria-hidden="true" tabindex="-1"></a>residuals graphically, using the same <span class="in">`geom_qq()`</span> + <span class="in">`geom_qq_line()`</span></span>
-<span id="cb53-779"><a href="#cb53-779" aria-hidden="true" tabindex="-1"></a>approach as in <span class="co">[</span><span class="ot">Workshop 6</span><span class="co">](@sec-ttest)</span>:</span>
-<span id="cb53-780"><a href="#cb53-780" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-783"><a href="#cb53-783" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-784"><a href="#cb53-784" aria-hidden="true" tabindex="-1"></a><span class="co"># residuals vs fitted: want no pattern, constant spread</span></span>
-<span id="cb53-785"><a href="#cb53-785" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb53-786"><a href="#cb53-786" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">fitted =</span> <span class="fu">fitted</span>(model_density), <span class="at">resid =</span> <span class="fu">residuals</span>(model_density)),</span>
-<span id="cb53-787"><a href="#cb53-787" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> resid)</span>
-<span id="cb53-788"><a href="#cb53-788" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb53-789"><a href="#cb53-789" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb53-790"><a href="#cb53-790" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span>
-<span id="cb53-791"><a href="#cb53-791" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-792"><a href="#cb53-792" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ-plot of residuals: points should sit along the reference line</span></span>
-<span id="cb53-793"><a href="#cb53-793" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(<span class="at">resid =</span> <span class="fu">residuals</span>(model_density)), <span class="fu">aes</span>(<span class="at">sample =</span> resid)) <span class="sc">+</span></span>
-<span id="cb53-794"><a href="#cb53-794" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
-<span id="cb53-795"><a href="#cb53-795" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span>
-<span id="cb53-796"><a href="#cb53-796" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-797"><a href="#cb53-797" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-798"><a href="#cb53-798" aria-hidden="true" tabindex="-1"></a>We can also confirm the normality of the residuals with a Shapiro-Wilk</span>
-<span id="cb53-799"><a href="#cb53-799" aria-hidden="true" tabindex="-1"></a>test:</span>
-<span id="cb53-800"><a href="#cb53-800" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-803"><a href="#cb53-803" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb53-804"><a href="#cb53-804" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(model_density))</span>
-<span id="cb53-805"><a href="#cb53-805" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb53-806"><a href="#cb53-806" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-807"><a href="#cb53-807" aria-hidden="true" tabindex="-1"></a>**What do these checks tell us about our model?**</span>
-<span id="cb53-808"><a href="#cb53-808" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-809"><a href="#cb53-809" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residuals vs fitted plot:** the points are scattered randomly</span>
-<span id="cb53-810"><a href="#cb53-810" aria-hidden="true" tabindex="-1"></a>    around the dashed zero line with no obvious pattern and roughly</span>
-<span id="cb53-811"><a href="#cb53-811" aria-hidden="true" tabindex="-1"></a>    constant vertical spread across the range of fitted values. This</span>
-<span id="cb53-812"><a href="#cb53-812" aria-hidden="true" tabindex="-1"></a>    means the **linearity** and **homoscedasticity** assumptions are</span>
-<span id="cb53-813"><a href="#cb53-813" aria-hidden="true" tabindex="-1"></a>    reasonably met — the model captures the systematic structure in the</span>
-<span id="cb53-814"><a href="#cb53-814" aria-hidden="true" tabindex="-1"></a>    data, and the size of the errors doesn't grow or shrink with the</span>
-<span id="cb53-815"><a href="#cb53-815" aria-hidden="true" tabindex="-1"></a>    fitted values. (If we instead saw a curved pattern, that would</span>
-<span id="cb53-816"><a href="#cb53-816" aria-hidden="true" tabindex="-1"></a>    suggest a non-linear relationship we failed to capture; a "funnel"</span>
-<span id="cb53-817"><a href="#cb53-817" aria-hidden="true" tabindex="-1"></a>    shape would suggest heteroscedasticity.)</span>
-<span id="cb53-818"><a href="#cb53-818" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**QQ-plot:** the points sit closely along the diagonal reference</span>
-<span id="cb53-819"><a href="#cb53-819" aria-hidden="true" tabindex="-1"></a>    line, with only slight deviations at the extreme lower and upper</span>
-<span id="cb53-820"><a href="#cb53-820" aria-hidden="true" tabindex="-1"></a>    tails. This indicates the residuals are **approximately normally</span>
-<span id="cb53-821"><a href="#cb53-821" aria-hidden="true" tabindex="-1"></a>    distributed**, with a very small number of observations slightly</span>
-<span id="cb53-822"><a href="#cb53-822" aria-hidden="true" tabindex="-1"></a>    further from the mean than a perfect normal distribution would</span>
-<span id="cb53-823"><a href="#cb53-823" aria-hidden="true" tabindex="-1"></a>    predict.</span>
-<span id="cb53-824"><a href="#cb53-824" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Shapiro-Wilk test:** the p value is \~0.18, which is above 0.05,</span>
-<span id="cb53-825"><a href="#cb53-825" aria-hidden="true" tabindex="-1"></a>    so we **fail to reject the null hypothesis** that the residuals are</span>
-<span id="cb53-826"><a href="#cb53-826" aria-hidden="true" tabindex="-1"></a>    normally distributed. This agrees with what we see in the QQ-plot:</span>
-<span id="cb53-827"><a href="#cb53-827" aria-hidden="true" tabindex="-1"></a>    both checks support the normality assumption.</span>
-<span id="cb53-828"><a href="#cb53-828" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-829"><a href="#cb53-829" aria-hidden="true" tabindex="-1"></a>Taken together, the assumption checks support our log-transformed linear</span>
-<span id="cb53-830"><a href="#cb53-830" aria-hidden="true" tabindex="-1"></a>model: the residuals are unstructured, have constant variance, and are</span>
-<span id="cb53-831"><a href="#cb53-831" aria-hidden="true" tabindex="-1"></a>close enough to normal that the p values and confidence intervals from</span>
-<span id="cb53-832"><a href="#cb53-832" aria-hidden="true" tabindex="-1"></a><span class="in">`summary(model_density)`</span> are trustworthy. Had the plots shown clear</span>
-<span id="cb53-833"><a href="#cb53-833" aria-hidden="true" tabindex="-1"></a>problems instead (curved tails in the QQ-plot, a funnel in the</span>
-<span id="cb53-834"><a href="#cb53-834" aria-hidden="true" tabindex="-1"></a>residual-vs-fitted plot), common remedies would be transforming the</span>
-<span id="cb53-835"><a href="#cb53-835" aria-hidden="true" tabindex="-1"></a>outcome (as we did here with the log), adding missing predictors, or</span>
-<span id="cb53-836"><a href="#cb53-836" aria-hidden="true" tabindex="-1"></a>falling back on the non-parametric tests we used in Question 3.</span>
-<span id="cb53-837"><a href="#cb53-837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-838"><a href="#cb53-838" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb53-839"><a href="#cb53-839" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-840"><a href="#cb53-840" aria-hidden="true" tabindex="-1"></a>Today we've recapped our statistics foundations and applied them to</span>
-<span id="cb53-841"><a href="#cb53-841" aria-hidden="true" tabindex="-1"></a>epidemiological questions - questions that relate to uncovering the</span>
-<span id="cb53-842"><a href="#cb53-842" aria-hidden="true" tabindex="-1"></a>patterns of disease or illnesses in populations.</span>
+<span id="cb53-706"><a href="#cb53-706" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb53-707"><a href="#cb53-707" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-708"><a href="#cb53-708" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb53-709"><a href="#cb53-709" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-710"><a href="#cb53-710" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span><span class="in">`lm(log(parasite_density) ~ age + survey, data = infected)`</span> fits a</span>
+<span id="cb53-711"><a href="#cb53-711" aria-hidden="true" tabindex="-1"></a>    linear regression of log density on age, adjusting for survey.</span>
+<span id="cb53-712"><a href="#cb53-712" aria-hidden="true" tabindex="-1"></a>    Remember the formula format is <span class="in">`outcome ~ predictors`</span>. Option 4 is</span>
+<span id="cb53-713"><a href="#cb53-713" aria-hidden="true" tabindex="-1"></a>    incorrect: <span class="in">`family = "binomial"`</span> is for binary outcomes, not a</span>
+<span id="cb53-714"><a href="#cb53-714" aria-hidden="true" tabindex="-1"></a>    continuous one.</span>
+<span id="cb53-715"><a href="#cb53-715" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>A. Correct: these are the four key assumptions of linear</span>
+<span id="cb53-716"><a href="#cb53-716" aria-hidden="true" tabindex="-1"></a>    regression. B. Incorrect: the residual distribution should be normal</span>
+<span id="cb53-717"><a href="#cb53-717" aria-hidden="true" tabindex="-1"></a>    (not binomial), there is no minimum sample size and the scale of</span>
+<span id="cb53-718"><a href="#cb53-718" aria-hidden="true" tabindex="-1"></a>    measurement is irrelevant. C. Incorrect: it is the **residuals**</span>
+<span id="cb53-719"><a href="#cb53-719" aria-hidden="true" tabindex="-1"></a>    that must be normally distributed, not the outcome variable itself;</span>
+<span id="cb53-720"><a href="#cb53-720" aria-hidden="true" tabindex="-1"></a>    outliers do not need to be removed before fitting. D. Incorrect:</span>
+<span id="cb53-721"><a href="#cb53-721" aria-hidden="true" tabindex="-1"></a>    multiplicative effects and stationarity are not linear regression</span>
+<span id="cb53-722"><a href="#cb53-722" aria-hidden="true" tabindex="-1"></a>    assumptions.</span>
+<span id="cb53-723"><a href="#cb53-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-724"><a href="#cb53-724" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb53-725"><a href="#cb53-725" aria-hidden="true" tabindex="-1"></a>:::::::::::::::</span>
+<span id="cb53-726"><a href="#cb53-726" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-729"><a href="#cb53-729" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-730"><a href="#cb53-730" aria-hidden="true" tabindex="-1"></a>model_density <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(parasite_density) <span class="sc">~</span> age <span class="sc">+</span> survey, <span class="at">data =</span> infected)</span>
+<span id="cb53-731"><a href="#cb53-731" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_density)</span>
+<span id="cb53-732"><a href="#cb53-732" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-733"><a href="#cb53-733" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-734"><a href="#cb53-734" aria-hidden="true" tabindex="-1"></a>Interpretation: each coefficient is a change in log-density.</span>
+<span id="cb53-735"><a href="#cb53-735" aria-hidden="true" tabindex="-1"></a>Exponentiating gives multiplicative effects — e.g. <span class="in">`exp(coef)`</span> for</span>
+<span id="cb53-736"><a href="#cb53-736" aria-hidden="true" tabindex="-1"></a><span class="in">`surveysurvey_2`</span> is the ratio of expected density in survey_2 vs</span>
+<span id="cb53-737"><a href="#cb53-737" aria-hidden="true" tabindex="-1"></a>survey_1 at the same age.</span>
+<span id="cb53-738"><a href="#cb53-738" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-741"><a href="#cb53-741" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-742"><a href="#cb53-742" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(model_density))</span>
+<span id="cb53-743"><a href="#cb53-743" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-744"><a href="#cb53-744" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-745"><a href="#cb53-745" aria-hidden="true" tabindex="-1"></a>The p-values are very small (p <span class="sc">\&lt;</span> 2e-16), telling us that log parasite</span>
+<span id="cb53-746"><a href="#cb53-746" aria-hidden="true" tabindex="-1"></a>density decreases with participant age and from survey 1 to survey 2.</span>
+<span id="cb53-747"><a href="#cb53-747" aria-hidden="true" tabindex="-1"></a>When we exponentiating the coefficients, we see that each additional</span>
+<span id="cb53-748"><a href="#cb53-748" aria-hidden="true" tabindex="-1"></a>year of age is associated with a \~4% decrease in parasite density</span>
+<span id="cb53-749"><a href="#cb53-749" aria-hidden="true" tabindex="-1"></a>(1-0.96 = 0.04 or 4%), and density in survey 2 is about 40% of that in</span>
+<span id="cb53-750"><a href="#cb53-750" aria-hidden="true" tabindex="-1"></a>survey 1 at the same age (0.41), consistent with an effect of the MDA</span>
+<span id="cb53-751"><a href="#cb53-751" aria-hidden="true" tabindex="-1"></a>program.</span>
+<span id="cb53-752"><a href="#cb53-752" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-753"><a href="#cb53-753" aria-hidden="true" tabindex="-1"></a>:::{.callout-caution title="What if we had used <span class="in">`age_group`</span> instead of <span class="in">`age`</span>?"}</span>
+<span id="cb53-754"><a href="#cb53-754" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-755"><a href="#cb53-755" aria-hidden="true" tabindex="-1"></a><span class="in">`age_group`</span> is categorical (0-5, 6-10, 11-20, 21+), so</span>
+<span id="cb53-756"><a href="#cb53-756" aria-hidden="true" tabindex="-1"></a><span class="in">`lm(log(parasite_density) ~ age_group + survey)`</span> would estimate</span>
+<span id="cb53-757"><a href="#cb53-757" aria-hidden="true" tabindex="-1"></a>a separate effect for each age group relative to a reference</span>
+<span id="cb53-758"><a href="#cb53-758" aria-hidden="true" tabindex="-1"></a>group (e.g. 0-5), rather than a single per-year slope.</span>
+<span id="cb53-759"><a href="#cb53-759" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-760"><a href="#cb53-760" aria-hidden="true" tabindex="-1"></a>This matters for two reasons. First, the interpretation changes:</span>
+<span id="cb53-761"><a href="#cb53-761" aria-hidden="true" tabindex="-1"></a>instead of "each additional year of age is associated with a ~4%</span>
+<span id="cb53-762"><a href="#cb53-762" aria-hidden="true" tabindex="-1"></a>decrease in density", coefficients become comparisons between</span>
+<span id="cb53-763"><a href="#cb53-763" aria-hidden="true" tabindex="-1"></a>groups (e.g. "mean density in the 21+ group is X% of that in the</span>
+<span id="cb53-764"><a href="#cb53-764" aria-hidden="true" tabindex="-1"></a>0-5 group"), and we can no longer talk about a rate of change</span>
+<span id="cb53-765"><a href="#cb53-765" aria-hidden="true" tabindex="-1"></a>with age.</span>
+<span id="cb53-766"><a href="#cb53-766" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-767"><a href="#cb53-767" aria-hidden="true" tabindex="-1"></a>Second, the assumptions change: the continuous model assumes a</span>
+<span id="cb53-768"><a href="#cb53-768" aria-hidden="true" tabindex="-1"></a>*linear* relationship between age and log-density across the</span>
+<span id="cb53-769"><a href="#cb53-769" aria-hidden="true" tabindex="-1"></a>whole 1-71 year range, whereas the grouped model makes no</span>
+<span id="cb53-770"><a href="#cb53-770" aria-hidden="true" tabindex="-1"></a>assumption about the shape of the age relationship — but it</span>
+<span id="cb53-771"><a href="#cb53-771" aria-hidden="true" tabindex="-1"></a>throws away information by treating everyone within a group as</span>
+<span id="cb53-772"><a href="#cb53-772" aria-hidden="true" tabindex="-1"></a>identical and uses more degrees of freedom. If the true</span>
+<span id="cb53-773"><a href="#cb53-773" aria-hidden="true" tabindex="-1"></a>relationship is roughly linear, the continuous model is more</span>
+<span id="cb53-774"><a href="#cb53-774" aria-hidden="true" tabindex="-1"></a>powerful; if it is strongly non-linear, the grouped (or a more</span>
+<span id="cb53-775"><a href="#cb53-775" aria-hidden="true" tabindex="-1"></a>flexible) model may describe it better.</span>
+<span id="cb53-776"><a href="#cb53-776" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb53-777"><a href="#cb53-777" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-778"><a href="#cb53-778" aria-hidden="true" tabindex="-1"></a><span class="fu">### Assumption checking</span></span>
+<span id="cb53-779"><a href="#cb53-779" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-780"><a href="#cb53-780" aria-hidden="true" tabindex="-1"></a>Linear models assume linearity, independence, homoscedasticity (constant</span>
+<span id="cb53-781"><a href="#cb53-781" aria-hidden="true" tabindex="-1"></a>residual variance) and normally distributed **residuals**. We check the</span>
+<span id="cb53-782"><a href="#cb53-782" aria-hidden="true" tabindex="-1"></a>residuals graphically, using the same <span class="in">`geom_qq()`</span> + <span class="in">`geom_qq_line()`</span></span>
+<span id="cb53-783"><a href="#cb53-783" aria-hidden="true" tabindex="-1"></a>approach as in <span class="co">[</span><span class="ot">Workshop 6</span><span class="co">](@sec-ttest)</span>:</span>
+<span id="cb53-784"><a href="#cb53-784" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-787"><a href="#cb53-787" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-788"><a href="#cb53-788" aria-hidden="true" tabindex="-1"></a><span class="co"># residuals vs fitted: want no pattern, constant spread</span></span>
+<span id="cb53-789"><a href="#cb53-789" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb53-790"><a href="#cb53-790" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">fitted =</span> <span class="fu">fitted</span>(model_density), <span class="at">resid =</span> <span class="fu">residuals</span>(model_density)),</span>
+<span id="cb53-791"><a href="#cb53-791" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> fitted, <span class="at">y =</span> resid)</span>
+<span id="cb53-792"><a href="#cb53-792" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb53-793"><a href="#cb53-793" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb53-794"><a href="#cb53-794" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span>
+<span id="cb53-795"><a href="#cb53-795" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-796"><a href="#cb53-796" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ-plot of residuals: points should sit along the reference line</span></span>
+<span id="cb53-797"><a href="#cb53-797" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">tibble</span>(<span class="at">resid =</span> <span class="fu">residuals</span>(model_density)), <span class="fu">aes</span>(<span class="at">sample =</span> resid)) <span class="sc">+</span></span>
+<span id="cb53-798"><a href="#cb53-798" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq</span>() <span class="sc">+</span></span>
+<span id="cb53-799"><a href="#cb53-799" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()</span>
+<span id="cb53-800"><a href="#cb53-800" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-801"><a href="#cb53-801" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-802"><a href="#cb53-802" aria-hidden="true" tabindex="-1"></a>We can also confirm the normality of the residuals with a Shapiro-Wilk</span>
+<span id="cb53-803"><a href="#cb53-803" aria-hidden="true" tabindex="-1"></a>test:</span>
+<span id="cb53-804"><a href="#cb53-804" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-807"><a href="#cb53-807" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-808"><a href="#cb53-808" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">residuals</span>(model_density))</span>
+<span id="cb53-809"><a href="#cb53-809" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-810"><a href="#cb53-810" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-811"><a href="#cb53-811" aria-hidden="true" tabindex="-1"></a>**What do these checks tell us about our model?**</span>
+<span id="cb53-812"><a href="#cb53-812" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-813"><a href="#cb53-813" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Residuals vs fitted plot:** the points are scattered randomly</span>
+<span id="cb53-814"><a href="#cb53-814" aria-hidden="true" tabindex="-1"></a>    around the dashed zero line with no obvious pattern and roughly</span>
+<span id="cb53-815"><a href="#cb53-815" aria-hidden="true" tabindex="-1"></a>    constant vertical spread across the range of fitted values. This</span>
+<span id="cb53-816"><a href="#cb53-816" aria-hidden="true" tabindex="-1"></a>    means the **linearity** and **homoscedasticity** assumptions are</span>
+<span id="cb53-817"><a href="#cb53-817" aria-hidden="true" tabindex="-1"></a>    reasonably met — the model captures the systematic structure in the</span>
+<span id="cb53-818"><a href="#cb53-818" aria-hidden="true" tabindex="-1"></a>    data, and the size of the errors doesn't grow or shrink with the</span>
+<span id="cb53-819"><a href="#cb53-819" aria-hidden="true" tabindex="-1"></a>    fitted values. (If we instead saw a curved pattern, that would</span>
+<span id="cb53-820"><a href="#cb53-820" aria-hidden="true" tabindex="-1"></a>    suggest a non-linear relationship we failed to capture; a "funnel"</span>
+<span id="cb53-821"><a href="#cb53-821" aria-hidden="true" tabindex="-1"></a>    shape would suggest heteroscedasticity.)</span>
+<span id="cb53-822"><a href="#cb53-822" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**QQ-plot:** the points sit closely along the diagonal reference</span>
+<span id="cb53-823"><a href="#cb53-823" aria-hidden="true" tabindex="-1"></a>    line, with only slight deviations at the extreme lower and upper</span>
+<span id="cb53-824"><a href="#cb53-824" aria-hidden="true" tabindex="-1"></a>    tails. This indicates the residuals are **approximately normally</span>
+<span id="cb53-825"><a href="#cb53-825" aria-hidden="true" tabindex="-1"></a>    distributed**, with a very small number of observations slightly</span>
+<span id="cb53-826"><a href="#cb53-826" aria-hidden="true" tabindex="-1"></a>    further from the mean than a perfect normal distribution would</span>
+<span id="cb53-827"><a href="#cb53-827" aria-hidden="true" tabindex="-1"></a>    predict.</span>
+<span id="cb53-828"><a href="#cb53-828" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Shapiro-Wilk test:** the p value is \~0.18, which is above 0.05,</span>
+<span id="cb53-829"><a href="#cb53-829" aria-hidden="true" tabindex="-1"></a>    so we **fail to reject the null hypothesis** that the residuals are</span>
+<span id="cb53-830"><a href="#cb53-830" aria-hidden="true" tabindex="-1"></a>    normally distributed. This agrees with what we see in the QQ-plot:</span>
+<span id="cb53-831"><a href="#cb53-831" aria-hidden="true" tabindex="-1"></a>    both checks support the normality assumption.</span>
+<span id="cb53-832"><a href="#cb53-832" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-833"><a href="#cb53-833" aria-hidden="true" tabindex="-1"></a>Taken together, the assumption checks support our log-transformed linear</span>
+<span id="cb53-834"><a href="#cb53-834" aria-hidden="true" tabindex="-1"></a>model: the residuals are unstructured, have constant variance, and are</span>
+<span id="cb53-835"><a href="#cb53-835" aria-hidden="true" tabindex="-1"></a>close enough to normal that the p values and confidence intervals from</span>
+<span id="cb53-836"><a href="#cb53-836" aria-hidden="true" tabindex="-1"></a><span class="in">`summary(model_density)`</span> are trustworthy. Had the plots shown clear</span>
+<span id="cb53-837"><a href="#cb53-837" aria-hidden="true" tabindex="-1"></a>problems instead (curved tails in the QQ-plot, a funnel in the</span>
+<span id="cb53-838"><a href="#cb53-838" aria-hidden="true" tabindex="-1"></a>residual-vs-fitted plot), common remedies would be transforming the</span>
+<span id="cb53-839"><a href="#cb53-839" aria-hidden="true" tabindex="-1"></a>outcome (as we did here with the log), adding missing predictors, or</span>
+<span id="cb53-840"><a href="#cb53-840" aria-hidden="true" tabindex="-1"></a>falling back on the non-parametric tests we used in Question 3.</span>
+<span id="cb53-841"><a href="#cb53-841" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-842"><a href="#cb53-842" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
 <span id="cb53-843"><a href="#cb53-843" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-844"><a href="#cb53-844" aria-hidden="true" tabindex="-1"></a>For our hypothetical malaria dataset, we discovered that:</span>
-<span id="cb53-845"><a href="#cb53-845" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-846"><a href="#cb53-846" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>MDA with ACT was associated with a **large fall in infection</span>
-<span id="cb53-847"><a href="#cb53-847" aria-hidden="true" tabindex="-1"></a>    prevalence** (chi-squared test), across all age groups but most</span>
-<span id="cb53-848"><a href="#cb53-848" aria-hidden="true" tabindex="-1"></a>    markedly in children 0–5.</span>
-<span id="cb53-849"><a href="#cb53-849" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Among the infected, **parasite density was lower during MDA**</span>
-<span id="cb53-850"><a href="#cb53-850" aria-hidden="true" tabindex="-1"></a>    (t-test / Wilcoxon) and **declined with age** (ANOVA /</span>
-<span id="cb53-851"><a href="#cb53-851" aria-hidden="true" tabindex="-1"></a>    Kruskal-Wallis).</span>
-<span id="cb53-852"><a href="#cb53-852" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>A linear model on log density confirmed both effects jointly, and</span>
-<span id="cb53-853"><a href="#cb53-853" aria-hidden="true" tabindex="-1"></a>    assumption checks (residual plots, QQ-plot) supported the</span>
-<span id="cb53-854"><a href="#cb53-854" aria-hidden="true" tabindex="-1"></a>    log-transformed fit.</span>
-<span id="cb53-855"><a href="#cb53-855" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-856"><a href="#cb53-856" aria-hidden="true" tabindex="-1"></a>For the practical component, we learned and revised that:</span>
-<span id="cb53-857"><a href="#cb53-857" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-858"><a href="#cb53-858" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What the prevalence of infection is and how to calculate it</span>
-<span id="cb53-859"><a href="#cb53-859" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What variables we may need to consider in epidemiological analyses</span>
-<span id="cb53-860"><a href="#cb53-860" aria-hidden="true" tabindex="-1"></a>    that may influence the spread of disease</span>
-<span id="cb53-861"><a href="#cb53-861" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>When to choose parametric tests (t-tests, ANOVA), i.e., when</span>
-<span id="cb53-862"><a href="#cb53-862" aria-hidden="true" tabindex="-1"></a>    residuals are roughly normal with constant variance</span>
-<span id="cb53-863"><a href="#cb53-863" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>When to choose non-parametric tests (Wilcoxon/Kruskal-Wallis) i.e.,</span>
-<span id="cb53-864"><a href="#cb53-864" aria-hidden="true" tabindex="-1"></a>    when the outcome is skewed and transformations don't help</span>
-<span id="cb53-865"><a href="#cb53-865" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>When it might be best to use a linear regression with categorical or</span>
-<span id="cb53-866"><a href="#cb53-866" aria-hidden="true" tabindex="-1"></a>    continuous predictors</span>
-<span id="cb53-867"><a href="#cb53-867" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-868"><a href="#cb53-868" aria-hidden="true" tabindex="-1"></a>If you'd like to learn more, look at the <span class="co">[</span><span class="ot">further reading</span><span class="co">](@sec-fr10)</span></span>
-<span id="cb53-869"><a href="#cb53-869" aria-hidden="true" tabindex="-1"></a>for this week, which includes links to Epidemiology in R resources.</span>
-<span id="cb53-870"><a href="#cb53-870" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-871"><a href="#cb53-871" aria-hidden="true" tabindex="-1"></a>You can download the handout from our tutorial session here:</span>
-<span id="cb53-872"><a href="#cb53-872" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-873"><a href="#cb53-873" aria-hidden="true" tabindex="-1"></a>{{&lt; downloadthis resources/assign/tutorial_10_handout.pdf dname="tutorial_10_handout" label="Download the handout for tutorial 10" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" &gt;}}</span>
+<span id="cb53-844"><a href="#cb53-844" aria-hidden="true" tabindex="-1"></a>Today we've recapped our statistics foundations and applied them to</span>
+<span id="cb53-845"><a href="#cb53-845" aria-hidden="true" tabindex="-1"></a>epidemiological questions - questions that relate to uncovering the</span>
+<span id="cb53-846"><a href="#cb53-846" aria-hidden="true" tabindex="-1"></a>patterns of disease or illnesses in populations.</span>
+<span id="cb53-847"><a href="#cb53-847" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-848"><a href="#cb53-848" aria-hidden="true" tabindex="-1"></a>For our hypothetical malaria dataset, we discovered that:</span>
+<span id="cb53-849"><a href="#cb53-849" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-850"><a href="#cb53-850" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>MDA with ACT was associated with a **large fall in infection</span>
+<span id="cb53-851"><a href="#cb53-851" aria-hidden="true" tabindex="-1"></a>    prevalence** (chi-squared test), across all age groups but most</span>
+<span id="cb53-852"><a href="#cb53-852" aria-hidden="true" tabindex="-1"></a>    markedly in children 0–5.</span>
+<span id="cb53-853"><a href="#cb53-853" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Among the infected, **parasite density was lower during MDA**</span>
+<span id="cb53-854"><a href="#cb53-854" aria-hidden="true" tabindex="-1"></a>    (t-test / Wilcoxon) and **declined with age** (ANOVA /</span>
+<span id="cb53-855"><a href="#cb53-855" aria-hidden="true" tabindex="-1"></a>    Kruskal-Wallis).</span>
+<span id="cb53-856"><a href="#cb53-856" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>A linear model on log density confirmed both effects jointly, and</span>
+<span id="cb53-857"><a href="#cb53-857" aria-hidden="true" tabindex="-1"></a>    assumption checks (residual plots, QQ-plot) supported the</span>
+<span id="cb53-858"><a href="#cb53-858" aria-hidden="true" tabindex="-1"></a>    log-transformed fit.</span>
+<span id="cb53-859"><a href="#cb53-859" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-860"><a href="#cb53-860" aria-hidden="true" tabindex="-1"></a>For the practical component, we learned and revised that:</span>
+<span id="cb53-861"><a href="#cb53-861" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-862"><a href="#cb53-862" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What the prevalence of infection is and how to calculate it</span>
+<span id="cb53-863"><a href="#cb53-863" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What variables we may need to consider in epidemiological analyses</span>
+<span id="cb53-864"><a href="#cb53-864" aria-hidden="true" tabindex="-1"></a>    that may influence the spread of disease</span>
+<span id="cb53-865"><a href="#cb53-865" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>When to choose parametric tests (t-tests, ANOVA), i.e., when</span>
+<span id="cb53-866"><a href="#cb53-866" aria-hidden="true" tabindex="-1"></a>    residuals are roughly normal with constant variance</span>
+<span id="cb53-867"><a href="#cb53-867" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>When to choose non-parametric tests (Wilcoxon/Kruskal-Wallis) i.e.,</span>
+<span id="cb53-868"><a href="#cb53-868" aria-hidden="true" tabindex="-1"></a>    when the outcome is skewed and transformations don't help</span>
+<span id="cb53-869"><a href="#cb53-869" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>When it might be best to use a linear regression with categorical or</span>
+<span id="cb53-870"><a href="#cb53-870" aria-hidden="true" tabindex="-1"></a>    continuous predictors</span>
+<span id="cb53-871"><a href="#cb53-871" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-872"><a href="#cb53-872" aria-hidden="true" tabindex="-1"></a>If you'd like to learn more, look at the <span class="co">[</span><span class="ot">further reading</span><span class="co">](@sec-fr10)</span></span>
+<span id="cb53-873"><a href="#cb53-873" aria-hidden="true" tabindex="-1"></a>for this week, which includes links to Epidemiology in R resources.</span>
+<span id="cb53-874"><a href="#cb53-874" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-875"><a href="#cb53-875" aria-hidden="true" tabindex="-1"></a>You can download the handout from our tutorial session here:</span>
+<span id="cb53-876"><a href="#cb53-876" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-877"><a href="#cb53-877" aria-hidden="true" tabindex="-1"></a>{{&lt; downloadthis resources/assign/tutorial_10_handout.pdf dname="tutorial_10_handout" label="Download the handout for tutorial 10" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" &gt;}}</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
