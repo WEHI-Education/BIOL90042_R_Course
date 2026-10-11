@@ -1087,6 +1087,10 @@ saveRDS(final_fit, "model/dosage.rds")
 Now, let's load in our new, unlabelled dataset, `new_dosage`, containing 
 physiological measurements but **no strain labels**.
 
+{{< downloadthis data/new_mousezempic_dosage_data.csv dname=new_mousezempic_dosage_data label="Download new data for this session" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data >}}
+
+Save into your `data/` directory.
+
 ```{r}
 #| label: predict-new-data
 
@@ -1095,6 +1099,20 @@ new_dosage <- read_csv("data/new_mousezempic_dosage_data.csv") %>%
   # column types: step_dummy() in the recipe expects factor predictors
   mutate(across(where(is.character), as.factor))
 ```
+
+Or you can run the code below to download the dataset from a URL: 
+
+```{r}
+#| exec: false
+#| eval: false 
+new_dosage <- read_csv(
+  "https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/new_mousezempic_dosage_data.csv"
+) %>%
+  # Convert character columns to factors to match the training data's
+  # column types: step_dummy() in the recipe expects factor predictors
+  mutate(across(where(is.character), as.factor))
+```
+
 
 Because we created this model in our working R session, we can use the 
 `extract_workflow()` function on the `final_fit` object to simply extract 
