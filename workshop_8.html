@@ -1066,8 +1066,8 @@ Solution
 <figcaption>Two side-by-side plots comparing three classifier models (A, B, and C) of differing quality. Left: a precision-recall curve with recall (0 to 1) on the x-axis and precision (0 to 1) on the y-axis. Right: an ROC curve with 1 - specificity (false positive rate, 0 to 1) on the x-axis and sensitivity (true positive rate, 0 to 1) on the y-axis, with a dashed diagonal line representing chance performance.</figcaption>
 </figure>
 </div>
-<p>PR curves (Left) show how the trade-off between <strong>precision</strong> and <strong>recall</strong> changes as the classification threshold varies. It plots precision (y-axis; of the cases the model calls positive, the proportion that truly are) against recall (x-axis; of all true positive cases, the proportion the model finds).</p>
-<p>ROC curves (Right) plot the <strong>true positive rate</strong> (sensitivity) against the <strong>false positive rate</strong> (1 - specificity) as the classification threshold varies. A curve that bows toward the top-left corner indicates better discrimination between classes, and an AUC closer to 1.0 indicates better overall classification performance.</p>
+<p>PR curves (Left) show the trade-off between <strong>precision</strong> (y-axis; e.g., out of all the mice classified as CD1, how many were actually CD1?) and <strong>recall</strong> or sensitivity (x-axis; e.g., out of all the real CD1 mice in the dataset, how many did the model successfully classify?) as the classification threshold varies.</p>
+<p>ROC curves (Right) plot the <strong>true positive rate</strong> or sensitivity (y-axis; e.g., out of all the real CD1 mice in the dataset, how many did the model successfully classify?) against the <strong>false positive rate</strong> or 1 - specificity (x-axis; e.g., out of all the non-CD1 mice in the dataset, how many did the model wrongly mistake for CD1?) as the classification threshold varies. A curve that bows toward the top-left corner indicates better discrimination between classes, and an AUC closer to 1.0 indicates better overall classification performance.</p>
 </div>
 </div>
 <section id="sec-prc" class="level3" data-number="28.7.1">
@@ -1185,7 +1185,7 @@ Solutions
 </summary>
 <p>
 </p><ol type="1">
-<li>Correct! Black6’s PR curve stays nearest the top-right corner (AUPR ≈ 0.999), indicating the model identifies Black6 mice with both high precision and high recall. BALBc is the least prevalent class (~20% of the test set), so its “no-skill” baseline equals its prevalence (~0.2), and with fewer positive cases its precision estimates are noisier and the curve less stable.</li>
+<li>Correct! Black6’s PR curve stays nearest the top-right corner (AUPR ≈ 0.999), indicating the model identifies Black6 mice with both high precision and high recall. BALBc is the least prevalent class (~20% of the test set), and with fewer positive cases its precision estimates are noisier and the curve less stable.</li>
 <li>Incorrect — BALBc actually has the <em>lowest</em> AUPR (~0.84) of the three strains, and a low prevalence lowers, not raises, the baseline of a PR curve.</li>
 <li>Incorrect — a single model can perform very differently across classes, especially when class frequencies are imbalanced.</li>
 <li>Incorrect — while CD1 is the most prevalent class, its curve sits below Black6’s; prevalence alone does not determine predictive performance.</li>
@@ -2761,637 +2761,639 @@ dbl (5): mouse_id, weight_lost_g, drug_dose_g, tail_length_mm, initial_weight_g
 <span id="cb52-623"><a href="#cb52-623" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-624"><a href="#cb52-624" aria-hidden="true" tabindex="-1"></a><span class="al">![Two side-by-side plots comparing three classifier models (A, B, and C) of differing quality. Left: a precision-recall curve with recall (0 to 1) on the x-axis and precision (0 to 1) on the y-axis. Right: an ROC curve with 1 - specificity (false positive rate, 0 to 1) on the x-axis and sensitivity (true positive rate, 0 to 1) on the y-axis, with a dashed diagonal line representing chance performance.](images/S08F03_PRC_ROC.png)</span></span>
 <span id="cb52-625"><a href="#cb52-625" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-626"><a href="#cb52-626" aria-hidden="true" tabindex="-1"></a>PR curves (Left) show how the trade-off between **precision** and</span>
-<span id="cb52-627"><a href="#cb52-627" aria-hidden="true" tabindex="-1"></a>**recall** changes as the classification threshold varies. It plots</span>
-<span id="cb52-628"><a href="#cb52-628" aria-hidden="true" tabindex="-1"></a>precision (y-axis; of the cases the model calls positive, the proportion</span>
-<span id="cb52-629"><a href="#cb52-629" aria-hidden="true" tabindex="-1"></a>that truly are) against recall (x-axis; of all true positive cases, the</span>
-<span id="cb52-630"><a href="#cb52-630" aria-hidden="true" tabindex="-1"></a>proportion the model finds).</span>
+<span id="cb52-626"><a href="#cb52-626" aria-hidden="true" tabindex="-1"></a>PR curves (Left) show the trade-off between **precision** (y-axis; e.g.,</span>
+<span id="cb52-627"><a href="#cb52-627" aria-hidden="true" tabindex="-1"></a>out of all the mice classified as CD1, how many were actually CD1?) and</span>
+<span id="cb52-628"><a href="#cb52-628" aria-hidden="true" tabindex="-1"></a>**recall** or sensitivity (x-axis; e.g., out of all the real CD1 mice in</span>
+<span id="cb52-629"><a href="#cb52-629" aria-hidden="true" tabindex="-1"></a>the dataset, how many did the model successfully classify?) as the</span>
+<span id="cb52-630"><a href="#cb52-630" aria-hidden="true" tabindex="-1"></a>classification threshold varies.</span>
 <span id="cb52-631"><a href="#cb52-631" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-632"><a href="#cb52-632" aria-hidden="true" tabindex="-1"></a>ROC curves (Right) plot the **true positive rate** (sensitivity) against </span>
-<span id="cb52-633"><a href="#cb52-633" aria-hidden="true" tabindex="-1"></a>the **false positive rate** (1 - specificity) as the classification </span>
-<span id="cb52-634"><a href="#cb52-634" aria-hidden="true" tabindex="-1"></a>threshold varies. A curve that bows toward the top-left corner indicates </span>
-<span id="cb52-635"><a href="#cb52-635" aria-hidden="true" tabindex="-1"></a>better discrimination between classes, and an AUC closer to 1.0 </span>
-<span id="cb52-636"><a href="#cb52-636" aria-hidden="true" tabindex="-1"></a>indicates better overall classification performance.</span>
-<span id="cb52-637"><a href="#cb52-637" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-638"><a href="#cb52-638" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-639"><a href="#cb52-639" aria-hidden="true" tabindex="-1"></a><span class="fu">### Precision-Recall Curve {#sec-prc}</span></span>
-<span id="cb52-640"><a href="#cb52-640" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-643"><a href="#cb52-643" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-644"><a href="#cb52-644" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: aupr-curve</span></span>
-<span id="cb52-645"><a href="#cb52-645" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-646"><a href="#cb52-646" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-647"><a href="#cb52-647" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-648"><a href="#cb52-648" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(</span>
-<span id="cb52-649"><a href="#cb52-649" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-650"><a href="#cb52-650" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
-<span id="cb52-651"><a href="#cb52-651" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
-<span id="cb52-652"><a href="#cb52-652" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
-<span id="cb52-653"><a href="#cb52-653" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-654"><a href="#cb52-654" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb52-655"><a href="#cb52-655" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PR Curves: Random Forest (Test Set)"</span>)</span>
-<span id="cb52-656"><a href="#cb52-656" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-657"><a href="#cb52-657" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-658"><a href="#cb52-658" aria-hidden="true" tabindex="-1"></a>In this graph, we can see that the model maintains high precision even</span>
-<span id="cb52-659"><a href="#cb52-659" aria-hidden="true" tabindex="-1"></a>as recall increases, meaning it identifies most positive cases while</span>
-<span id="cb52-660"><a href="#cb52-660" aria-hidden="true" tabindex="-1"></a>keeping the number of false positives low. A curve that stays near the</span>
-<span id="cb52-661"><a href="#cb52-661" aria-hidden="true" tabindex="-1"></a>top-right corner indicates strong performance; the baseline for a</span>
-<span id="cb52-662"><a href="#cb52-662" aria-hidden="true" tabindex="-1"></a>"no-skill" classifier is the prevalence of the positive class, not 0.5</span>
-<span id="cb52-663"><a href="#cb52-663" aria-hidden="true" tabindex="-1"></a>as with AUROC.</span>
-<span id="cb52-664"><a href="#cb52-664" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-665"><a href="#cb52-665" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: Increasing number of trees in our forest: PR Curves"}</span>
-<span id="cb52-666"><a href="#cb52-666" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-667"><a href="#cb52-667" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`rf_trees_fit`</span> fitted model with 5,000 trees instead of 500 </span>
-<span id="cb52-668"><a href="#cb52-668" aria-hidden="true" tabindex="-1"></a>trees in <span class="in">`final_fit`</span>, now evaluate the PR curve. How does this impact </span>
-<span id="cb52-669"><a href="#cb52-669" aria-hidden="true" tabindex="-1"></a>the PR curve? </span>
-<span id="cb52-670"><a href="#cb52-670" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-671"><a href="#cb52-671" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-672"><a href="#cb52-672" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-673"><a href="#cb52-673" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
-<span id="cb52-674"><a href="#cb52-674" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-677"><a href="#cb52-677" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-678"><a href="#cb52-678" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: compare-with-more-trees-2</span></span>
-<span id="cb52-679"><a href="#cb52-679" aria-hidden="true" tabindex="-1"></a>rf_trees_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-680"><a href="#cb52-680" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-681"><a href="#cb52-681" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(</span>
-<span id="cb52-682"><a href="#cb52-682" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-683"><a href="#cb52-683" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
-<span id="cb52-684"><a href="#cb52-684" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
-<span id="cb52-685"><a href="#cb52-685" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
-<span id="cb52-686"><a href="#cb52-686" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-687"><a href="#cb52-687" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span>
-<span id="cb52-688"><a href="#cb52-688" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-689"><a href="#cb52-689" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-690"><a href="#cb52-690" aria-hidden="true" tabindex="-1"></a>The PR curve is nearly identical to the one generated from <span class="in">`final_fit`</span></span>
-<span id="cb52-691"><a href="#cb52-691" aria-hidden="true" tabindex="-1"></a>with 500 trees. Increasing the number of trees from 500 to 5,000 does</span>
-<span id="cb52-692"><a href="#cb52-692" aria-hidden="true" tabindex="-1"></a>not meaningfully change the precision-recall trade-off: both curves hug</span>
-<span id="cb52-693"><a href="#cb52-693" aria-hidden="true" tabindex="-1"></a>the top-right corner, maintaining high precision across the full range</span>
-<span id="cb52-694"><a href="#cb52-694" aria-hidden="true" tabindex="-1"></a>of recall for all three strains. This is consistent with the metrics we</span>
-<span id="cb52-695"><a href="#cb52-695" aria-hidden="true" tabindex="-1"></a>compared earlier: once a random forest has enough trees for predictions </span>
-<span id="cb52-696"><a href="#cb52-696" aria-hidden="true" tabindex="-1"></a>to stabilise, adding more trees yields only marginal improvements, since</span>
-<span id="cb52-697"><a href="#cb52-697" aria-hidden="true" tabindex="-1"></a>predictions are already averaged over a large ensemble. The main cost of </span>
-<span id="cb52-698"><a href="#cb52-698" aria-hidden="true" tabindex="-1"></a>the extra trees is computation time, not model performance.</span>
-<span id="cb52-699"><a href="#cb52-699" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-700"><a href="#cb52-700" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-701"><a href="#cb52-701" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-702"><a href="#cb52-702" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-703"><a href="#cb52-703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-704"><a href="#cb52-704" aria-hidden="true" tabindex="-1"></a>We can also calculate the Area under the PR Curve (AUPRC) using the</span>
-<span id="cb52-705"><a href="#cb52-705" aria-hidden="true" tabindex="-1"></a><span class="in">`final_fit`</span> object. The AUPRC value represents the area under the PR</span>
-<span id="cb52-706"><a href="#cb52-706" aria-hidden="true" tabindex="-1"></a>curve and provides a single value to summarize the model's performance</span>
-<span id="cb52-707"><a href="#cb52-707" aria-hidden="true" tabindex="-1"></a>across all classification thresholds.</span>
-<span id="cb52-708"><a href="#cb52-708" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-711"><a href="#cb52-711" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-712"><a href="#cb52-712" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: aupr-calculate </span></span>
-<span id="cb52-713"><a href="#cb52-713" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AUPRC (one-vs-all per strain class)</span></span>
-<span id="cb52-714"><a href="#cb52-714" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-715"><a href="#cb52-715" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-716"><a href="#cb52-716" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_auc</span>(</span>
-<span id="cb52-717"><a href="#cb52-717" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-718"><a href="#cb52-718" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
-<span id="cb52-719"><a href="#cb52-719" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
-<span id="cb52-720"><a href="#cb52-720" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
-<span id="cb52-721"><a href="#cb52-721" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb52-722"><a href="#cb52-722" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-723"><a href="#cb52-723" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-724"><a href="#cb52-724" aria-hidden="true" tabindex="-1"></a>An AUPRC of 0.927 indicates the model maintains high precision across</span>
-<span id="cb52-725"><a href="#cb52-725" aria-hidden="true" tabindex="-1"></a>most recall levels for each strain — strong positive-class performance.</span>
+<span id="cb52-632"><a href="#cb52-632" aria-hidden="true" tabindex="-1"></a>ROC curves (Right) plot the **true positive rate** or sensitivity</span>
+<span id="cb52-633"><a href="#cb52-633" aria-hidden="true" tabindex="-1"></a>(y-axis; e.g., out of all the real CD1 mice in the dataset, how many did</span>
+<span id="cb52-634"><a href="#cb52-634" aria-hidden="true" tabindex="-1"></a>the model successfully classify?) against the **false positive rate** or</span>
+<span id="cb52-635"><a href="#cb52-635" aria-hidden="true" tabindex="-1"></a>1 - specificity (x-axis; e.g., out of all the non-CD1 mice in the</span>
+<span id="cb52-636"><a href="#cb52-636" aria-hidden="true" tabindex="-1"></a>dataset, how many did the model wrongly mistake for CD1?) as the</span>
+<span id="cb52-637"><a href="#cb52-637" aria-hidden="true" tabindex="-1"></a>classification threshold varies. A curve that bows toward the top-left</span>
+<span id="cb52-638"><a href="#cb52-638" aria-hidden="true" tabindex="-1"></a>corner indicates better discrimination between classes, and an AUC</span>
+<span id="cb52-639"><a href="#cb52-639" aria-hidden="true" tabindex="-1"></a>closer to 1.0 indicates better overall classification performance.</span>
+<span id="cb52-640"><a href="#cb52-640" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-641"><a href="#cb52-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-642"><a href="#cb52-642" aria-hidden="true" tabindex="-1"></a><span class="fu">### Precision-Recall Curve {#sec-prc}</span></span>
+<span id="cb52-643"><a href="#cb52-643" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-646"><a href="#cb52-646" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-647"><a href="#cb52-647" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: aupr-curve</span></span>
+<span id="cb52-648"><a href="#cb52-648" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-649"><a href="#cb52-649" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-650"><a href="#cb52-650" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-651"><a href="#cb52-651" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(</span>
+<span id="cb52-652"><a href="#cb52-652" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-653"><a href="#cb52-653" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
+<span id="cb52-654"><a href="#cb52-654" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
+<span id="cb52-655"><a href="#cb52-655" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
+<span id="cb52-656"><a href="#cb52-656" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb52-657"><a href="#cb52-657" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb52-658"><a href="#cb52-658" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PR Curves: Random Forest (Test Set)"</span>)</span>
+<span id="cb52-659"><a href="#cb52-659" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-660"><a href="#cb52-660" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-661"><a href="#cb52-661" aria-hidden="true" tabindex="-1"></a>In this graph, we can see that the model maintains high precision even</span>
+<span id="cb52-662"><a href="#cb52-662" aria-hidden="true" tabindex="-1"></a>as recall increases, meaning it identifies most positive cases while</span>
+<span id="cb52-663"><a href="#cb52-663" aria-hidden="true" tabindex="-1"></a>keeping the number of false positives low. A curve that stays near the</span>
+<span id="cb52-664"><a href="#cb52-664" aria-hidden="true" tabindex="-1"></a>top-right corner indicates strong performance; the baseline for a</span>
+<span id="cb52-665"><a href="#cb52-665" aria-hidden="true" tabindex="-1"></a>"no-skill" classifier is the prevalence of the positive class, not 0.5</span>
+<span id="cb52-666"><a href="#cb52-666" aria-hidden="true" tabindex="-1"></a>as with AUROC.</span>
+<span id="cb52-667"><a href="#cb52-667" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-668"><a href="#cb52-668" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: Increasing number of trees in our forest: PR Curves"}</span>
+<span id="cb52-669"><a href="#cb52-669" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-670"><a href="#cb52-670" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`rf_trees_fit`</span> fitted model with 5,000 trees instead of 500 </span>
+<span id="cb52-671"><a href="#cb52-671" aria-hidden="true" tabindex="-1"></a>trees in <span class="in">`final_fit`</span>, now evaluate the PR curve. How does this impact </span>
+<span id="cb52-672"><a href="#cb52-672" aria-hidden="true" tabindex="-1"></a>the PR curve? </span>
+<span id="cb52-673"><a href="#cb52-673" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-674"><a href="#cb52-674" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-675"><a href="#cb52-675" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-676"><a href="#cb52-676" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-677"><a href="#cb52-677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-680"><a href="#cb52-680" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-681"><a href="#cb52-681" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: compare-with-more-trees-2</span></span>
+<span id="cb52-682"><a href="#cb52-682" aria-hidden="true" tabindex="-1"></a>rf_trees_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-683"><a href="#cb52-683" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-684"><a href="#cb52-684" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_curve</span>(</span>
+<span id="cb52-685"><a href="#cb52-685" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-686"><a href="#cb52-686" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
+<span id="cb52-687"><a href="#cb52-687" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
+<span id="cb52-688"><a href="#cb52-688" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
+<span id="cb52-689"><a href="#cb52-689" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb52-690"><a href="#cb52-690" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span>
+<span id="cb52-691"><a href="#cb52-691" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-692"><a href="#cb52-692" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-693"><a href="#cb52-693" aria-hidden="true" tabindex="-1"></a>The PR curve is nearly identical to the one generated from <span class="in">`final_fit`</span></span>
+<span id="cb52-694"><a href="#cb52-694" aria-hidden="true" tabindex="-1"></a>with 500 trees. Increasing the number of trees from 500 to 5,000 does</span>
+<span id="cb52-695"><a href="#cb52-695" aria-hidden="true" tabindex="-1"></a>not meaningfully change the precision-recall trade-off: both curves hug</span>
+<span id="cb52-696"><a href="#cb52-696" aria-hidden="true" tabindex="-1"></a>the top-right corner, maintaining high precision across the full range</span>
+<span id="cb52-697"><a href="#cb52-697" aria-hidden="true" tabindex="-1"></a>of recall for all three strains. This is consistent with the metrics we</span>
+<span id="cb52-698"><a href="#cb52-698" aria-hidden="true" tabindex="-1"></a>compared earlier: once a random forest has enough trees for predictions </span>
+<span id="cb52-699"><a href="#cb52-699" aria-hidden="true" tabindex="-1"></a>to stabilise, adding more trees yields only marginal improvements, since</span>
+<span id="cb52-700"><a href="#cb52-700" aria-hidden="true" tabindex="-1"></a>predictions are already averaged over a large ensemble. The main cost of </span>
+<span id="cb52-701"><a href="#cb52-701" aria-hidden="true" tabindex="-1"></a>the extra trees is computation time, not model performance.</span>
+<span id="cb52-702"><a href="#cb52-702" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-703"><a href="#cb52-703" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-704"><a href="#cb52-704" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-705"><a href="#cb52-705" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-706"><a href="#cb52-706" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-707"><a href="#cb52-707" aria-hidden="true" tabindex="-1"></a>We can also calculate the Area under the PR Curve (AUPRC) using the</span>
+<span id="cb52-708"><a href="#cb52-708" aria-hidden="true" tabindex="-1"></a><span class="in">`final_fit`</span> object. The AUPRC value represents the area under the PR</span>
+<span id="cb52-709"><a href="#cb52-709" aria-hidden="true" tabindex="-1"></a>curve and provides a single value to summarize the model's performance</span>
+<span id="cb52-710"><a href="#cb52-710" aria-hidden="true" tabindex="-1"></a>across all classification thresholds.</span>
+<span id="cb52-711"><a href="#cb52-711" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-714"><a href="#cb52-714" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-715"><a href="#cb52-715" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: aupr-calculate </span></span>
+<span id="cb52-716"><a href="#cb52-716" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AUPRC (one-vs-all per strain class)</span></span>
+<span id="cb52-717"><a href="#cb52-717" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-718"><a href="#cb52-718" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-719"><a href="#cb52-719" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pr_auc</span>(</span>
+<span id="cb52-720"><a href="#cb52-720" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-721"><a href="#cb52-721" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
+<span id="cb52-722"><a href="#cb52-722" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
+<span id="cb52-723"><a href="#cb52-723" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
+<span id="cb52-724"><a href="#cb52-724" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb52-725"><a href="#cb52-725" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-726"><a href="#cb52-726" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-727"><a href="#cb52-727" aria-hidden="true" tabindex="-1"></a>::::::::: {.callout-important title="Test Your Knowledge"}</span>
-<span id="cb52-728"><a href="#cb52-728" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb52-729"><a href="#cb52-729" aria-hidden="true" tabindex="-1"></a>Looking at the PR curves and AUPRC for each mouse strain in <span class="in">`final_fit`</span>, </span>
-<span id="cb52-730"><a href="#cb52-730" aria-hidden="true" tabindex="-1"></a>which class does the model predict best?</span>
-<span id="cb52-731"><a href="#cb52-731" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-732"><a href="#cb52-732" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb52-733"><a href="#cb52-733" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb52-734"><a href="#cb52-734" aria-hidden="true" tabindex="-1"></a>Black6 is predicted best (its curve stays closest to the top-right</span>
-<span id="cb52-735"><a href="#cb52-735" aria-hidden="true" tabindex="-1"></a>corner)</span>
-<span id="cb52-736"><a href="#cb52-736" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-737"><a href="#cb52-737" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-738"><a href="#cb52-738" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-739"><a href="#cb52-739" aria-hidden="true" tabindex="-1"></a>BALBc is predicted best because its curve has the highest baseline</span>
-<span id="cb52-740"><a href="#cb52-740" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-741"><a href="#cb52-741" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-742"><a href="#cb52-742" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-743"><a href="#cb52-743" aria-hidden="true" tabindex="-1"></a>All three strains are predicted equally well, since they come from the</span>
-<span id="cb52-744"><a href="#cb52-744" aria-hidden="true" tabindex="-1"></a>same random forest model</span>
-<span id="cb52-745"><a href="#cb52-745" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-746"><a href="#cb52-746" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-747"><a href="#cb52-747" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-748"><a href="#cb52-748" aria-hidden="true" tabindex="-1"></a>CD1 is predicted best because it has the highest prevalence in the test</span>
-<span id="cb52-749"><a href="#cb52-749" aria-hidden="true" tabindex="-1"></a>set</span>
-<span id="cb52-750"><a href="#cb52-750" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-751"><a href="#cb52-751" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-752"><a href="#cb52-752" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb52-753"><a href="#cb52-753" aria-hidden="true" tabindex="-1"></a>::::::::</span>
+<span id="cb52-727"><a href="#cb52-727" aria-hidden="true" tabindex="-1"></a>An AUPRC of 0.927 indicates the model maintains high precision across</span>
+<span id="cb52-728"><a href="#cb52-728" aria-hidden="true" tabindex="-1"></a>most recall levels for each strain — strong positive-class performance.</span>
+<span id="cb52-729"><a href="#cb52-729" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-730"><a href="#cb52-730" aria-hidden="true" tabindex="-1"></a>::::::::: {.callout-important title="Test Your Knowledge"}</span>
+<span id="cb52-731"><a href="#cb52-731" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb52-732"><a href="#cb52-732" aria-hidden="true" tabindex="-1"></a>Looking at the PR curves and AUPRC for each mouse strain in <span class="in">`final_fit`</span>, </span>
+<span id="cb52-733"><a href="#cb52-733" aria-hidden="true" tabindex="-1"></a>which class does the model predict best?</span>
+<span id="cb52-734"><a href="#cb52-734" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-735"><a href="#cb52-735" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
+<span id="cb52-736"><a href="#cb52-736" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb52-737"><a href="#cb52-737" aria-hidden="true" tabindex="-1"></a>Black6 is predicted best (its curve stays closest to the top-right</span>
+<span id="cb52-738"><a href="#cb52-738" aria-hidden="true" tabindex="-1"></a>corner)</span>
+<span id="cb52-739"><a href="#cb52-739" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-740"><a href="#cb52-740" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-741"><a href="#cb52-741" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-742"><a href="#cb52-742" aria-hidden="true" tabindex="-1"></a>BALBc is predicted best because its curve has the highest baseline</span>
+<span id="cb52-743"><a href="#cb52-743" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-744"><a href="#cb52-744" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-745"><a href="#cb52-745" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-746"><a href="#cb52-746" aria-hidden="true" tabindex="-1"></a>All three strains are predicted equally well, since they come from the</span>
+<span id="cb52-747"><a href="#cb52-747" aria-hidden="true" tabindex="-1"></a>same random forest model</span>
+<span id="cb52-748"><a href="#cb52-748" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-749"><a href="#cb52-749" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-750"><a href="#cb52-750" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-751"><a href="#cb52-751" aria-hidden="true" tabindex="-1"></a>CD1 is predicted best because it has the highest prevalence in the test</span>
+<span id="cb52-752"><a href="#cb52-752" aria-hidden="true" tabindex="-1"></a>set</span>
+<span id="cb52-753"><a href="#cb52-753" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb52-754"><a href="#cb52-754" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-755"><a href="#cb52-755" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-756"><a href="#cb52-756" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-757"><a href="#cb52-757" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
-<span id="cb52-758"><a href="#cb52-758" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-759"><a href="#cb52-759" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
-<span id="cb52-760"><a href="#cb52-760" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-761"><a href="#cb52-761" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Correct! Black6's PR curve stays nearest the top-right corner (AUPR</span>
-<span id="cb52-762"><a href="#cb52-762" aria-hidden="true" tabindex="-1"></a>   ≈ 0.999), indicating the model identifies Black6 mice with both high</span>
-<span id="cb52-763"><a href="#cb52-763" aria-hidden="true" tabindex="-1"></a>   precision and high recall. BALBc is the least prevalent class</span>
-<span id="cb52-764"><a href="#cb52-764" aria-hidden="true" tabindex="-1"></a>   (~20% of the test set), so its "no-skill" baseline equals its</span>
-<span id="cb52-765"><a href="#cb52-765" aria-hidden="true" tabindex="-1"></a>   prevalence (~0.2), and with fewer positive cases its precision</span>
-<span id="cb52-766"><a href="#cb52-766" aria-hidden="true" tabindex="-1"></a>   estimates are noisier and the curve less stable.</span>
-<span id="cb52-767"><a href="#cb52-767" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Incorrect — BALBc actually has the *lowest* AUPR (~0.84) of the</span>
-<span id="cb52-768"><a href="#cb52-768" aria-hidden="true" tabindex="-1"></a>   three strains, and a low prevalence lowers, not raises, the baseline</span>
-<span id="cb52-769"><a href="#cb52-769" aria-hidden="true" tabindex="-1"></a>   of a PR curve.</span>
-<span id="cb52-770"><a href="#cb52-770" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Incorrect — a single model can perform very differently across</span>
-<span id="cb52-771"><a href="#cb52-771" aria-hidden="true" tabindex="-1"></a>   classes, especially when class frequencies are imbalanced.</span>
-<span id="cb52-772"><a href="#cb52-772" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Incorrect — while CD1 is the most prevalent class, its curve sits</span>
-<span id="cb52-773"><a href="#cb52-773" aria-hidden="true" tabindex="-1"></a>   below Black6's; prevalence alone does not determine predictive</span>
-<span id="cb52-774"><a href="#cb52-774" aria-hidden="true" tabindex="-1"></a>   performance.</span>
-<span id="cb52-775"><a href="#cb52-775" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-776"><a href="#cb52-776" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-755"><a href="#cb52-755" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb52-756"><a href="#cb52-756" aria-hidden="true" tabindex="-1"></a>::::::::</span>
+<span id="cb52-757"><a href="#cb52-757" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-758"><a href="#cb52-758" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-759"><a href="#cb52-759" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-760"><a href="#cb52-760" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-761"><a href="#cb52-761" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-762"><a href="#cb52-762" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-763"><a href="#cb52-763" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-764"><a href="#cb52-764" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Correct! Black6's PR curve stays nearest the top-right corner (AUPR</span>
+<span id="cb52-765"><a href="#cb52-765" aria-hidden="true" tabindex="-1"></a>   ≈ 0.999), indicating the model identifies Black6 mice with both high</span>
+<span id="cb52-766"><a href="#cb52-766" aria-hidden="true" tabindex="-1"></a>   precision and high recall. BALBc is the least prevalent class</span>
+<span id="cb52-767"><a href="#cb52-767" aria-hidden="true" tabindex="-1"></a>   (~20% of the test set), and with fewer positive cases its precision</span>
+<span id="cb52-768"><a href="#cb52-768" aria-hidden="true" tabindex="-1"></a>   estimates are noisier and the curve less stable.</span>
+<span id="cb52-769"><a href="#cb52-769" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Incorrect — BALBc actually has the *lowest* AUPR (~0.84) of the</span>
+<span id="cb52-770"><a href="#cb52-770" aria-hidden="true" tabindex="-1"></a>   three strains, and a low prevalence lowers, not raises, the baseline</span>
+<span id="cb52-771"><a href="#cb52-771" aria-hidden="true" tabindex="-1"></a>   of a PR curve.</span>
+<span id="cb52-772"><a href="#cb52-772" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Incorrect — a single model can perform very differently across</span>
+<span id="cb52-773"><a href="#cb52-773" aria-hidden="true" tabindex="-1"></a>   classes, especially when class frequencies are imbalanced.</span>
+<span id="cb52-774"><a href="#cb52-774" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Incorrect — while CD1 is the most prevalent class, its curve sits</span>
+<span id="cb52-775"><a href="#cb52-775" aria-hidden="true" tabindex="-1"></a>   below Black6's; prevalence alone does not determine predictive</span>
+<span id="cb52-776"><a href="#cb52-776" aria-hidden="true" tabindex="-1"></a>   performance.</span>
 <span id="cb52-777"><a href="#cb52-777" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-778"><a href="#cb52-778" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-779"><a href="#cb52-779" aria-hidden="true" tabindex="-1"></a>:::::::::</span>
-<span id="cb52-780"><a href="#cb52-780" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-781"><a href="#cb52-781" aria-hidden="true" tabindex="-1"></a><span class="fu">### Receiver Operating Characteristic Curve {#sec-roc}</span></span>
+<span id="cb52-778"><a href="#cb52-778" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-779"><a href="#cb52-779" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-780"><a href="#cb52-780" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-781"><a href="#cb52-781" aria-hidden="true" tabindex="-1"></a>:::::::::</span>
 <span id="cb52-782"><a href="#cb52-782" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-785"><a href="#cb52-785" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-786"><a href="#cb52-786" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: auroc-curve</span></span>
-<span id="cb52-787"><a href="#cb52-787" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-788"><a href="#cb52-788" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-789"><a href="#cb52-789" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-790"><a href="#cb52-790" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb52-791"><a href="#cb52-791" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-792"><a href="#cb52-792" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
-<span id="cb52-793"><a href="#cb52-793" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
-<span id="cb52-794"><a href="#cb52-794" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
-<span id="cb52-795"><a href="#cb52-795" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-796"><a href="#cb52-796" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb52-797"><a href="#cb52-797" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC Curves: Random Forest (Test Set)"</span>)</span>
-<span id="cb52-798"><a href="#cb52-798" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-799"><a href="#cb52-799" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-800"><a href="#cb52-800" aria-hidden="true" tabindex="-1"></a>Because <span class="in">`mouse_strain`</span> has three classes, this produces one curve per</span>
-<span id="cb52-801"><a href="#cb52-801" aria-hidden="true" tabindex="-1"></a>strain (each treating that strain vs. the other two) rather than a</span>
-<span id="cb52-802"><a href="#cb52-802" aria-hidden="true" tabindex="-1"></a>single combined curve. Here we can see that our ROC curves are all</span>
-<span id="cb52-803"><a href="#cb52-803" aria-hidden="true" tabindex="-1"></a>within the top left-hand corner, so that's great.</span>
-<span id="cb52-804"><a href="#cb52-804" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-805"><a href="#cb52-805" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: Increasing number of trees in our forest: ROC Curves"}</span>
+<span id="cb52-783"><a href="#cb52-783" aria-hidden="true" tabindex="-1"></a><span class="fu">### Receiver Operating Characteristic Curve {#sec-roc}</span></span>
+<span id="cb52-784"><a href="#cb52-784" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-787"><a href="#cb52-787" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-788"><a href="#cb52-788" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: auroc-curve</span></span>
+<span id="cb52-789"><a href="#cb52-789" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-790"><a href="#cb52-790" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-791"><a href="#cb52-791" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-792"><a href="#cb52-792" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb52-793"><a href="#cb52-793" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-794"><a href="#cb52-794" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
+<span id="cb52-795"><a href="#cb52-795" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
+<span id="cb52-796"><a href="#cb52-796" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
+<span id="cb52-797"><a href="#cb52-797" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb52-798"><a href="#cb52-798" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb52-799"><a href="#cb52-799" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC Curves: Random Forest (Test Set)"</span>)</span>
+<span id="cb52-800"><a href="#cb52-800" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-801"><a href="#cb52-801" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-802"><a href="#cb52-802" aria-hidden="true" tabindex="-1"></a>Because <span class="in">`mouse_strain`</span> has three classes, this produces one curve per</span>
+<span id="cb52-803"><a href="#cb52-803" aria-hidden="true" tabindex="-1"></a>strain (each treating that strain vs. the other two) rather than a</span>
+<span id="cb52-804"><a href="#cb52-804" aria-hidden="true" tabindex="-1"></a>single combined curve. Here we can see that our ROC curves are all</span>
+<span id="cb52-805"><a href="#cb52-805" aria-hidden="true" tabindex="-1"></a>within the top left-hand corner, so that's great.</span>
 <span id="cb52-806"><a href="#cb52-806" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-807"><a href="#cb52-807" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`rf_trees_fit`</span> fitted model with 5,000 trees instead of 500 </span>
-<span id="cb52-808"><a href="#cb52-808" aria-hidden="true" tabindex="-1"></a>trees in <span class="in">`final_fit`</span>, now evaluate the ROC curve. How does this impact </span>
-<span id="cb52-809"><a href="#cb52-809" aria-hidden="true" tabindex="-1"></a>the ROC curve? </span>
-<span id="cb52-810"><a href="#cb52-810" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-811"><a href="#cb52-811" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-807"><a href="#cb52-807" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: Increasing number of trees in our forest: ROC Curves"}</span>
+<span id="cb52-808"><a href="#cb52-808" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-809"><a href="#cb52-809" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`rf_trees_fit`</span> fitted model with 5,000 trees instead of 500 </span>
+<span id="cb52-810"><a href="#cb52-810" aria-hidden="true" tabindex="-1"></a>trees in <span class="in">`final_fit`</span>, now evaluate the ROC curve. How does this impact </span>
+<span id="cb52-811"><a href="#cb52-811" aria-hidden="true" tabindex="-1"></a>the ROC curve? </span>
 <span id="cb52-812"><a href="#cb52-812" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-813"><a href="#cb52-813" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-813"><a href="#cb52-813" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-814"><a href="#cb52-814" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-817"><a href="#cb52-817" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-818"><a href="#cb52-818" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: compare-with-more-trees-3</span></span>
-<span id="cb52-819"><a href="#cb52-819" aria-hidden="true" tabindex="-1"></a>rf_trees_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-820"><a href="#cb52-820" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-821"><a href="#cb52-821" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb52-822"><a href="#cb52-822" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-823"><a href="#cb52-823" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
-<span id="cb52-824"><a href="#cb52-824" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
-<span id="cb52-825"><a href="#cb52-825" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
-<span id="cb52-826"><a href="#cb52-826" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-827"><a href="#cb52-827" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span>
-<span id="cb52-828"><a href="#cb52-828" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-829"><a href="#cb52-829" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-830"><a href="#cb52-830" aria-hidden="true" tabindex="-1"></a>The ROC curve is nearly identical to the one generated from <span class="in">`final_fit`</span></span>
-<span id="cb52-831"><a href="#cb52-831" aria-hidden="true" tabindex="-1"></a>with 500 trees. Increasing the number of trees from 500 to 5,000 does</span>
-<span id="cb52-832"><a href="#cb52-832" aria-hidden="true" tabindex="-1"></a>not meaningfully change the sensitivity-specificity trade-off: both</span>
-<span id="cb52-833"><a href="#cb52-833" aria-hidden="true" tabindex="-1"></a>curves hug the top-left corner, maintaining high sensitivity across</span>
-<span id="cb52-834"><a href="#cb52-834" aria-hidden="true" tabindex="-1"></a>almost the full range of specificity for all three strains. This is</span>
-<span id="cb52-835"><a href="#cb52-835" aria-hidden="true" tabindex="-1"></a>consistent with the metrics we compared earlier (<span class="in">`roc_auc`</span> of 0.969</span>
-<span id="cb52-836"><a href="#cb52-836" aria-hidden="true" tabindex="-1"></a>vs 0.971). </span>
-<span id="cb52-837"><a href="#cb52-837" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-838"><a href="#cb52-838" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-815"><a href="#cb52-815" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-816"><a href="#cb52-816" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-819"><a href="#cb52-819" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-820"><a href="#cb52-820" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: compare-with-more-trees-3</span></span>
+<span id="cb52-821"><a href="#cb52-821" aria-hidden="true" tabindex="-1"></a>rf_trees_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-822"><a href="#cb52-822" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-823"><a href="#cb52-823" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb52-824"><a href="#cb52-824" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-825"><a href="#cb52-825" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
+<span id="cb52-826"><a href="#cb52-826" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
+<span id="cb52-827"><a href="#cb52-827" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
+<span id="cb52-828"><a href="#cb52-828" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb52-829"><a href="#cb52-829" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span>
+<span id="cb52-830"><a href="#cb52-830" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-831"><a href="#cb52-831" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-832"><a href="#cb52-832" aria-hidden="true" tabindex="-1"></a>The ROC curve is nearly identical to the one generated from <span class="in">`final_fit`</span></span>
+<span id="cb52-833"><a href="#cb52-833" aria-hidden="true" tabindex="-1"></a>with 500 trees. Increasing the number of trees from 500 to 5,000 does</span>
+<span id="cb52-834"><a href="#cb52-834" aria-hidden="true" tabindex="-1"></a>not meaningfully change the sensitivity-specificity trade-off: both</span>
+<span id="cb52-835"><a href="#cb52-835" aria-hidden="true" tabindex="-1"></a>curves hug the top-left corner, maintaining high sensitivity across</span>
+<span id="cb52-836"><a href="#cb52-836" aria-hidden="true" tabindex="-1"></a>almost the full range of specificity for all three strains. This is</span>
+<span id="cb52-837"><a href="#cb52-837" aria-hidden="true" tabindex="-1"></a>consistent with the metrics we compared earlier (<span class="in">`roc_auc`</span> of 0.969</span>
+<span id="cb52-838"><a href="#cb52-838" aria-hidden="true" tabindex="-1"></a>vs 0.971). </span>
 <span id="cb52-839"><a href="#cb52-839" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-840"><a href="#cb52-840" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-840"><a href="#cb52-840" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-841"><a href="#cb52-841" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-842"><a href="#cb52-842" aria-hidden="true" tabindex="-1"></a>As with the PR curve and AUPCR, we can calculate the AUROC for our ROC</span>
-<span id="cb52-843"><a href="#cb52-843" aria-hidden="true" tabindex="-1"></a>curve.</span>
-<span id="cb52-844"><a href="#cb52-844" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-847"><a href="#cb52-847" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-848"><a href="#cb52-848" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AUROC for our ROC curve</span></span>
-<span id="cb52-849"><a href="#cb52-849" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-850"><a href="#cb52-850" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-851"><a href="#cb52-851" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb52-852"><a href="#cb52-852" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-853"><a href="#cb52-853" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
-<span id="cb52-854"><a href="#cb52-854" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
-<span id="cb52-855"><a href="#cb52-855" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
-<span id="cb52-856"><a href="#cb52-856" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb52-857"><a href="#cb52-857" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-858"><a href="#cb52-858" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-859"><a href="#cb52-859" aria-hidden="true" tabindex="-1"></a>The AUC for this model is 0.971 which is a very strong indicator of</span>
-<span id="cb52-860"><a href="#cb52-860" aria-hidden="true" tabindex="-1"></a>model classification performance.</span>
-<span id="cb52-861"><a href="#cb52-861" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-862"><a href="#cb52-862" aria-hidden="true" tabindex="-1"></a>::::::::: {.callout-important title="Test Your Knowledge"}</span>
-<span id="cb52-863"><a href="#cb52-863" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb52-864"><a href="#cb52-864" aria-hidden="true" tabindex="-1"></a>Looking at the ROC curves and AUROC for each mouse strain in</span>
-<span id="cb52-865"><a href="#cb52-865" aria-hidden="true" tabindex="-1"></a><span class="in">`final_fit`</span>, which class does the model predict best?</span>
-<span id="cb52-866"><a href="#cb52-866" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-867"><a href="#cb52-867" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb52-868"><a href="#cb52-868" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-869"><a href="#cb52-869" aria-hidden="true" tabindex="-1"></a>BALBc is predicted best because it is the least prevalent class</span>
-<span id="cb52-870"><a href="#cb52-870" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-871"><a href="#cb52-871" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-872"><a href="#cb52-872" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-873"><a href="#cb52-873" aria-hidden="true" tabindex="-1"></a>All three strains are predicted equally well, since they come from the</span>
-<span id="cb52-874"><a href="#cb52-874" aria-hidden="true" tabindex="-1"></a>same random forest model</span>
-<span id="cb52-875"><a href="#cb52-875" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-876"><a href="#cb52-876" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-877"><a href="#cb52-877" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb52-878"><a href="#cb52-878" aria-hidden="true" tabindex="-1"></a>Black6 is predicted best (its curve stays closest to the top-left</span>
-<span id="cb52-879"><a href="#cb52-879" aria-hidden="true" tabindex="-1"></a>corner)</span>
-<span id="cb52-880"><a href="#cb52-880" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-881"><a href="#cb52-881" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-882"><a href="#cb52-882" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-883"><a href="#cb52-883" aria-hidden="true" tabindex="-1"></a>CD1 is predicted best because it has the highest prevalence in the test</span>
-<span id="cb52-884"><a href="#cb52-884" aria-hidden="true" tabindex="-1"></a>set</span>
-<span id="cb52-885"><a href="#cb52-885" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-886"><a href="#cb52-886" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-887"><a href="#cb52-887" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb52-888"><a href="#cb52-888" aria-hidden="true" tabindex="-1"></a>::::::::</span>
-<span id="cb52-889"><a href="#cb52-889" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-890"><a href="#cb52-890" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-842"><a href="#cb52-842" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-843"><a href="#cb52-843" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-844"><a href="#cb52-844" aria-hidden="true" tabindex="-1"></a>As with the PR curve and AUPCR, we can calculate the AUROC for our ROC</span>
+<span id="cb52-845"><a href="#cb52-845" aria-hidden="true" tabindex="-1"></a>curve.</span>
+<span id="cb52-846"><a href="#cb52-846" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-849"><a href="#cb52-849" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-850"><a href="#cb52-850" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate AUROC for our ROC curve</span></span>
+<span id="cb52-851"><a href="#cb52-851" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-852"><a href="#cb52-852" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-853"><a href="#cb52-853" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb52-854"><a href="#cb52-854" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-855"><a href="#cb52-855" aria-hidden="true" tabindex="-1"></a>    .pred_BALBc,</span>
+<span id="cb52-856"><a href="#cb52-856" aria-hidden="true" tabindex="-1"></a>    .pred_Black6,</span>
+<span id="cb52-857"><a href="#cb52-857" aria-hidden="true" tabindex="-1"></a>    .pred_CD1</span>
+<span id="cb52-858"><a href="#cb52-858" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb52-859"><a href="#cb52-859" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-860"><a href="#cb52-860" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-861"><a href="#cb52-861" aria-hidden="true" tabindex="-1"></a>The AUC for this model is 0.971 which is a very strong indicator of</span>
+<span id="cb52-862"><a href="#cb52-862" aria-hidden="true" tabindex="-1"></a>model classification performance.</span>
+<span id="cb52-863"><a href="#cb52-863" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-864"><a href="#cb52-864" aria-hidden="true" tabindex="-1"></a>::::::::: {.callout-important title="Test Your Knowledge"}</span>
+<span id="cb52-865"><a href="#cb52-865" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb52-866"><a href="#cb52-866" aria-hidden="true" tabindex="-1"></a>Looking at the ROC curves and AUROC for each mouse strain in</span>
+<span id="cb52-867"><a href="#cb52-867" aria-hidden="true" tabindex="-1"></a><span class="in">`final_fit`</span>, which class does the model predict best?</span>
+<span id="cb52-868"><a href="#cb52-868" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-869"><a href="#cb52-869" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
+<span id="cb52-870"><a href="#cb52-870" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-871"><a href="#cb52-871" aria-hidden="true" tabindex="-1"></a>BALBc is predicted best because it is the least prevalent class</span>
+<span id="cb52-872"><a href="#cb52-872" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-873"><a href="#cb52-873" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-874"><a href="#cb52-874" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-875"><a href="#cb52-875" aria-hidden="true" tabindex="-1"></a>All three strains are predicted equally well, since they come from the</span>
+<span id="cb52-876"><a href="#cb52-876" aria-hidden="true" tabindex="-1"></a>same random forest model</span>
+<span id="cb52-877"><a href="#cb52-877" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-878"><a href="#cb52-878" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-879"><a href="#cb52-879" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb52-880"><a href="#cb52-880" aria-hidden="true" tabindex="-1"></a>Black6 is predicted best (its curve stays closest to the top-left</span>
+<span id="cb52-881"><a href="#cb52-881" aria-hidden="true" tabindex="-1"></a>corner)</span>
+<span id="cb52-882"><a href="#cb52-882" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-883"><a href="#cb52-883" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-884"><a href="#cb52-884" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-885"><a href="#cb52-885" aria-hidden="true" tabindex="-1"></a>CD1 is predicted best because it has the highest prevalence in the test</span>
+<span id="cb52-886"><a href="#cb52-886" aria-hidden="true" tabindex="-1"></a>set</span>
+<span id="cb52-887"><a href="#cb52-887" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-888"><a href="#cb52-888" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-889"><a href="#cb52-889" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb52-890"><a href="#cb52-890" aria-hidden="true" tabindex="-1"></a>::::::::</span>
 <span id="cb52-891"><a href="#cb52-891" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-892"><a href="#cb52-892" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-892"><a href="#cb52-892" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-893"><a href="#cb52-893" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-894"><a href="#cb52-894" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-894"><a href="#cb52-894" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
 <span id="cb52-895"><a href="#cb52-895" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-896"><a href="#cb52-896" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Incorrect — BALBc actually has the *lowest* AUROC (~0.96, roughly</span>
-<span id="cb52-897"><a href="#cb52-897" aria-hidden="true" tabindex="-1"></a>   tied with CD1). Unlike a PR curve, the ROC curve's no-skill baseline</span>
-<span id="cb52-898"><a href="#cb52-898" aria-hidden="true" tabindex="-1"></a>   is the diagonal line regardless of prevalence, and low prevalence</span>
-<span id="cb52-899"><a href="#cb52-899" aria-hidden="true" tabindex="-1"></a>   does not make performance better.</span>
-<span id="cb52-900"><a href="#cb52-900" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Incorrect — a single model can perform very differently across</span>
-<span id="cb52-901"><a href="#cb52-901" aria-hidden="true" tabindex="-1"></a>   classes, especially when class frequencies are imbalanced.</span>
-<span id="cb52-902"><a href="#cb52-902" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Correct! Black6's ROC curve stays nearest the top-left corner</span>
-<span id="cb52-903"><a href="#cb52-903" aria-hidden="true" tabindex="-1"></a>   (AUROC ≈ 0.999), indicating the model identifies Black6 mice with</span>
-<span id="cb52-904"><a href="#cb52-904" aria-hidden="true" tabindex="-1"></a>   both high sensitivity and high specificity across almost all</span>
-<span id="cb52-905"><a href="#cb52-905" aria-hidden="true" tabindex="-1"></a>   classification thresholds.</span>
-<span id="cb52-906"><a href="#cb52-906" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Incorrect — while CD1 is the most prevalent class, its curve sits</span>
-<span id="cb52-907"><a href="#cb52-907" aria-hidden="true" tabindex="-1"></a>   below Black6's (AUROC ≈ 0.96 vs 0.999); prevalence alone does not</span>
-<span id="cb52-908"><a href="#cb52-908" aria-hidden="true" tabindex="-1"></a>   determine predictive performance.</span>
-<span id="cb52-909"><a href="#cb52-909" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-910"><a href="#cb52-910" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-896"><a href="#cb52-896" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-897"><a href="#cb52-897" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-898"><a href="#cb52-898" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Incorrect — BALBc actually has the *lowest* AUROC (~0.96, roughly</span>
+<span id="cb52-899"><a href="#cb52-899" aria-hidden="true" tabindex="-1"></a>   tied with CD1). Unlike a PR curve, the ROC curve's no-skill baseline</span>
+<span id="cb52-900"><a href="#cb52-900" aria-hidden="true" tabindex="-1"></a>   is the diagonal line regardless of prevalence, and low prevalence</span>
+<span id="cb52-901"><a href="#cb52-901" aria-hidden="true" tabindex="-1"></a>   does not make performance better.</span>
+<span id="cb52-902"><a href="#cb52-902" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Incorrect — a single model can perform very differently across</span>
+<span id="cb52-903"><a href="#cb52-903" aria-hidden="true" tabindex="-1"></a>   classes, especially when class frequencies are imbalanced.</span>
+<span id="cb52-904"><a href="#cb52-904" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Correct! Black6's ROC curve stays nearest the top-left corner</span>
+<span id="cb52-905"><a href="#cb52-905" aria-hidden="true" tabindex="-1"></a>   (AUROC ≈ 0.999), indicating the model identifies Black6 mice with</span>
+<span id="cb52-906"><a href="#cb52-906" aria-hidden="true" tabindex="-1"></a>   both high sensitivity and high specificity across almost all</span>
+<span id="cb52-907"><a href="#cb52-907" aria-hidden="true" tabindex="-1"></a>   classification thresholds.</span>
+<span id="cb52-908"><a href="#cb52-908" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Incorrect — while CD1 is the most prevalent class, its curve sits</span>
+<span id="cb52-909"><a href="#cb52-909" aria-hidden="true" tabindex="-1"></a>   below Black6's (AUROC ≈ 0.96 vs 0.999); prevalence alone does not</span>
+<span id="cb52-910"><a href="#cb52-910" aria-hidden="true" tabindex="-1"></a>   determine predictive performance.</span>
 <span id="cb52-911"><a href="#cb52-911" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-912"><a href="#cb52-912" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-913"><a href="#cb52-913" aria-hidden="true" tabindex="-1"></a>:::::::::</span>
-<span id="cb52-914"><a href="#cb52-914" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-915"><a href="#cb52-915" aria-hidden="true" tabindex="-1"></a><span class="fu">### Confusion Matrix {#sec-confmat}</span></span>
+<span id="cb52-912"><a href="#cb52-912" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-913"><a href="#cb52-913" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-914"><a href="#cb52-914" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-915"><a href="#cb52-915" aria-hidden="true" tabindex="-1"></a>:::::::::</span>
 <span id="cb52-916"><a href="#cb52-916" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-917"><a href="#cb52-917" aria-hidden="true" tabindex="-1"></a>We can also evaluate the confusion matrix (<span class="in">`conf_mat()`</span>), where rows are</span>
-<span id="cb52-918"><a href="#cb52-918" aria-hidden="true" tabindex="-1"></a>our "truth" (the strain in <span class="in">`noisy_dosage`</span>; <span class="in">`truth = mouse_strain`</span>) and</span>
-<span id="cb52-919"><a href="#cb52-919" aria-hidden="true" tabindex="-1"></a>columns are the "predictions" (the predicted strain;</span>
-<span id="cb52-920"><a href="#cb52-920" aria-hidden="true" tabindex="-1"></a><span class="in">`estimate = .pred_class`</span>). Diagonal cells are correct predictions, while</span>
-<span id="cb52-921"><a href="#cb52-921" aria-hidden="true" tabindex="-1"></a>off-diagonal cells are misclassifications.</span>
-<span id="cb52-922"><a href="#cb52-922" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-925"><a href="#cb52-925" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-926"><a href="#cb52-926" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: confusion-matrix</span></span>
-<span id="cb52-927"><a href="#cb52-927" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-928"><a href="#cb52-928" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-929"><a href="#cb52-929" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-930"><a href="#cb52-930" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(</span>
-<span id="cb52-931"><a href="#cb52-931" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-932"><a href="#cb52-932" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class</span>
-<span id="cb52-933"><a href="#cb52-933" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-934"><a href="#cb52-934" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"heatmap"</span>) <span class="sc">+</span></span>
-<span id="cb52-935"><a href="#cb52-935" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Confusion Matrix: Random Forest (Test Set)"</span>)</span>
-<span id="cb52-936"><a href="#cb52-936" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-937"><a href="#cb52-937" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-938"><a href="#cb52-938" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: Increasing number of trees in our forest: Confusion Matrix"}</span>
+<span id="cb52-917"><a href="#cb52-917" aria-hidden="true" tabindex="-1"></a><span class="fu">### Confusion Matrix {#sec-confmat}</span></span>
+<span id="cb52-918"><a href="#cb52-918" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-919"><a href="#cb52-919" aria-hidden="true" tabindex="-1"></a>We can also evaluate the confusion matrix (<span class="in">`conf_mat()`</span>), where rows are</span>
+<span id="cb52-920"><a href="#cb52-920" aria-hidden="true" tabindex="-1"></a>our "truth" (the strain in <span class="in">`noisy_dosage`</span>; <span class="in">`truth = mouse_strain`</span>) and</span>
+<span id="cb52-921"><a href="#cb52-921" aria-hidden="true" tabindex="-1"></a>columns are the "predictions" (the predicted strain;</span>
+<span id="cb52-922"><a href="#cb52-922" aria-hidden="true" tabindex="-1"></a><span class="in">`estimate = .pred_class`</span>). Diagonal cells are correct predictions, while</span>
+<span id="cb52-923"><a href="#cb52-923" aria-hidden="true" tabindex="-1"></a>off-diagonal cells are misclassifications.</span>
+<span id="cb52-924"><a href="#cb52-924" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-927"><a href="#cb52-927" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-928"><a href="#cb52-928" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: confusion-matrix</span></span>
+<span id="cb52-929"><a href="#cb52-929" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-930"><a href="#cb52-930" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-931"><a href="#cb52-931" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-932"><a href="#cb52-932" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(</span>
+<span id="cb52-933"><a href="#cb52-933" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-934"><a href="#cb52-934" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class</span>
+<span id="cb52-935"><a href="#cb52-935" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb52-936"><a href="#cb52-936" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"heatmap"</span>) <span class="sc">+</span></span>
+<span id="cb52-937"><a href="#cb52-937" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Confusion Matrix: Random Forest (Test Set)"</span>)</span>
+<span id="cb52-938"><a href="#cb52-938" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-939"><a href="#cb52-939" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-940"><a href="#cb52-940" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`rf_trees_fit`</span> fitted model with 5,000 trees instead of 500 </span>
-<span id="cb52-941"><a href="#cb52-941" aria-hidden="true" tabindex="-1"></a>trees in <span class="in">`final_fit`</span>, now evaluate the confusion matrix. How does this </span>
-<span id="cb52-942"><a href="#cb52-942" aria-hidden="true" tabindex="-1"></a>impact the confusion matrix results? </span>
-<span id="cb52-943"><a href="#cb52-943" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-944"><a href="#cb52-944" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-940"><a href="#cb52-940" aria-hidden="true" tabindex="-1"></a>::: {.callout-important title="Practice exercise: Increasing number of trees in our forest: Confusion Matrix"}</span>
+<span id="cb52-941"><a href="#cb52-941" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-942"><a href="#cb52-942" aria-hidden="true" tabindex="-1"></a>Using the <span class="in">`rf_trees_fit`</span> fitted model with 5,000 trees instead of 500 </span>
+<span id="cb52-943"><a href="#cb52-943" aria-hidden="true" tabindex="-1"></a>trees in <span class="in">`final_fit`</span>, now evaluate the confusion matrix. How does this </span>
+<span id="cb52-944"><a href="#cb52-944" aria-hidden="true" tabindex="-1"></a>impact the confusion matrix results? </span>
 <span id="cb52-945"><a href="#cb52-945" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-946"><a href="#cb52-946" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-946"><a href="#cb52-946" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-947"><a href="#cb52-947" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-950"><a href="#cb52-950" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-951"><a href="#cb52-951" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: compare-with-more-trees-4</span></span>
-<span id="cb52-952"><a href="#cb52-952" aria-hidden="true" tabindex="-1"></a>rf_trees_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-953"><a href="#cb52-953" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-954"><a href="#cb52-954" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(</span>
-<span id="cb52-955"><a href="#cb52-955" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-956"><a href="#cb52-956" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class</span>
-<span id="cb52-957"><a href="#cb52-957" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb52-958"><a href="#cb52-958" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"heatmap"</span>)</span>
-<span id="cb52-959"><a href="#cb52-959" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-960"><a href="#cb52-960" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-961"><a href="#cb52-961" aria-hidden="true" tabindex="-1"></a>The confusion matrix is essentially unchanged: with 5,000 trees we see</span>
-<span id="cb52-962"><a href="#cb52-962" aria-hidden="true" tabindex="-1"></a>the same pattern of (mostly diagonal) correct predictions and the same</span>
-<span id="cb52-963"><a href="#cb52-963" aria-hidden="true" tabindex="-1"></a>small number of misclassifications as with 500 trees. Both models</span>
-<span id="cb52-964"><a href="#cb52-964" aria-hidden="true" tabindex="-1"></a>correctly identify all 29 Black6 mice, while the few errors remain</span>
-<span id="cb52-965"><a href="#cb52-965" aria-hidden="true" tabindex="-1"></a>concentrated between BALBc and CD1 — the two strains whose predicted</span>
-<span id="cb52-966"><a href="#cb52-966" aria-hidden="true" tabindex="-1"></a>probabilities overlapped most in our earlier plots.</span>
-<span id="cb52-967"><a href="#cb52-967" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-968"><a href="#cb52-968" aria-hidden="true" tabindex="-1"></a>This illustrates an important property of random forests: performance</span>
-<span id="cb52-969"><a href="#cb52-969" aria-hidden="true" tabindex="-1"></a>generally does not keep improving as we add more trees. Each tree in</span>
-<span id="cb52-970"><a href="#cb52-970" aria-hidden="true" tabindex="-1"></a>the forest is built slightly differently, and once we have enough</span>
-<span id="cb52-971"><a href="#cb52-971" aria-hidden="true" tabindex="-1"></a>trees, averaging their predictions together gives a stable result —</span>
-<span id="cb52-972"><a href="#cb52-972" aria-hidden="true" tabindex="-1"></a>extra trees just average into more of the same rather than adding new</span>
-<span id="cb52-973"><a href="#cb52-973" aria-hidden="true" tabindex="-1"></a>information. Increasing <span class="in">`trees`</span> from 500 to 5,000</span>
-<span id="cb52-974"><a href="#cb52-974" aria-hidden="true" tabindex="-1"></a>therefore has little effect on the confusion matrix (here the overall</span>
-<span id="cb52-975"><a href="#cb52-975" aria-hidden="true" tabindex="-1"></a>accuracy is identical, with AUROC increasing only marginally from</span>
-<span id="cb52-976"><a href="#cb52-976" aria-hidden="true" tabindex="-1"></a>~0.969 to ~0.971), while costing roughly 10x the computation time.</span>
-<span id="cb52-977"><a href="#cb52-977" aria-hidden="true" tabindex="-1"></a>Random forests also do not overfit as more trees are added, so in</span>
-<span id="cb52-978"><a href="#cb52-978" aria-hidden="true" tabindex="-1"></a>practice we choose a number of trees that is "large enough" for the</span>
-<span id="cb52-979"><a href="#cb52-979" aria-hidden="true" tabindex="-1"></a>predictions to stabilise, rather than tuning it like other</span>
-<span id="cb52-980"><a href="#cb52-980" aria-hidden="true" tabindex="-1"></a>hyperparameters.</span>
-<span id="cb52-981"><a href="#cb52-981" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-982"><a href="#cb52-982" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-948"><a href="#cb52-948" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-949"><a href="#cb52-949" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-952"><a href="#cb52-952" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-953"><a href="#cb52-953" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: compare-with-more-trees-4</span></span>
+<span id="cb52-954"><a href="#cb52-954" aria-hidden="true" tabindex="-1"></a>rf_trees_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-955"><a href="#cb52-955" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-956"><a href="#cb52-956" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(</span>
+<span id="cb52-957"><a href="#cb52-957" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-958"><a href="#cb52-958" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> .pred_class</span>
+<span id="cb52-959"><a href="#cb52-959" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb52-960"><a href="#cb52-960" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"heatmap"</span>)</span>
+<span id="cb52-961"><a href="#cb52-961" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-962"><a href="#cb52-962" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-963"><a href="#cb52-963" aria-hidden="true" tabindex="-1"></a>The confusion matrix is essentially unchanged: with 5,000 trees we see</span>
+<span id="cb52-964"><a href="#cb52-964" aria-hidden="true" tabindex="-1"></a>the same pattern of (mostly diagonal) correct predictions and the same</span>
+<span id="cb52-965"><a href="#cb52-965" aria-hidden="true" tabindex="-1"></a>small number of misclassifications as with 500 trees. Both models</span>
+<span id="cb52-966"><a href="#cb52-966" aria-hidden="true" tabindex="-1"></a>correctly identify all 29 Black6 mice, while the few errors remain</span>
+<span id="cb52-967"><a href="#cb52-967" aria-hidden="true" tabindex="-1"></a>concentrated between BALBc and CD1 — the two strains whose predicted</span>
+<span id="cb52-968"><a href="#cb52-968" aria-hidden="true" tabindex="-1"></a>probabilities overlapped most in our earlier plots.</span>
+<span id="cb52-969"><a href="#cb52-969" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-970"><a href="#cb52-970" aria-hidden="true" tabindex="-1"></a>This illustrates an important property of random forests: performance</span>
+<span id="cb52-971"><a href="#cb52-971" aria-hidden="true" tabindex="-1"></a>generally does not keep improving as we add more trees. Each tree in</span>
+<span id="cb52-972"><a href="#cb52-972" aria-hidden="true" tabindex="-1"></a>the forest is built slightly differently, and once we have enough</span>
+<span id="cb52-973"><a href="#cb52-973" aria-hidden="true" tabindex="-1"></a>trees, averaging their predictions together gives a stable result —</span>
+<span id="cb52-974"><a href="#cb52-974" aria-hidden="true" tabindex="-1"></a>extra trees just average into more of the same rather than adding new</span>
+<span id="cb52-975"><a href="#cb52-975" aria-hidden="true" tabindex="-1"></a>information. Increasing <span class="in">`trees`</span> from 500 to 5,000</span>
+<span id="cb52-976"><a href="#cb52-976" aria-hidden="true" tabindex="-1"></a>therefore has little effect on the confusion matrix (here the overall</span>
+<span id="cb52-977"><a href="#cb52-977" aria-hidden="true" tabindex="-1"></a>accuracy is identical, with AUROC increasing only marginally from</span>
+<span id="cb52-978"><a href="#cb52-978" aria-hidden="true" tabindex="-1"></a>~0.969 to ~0.971), while costing roughly 10x the computation time.</span>
+<span id="cb52-979"><a href="#cb52-979" aria-hidden="true" tabindex="-1"></a>Random forests also do not overfit as more trees are added, so in</span>
+<span id="cb52-980"><a href="#cb52-980" aria-hidden="true" tabindex="-1"></a>practice we choose a number of trees that is "large enough" for the</span>
+<span id="cb52-981"><a href="#cb52-981" aria-hidden="true" tabindex="-1"></a>predictions to stabilise, rather than tuning it like other</span>
+<span id="cb52-982"><a href="#cb52-982" aria-hidden="true" tabindex="-1"></a>hyperparameters.</span>
 <span id="cb52-983"><a href="#cb52-983" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-984"><a href="#cb52-984" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-984"><a href="#cb52-984" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-985"><a href="#cb52-985" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-986"><a href="#cb52-986" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Try it yourself"}</span>
-<span id="cb52-987"><a href="#cb52-987" aria-hidden="true" tabindex="-1"></a>Using <span class="in">`collect_predictions(final_fit)`</span>, compute the sensitivity,</span>
-<span id="cb52-988"><a href="#cb52-988" aria-hidden="true" tabindex="-1"></a>specificity, positive predictive value (PPV) and negative predictive</span>
-<span id="cb52-989"><a href="#cb52-989" aria-hidden="true" tabindex="-1"></a>value (NPV) for each strain class (see the <span class="in">`yardstick`</span> package</span>
-<span id="cb52-990"><a href="#cb52-990" aria-hidden="true" tabindex="-1"></a>functions: <span class="in">`sens()`</span>, <span class="in">`spec()`</span>, <span class="in">`ppv()`</span>, <span class="in">`npv()`</span>). The tidymodels</span>
-<span id="cb52-991"><a href="#cb52-991" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">cross-validation tutorial</span><span class="co">](https://www.tidymodels.org/start/resampling/)</span></span>
-<span id="cb52-992"><a href="#cb52-992" aria-hidden="true" tabindex="-1"></a>works through a similar calculation in detail if you'd like a worked</span>
-<span id="cb52-993"><a href="#cb52-993" aria-hidden="true" tabindex="-1"></a>example.</span>
-<span id="cb52-994"><a href="#cb52-994" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-995"><a href="#cb52-995" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-986"><a href="#cb52-986" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-987"><a href="#cb52-987" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-988"><a href="#cb52-988" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Try it yourself"}</span>
+<span id="cb52-989"><a href="#cb52-989" aria-hidden="true" tabindex="-1"></a>Using <span class="in">`collect_predictions(final_fit)`</span>, compute the sensitivity,</span>
+<span id="cb52-990"><a href="#cb52-990" aria-hidden="true" tabindex="-1"></a>specificity, positive predictive value (PPV) and negative predictive</span>
+<span id="cb52-991"><a href="#cb52-991" aria-hidden="true" tabindex="-1"></a>value (NPV) for each strain class (see the <span class="in">`yardstick`</span> package</span>
+<span id="cb52-992"><a href="#cb52-992" aria-hidden="true" tabindex="-1"></a>functions: <span class="in">`sens()`</span>, <span class="in">`spec()`</span>, <span class="in">`ppv()`</span>, <span class="in">`npv()`</span>). The tidymodels</span>
+<span id="cb52-993"><a href="#cb52-993" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">cross-validation tutorial</span><span class="co">](https://www.tidymodels.org/start/resampling/)</span></span>
+<span id="cb52-994"><a href="#cb52-994" aria-hidden="true" tabindex="-1"></a>works through a similar calculation in detail if you'd like a worked</span>
+<span id="cb52-995"><a href="#cb52-995" aria-hidden="true" tabindex="-1"></a>example.</span>
 <span id="cb52-996"><a href="#cb52-996" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-997"><a href="#cb52-997" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-997"><a href="#cb52-997" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-998"><a href="#cb52-998" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1001"><a href="#cb52-1001" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1002"><a href="#cb52-1002" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: sens-spec-ppv-npv</span></span>
-<span id="cb52-1003"><a href="#cb52-1003" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-1004"><a href="#cb52-1004" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>()</span>
-<span id="cb52-1005"><a href="#cb52-1005" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1006"><a href="#cb52-1006" aria-hidden="true" tabindex="-1"></a><span class="co"># Sensitivity (recall): proportion of actual positives correctly identified</span></span>
-<span id="cb52-1007"><a href="#cb52-1007" aria-hidden="true" tabindex="-1"></a><span class="fu">sens</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
-<span id="cb52-1008"><a href="#cb52-1008" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1009"><a href="#cb52-1009" aria-hidden="true" tabindex="-1"></a><span class="co"># Specificity: proportion of actual negatives correctly identified</span></span>
-<span id="cb52-1010"><a href="#cb52-1010" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
-<span id="cb52-1011"><a href="#cb52-1011" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1012"><a href="#cb52-1012" aria-hidden="true" tabindex="-1"></a><span class="co"># Positive predictive value (precision): proportion of positive predictions that are correct</span></span>
-<span id="cb52-1013"><a href="#cb52-1013" aria-hidden="true" tabindex="-1"></a><span class="fu">ppv</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
-<span id="cb52-1014"><a href="#cb52-1014" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1015"><a href="#cb52-1015" aria-hidden="true" tabindex="-1"></a><span class="co"># Negative predictive value: proportion of negative predictions that are correct</span></span>
-<span id="cb52-1016"><a href="#cb52-1016" aria-hidden="true" tabindex="-1"></a><span class="fu">npv</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
-<span id="cb52-1017"><a href="#cb52-1017" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1018"><a href="#cb52-1018" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1019"><a href="#cb52-1019" aria-hidden="true" tabindex="-1"></a>With more than two classes, these functions compute each metric using a</span>
-<span id="cb52-1020"><a href="#cb52-1020" aria-hidden="true" tabindex="-1"></a>"one-vs-rest" approach for every class and then return the</span>
-<span id="cb52-1021"><a href="#cb52-1021" aria-hidden="true" tabindex="-1"></a>macro-averaged result (the default <span class="in">`estimator = "macro"`</span>). You can also</span>
-<span id="cb52-1022"><a href="#cb52-1022" aria-hidden="true" tabindex="-1"></a>compute all four metrics at once with <span class="in">`metric_set()`</span>:</span>
-<span id="cb52-1023"><a href="#cb52-1023" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1026"><a href="#cb52-1026" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1027"><a href="#cb52-1027" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: all-class-metrics</span></span>
-<span id="cb52-1028"><a href="#cb52-1028" aria-hidden="true" tabindex="-1"></a>class_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(sens, spec, ppv, npv)</span>
-<span id="cb52-1029"><a href="#cb52-1029" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1030"><a href="#cb52-1030" aria-hidden="true" tabindex="-1"></a><span class="fu">class_metrics</span>(</span>
-<span id="cb52-1031"><a href="#cb52-1031" aria-hidden="true" tabindex="-1"></a>  preds,</span>
-<span id="cb52-1032"><a href="#cb52-1032" aria-hidden="true" tabindex="-1"></a>  <span class="at">truth =</span> mouse_strain,</span>
-<span id="cb52-1033"><a href="#cb52-1033" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> .pred_class</span>
-<span id="cb52-1034"><a href="#cb52-1034" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-1035"><a href="#cb52-1035" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1036"><a href="#cb52-1036" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1037"><a href="#cb52-1037" aria-hidden="true" tabindex="-1"></a>Here, all four metrics are very high, consistent with the</span>
-<span id="cb52-1038"><a href="#cb52-1038" aria-hidden="true" tabindex="-1"></a>nearly-diagonal confusion matrix we saw earlier.</span>
-<span id="cb52-1039"><a href="#cb52-1039" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1040"><a href="#cb52-1040" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-1041"><a href="#cb52-1041" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-1042"><a href="#cb52-1042" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1043"><a href="#cb52-1043" aria-hidden="true" tabindex="-1"></a>::::::::: {.callout-important title="Test Your Knowledge"}</span>
-<span id="cb52-1044"><a href="#cb52-1044" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
-<span id="cb52-1045"><a href="#cb52-1045" aria-hidden="true" tabindex="-1"></a>A classifier has an AUROC of 0.90 but an AUPRC of only 0.30. What does</span>
-<span id="cb52-1046"><a href="#cb52-1046" aria-hidden="true" tabindex="-1"></a>this most likely indicate?</span>
-<span id="cb52-1047"><a href="#cb52-1047" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1048"><a href="#cb52-1048" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
-<span id="cb52-1049"><a href="#cb52-1049" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-1050"><a href="#cb52-1050" aria-hidden="true" tabindex="-1"></a>The model is performing extremely well overall, with no concerns</span>
-<span id="cb52-1051"><a href="#cb52-1051" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-1052"><a href="#cb52-1052" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1053"><a href="#cb52-1053" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
-<span id="cb52-1054"><a href="#cb52-1054" aria-hidden="true" tabindex="-1"></a>The classes in the dataset are likely imbalanced — AUPRC is more</span>
-<span id="cb52-1055"><a href="#cb52-1055" aria-hidden="true" tabindex="-1"></a>sensitive to class imbalance than AUROC</span>
-<span id="cb52-1056"><a href="#cb52-1056" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-1057"><a href="#cb52-1057" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1058"><a href="#cb52-1058" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-1059"><a href="#cb52-1059" aria-hidden="true" tabindex="-1"></a>AUPRC and AUROC should always be equal, so this must be a coding error</span>
-<span id="cb52-1060"><a href="#cb52-1060" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-1061"><a href="#cb52-1061" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1062"><a href="#cb52-1062" aria-hidden="true" tabindex="-1"></a>::: choice</span>
-<span id="cb52-1063"><a href="#cb52-1063" aria-hidden="true" tabindex="-1"></a>The confusion matrix is no longer needed once you have an AUROC value</span>
-<span id="cb52-1064"><a href="#cb52-1064" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb52-1065"><a href="#cb52-1065" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1066"><a href="#cb52-1066" aria-hidden="true" tabindex="-1"></a>:::::::</span>
-<span id="cb52-1067"><a href="#cb52-1067" aria-hidden="true" tabindex="-1"></a>::::::::</span>
-<span id="cb52-1068"><a href="#cb52-1068" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1069"><a href="#cb52-1069" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-999"><a href="#cb52-999" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solution<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-1000"><a href="#cb52-1000" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1003"><a href="#cb52-1003" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1004"><a href="#cb52-1004" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: sens-spec-ppv-npv</span></span>
+<span id="cb52-1005"><a href="#cb52-1005" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-1006"><a href="#cb52-1006" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect_predictions</span>()</span>
+<span id="cb52-1007"><a href="#cb52-1007" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1008"><a href="#cb52-1008" aria-hidden="true" tabindex="-1"></a><span class="co"># Sensitivity (recall): proportion of actual positives correctly identified</span></span>
+<span id="cb52-1009"><a href="#cb52-1009" aria-hidden="true" tabindex="-1"></a><span class="fu">sens</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb52-1010"><a href="#cb52-1010" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1011"><a href="#cb52-1011" aria-hidden="true" tabindex="-1"></a><span class="co"># Specificity: proportion of actual negatives correctly identified</span></span>
+<span id="cb52-1012"><a href="#cb52-1012" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb52-1013"><a href="#cb52-1013" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1014"><a href="#cb52-1014" aria-hidden="true" tabindex="-1"></a><span class="co"># Positive predictive value (precision): proportion of positive predictions that are correct</span></span>
+<span id="cb52-1015"><a href="#cb52-1015" aria-hidden="true" tabindex="-1"></a><span class="fu">ppv</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb52-1016"><a href="#cb52-1016" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1017"><a href="#cb52-1017" aria-hidden="true" tabindex="-1"></a><span class="co"># Negative predictive value: proportion of negative predictions that are correct</span></span>
+<span id="cb52-1018"><a href="#cb52-1018" aria-hidden="true" tabindex="-1"></a><span class="fu">npv</span>(preds, <span class="at">truth =</span> mouse_strain, <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb52-1019"><a href="#cb52-1019" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-1020"><a href="#cb52-1020" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1021"><a href="#cb52-1021" aria-hidden="true" tabindex="-1"></a>With more than two classes, these functions compute each metric using a</span>
+<span id="cb52-1022"><a href="#cb52-1022" aria-hidden="true" tabindex="-1"></a>"one-vs-rest" approach for every class and then return the</span>
+<span id="cb52-1023"><a href="#cb52-1023" aria-hidden="true" tabindex="-1"></a>macro-averaged result (the default <span class="in">`estimator = "macro"`</span>). You can also</span>
+<span id="cb52-1024"><a href="#cb52-1024" aria-hidden="true" tabindex="-1"></a>compute all four metrics at once with <span class="in">`metric_set()`</span>:</span>
+<span id="cb52-1025"><a href="#cb52-1025" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1028"><a href="#cb52-1028" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1029"><a href="#cb52-1029" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: all-class-metrics</span></span>
+<span id="cb52-1030"><a href="#cb52-1030" aria-hidden="true" tabindex="-1"></a>class_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(sens, spec, ppv, npv)</span>
+<span id="cb52-1031"><a href="#cb52-1031" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1032"><a href="#cb52-1032" aria-hidden="true" tabindex="-1"></a><span class="fu">class_metrics</span>(</span>
+<span id="cb52-1033"><a href="#cb52-1033" aria-hidden="true" tabindex="-1"></a>  preds,</span>
+<span id="cb52-1034"><a href="#cb52-1034" aria-hidden="true" tabindex="-1"></a>  <span class="at">truth =</span> mouse_strain,</span>
+<span id="cb52-1035"><a href="#cb52-1035" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> .pred_class</span>
+<span id="cb52-1036"><a href="#cb52-1036" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-1037"><a href="#cb52-1037" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-1038"><a href="#cb52-1038" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1039"><a href="#cb52-1039" aria-hidden="true" tabindex="-1"></a>Here, all four metrics are very high, consistent with the</span>
+<span id="cb52-1040"><a href="#cb52-1040" aria-hidden="true" tabindex="-1"></a>nearly-diagonal confusion matrix we saw earlier.</span>
+<span id="cb52-1041"><a href="#cb52-1041" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1042"><a href="#cb52-1042" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-1043"><a href="#cb52-1043" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-1044"><a href="#cb52-1044" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1045"><a href="#cb52-1045" aria-hidden="true" tabindex="-1"></a>::::::::: {.callout-important title="Test Your Knowledge"}</span>
+<span id="cb52-1046"><a href="#cb52-1046" aria-hidden="true" tabindex="-1"></a>:::::::: question</span>
+<span id="cb52-1047"><a href="#cb52-1047" aria-hidden="true" tabindex="-1"></a>A classifier has an AUROC of 0.90 but an AUPRC of only 0.30. What does</span>
+<span id="cb52-1048"><a href="#cb52-1048" aria-hidden="true" tabindex="-1"></a>this most likely indicate?</span>
+<span id="cb52-1049"><a href="#cb52-1049" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1050"><a href="#cb52-1050" aria-hidden="true" tabindex="-1"></a>::::::: choices</span>
+<span id="cb52-1051"><a href="#cb52-1051" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-1052"><a href="#cb52-1052" aria-hidden="true" tabindex="-1"></a>The model is performing extremely well overall, with no concerns</span>
+<span id="cb52-1053"><a href="#cb52-1053" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-1054"><a href="#cb52-1054" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1055"><a href="#cb52-1055" aria-hidden="true" tabindex="-1"></a>::: {.choice .correct-choice}</span>
+<span id="cb52-1056"><a href="#cb52-1056" aria-hidden="true" tabindex="-1"></a>The classes in the dataset are likely imbalanced — AUPRC is more</span>
+<span id="cb52-1057"><a href="#cb52-1057" aria-hidden="true" tabindex="-1"></a>sensitive to class imbalance than AUROC</span>
+<span id="cb52-1058"><a href="#cb52-1058" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-1059"><a href="#cb52-1059" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1060"><a href="#cb52-1060" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-1061"><a href="#cb52-1061" aria-hidden="true" tabindex="-1"></a>AUPRC and AUROC should always be equal, so this must be a coding error</span>
+<span id="cb52-1062"><a href="#cb52-1062" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-1063"><a href="#cb52-1063" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1064"><a href="#cb52-1064" aria-hidden="true" tabindex="-1"></a>::: choice</span>
+<span id="cb52-1065"><a href="#cb52-1065" aria-hidden="true" tabindex="-1"></a>The confusion matrix is no longer needed once you have an AUROC value</span>
+<span id="cb52-1066"><a href="#cb52-1066" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb52-1067"><a href="#cb52-1067" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1068"><a href="#cb52-1068" aria-hidden="true" tabindex="-1"></a>:::::::</span>
+<span id="cb52-1069"><a href="#cb52-1069" aria-hidden="true" tabindex="-1"></a>::::::::</span>
 <span id="cb52-1070"><a href="#cb52-1070" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1071"><a href="#cb52-1071" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb52-1071"><a href="#cb52-1071" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="dt">&gt;</span></span>
 <span id="cb52-1072"><a href="#cb52-1072" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1073"><a href="#cb52-1073" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-1073"><a href="#cb52-1073" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Solutions<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
 <span id="cb52-1074"><a href="#cb52-1074" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1075"><a href="#cb52-1075" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>A high AUROC alongside a low AUPRC is a red flag, not a sign of</span>
-<span id="cb52-1076"><a href="#cb52-1076" aria-hidden="true" tabindex="-1"></a>   strong performance — it usually means the model looks good on paper</span>
-<span id="cb52-1077"><a href="#cb52-1077" aria-hidden="true" tabindex="-1"></a>   but struggles with the minority class.</span>
-<span id="cb52-1078"><a href="#cb52-1078" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Correct! As shown in the lecture's imbalanced-data example, AUROC</span>
-<span id="cb52-1079"><a href="#cb52-1079" aria-hidden="true" tabindex="-1"></a>   can remain high under class imbalance while AUPRC drops sharply,</span>
-<span id="cb52-1080"><a href="#cb52-1080" aria-hidden="true" tabindex="-1"></a>   because AUPRC is sensitive to how rare the positive class is.</span>
-<span id="cb52-1081"><a href="#cb52-1081" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>These two metrics measure different trade-offs</span>
-<span id="cb52-1082"><a href="#cb52-1082" aria-hidden="true" tabindex="-1"></a>   (sensitivity/specificity vs precision/recall) and are not expected to</span>
-<span id="cb52-1083"><a href="#cb52-1083" aria-hidden="true" tabindex="-1"></a>   match.</span>
-<span id="cb52-1084"><a href="#cb52-1084" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>The confusion matrix, AUROC and AUPRC each reveal different aspects</span>
-<span id="cb52-1085"><a href="#cb52-1085" aria-hidden="true" tabindex="-1"></a>   of performance and are best used together.</span>
-<span id="cb52-1086"><a href="#cb52-1086" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1087"><a href="#cb52-1087" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-1075"><a href="#cb52-1075" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-1076"><a href="#cb52-1076" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1077"><a href="#cb52-1077" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>A high AUROC alongside a low AUPRC is a red flag, not a sign of</span>
+<span id="cb52-1078"><a href="#cb52-1078" aria-hidden="true" tabindex="-1"></a>   strong performance — it usually means the model looks good on paper</span>
+<span id="cb52-1079"><a href="#cb52-1079" aria-hidden="true" tabindex="-1"></a>   but struggles with the minority class.</span>
+<span id="cb52-1080"><a href="#cb52-1080" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Correct! As shown in the lecture's imbalanced-data example, AUROC</span>
+<span id="cb52-1081"><a href="#cb52-1081" aria-hidden="true" tabindex="-1"></a>   can remain high under class imbalance while AUPRC drops sharply,</span>
+<span id="cb52-1082"><a href="#cb52-1082" aria-hidden="true" tabindex="-1"></a>   because AUPRC is sensitive to how rare the positive class is.</span>
+<span id="cb52-1083"><a href="#cb52-1083" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>These two metrics measure different trade-offs</span>
+<span id="cb52-1084"><a href="#cb52-1084" aria-hidden="true" tabindex="-1"></a>   (sensitivity/specificity vs precision/recall) and are not expected to</span>
+<span id="cb52-1085"><a href="#cb52-1085" aria-hidden="true" tabindex="-1"></a>   match.</span>
+<span id="cb52-1086"><a href="#cb52-1086" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>The confusion matrix, AUROC and AUPRC each reveal different aspects</span>
+<span id="cb52-1087"><a href="#cb52-1087" aria-hidden="true" tabindex="-1"></a>   of performance and are best used together.</span>
 <span id="cb52-1088"><a href="#cb52-1088" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1089"><a href="#cb52-1089" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb52-1090"><a href="#cb52-1090" aria-hidden="true" tabindex="-1"></a>:::::::::</span>
-<span id="cb52-1091"><a href="#cb52-1091" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1092"><a href="#cb52-1092" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variable Importance Plot {#sec-var}</span></span>
+<span id="cb52-1089"><a href="#cb52-1089" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb52-1090"><a href="#cb52-1090" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1091"><a href="#cb52-1091" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb52-1092"><a href="#cb52-1092" aria-hidden="true" tabindex="-1"></a>:::::::::</span>
 <span id="cb52-1093"><a href="#cb52-1093" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1094"><a href="#cb52-1094" aria-hidden="true" tabindex="-1"></a>You may be interested in understanding which predictor variable was the</span>
-<span id="cb52-1095"><a href="#cb52-1095" aria-hidden="true" tabindex="-1"></a>most important in informing the final classification prediction. We can</span>
-<span id="cb52-1096"><a href="#cb52-1096" aria-hidden="true" tabindex="-1"></a>do this by extracting the fitted model (<span class="in">`extract_fit_parsnip()`</span>) and</span>
-<span id="cb52-1097"><a href="#cb52-1097" aria-hidden="true" tabindex="-1"></a>plotting variable importance using the <span class="in">`vip`</span> R package.</span>
-<span id="cb52-1098"><a href="#cb52-1098" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1099"><a href="#cb52-1099" aria-hidden="true" tabindex="-1"></a>Importance is measured by mean decrease in node impurity (Gini</span>
-<span id="cb52-1100"><a href="#cb52-1100" aria-hidden="true" tabindex="-1"></a>impurity), where higher values indicate a greater contribution to</span>
-<span id="cb52-1101"><a href="#cb52-1101" aria-hidden="true" tabindex="-1"></a>classification decisions. This tells us which physiological features</span>
-<span id="cb52-1102"><a href="#cb52-1102" aria-hidden="true" tabindex="-1"></a>best distinguish strains.</span>
-<span id="cb52-1103"><a href="#cb52-1103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1106"><a href="#cb52-1106" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1107"><a href="#cb52-1107" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: variable-importance</span></span>
-<span id="cb52-1108"><a href="#cb52-1108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1109"><a href="#cb52-1109" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
-<span id="cb52-1110"><a href="#cb52-1110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-1111"><a href="#cb52-1111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>() <span class="sc">+</span></span>
-<span id="cb52-1112"><a href="#cb52-1112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Variable Importance: Random Forest"</span>)</span>
-<span id="cb52-1113"><a href="#cb52-1113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1114"><a href="#cb52-1114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1115"><a href="#cb52-1115" aria-hidden="true" tabindex="-1"></a>Here we can see that <span class="in">`initial_weight_g`</span> is the most important variable</span>
-<span id="cb52-1116"><a href="#cb52-1116" aria-hidden="true" tabindex="-1"></a>that informs our random forest, and <span class="in">`sex`</span> as the least informative</span>
-<span id="cb52-1117"><a href="#cb52-1117" aria-hidden="true" tabindex="-1"></a>variable!</span>
-<span id="cb52-1118"><a href="#cb52-1118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1119"><a href="#cb52-1119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Predict Strain for the Synthetic Unlabelled Dataset {#sec-apply-models}</span></span>
+<span id="cb52-1094"><a href="#cb52-1094" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variable Importance Plot {#sec-var}</span></span>
+<span id="cb52-1095"><a href="#cb52-1095" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1096"><a href="#cb52-1096" aria-hidden="true" tabindex="-1"></a>You may be interested in understanding which predictor variable was the</span>
+<span id="cb52-1097"><a href="#cb52-1097" aria-hidden="true" tabindex="-1"></a>most important in informing the final classification prediction. We can</span>
+<span id="cb52-1098"><a href="#cb52-1098" aria-hidden="true" tabindex="-1"></a>do this by extracting the fitted model (<span class="in">`extract_fit_parsnip()`</span>) and</span>
+<span id="cb52-1099"><a href="#cb52-1099" aria-hidden="true" tabindex="-1"></a>plotting variable importance using the <span class="in">`vip`</span> R package.</span>
+<span id="cb52-1100"><a href="#cb52-1100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1101"><a href="#cb52-1101" aria-hidden="true" tabindex="-1"></a>Importance is measured by mean decrease in node impurity (Gini</span>
+<span id="cb52-1102"><a href="#cb52-1102" aria-hidden="true" tabindex="-1"></a>impurity), where higher values indicate a greater contribution to</span>
+<span id="cb52-1103"><a href="#cb52-1103" aria-hidden="true" tabindex="-1"></a>classification decisions. This tells us which physiological features</span>
+<span id="cb52-1104"><a href="#cb52-1104" aria-hidden="true" tabindex="-1"></a>best distinguish strains.</span>
+<span id="cb52-1105"><a href="#cb52-1105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1108"><a href="#cb52-1108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1109"><a href="#cb52-1109" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: variable-importance</span></span>
+<span id="cb52-1110"><a href="#cb52-1110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1111"><a href="#cb52-1111" aria-hidden="true" tabindex="-1"></a>final_fit <span class="sc">%&gt;%</span></span>
+<span id="cb52-1112"><a href="#cb52-1112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_fit_parsnip</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-1113"><a href="#cb52-1113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vip</span>() <span class="sc">+</span></span>
+<span id="cb52-1114"><a href="#cb52-1114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Variable Importance: Random Forest"</span>)</span>
+<span id="cb52-1115"><a href="#cb52-1115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-1116"><a href="#cb52-1116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1117"><a href="#cb52-1117" aria-hidden="true" tabindex="-1"></a>Here we can see that <span class="in">`initial_weight_g`</span> is the most important variable</span>
+<span id="cb52-1118"><a href="#cb52-1118" aria-hidden="true" tabindex="-1"></a>that informs our random forest, and <span class="in">`sex`</span> as the least informative</span>
+<span id="cb52-1119"><a href="#cb52-1119" aria-hidden="true" tabindex="-1"></a>variable!</span>
 <span id="cb52-1120"><a href="#cb52-1120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1121"><a href="#cb52-1121" aria-hidden="true" tabindex="-1"></a>Now that we have a trained and evaluated model, we can use it to predict</span>
-<span id="cb52-1122"><a href="#cb52-1122" aria-hidden="true" tabindex="-1"></a>on genuinely new data — this is often the ultimate goal of training an</span>
-<span id="cb52-1123"><a href="#cb52-1123" aria-hidden="true" tabindex="-1"></a>ML model.</span>
-<span id="cb52-1124"><a href="#cb52-1124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1125"><a href="#cb52-1125" aria-hidden="true" tabindex="-1"></a>First, let's save our trained model so that we can apply it to this new</span>
-<span id="cb52-1126"><a href="#cb52-1126" aria-hidden="true" tabindex="-1"></a>unseen dataset. </span>
-<span id="cb52-1127"><a href="#cb52-1127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1130"><a href="#cb52-1130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1131"><a href="#cb52-1131" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save-model</span></span>
-<span id="cb52-1132"><a href="#cb52-1132" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
-<span id="cb52-1133"><a href="#cb52-1133" aria-hidden="true" tabindex="-1"></a><span class="co">#| exec: false</span></span>
-<span id="cb52-1134"><a href="#cb52-1134" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(final_fit, <span class="st">"model/dosage.rds"</span>)</span>
-<span id="cb52-1135"><a href="#cb52-1135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1136"><a href="#cb52-1136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1137"><a href="#cb52-1137" aria-hidden="true" tabindex="-1"></a>Now, let's load in our new, unlabelled dataset, <span class="in">`new_dosage`</span>, containing </span>
-<span id="cb52-1138"><a href="#cb52-1138" aria-hidden="true" tabindex="-1"></a>physiological measurements but **no strain labels**.</span>
-<span id="cb52-1139"><a href="#cb52-1139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1140"><a href="#cb52-1140" aria-hidden="true" tabindex="-1"></a>{{&lt; downloadthis data/new_mousezempic_dosage_data.csv dname=new_mousezempic_dosage_data label="Download new data for this session" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data &gt;}}</span>
+<span id="cb52-1121"><a href="#cb52-1121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Predict Strain for the Synthetic Unlabelled Dataset {#sec-apply-models}</span></span>
+<span id="cb52-1122"><a href="#cb52-1122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1123"><a href="#cb52-1123" aria-hidden="true" tabindex="-1"></a>Now that we have a trained and evaluated model, we can use it to predict</span>
+<span id="cb52-1124"><a href="#cb52-1124" aria-hidden="true" tabindex="-1"></a>on genuinely new data — this is often the ultimate goal of training an</span>
+<span id="cb52-1125"><a href="#cb52-1125" aria-hidden="true" tabindex="-1"></a>ML model.</span>
+<span id="cb52-1126"><a href="#cb52-1126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1127"><a href="#cb52-1127" aria-hidden="true" tabindex="-1"></a>First, let's save our trained model so that we can apply it to this new</span>
+<span id="cb52-1128"><a href="#cb52-1128" aria-hidden="true" tabindex="-1"></a>unseen dataset. </span>
+<span id="cb52-1129"><a href="#cb52-1129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1132"><a href="#cb52-1132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1133"><a href="#cb52-1133" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: save-model</span></span>
+<span id="cb52-1134"><a href="#cb52-1134" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb52-1135"><a href="#cb52-1135" aria-hidden="true" tabindex="-1"></a><span class="co">#| exec: false</span></span>
+<span id="cb52-1136"><a href="#cb52-1136" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(final_fit, <span class="st">"model/dosage.rds"</span>)</span>
+<span id="cb52-1137"><a href="#cb52-1137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-1138"><a href="#cb52-1138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1139"><a href="#cb52-1139" aria-hidden="true" tabindex="-1"></a>Now, let's load in our new, unlabelled dataset, <span class="in">`new_dosage`</span>, containing </span>
+<span id="cb52-1140"><a href="#cb52-1140" aria-hidden="true" tabindex="-1"></a>physiological measurements but **no strain labels**.</span>
 <span id="cb52-1141"><a href="#cb52-1141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1142"><a href="#cb52-1142" aria-hidden="true" tabindex="-1"></a>Save into your <span class="in">`data/`</span> directory.</span>
+<span id="cb52-1142"><a href="#cb52-1142" aria-hidden="true" tabindex="-1"></a>{{&lt; downloadthis data/new_mousezempic_dosage_data.csv dname=new_mousezempic_dosage_data label="Download new data for this session" icon=file-earmark-arrow-down type=primary class=data-button id=workshop_data &gt;}}</span>
 <span id="cb52-1143"><a href="#cb52-1143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1146"><a href="#cb52-1146" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1147"><a href="#cb52-1147" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-new-data</span></span>
-<span id="cb52-1148"><a href="#cb52-1148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1149"><a href="#cb52-1149" aria-hidden="true" tabindex="-1"></a>new_dosage <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/new_mousezempic_dosage_data.csv"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb52-1150"><a href="#cb52-1150" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert character columns to factors to match the training data's</span></span>
-<span id="cb52-1151"><a href="#cb52-1151" aria-hidden="true" tabindex="-1"></a>  <span class="co"># column types: step_dummy() in the recipe expects factor predictors</span></span>
-<span id="cb52-1152"><a href="#cb52-1152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
-<span id="cb52-1153"><a href="#cb52-1153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1154"><a href="#cb52-1154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1155"><a href="#cb52-1155" aria-hidden="true" tabindex="-1"></a>Or you can run the code below to download the dataset from a URL: </span>
+<span id="cb52-1144"><a href="#cb52-1144" aria-hidden="true" tabindex="-1"></a>Save into your <span class="in">`data/`</span> directory.</span>
+<span id="cb52-1145"><a href="#cb52-1145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1148"><a href="#cb52-1148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1149"><a href="#cb52-1149" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-new-data</span></span>
+<span id="cb52-1150"><a href="#cb52-1150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1151"><a href="#cb52-1151" aria-hidden="true" tabindex="-1"></a>new_dosage <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/new_mousezempic_dosage_data.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-1152"><a href="#cb52-1152" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert character columns to factors to match the training data's</span></span>
+<span id="cb52-1153"><a href="#cb52-1153" aria-hidden="true" tabindex="-1"></a>  <span class="co"># column types: step_dummy() in the recipe expects factor predictors</span></span>
+<span id="cb52-1154"><a href="#cb52-1154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<span id="cb52-1155"><a href="#cb52-1155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-1156"><a href="#cb52-1156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1159"><a href="#cb52-1159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1160"><a href="#cb52-1160" aria-hidden="true" tabindex="-1"></a><span class="co">#| exec: false</span></span>
-<span id="cb52-1161"><a href="#cb52-1161" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
-<span id="cb52-1162"><a href="#cb52-1162" aria-hidden="true" tabindex="-1"></a>new_dosage <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb52-1163"><a href="#cb52-1163" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/new_mousezempic_dosage_data.csv"</span></span>
-<span id="cb52-1164"><a href="#cb52-1164" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb52-1165"><a href="#cb52-1165" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert character columns to factors to match the training data's</span></span>
-<span id="cb52-1166"><a href="#cb52-1166" aria-hidden="true" tabindex="-1"></a>  <span class="co"># column types: step_dummy() in the recipe expects factor predictors</span></span>
-<span id="cb52-1167"><a href="#cb52-1167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
-<span id="cb52-1168"><a href="#cb52-1168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1169"><a href="#cb52-1169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1170"><a href="#cb52-1170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1171"><a href="#cb52-1171" aria-hidden="true" tabindex="-1"></a>Because we created this model in our working R session, we can use the </span>
-<span id="cb52-1172"><a href="#cb52-1172" aria-hidden="true" tabindex="-1"></a><span class="in">`extract_workflow()`</span> function on the <span class="in">`final_fit`</span> object to simply extract </span>
-<span id="cb52-1173"><a href="#cb52-1173" aria-hidden="true" tabindex="-1"></a>the workflow and apply it to the dataset: </span>
-<span id="cb52-1174"><a href="#cb52-1174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1177"><a href="#cb52-1177" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1178"><a href="#cb52-1178" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-new-data-extract </span></span>
-<span id="cb52-1179"><a href="#cb52-1179" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the final fitted model from last_fit()</span></span>
-<span id="cb52-1180"><a href="#cb52-1180" aria-hidden="true" tabindex="-1"></a>final_model <span class="ot">&lt;-</span> <span class="fu">extract_workflow</span>(final_fit)</span>
-<span id="cb52-1181"><a href="#cb52-1181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1182"><a href="#cb52-1182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1183"><a href="#cb52-1183" aria-hidden="true" tabindex="-1"></a>But it is often the case where we are applying the model in new R </span>
-<span id="cb52-1184"><a href="#cb52-1184" aria-hidden="true" tabindex="-1"></a>sessions or we give this to a collaborator for them to use. In this case, </span>
-<span id="cb52-1185"><a href="#cb52-1185" aria-hidden="true" tabindex="-1"></a>we will use our <span class="in">`model/dosage.rds`</span> file that we saved and then the </span>
-<span id="cb52-1186"><a href="#cb52-1186" aria-hidden="true" tabindex="-1"></a><span class="in">`extract_workflow()`</span> function: </span>
-<span id="cb52-1187"><a href="#cb52-1187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1190"><a href="#cb52-1190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1191"><a href="#cb52-1191" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-new-data-rds</span></span>
-<span id="cb52-1192"><a href="#cb52-1192" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb52-1193"><a href="#cb52-1193" aria-hidden="true" tabindex="-1"></a><span class="co">#| exec: false </span></span>
-<span id="cb52-1194"><a href="#cb52-1194" aria-hidden="true" tabindex="-1"></a>loaded_model <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"model/dosage.rds"</span>)</span>
-<span id="cb52-1195"><a href="#cb52-1195" aria-hidden="true" tabindex="-1"></a>final_model <span class="ot">&lt;-</span> <span class="fu">extract_workflow</span>(loaded_model)</span>
-<span id="cb52-1196"><a href="#cb52-1196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1197"><a href="#cb52-1197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1198"><a href="#cb52-1198" aria-hidden="true" tabindex="-1"></a>Now let's apply the model to our new dataset <span class="in">`new_dosage`</span>. </span>
+<span id="cb52-1157"><a href="#cb52-1157" aria-hidden="true" tabindex="-1"></a>Or you can run the code below to download the dataset from a URL: </span>
+<span id="cb52-1158"><a href="#cb52-1158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1161"><a href="#cb52-1161" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1162"><a href="#cb52-1162" aria-hidden="true" tabindex="-1"></a><span class="co">#| exec: false</span></span>
+<span id="cb52-1163"><a href="#cb52-1163" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb52-1164"><a href="#cb52-1164" aria-hidden="true" tabindex="-1"></a>new_dosage <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb52-1165"><a href="#cb52-1165" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/WEHI-Education/BIOL90042_R_Course/refs/heads/main/data/new_mousezempic_dosage_data.csv"</span></span>
+<span id="cb52-1166"><a href="#cb52-1166" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-1167"><a href="#cb52-1167" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert character columns to factors to match the training data's</span></span>
+<span id="cb52-1168"><a href="#cb52-1168" aria-hidden="true" tabindex="-1"></a>  <span class="co"># column types: step_dummy() in the recipe expects factor predictors</span></span>
+<span id="cb52-1169"><a href="#cb52-1169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<span id="cb52-1170"><a href="#cb52-1170" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-1171"><a href="#cb52-1171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1172"><a href="#cb52-1172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1173"><a href="#cb52-1173" aria-hidden="true" tabindex="-1"></a>Because we created this model in our working R session, we can use the </span>
+<span id="cb52-1174"><a href="#cb52-1174" aria-hidden="true" tabindex="-1"></a><span class="in">`extract_workflow()`</span> function on the <span class="in">`final_fit`</span> object to simply extract </span>
+<span id="cb52-1175"><a href="#cb52-1175" aria-hidden="true" tabindex="-1"></a>the workflow and apply it to the dataset: </span>
+<span id="cb52-1176"><a href="#cb52-1176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1179"><a href="#cb52-1179" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1180"><a href="#cb52-1180" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-new-data-extract </span></span>
+<span id="cb52-1181"><a href="#cb52-1181" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the final fitted model from last_fit()</span></span>
+<span id="cb52-1182"><a href="#cb52-1182" aria-hidden="true" tabindex="-1"></a>final_model <span class="ot">&lt;-</span> <span class="fu">extract_workflow</span>(final_fit)</span>
+<span id="cb52-1183"><a href="#cb52-1183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb52-1184"><a href="#cb52-1184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1185"><a href="#cb52-1185" aria-hidden="true" tabindex="-1"></a>But it is often the case where we are applying the model in new R </span>
+<span id="cb52-1186"><a href="#cb52-1186" aria-hidden="true" tabindex="-1"></a>sessions or we give this to a collaborator for them to use. In this case, </span>
+<span id="cb52-1187"><a href="#cb52-1187" aria-hidden="true" tabindex="-1"></a>we will use our <span class="in">`model/dosage.rds`</span> file that we saved and then the </span>
+<span id="cb52-1188"><a href="#cb52-1188" aria-hidden="true" tabindex="-1"></a><span class="in">`extract_workflow()`</span> function: </span>
+<span id="cb52-1189"><a href="#cb52-1189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1192"><a href="#cb52-1192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1193"><a href="#cb52-1193" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-new-data-rds</span></span>
+<span id="cb52-1194"><a href="#cb52-1194" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb52-1195"><a href="#cb52-1195" aria-hidden="true" tabindex="-1"></a><span class="co">#| exec: false </span></span>
+<span id="cb52-1196"><a href="#cb52-1196" aria-hidden="true" tabindex="-1"></a>loaded_model <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"model/dosage.rds"</span>)</span>
+<span id="cb52-1197"><a href="#cb52-1197" aria-hidden="true" tabindex="-1"></a>final_model <span class="ot">&lt;-</span> <span class="fu">extract_workflow</span>(loaded_model)</span>
+<span id="cb52-1198"><a href="#cb52-1198" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-1199"><a href="#cb52-1199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1202"><a href="#cb52-1202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1203"><a href="#cb52-1203" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate class predictions and class probabilities</span></span>
-<span id="cb52-1204"><a href="#cb52-1204" aria-hidden="true" tabindex="-1"></a>new_predictions <span class="ot">&lt;-</span> new_dosage <span class="sc">%&gt;%</span></span>
-<span id="cb52-1205"><a href="#cb52-1205" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
-<span id="cb52-1206"><a href="#cb52-1206" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generate class predictions</span></span>
-<span id="cb52-1207"><a href="#cb52-1207" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> new_dosage),</span>
-<span id="cb52-1208"><a href="#cb52-1208" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generate class probabilities</span></span>
-<span id="cb52-1209"><a href="#cb52-1209" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> new_dosage, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
-<span id="cb52-1210"><a href="#cb52-1210" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb52-1211"><a href="#cb52-1211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1212"><a href="#cb52-1212" aria-hidden="true" tabindex="-1"></a><span class="co"># View predictions with confidence probabilities</span></span>
-<span id="cb52-1213"><a href="#cb52-1213" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(new_predictions, <span class="dv">10</span>)</span>
-<span id="cb52-1214"><a href="#cb52-1214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1215"><a href="#cb52-1215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1216"><a href="#cb52-1216" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Functions: Convenience is key!"}</span>
+<span id="cb52-1200"><a href="#cb52-1200" aria-hidden="true" tabindex="-1"></a>Now let's apply the model to our new dataset <span class="in">`new_dosage`</span>. </span>
+<span id="cb52-1201"><a href="#cb52-1201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1204"><a href="#cb52-1204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1205"><a href="#cb52-1205" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate class predictions and class probabilities</span></span>
+<span id="cb52-1206"><a href="#cb52-1206" aria-hidden="true" tabindex="-1"></a>new_predictions <span class="ot">&lt;-</span> new_dosage <span class="sc">%&gt;%</span></span>
+<span id="cb52-1207"><a href="#cb52-1207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb52-1208"><a href="#cb52-1208" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generate class predictions</span></span>
+<span id="cb52-1209"><a href="#cb52-1209" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> new_dosage),</span>
+<span id="cb52-1210"><a href="#cb52-1210" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generate class probabilities</span></span>
+<span id="cb52-1211"><a href="#cb52-1211" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> new_dosage, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb52-1212"><a href="#cb52-1212" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb52-1213"><a href="#cb52-1213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1214"><a href="#cb52-1214" aria-hidden="true" tabindex="-1"></a><span class="co"># View predictions with confidence probabilities</span></span>
+<span id="cb52-1215"><a href="#cb52-1215" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(new_predictions, <span class="dv">10</span>)</span>
+<span id="cb52-1216"><a href="#cb52-1216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-1217"><a href="#cb52-1217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1218"><a href="#cb52-1218" aria-hidden="true" tabindex="-1"></a>It's often useful to wrap this prediction logic into a **reusable</span>
-<span id="cb52-1219"><a href="#cb52-1219" aria-hidden="true" tabindex="-1"></a>function**, so you (or a collaborator) can apply the saved model to any</span>
-<span id="cb52-1220"><a href="#cb52-1220" aria-hidden="true" tabindex="-1"></a>new dataset without repeating the code above.</span>
-<span id="cb52-1221"><a href="#cb52-1221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1224"><a href="#cb52-1224" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-1225"><a href="#cb52-1225" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-mice-function</span></span>
-<span id="cb52-1226"><a href="#cb52-1226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1227"><a href="#cb52-1227" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the fitted model so it can be reloaded without re-training</span></span>
+<span id="cb52-1218"><a href="#cb52-1218" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Functions: Convenience is key!"}</span>
+<span id="cb52-1219"><a href="#cb52-1219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1220"><a href="#cb52-1220" aria-hidden="true" tabindex="-1"></a>It's often useful to wrap this prediction logic into a **reusable</span>
+<span id="cb52-1221"><a href="#cb52-1221" aria-hidden="true" tabindex="-1"></a>function**, so you (or a collaborator) can apply the saved model to any</span>
+<span id="cb52-1222"><a href="#cb52-1222" aria-hidden="true" tabindex="-1"></a>new dataset without repeating the code above.</span>
+<span id="cb52-1223"><a href="#cb52-1223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1226"><a href="#cb52-1226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb52-1227"><a href="#cb52-1227" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predict-mice-function</span></span>
 <span id="cb52-1228"><a href="#cb52-1228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1229"><a href="#cb52-1229" aria-hidden="true" tabindex="-1"></a>predict_mice <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">model =</span> <span class="st">"model/dosage.rds"</span>) {</span>
-<span id="cb52-1230"><a href="#cb52-1230" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Match the column types used during training</span></span>
-<span id="cb52-1231"><a href="#cb52-1231" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
-<span id="cb52-1232"><a href="#cb52-1232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1233"><a href="#cb52-1233" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load the saved model</span></span>
-<span id="cb52-1234"><a href="#cb52-1234" aria-hidden="true" tabindex="-1"></a>  final_fit <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model)</span>
-<span id="cb52-1235"><a href="#cb52-1235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1236"><a href="#cb52-1236" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract the fitted workflow from last_fit()</span></span>
-<span id="cb52-1237"><a href="#cb52-1237" aria-hidden="true" tabindex="-1"></a>  final_model <span class="ot">&lt;-</span> <span class="fu">extract_workflow</span>(final_fit)</span>
-<span id="cb52-1238"><a href="#cb52-1238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1239"><a href="#cb52-1239" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generate class predictions and class probabilities</span></span>
-<span id="cb52-1240"><a href="#cb52-1240" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span></span>
-<span id="cb52-1241"><a href="#cb52-1241" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(</span>
-<span id="cb52-1242"><a href="#cb52-1242" aria-hidden="true" tabindex="-1"></a>      <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> df),</span>
-<span id="cb52-1243"><a href="#cb52-1243" aria-hidden="true" tabindex="-1"></a>      <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> df, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
-<span id="cb52-1244"><a href="#cb52-1244" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb52-1245"><a href="#cb52-1245" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb52-1246"><a href="#cb52-1246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1247"><a href="#cb52-1247" aria-hidden="true" tabindex="-1"></a><span class="fu">predict_mice</span>(new_dosage)</span>
-<span id="cb52-1248"><a href="#cb52-1248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb52-1249"><a href="#cb52-1249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1250"><a href="#cb52-1250" aria-hidden="true" tabindex="-1"></a>::: </span>
+<span id="cb52-1229"><a href="#cb52-1229" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the fitted model so it can be reloaded without re-training</span></span>
+<span id="cb52-1230"><a href="#cb52-1230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1231"><a href="#cb52-1231" aria-hidden="true" tabindex="-1"></a>predict_mice <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">model =</span> <span class="st">"model/dosage.rds"</span>) {</span>
+<span id="cb52-1232"><a href="#cb52-1232" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Match the column types used during training</span></span>
+<span id="cb52-1233"><a href="#cb52-1233" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<span id="cb52-1234"><a href="#cb52-1234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1235"><a href="#cb52-1235" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load the saved model</span></span>
+<span id="cb52-1236"><a href="#cb52-1236" aria-hidden="true" tabindex="-1"></a>  final_fit <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(model)</span>
+<span id="cb52-1237"><a href="#cb52-1237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1238"><a href="#cb52-1238" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract the fitted workflow from last_fit()</span></span>
+<span id="cb52-1239"><a href="#cb52-1239" aria-hidden="true" tabindex="-1"></a>  final_model <span class="ot">&lt;-</span> <span class="fu">extract_workflow</span>(final_fit)</span>
+<span id="cb52-1240"><a href="#cb52-1240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1241"><a href="#cb52-1241" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generate class predictions and class probabilities</span></span>
+<span id="cb52-1242"><a href="#cb52-1242" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span></span>
+<span id="cb52-1243"><a href="#cb52-1243" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(</span>
+<span id="cb52-1244"><a href="#cb52-1244" aria-hidden="true" tabindex="-1"></a>      <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> df),</span>
+<span id="cb52-1245"><a href="#cb52-1245" aria-hidden="true" tabindex="-1"></a>      <span class="fu">predict</span>(final_model, <span class="at">new_data =</span> df, <span class="at">type =</span> <span class="st">"prob"</span>)</span>
+<span id="cb52-1246"><a href="#cb52-1246" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb52-1247"><a href="#cb52-1247" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb52-1248"><a href="#cb52-1248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1249"><a href="#cb52-1249" aria-hidden="true" tabindex="-1"></a><span class="fu">predict_mice</span>(new_dosage)</span>
+<span id="cb52-1250"><a href="#cb52-1250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb52-1251"><a href="#cb52-1251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1252"><a href="#cb52-1252" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary {#sec-w8-summary}</span></span>
+<span id="cb52-1252"><a href="#cb52-1252" aria-hidden="true" tabindex="-1"></a>::: </span>
 <span id="cb52-1253"><a href="#cb52-1253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1254"><a href="#cb52-1254" aria-hidden="true" tabindex="-1"></a>Today we've learned the fundamental principles of machine learning in R, </span>
-<span id="cb52-1255"><a href="#cb52-1255" aria-hidden="true" tabindex="-1"></a>specifically using the <span class="in">`tidymodels`</span> R packages to develop a **supervised**</span>
-<span id="cb52-1256"><a href="#cb52-1256" aria-hidden="true" tabindex="-1"></a>machine learning **classification** model. Here is a quick summary of</span>
-<span id="cb52-1257"><a href="#cb52-1257" aria-hidden="true" tabindex="-1"></a>what we've learnt: </span>
-<span id="cb52-1258"><a href="#cb52-1258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1259"><a href="#cb52-1259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The difference between **supervised** and **unsupervised** machine</span>
-<span id="cb52-1260"><a href="#cb52-1260" aria-hidden="true" tabindex="-1"></a>  learning, and where **classification** fits in</span>
-<span id="cb52-1261"><a href="#cb52-1261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The <span class="in">`tidymodels`</span> ecosystem for building machine learning models in R</span>
-<span id="cb52-1262"><a href="#cb52-1262" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Splitting data into **training** and **testing** sets with <span class="in">`rsample`</span>,</span>
-<span id="cb52-1263"><a href="#cb52-1263" aria-hidden="true" tabindex="-1"></a>  using <span class="in">`set.seed()`</span> for reproducibility and **stratified** sampling to</span>
-<span id="cb52-1264"><a href="#cb52-1264" aria-hidden="true" tabindex="-1"></a>  preserve class balance</span>
-<span id="cb52-1265"><a href="#cb52-1265" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Defining preprocessing steps in a **recipe** (<span class="in">`recipes`</span>) so the same</span>
-<span id="cb52-1266"><a href="#cb52-1266" aria-hidden="true" tabindex="-1"></a>  transformations are applied consistently to training and test data</span>
-<span id="cb52-1267"><a href="#cb52-1267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Specifying a **random forest** classification model with <span class="in">`parsnip`</span></span>
-<span id="cb52-1268"><a href="#cb52-1268" aria-hidden="true" tabindex="-1"></a>  and bundling it with the recipe into a **workflow** (<span class="in">`workflows`</span>)</span>
-<span id="cb52-1269"><a href="#cb52-1269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fitting the model on the training data with <span class="in">`last_fit()`</span> and</span>
-<span id="cb52-1270"><a href="#cb52-1270" aria-hidden="true" tabindex="-1"></a>  evaluating its performance on held-out test data</span>
-<span id="cb52-1271"><a href="#cb52-1271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Assessing classification performance using **accuracy**, **precision–</span>
-<span id="cb52-1272"><a href="#cb52-1272" aria-hidden="true" tabindex="-1"></a>  recall curves (AUPRC)**, **ROC curves (AUROC)**, **confusion</span>
-<span id="cb52-1273"><a href="#cb52-1273" aria-hidden="true" tabindex="-1"></a>  matrices**, and per-class metrics like **sensitivity**, **specificity**,</span>
-<span id="cb52-1274"><a href="#cb52-1274" aria-hidden="true" tabindex="-1"></a>  **PPV** and **NPV** (<span class="in">`yardstick`</span>)</span>
-<span id="cb52-1275"><a href="#cb52-1275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Using **variable importance plots** (<span class="in">`vip`</span>) to identify which</span>
-<span id="cb52-1276"><a href="#cb52-1276" aria-hidden="true" tabindex="-1"></a>  predictors drive the model's decisions</span>
-<span id="cb52-1277"><a href="#cb52-1277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Saving a fitted model (<span class="in">`saveRDS()`</span>), reloading it, and applying it to</span>
-<span id="cb52-1278"><a href="#cb52-1278" aria-hidden="true" tabindex="-1"></a>  **predict classes and class probabilities** on new, unlabelled data —</span>
-<span id="cb52-1279"><a href="#cb52-1279" aria-hidden="true" tabindex="-1"></a>  including wrapping the prediction logic in a reusable function</span>
-<span id="cb52-1280"><a href="#cb52-1280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1281"><a href="#cb52-1281" aria-hidden="true" tabindex="-1"></a>You can download the summary sheet from this workshop here:</span>
+<span id="cb52-1254"><a href="#cb52-1254" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary {#sec-w8-summary}</span></span>
+<span id="cb52-1255"><a href="#cb52-1255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1256"><a href="#cb52-1256" aria-hidden="true" tabindex="-1"></a>Today we've learned the fundamental principles of machine learning in R, </span>
+<span id="cb52-1257"><a href="#cb52-1257" aria-hidden="true" tabindex="-1"></a>specifically using the <span class="in">`tidymodels`</span> R packages to develop a **supervised**</span>
+<span id="cb52-1258"><a href="#cb52-1258" aria-hidden="true" tabindex="-1"></a>machine learning **classification** model. Here is a quick summary of</span>
+<span id="cb52-1259"><a href="#cb52-1259" aria-hidden="true" tabindex="-1"></a>what we've learnt: </span>
+<span id="cb52-1260"><a href="#cb52-1260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1261"><a href="#cb52-1261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The difference between **supervised** and **unsupervised** machine</span>
+<span id="cb52-1262"><a href="#cb52-1262" aria-hidden="true" tabindex="-1"></a>  learning, and where **classification** fits in</span>
+<span id="cb52-1263"><a href="#cb52-1263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The <span class="in">`tidymodels`</span> ecosystem for building machine learning models in R</span>
+<span id="cb52-1264"><a href="#cb52-1264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Splitting data into **training** and **testing** sets with <span class="in">`rsample`</span>,</span>
+<span id="cb52-1265"><a href="#cb52-1265" aria-hidden="true" tabindex="-1"></a>  using <span class="in">`set.seed()`</span> for reproducibility and **stratified** sampling to</span>
+<span id="cb52-1266"><a href="#cb52-1266" aria-hidden="true" tabindex="-1"></a>  preserve class balance</span>
+<span id="cb52-1267"><a href="#cb52-1267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Defining preprocessing steps in a **recipe** (<span class="in">`recipes`</span>) so the same</span>
+<span id="cb52-1268"><a href="#cb52-1268" aria-hidden="true" tabindex="-1"></a>  transformations are applied consistently to training and test data</span>
+<span id="cb52-1269"><a href="#cb52-1269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Specifying a **random forest** classification model with <span class="in">`parsnip`</span></span>
+<span id="cb52-1270"><a href="#cb52-1270" aria-hidden="true" tabindex="-1"></a>  and bundling it with the recipe into a **workflow** (<span class="in">`workflows`</span>)</span>
+<span id="cb52-1271"><a href="#cb52-1271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fitting the model on the training data with <span class="in">`last_fit()`</span> and</span>
+<span id="cb52-1272"><a href="#cb52-1272" aria-hidden="true" tabindex="-1"></a>  evaluating its performance on held-out test data</span>
+<span id="cb52-1273"><a href="#cb52-1273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Assessing classification performance using **accuracy**, **precision–</span>
+<span id="cb52-1274"><a href="#cb52-1274" aria-hidden="true" tabindex="-1"></a>  recall curves (AUPRC)**, **ROC curves (AUROC)**, **confusion</span>
+<span id="cb52-1275"><a href="#cb52-1275" aria-hidden="true" tabindex="-1"></a>  matrices**, and per-class metrics like **sensitivity**, **specificity**,</span>
+<span id="cb52-1276"><a href="#cb52-1276" aria-hidden="true" tabindex="-1"></a>  **PPV** and **NPV** (<span class="in">`yardstick`</span>)</span>
+<span id="cb52-1277"><a href="#cb52-1277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Using **variable importance plots** (<span class="in">`vip`</span>) to identify which</span>
+<span id="cb52-1278"><a href="#cb52-1278" aria-hidden="true" tabindex="-1"></a>  predictors drive the model's decisions</span>
+<span id="cb52-1279"><a href="#cb52-1279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Saving a fitted model (<span class="in">`saveRDS()`</span>), reloading it, and applying it to</span>
+<span id="cb52-1280"><a href="#cb52-1280" aria-hidden="true" tabindex="-1"></a>  **predict classes and class probabilities** on new, unlabelled data —</span>
+<span id="cb52-1281"><a href="#cb52-1281" aria-hidden="true" tabindex="-1"></a>  including wrapping the prediction logic in a reusable function</span>
 <span id="cb52-1282"><a href="#cb52-1282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1283"><a href="#cb52-1283" aria-hidden="true" tabindex="-1"></a>{{&lt; downloadthis resources/session_8_summary_sheet.pdf dname="session_8_summary_sheet" label="Download the summary sheet for workshop 8" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" &gt;}}</span>
+<span id="cb52-1283"><a href="#cb52-1283" aria-hidden="true" tabindex="-1"></a>You can download the summary sheet from this workshop here:</span>
 <span id="cb52-1284"><a href="#cb52-1284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1285"><a href="#cb52-1285" aria-hidden="true" tabindex="-1"></a>In Tutorial 11, you will apply the same recipe–model–workflow concepts to </span>
-<span id="cb52-1286"><a href="#cb52-1286" aria-hidden="true" tabindex="-1"></a>**unsupervised** machine learning, using k-means clustering to discover </span>
-<span id="cb52-1287"><a href="#cb52-1287" aria-hidden="true" tabindex="-1"></a>groupings in **unlabelled** data.</span>
-<span id="cb52-1288"><a href="#cb52-1288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-1289"><a href="#cb52-1289" aria-hidden="true" tabindex="-1"></a>If you'd like to learn more, look at the <span class="co">[</span><span class="ot">further reading</span><span class="co">](wk11_fr.qmd)</span> </span>
-<span id="cb52-1290"><a href="#cb52-1290" aria-hidden="true" tabindex="-1"></a>for this week, which includes links to <span class="in">`tidymodels`</span> resources that can help</span>
-<span id="cb52-1291"><a href="#cb52-1291" aria-hidden="true" tabindex="-1"></a>for steps **not** covered in this workshop such as hyperparameter tuning and </span>
-<span id="cb52-1292"><a href="#cb52-1292" aria-hidden="true" tabindex="-1"></a>cross-validation.</span>
+<span id="cb52-1285"><a href="#cb52-1285" aria-hidden="true" tabindex="-1"></a>{{&lt; downloadthis resources/session_8_summary_sheet.pdf dname="session_8_summary_sheet" label="Download the summary sheet for workshop 8" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" &gt;}}</span>
+<span id="cb52-1286"><a href="#cb52-1286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1287"><a href="#cb52-1287" aria-hidden="true" tabindex="-1"></a>In Tutorial 11, you will apply the same recipe–model–workflow concepts to </span>
+<span id="cb52-1288"><a href="#cb52-1288" aria-hidden="true" tabindex="-1"></a>**unsupervised** machine learning, using k-means clustering to discover </span>
+<span id="cb52-1289"><a href="#cb52-1289" aria-hidden="true" tabindex="-1"></a>groupings in **unlabelled** data.</span>
+<span id="cb52-1290"><a href="#cb52-1290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-1291"><a href="#cb52-1291" aria-hidden="true" tabindex="-1"></a>If you'd like to learn more, look at the <span class="co">[</span><span class="ot">further reading</span><span class="co">](wk11_fr.qmd)</span> </span>
+<span id="cb52-1292"><a href="#cb52-1292" aria-hidden="true" tabindex="-1"></a>for this week, which includes links to <span class="in">`tidymodels`</span> resources that can help</span>
+<span id="cb52-1293"><a href="#cb52-1293" aria-hidden="true" tabindex="-1"></a>for steps **not** covered in this workshop such as hyperparameter tuning and </span>
+<span id="cb52-1294"><a href="#cb52-1294" aria-hidden="true" tabindex="-1"></a>cross-validation.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
