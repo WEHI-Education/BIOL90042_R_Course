@@ -1603,11 +1603,22 @@
     ]
   },
   {
+    "objectID": "wk11_fr.html#tidy-table-steps",
+    "href": "wk11_fr.html#tidy-table-steps",
+    "title": "28  Further Reading",
+    "section": "28.2 Tidymodels",
+    "text": "28.2 Tidymodels\n\n\n\n\n\n\n\n\npackage\nstep\nfunctions\n\n\n\n\nrsample\n1. split into test and train sets\ninitial_split(), training(), testing()\n\n\nrecipes\n2. create recipe and assign variable rols\nrecipe(), update_role()\n\n\nparsnip\n3. specify model, engine and mode\ne.g., set_engine(), set_mode(), rand_forest()\n\n\nworkflows\n4. create workflow, add recipe, add model\nworkflow(), add_recipe(), add_model()\n\n\nparsnip\n5. fit workflow\nfit()\n\n\nparsnip\n6. get predictions\npredict()\n\n\nyardstick\n7. use predictions to get performance metrics\nrmse(), accuracy(), metrics()\n\n\n\nAnother tutorial that summarises these aspects can be found here.",
+    "crumbs": [
+      "Week 11",
+      "<span class='chapter-number'>28</span>  <span class='chapter-title'>Further Reading</span>"
+    ]
+  },
+  {
     "objectID": "wk11_fr.html#tidymodelclust",
     "href": "wk11_fr.html#tidymodelclust",
     "title": "28  Further Reading",
-    "section": "28.2 Tidymodels vs. Tidyclust",
-    "text": "28.2 Tidymodels vs. Tidyclust\nSeveral tidymodels functions have tidyclust equivalents that are written differently; these should be used when working with clustering workflows:\n\n\n\ntidymodels Function\ntidyclust Equivalent\nSame\n\n\n\n\ntune_grid()\ntune_cluster()\n❌\n\n\nfinalise_workflow()\nfinalise_workflow_tidyclust()\n❌\n\n\nmetric_set()\ncluster_metric_set()\n❌\n\n\ncollect_metrics()\ncollect_metrics()\n✅\n\n\nselect_best()\nselect_best()\n✅\n\n\nfit()\nfit()\n✅\n\n\npredict()\npredict()\n✅",
+    "section": "28.3 Tidymodels vs. Tidyclust",
+    "text": "28.3 Tidymodels vs. Tidyclust\nSeveral tidymodels functions have tidyclust equivalents that are written differently; these should be used when working with clustering workflows:\n\n\n\ntidymodels Function\ntidyclust Equivalent\nSame\n\n\n\n\ncollect_metrics()\ncollect_metrics()\n✅\n\n\nselect_best()\nselect_best()\n✅\n\n\nfit()\nfit()\n✅\n\n\npredict()\npredict()\n✅\n\n\ntune_grid()\ntune_cluster()\n❌\n\n\nfinalise_workflow()\nfinalise_workflow_tidyclust()\n❌\n\n\nmetric_set()\ncluster_metric_set()\n❌",
     "crumbs": [
       "Week 11",
       "<span class='chapter-number'>28</span>  <span class='chapter-title'>Further Reading</span>"
