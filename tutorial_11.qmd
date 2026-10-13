@@ -35,13 +35,15 @@ unsupervised task: k-means clustering with the `tidyclust` package.
 This workshop directly builds on [Workshop 8](@sec-workshop08). At the
 end of this session, learners should be able to:
 
-1. Understand the difference between [supervised](wk11_fr.qmd#supervised-ml) 
-    and [unsupervised](wk11_fr.qmd#unsupervised-ml) machine learning and 
-    explore their applications in biomedical research.
+1. Understand the difference between 
+    [supervised](wk11_fr.qmd#supervised-ml){.quarto-xref} 
+    and [unsupervised](wk11_fr.qmd#unsupervised-ml){.quarto-xref} 
+    machine learning and explore their applications in biomedical 
+    research.
 2. Construct a complete `tidymodels` workflow: create a
    [recipe](wk11_fr.qmd#recipe){.quarto-xref}, specify a model,
-   bundle a [workflow](wk11_fr.qmd#workflow){.quarto-xref}, to train a
-   k-means clustering algorithm. 
+   bundle a [workflow](wk11_fr.qmd#silhouette-score){.quarto-xref}, 
+   to train a k-means clustering algorithm. 
 3.  Fit a k-means model, inspect centroids, and assign cluster 
     predictions to observations
 4.  Evaluate clusters against known biological groupings
@@ -67,10 +69,12 @@ bundle the workflow and fit the model.
 We cannot explicitly evaluate model performance in the same way because 
 there are no labels to measure against. Instead there are other, relative, 
 measures we can employ to test how well our model performs. One such measure 
-is the [silhouette score](#sec-silhouette), which measures cluster *geometry* 
-(how compact and well-separated the clusters are) rather than correctness.
-It is as a way to compare results, like different values of *k*, not whether 
-the clustering is "correct". This still requires biological prior knowledge.
+is the [silhouette score](#sec-silhouette){.quarto-xref}, which measures 
+cluster *geometry* (how compact and well-separated the clusters are) rather
+than correctness. It is as a way to compare results, like different values of 
+*k*, not whether the clustering is "correct". This still requires biological
+prior knowledge. You can read more about the silhouette scores and plots in
+the [extension section](@sec-silhouette) below.
 
 ## Setup {#sec-t11-setup}
 ```{r}
