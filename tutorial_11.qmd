@@ -20,12 +20,7 @@ labels: where we know what each grouping should be.
 
 But what happens when we don't know this?
 
-This is when we use **unsupervised** machine learning. You have probably
-come across many unsupervised machine learning applications in your
-research so far — Principal Components Analysis (PCA), Multidimensional
-Scaling (MDS), k-means clustering and hierarchical clustering are
-examples of unsupervised methods that try to discover patterns or
-structures in the data **without prior knowledge of the groupings**.
+This is when we use **unsupervised** machine learning, which aims to discover patterns or structures in the data **without prior knowledge of the groupings**. We have already come across Multidimensional Scaling (MDS) plots [in workshop 7](@sec-workshop07), and you may have encountered Principal Components Analysis (PCA), k-means clustering or hierarchical clustering in your  research so far.
 
 In this tutorial, we will reuse the same workflow concepts you learned
 in Workshop 8 (recipe → model → workflow), but apply them to an
@@ -183,8 +178,7 @@ numeric variables — `initial_weight_g`, `tail_length_mm`,
 `drug_dose_g`, and `weight_lost_g` — so maybe a different pair of
 variables will reveal the groupings.
 
-Modify the plotting code below to explore **different pairs of
-variables** (there are 6 possible pairs in total). For each plot, ask
+Modify the plotting code below to explore **different pairs of variables** (there are 6 possible pairs in total). For each plot, ask
 yourself: can I see distinct clusters?
 
 ```{r}
@@ -233,8 +227,7 @@ Four: each cage forms its own visible cluster
 1. Correct! No pair of variables shows clear, separated groups. Every
    two-dimensional plot looks like one large cloud. This illustrates a
    key limitation of exploring data in **two dimensions**. The groupings 
-   may only become apparent when **all four variables are considered 
-   together**, in the full four-dimensional feature space. This is exactly 
+   may only become apparent when **all four variables are considered together**, in the full four-dimensional feature space. This is exactly 
    where unsupervised ML techniques can help. 
 2. Incorrect: initial weight vs drug dose forms a single cloud.
 3. Incorrect: the strains are not clearly separable in any single pair
@@ -265,8 +258,7 @@ all variables on a common scale where the mean = 0 and standard
 deviation = 1.
 
 ::: {.callout-note title="Why is normalisation essential for k-means?"}
-K-means clustering assigns observations to clusters based on **Euclidean
-distance**, the straight-line distance between points in feature space.
+K-means clustering assigns observations to clusters based on **Euclidean distance**, the straight-line distance between points in feature space.
 If one variable is measured in grams (thousands) and another in
 millimetres (tens), the gram-scale variable will dominate the distance
 calculation, regardless of its biological relevance. Normalisation
