@@ -42,7 +42,7 @@ end of this session, learners should be able to:
     research.
 2. Construct a complete `tidymodels` workflow: create a
    [recipe](wk11_fr.qmd#recipe){.quarto-xref}, specify a model,
-   bundle a [workflow](wk11_fr.qmd#silhouette-score){.quarto-xref}, 
+   bundle a [workflow](wk11_fr.qmd#workflow){.quarto-xref}, 
    to train a k-means clustering algorithm. 
 3.  Fit a k-means model, inspect centroids, and assign cluster 
     predictions to observations
@@ -69,12 +69,12 @@ bundle the workflow and fit the model.
 We cannot explicitly evaluate model performance in the same way because 
 there are no labels to measure against. Instead there are other, relative, 
 measures we can employ to test how well our model performs. One such measure 
-is the [silhouette score](#sec-silhouette){.quarto-xref}, which measures 
+is the [silhouette score](#silhouette-score){.quarto-xref}, which measures 
 cluster *geometry* (how compact and well-separated the clusters are) rather
 than correctness. It is as a way to compare results, like different values of 
 *k*, not whether the clustering is "correct". This still requires biological
 prior knowledge. You can read more about the silhouette scores and plots in
-the [extension section](@sec-silhouette) below.
+the [extension section](#sec-silhouette) below.
 
 ## Setup {#sec-t11-setup}
 ```{r}
