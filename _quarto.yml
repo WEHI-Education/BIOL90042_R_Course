@@ -73,7 +73,7 @@ book:
     - part: Week 11
       chapters:
         - workshop_8.qmd
-    #     - tutorial_11.qmd
+        - tutorial_11.qmd
         - wk11_fr.qmd
     #- part: Wrap-up
     #  chapters:
