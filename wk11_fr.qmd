@@ -11,106 +11,175 @@ editor:
 
 # Further Reading {#sec-fr11}
 
-Curious whether random forest is *really* your best option in [Part 2](workshop_8.qmd#sec-w8-part2)? 
+Curious whether random forest is *really* your best option in
+[Workshop 8](workshop_8.qmd#sec-w8-part2)?
 
-The tidymodels [tuning and comparing models tutorial](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html) shows how to compare it against several other classification algorithms. 
+There are *so many* machine learning methods and *even more*
+possible R packages ("engines") that are supported in the 
+`parnsip` R package. For more information on these
+possibilities, see the 
+[model types, engines and arguments guide](https://www.tidymodels.org/find/parsnip/). 
 
-If you'd like to explore these ideas further, see the tidymodels tutorials on [feature engineering](https://www.tidymodels.org/books/fes/), [cross-validation](https://www.tidymodels.org/start/resampling/), [hyperparameter tuning](https://www.tidymodels.org/start/tuning/), and [multi-model comparison](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html).
+The tidymodels
+[tuning and comparing models tutorial](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html)
+shows how to compare it against several other classification
+algorithms.
+
+If you'd like to explore these ideas further, see the tidymodels
+tutorials on
+[feature engineering](https://www.tidymodels.org/books/fes/),
+[cross-validation](https://www.tidymodels.org/start/resampling/),
+[hyperparameter tuning](https://www.tidymodels.org/start/tuning/),
+and
+[multi-model comparison](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html).
+
+The tidyclust package provides functions for k-means and hierarchical
+clustering methods, among more, as well as how to tune these cluster
+models. For more information, see the
+[tidyclust documentation](https://tidyclust.tidymodels.org).
 
 ## Glossary {#sec-glossary}
 
-Hovering over a linked glossary term anywhere in this book shows its definition, drawn from this list.
-
 ::: {#artificial-intelligence}
-**Artificial Intelligence.** The broad field of computer science focused on building systems that simulate human-like reasoning, learning, and decision-making.
+**Artificial Intelligence.** The broad field of computer science
+focused on building systems that simulate human-like reasoning,
+learning, and decision-making.
 :::
 
 ::: {#machine-learning}
-**Machine Learning.** A subset of AI where systems learn patterns from data to make decisions or predictions without being explicitly programmed.
+**Machine Learning.** A subset of AI where systems learn patterns
+from data to make decisions or predictions without being explicitly
+programmed.
 :::
 
 ::: {#unsupervised-ml}
-**Unsupervised ML.** A type of ML where a model finds hidden patterns or groupings in unlabelled data (e.g. clustering, dimensionality reduction).
+**Unsupervised ML.** A type of ML where a model finds hidden patterns
+or groupings in unlabelled data (e.g. clustering, dimensionality
+reduction).
 :::
 
 ::: {#supervised-ml}
-**Supervised ML.** A type of ML where a model is trained on labelled data, learning to map inputs to known outputs.
+**Supervised ML.** A type of ML where a model is trained on labelled
+data, learning to map inputs to known outputs.
 :::
 
 ::: {#engines}
-**Engines.** A computational system or framework that executes a model or algorithm to process data and produce outputs.
+**Engines.** A computational system or framework that executes a
+model or algorithm to process data and produce outputs.
 :::
 
 ::: {#model}
-**Model.** A mathematical representation learned from data that captures patterns and can be used to make predictions or decisions on new inputs.
+**Model.** A mathematical representation learned from data that
+captures patterns and can be used to make predictions or decisions on
+new inputs.
 :::
 
 ::: {#learning}
-**Learning.** The process by which an algorithm iteratively adjusts its internal parameters based on data to improve its performance on a task.
+**Learning.** The process by which an algorithm iteratively adjusts
+its internal parameters based on data to improve its performance on a
+task.
 :::
 
 ::: {#predicting}
-**Predicting.** The application of a trained model to new, unseen data to produce an estimated output.
+**Predicting.** The application of a trained model to new, unseen
+data to produce an estimated output.
 :::
 
 ::: {#pca}
-**Principal Components Analysis.** A dimensionality reduction technique that transforms data into a smaller set of uncorrelated variables that capture the most variance.
+**Principal Components Analysis.** A dimensionality reduction
+technique that transforms data into a smaller set of uncorrelated
+variables that capture the most variance.
 :::
 
 ::: {#mds}
-**Multidimensional Scaling.** A technique that visualises the similarity or dissimilarity between data points by mapping them into a lower-dimensional space.
+**Multidimensional Scaling.** A technique that visualises the
+similarity or dissimilarity between data points by mapping them into
+a lower-dimensional space.
 :::
 
 ::: {#tree-clustering}
-**Tree-based Clustering.** A hierarchical clustering approach that organises data into a tree structure, grouping similar observations at successive levels of granularity.
+**Tree-based Clustering.** A hierarchical clustering approach that
+organises data into a tree structure, grouping similar observations
+at successive levels of granularity.
 :::
 
 ::: {#k-means}
-**K-means Clustering.** An unsupervised clustering algorithm that partitions observations into *k* groups by iteratively assigning each point to its nearest centroid and updating centroids until they stabilise.
+**K-means Clustering.** An unsupervised clustering algorithm that
+partitions observations into *k* groups by iteratively assigning each
+point to its nearest centroid and updating centroids until they
+stabilise.
 :::
 
 ::: {#hierarchical-clustering}
-**Hierarchical Clustering.** An unsupervised clustering approach that builds a dendrogram by repeatedly merging the two closest samples or clusters, without requiring the number of clusters to be fixed in advance.
+**Hierarchical Clustering.** An unsupervised clustering approach that
+builds a dendrogram by repeatedly merging the two closest samples or
+clusters, without requiring the number of clusters to be fixed in
+advance.
 :::
 
 ::: {#train-test-split}
-**Train/Test Split.** Dividing a dataset into a training set (used to fit a model) and a held-out test set (used to evaluate performance on unseen data).
+**Train/Test Split.** Dividing a dataset into a training set (used to
+fit a model) and a held-out test set (used to evaluate performance on
+unseen data).
 :::
 
 ::: {#confusion-matrix}
-**Confusion Matrix.** A table comparing predicted class labels against true labels, with diagonal cells showing correct predictions and off-diagonal cells showing misclassifications.
+**Confusion Matrix.** A table comparing predicted class labels
+against true labels, with diagonal cells showing correct predictions
+and off-diagonal cells showing misclassifications.
 :::
 
 ::: {#auroc-auprc}
-**AUROC / AUPRC.** Area Under the ROC Curve / Area Under the Precision-Recall Curve — summary metrics of classification performance across all thresholds; AUPRC is more sensitive to class imbalance than AUROC.
+**AUROC / AUPRC.** Area Under the ROC Curve / Area Under the
+Precision-Recall Curve — summary metrics of classification
+performance across all thresholds; AUPRC is more sensitive to class
+imbalance than AUROC.
 :::
 
 ::: {#recipe}
-**Recipe (tidymodels).** A tidymodels object that specifies the preprocessing steps (e.g. normalisation, dummy encoding) applied to data before a model is fit.
+**Recipe (tidymodels).** A tidymodels object that specifies the
+preprocessing steps (e.g. normalisation, dummy encoding) applied to
+data before a model is fit.
 :::
 
 ::: {#workflow}
-**Workflow (tidymodels).** A tidymodels object that bundles a preprocessing recipe and a model specification together so they are applied consistently during fitting and prediction.
+**Workflow (tidymodels).** A tidymodels object that bundles a
+preprocessing recipe and a model specification together so they are
+applied consistently during fitting and prediction.
 :::
 
 ::: {#silhouette-score}
-**Silhouette Score.** A per-observation metric ranging from -1 to +1 that measures how similar an observation is to its own cluster compared to the nearest neighbouring cluster; higher values indicate better-separated clusters.
+**Silhouette Score.** A per-observation metric ranging from -1 to +1
+that measures how similar an observation is to its own cluster
+compared to the nearest neighbouring cluster; higher values indicate
+better-separated clusters.
 :::
 
 ::: {#dendrogram}
-**Dendrogram.** A tree diagram produced by hierarchical clustering that records the order in which samples or clusters are merged, allowing the number of clusters to be chosen by cutting the tree at a given height.
+**Dendrogram.** A tree diagram produced by hierarchical clustering
+that records the order in which samples or clusters are merged,
+allowing the number of clusters to be chosen by cutting the tree at a
+given height.
 :::
 
 ::: {#hyperparameter}
-**Hyperparameter.** A model setting (e.g. `mtry`, `k`) chosen before training that controls how a model learns, as distinct from parameters estimated from the data itself.
+**Hyperparameter.** A model setting (e.g. `mtry`, `k`) chosen before
+training that controls how a model learns, as distinct from
+parameters estimated from the data itself.
 :::
 
 ::: {#cross-validation}
-**Cross-validation.** A resampling technique that repeatedly splits data into folds, training on some and evaluating on the rest, to obtain a more robust estimate of model performance than a single split.
+**Cross-validation.** A resampling technique that repeatedly splits
+data into folds, training on some and evaluating on the rest, to
+obtain a more robust estimate of model performance than a single
+split.
 :::
 
 ::: {#random-forest}
-**Random Forest.** An ensemble of many decision trees, each trained on a random bootstrap sample of the data and a random subset of predictors at each split; averaging their predictions reduces overfitting relative to a single tree.
+**Random Forest.** An ensemble of many decision trees, each trained
+on a random bootstrap sample of the data and a random subset of
+predictors at each split; averaging their predictions reduces
+overfitting relative to a single tree.
 :::
 
 ## Tidymodels {#tidy-table-steps}
@@ -125,11 +194,14 @@ parsnip | 5. fit workflow | `fit()` |
 parsnip | 6. get predictions | `predict()` |
 yardstick | 7. use predictions to get performance metrics | `rmse()`, `accuracy()`, `metrics()` | 
 
-Another tutorial that summarises these aspects can be found [here](https://chenxing.space/blog/tidymodels-ecosystem-tutorial/). 
+Another tutorial that summarises these aspects can be found
+[here](https://chenxing.space/blog/tidymodels-ecosystem-tutorial/).
 
 ## Tidymodels vs. Tidyclust {#tidymodelclust}
 
-Several tidymodels functions have tidyclust equivalents that are written differently; these should be used when working with clustering workflows: 
+Several tidymodels functions have tidyclust equivalents that are
+written differently; these should be used when working with
+clustering workflows:
 
 | `tidymodels` Function   | `tidyclust` Equivalent          | Same |
 |-------------------------|---------------------------------|------|

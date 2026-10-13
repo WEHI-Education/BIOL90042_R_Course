@@ -11,34 +11,68 @@ editor:
     wrap: 72
 ---
 
-# Tutorial 11: Machine Learning in R Part 2: Unsupervised {#sec-tute11}
+# Tutorial 11: Unsupervised Machine Learning in R {#sec-tute11}
 
 Workshop 8 focussed on how we develop **supervised** machine learning
-models in R using the `tidymodels` package — a recipe, a model
-specification, and a workflow — which we can use when our data has
-labels: where we know what each grouping should be.
+models in R using the `tidymodels` package (create a recipe, specify
+a model, bundle a workflow, and fit) which we can use when our data 
+has labels: where we know what each grouping should be.
 
 But what happens when we don't know this?
 
-This is when we use **unsupervised** machine learning, which aims to discover patterns or structures in the data **without prior knowledge of the groupings**. We have already come across Multidimensional Scaling (MDS) plots [in workshop 7](@sec-workshop07), and you may have encountered Principal Components Analysis (PCA), k-means clustering or hierarchical clustering in your  research so far.
+This is when we use **unsupervised** machine learning, which aims to 
+discover patterns or structures in the data **without prior knowledge 
+of the groupings**. We have already come across Multidimensional 
+Scaling (MDS) plots [in workshop 7](@sec-workshop07), and you may have 
+encountered Principal Components Analysis (PCA), k-means clustering or 
+hierarchical clustering in your research so far.
 
 In this tutorial, we will reuse the same workflow concepts you learned
-in Workshop 8 (recipe → model → workflow), but apply them to an
+in Workshop 8 (recipe → model → workflow → fit), but apply them to an
 unsupervised task: k-means clustering with the `tidyclust` package.
 
 ::: {.callout-tip title="Learning Objectives"}
 This workshop directly builds on [Workshop 8](@sec-workshop08). At the
 end of this session, learners should be able to:
 
-1. Create an [unsupervised](wk11_fr.qmd#unsupervised-ml) ML model, and 
-   explore their applications in biomedical research.
-2. Construct a complete `tidymodels` workflow — preprocessing
-   [recipe](wk11_fr.qmd#recipe){.quarto-xref} , model specification, and
-   [workflow](wk11_fr.qmd#workflow){.quarto-xref} bundle — to train a
+1. Understand the difference between [supervised](wk11_fr.qmd#supervised-ml) 
+    and [unsupervised](wk11_fr.qmd#unsupervised-ml) machine learning and 
+    explore their applications in biomedical research.
+2. Construct a complete `tidymodels` workflow: create a
+   [recipe](wk11_fr.qmd#recipe){.quarto-xref}, specify a model,
+   bundle a [workflow](wk11_fr.qmd#workflow){.quarto-xref}, to train a
    k-means clustering algorithm. 
+3.  Fit a k-means model, inspect centroids, and assign cluster 
+    predictions to observations
+4.  Evaluate clusters against known biological groupings
 :::
 
-# Setup {#sec-t11-setup}
+The key difference between supervised and unsupervised machine learning
+in our current `tidymodels` workflow is shown in the figure below: 
+
+![](images/T11F01_workflow.png)
+
+For **supervised ML**, the pipeline we followed included splitting our dataset
+into a training and testing dataset, our recipe contained both an outcome
+and predictor variable/s, we set the model (e.g., random forest), engine 
+(R package) and mode (classification or regression), bundled the workflow, 
+fit the model and then evaluated model performance. 
+
+For **unsupervised ML**, the pipeline differs in that we will not be 
+splitting our dataset into train/test sets, our recipe does not need an 
+outcome predictor variable (as we do NOT know the outcome), we set the model
+(e.g., k-means clustering), engine (R package) and do not need to set a mode, 
+bundle the workflow and fit the model. 
+
+We cannot explicitly evaluate model performance in the same way because 
+there are no labels to measure against. Instead there are other, relative, 
+measures we can employ to test how well our model performs. One such measure 
+is the [silhouette score](#sec-silhouette), which measures cluster *geometry* 
+(how compact and well-separated the clusters are) rather than correctness.
+It is as a way to compare results, like different values of *k*, not whether 
+the clustering is "correct". This still requires biological prior knowledge.
+
+## Setup {#sec-t11-setup}
 ```{r}
 #| label: internal-setup
 #| echo: false 
@@ -94,21 +128,50 @@ noisy_dosage <- read_csv(
 )
 ```
 
-# K-Means Clustering with tidyclust {#sec-t11-kmeans}
+## K-Means Clustering with tidyclust {#sec-t11-kmeans}
 
-::: {.callout-tip title="Learning Objectives"}
-**Aim:** Apply an unsupervised machine learning model to cluster mouse
-strains based on physiological and dosage features only.
+Using our `noisy_dosage` dataset, our aim is to apply an unsupervised 
+machine learning model to cluster mouse strains based on physiological
+and dosage features only.
 
-**Methods:**
+For this tutorial, we will be training a k-means clustering model.
 
-1. Exploring the data and consolidating our biological prior knowledge
-2. Identify the number of k-clusters, specify a k-means algorithm and
-   evaluate model predictions
-3. Apply the k-means clustering algorithm on new data to predict strain
+::: {.callout-note title="What is a k-means clustering algorithm?"}
+
+Let's work through an example used in the lecture. 
+
+You're opening three new coffee shops in a city and want to know where 
+the best place is for students to gather. You have data showing where 
+100 students like to hang out. How do you decide the best locations? 
+
+Because you're a coding expert, you decide to use a k-means clustering
+algorithm to solve this by finding three natural "meeting spots" in 
+your data.
+
+![Please note that this image was generated using ChatGPT and was given explicit instructions to visualise the k-means clustering algorithm process for this coffee shop example.](images/T11F02_kmeans.png)
+
+1. Pick three (k = 3) random locations on the map as your starting coffee 
+  spot positions. These are your **initial centres**. 
+2. Assign each student to the nearest centre based on their location to
+  the initial centres. 
+3. Move the centre to the middle of each group of students. This creates
+  a new centre which is more representative of where students are. 
+4. Repeat from step 2 until nothing changes. When the centres are stable, 
+  it means that you have found the natural meeting spot you're after! 
+
+K-means clustering algorithms are iterative and repeatedly ask: 
+1. Who belongs to each group? 
+2. Where should each group's centre be? 
+3. Repeat until stable: this leads us to the best possible solution
+
+*Note*: Alternatively you could work through this process by asking:
+how many coffee shops would fit for this cohort of 100 students? This
+would require the use of tuning the *k* parameter to see how many
+coffee shops would best suit this dataset. You can read more on how 
+to do this in our [extension sections](#extension) below.
 :::
 
-## Prepare the Data
+### Prepare the Data {#sec-t11-wrangling}
 
 In this tutorial we apply **unsupervised learning** to the
 `noisy_mousezempic_dosage_data` dataset, but this time pretending we 
@@ -123,17 +186,17 @@ The best results will be obtained with prior knowledge of the optimal
 cluster number (`k`). 
 
 For the mousezempic dataset, we have a clear **biological prior**: there
-are **3 known strains** — CD1, BALBc, and Black6. This gives us a strong
+are **3 known strains**: CD1, BALBc, and Black6. This gives us a strong
 reason to expect `k = 3` to be the most biologically meaningful
 solution, so we set `k = 3` directly in our model. An optional
-**extension** later in this session uses silhouette analysis — a
-data-driven approach — to confirm or challenge this prior.
+**extension** later in this session uses silhouette analysis, a
+data-driven approach, to confirm or challenge this prior.
 :::
 
 We are going to explicitly keep only the numeric physiological features
 of our dataset and remove any missing values. Strain labels are
 deliberately **excluded** as we are aiming to use **unsupervised
-learning** - we do not want to inform the algorithm about strain
+learning**: we do not want to inform the algorithm about strain
 identity.
 
 ```{r}
@@ -149,7 +212,7 @@ dosage_clust <- noisy_dosage %>%
 glimpse(dosage_clust)
 ```
 
-## Explore the Data
+### Explore the Data {#sec-t11-explore}
 
 Let's visualise the raw data by plotting initial weight
 (`initial_weight_g`) against drug dose (`drug_dose_g`).
@@ -174,12 +237,13 @@ Here we can see varying initial weights and drug doses across the *n* =
 ::: {.callout-note title="Activity: Can You Find the Hidden Groups?"}
 Our biological prior tells us there are **3 strains** in this data, yet
 the plot above shows only one cloud of points. Our dataset has four
-numeric variables — `initial_weight_g`, `tail_length_mm`,
-`drug_dose_g`, and `weight_lost_g` — so maybe a different pair of
+numeric variables (`initial_weight_g`, `tail_length_mm`,
+`drug_dose_g`, and `weight_lost_g`), so maybe a different pair of
 variables will reveal the groupings.
 
-Modify the plotting code below to explore **different pairs of variables** (there are 6 possible pairs in total). For each plot, ask
-yourself: can I see distinct clusters?
+Modify the plotting code below to explore **different pairs of variables** 
+(there are 6 possible pairs in total). For each plot, ask yourself: can 
+I see any distinct clusters?
 
 ```{r}
 #| label: explore-pairs
@@ -240,7 +304,7 @@ Four: each cage forms its own visible cluster
 </details>
 :::::::::
 
-## Define a Preprocessing Recipe {#sec-kmeans-recipe}
+### Define a Preprocessing Recipe {#sec-kmeans-recipe}
 
 Recall from Workshop 8 that a
 **[recipe](wk11_fr.qmd#recipe){.quarto-xref}** specifies the variables
@@ -258,13 +322,12 @@ all variables on a common scale where the mean = 0 and standard
 deviation = 1.
 
 ::: {.callout-note title="Why is normalisation essential for k-means?"}
-K-means clustering assigns observations to clusters based on **Euclidean distance**, the straight-line distance between points in feature space.
+K-means clustering assigns observations to clusters based on **Euclidean 
+distance**, the straight-line distance between points in feature space.
 If one variable is measured in grams (thousands) and another in
-millimetres (tens), the gram-scale variable will dominate the distance
+millimetres (tens), the gram variable will dominate the distance
 calculation, regardless of its biological relevance. Normalisation
 removes this scale bias.
-
-<!-- NOTE TO SELF CHECK THIS EXAMPLE TO SEE IF IT MAKES SENSE AND IS EASY TO UNDERSTAND -->
 :::
 
 Just like in [workshop 8](workshop_8.qmd#define-a-preprocessing-recipe), 
@@ -283,7 +346,7 @@ kmeans_recipe <- recipe(~., data = dosage_clust) %>%
 summary(kmeans_recipe)
 ```
 
-## Specify the K-Means Model {#sec-kmeans-specify}
+### Specify the K-Means Model {#sec-kmeans-specify}
 
 Now that we have our recipe, we can specify our model using the 
 `k_means()` function from `tidyclust` . We set our engine 
@@ -303,7 +366,7 @@ because k-means is sensitive to where the centroids start.
 
 ::: {.callout-warning title="What is a centroid? And why does it need to be initialised?"}
 
-A **centroid** is the point at the center of a cluster — you can think
+A **centroid** is the point at the center of a cluster: you can think
 of it as the cluster's "address".
 
 K-means has to start somewhere, so it begins by placing the centroids at
@@ -327,7 +390,7 @@ kmeans_spec <- k_means(num_clusters = 3) %>% # our model
 kmeans_spec
 ```
 
-## Bundle into a Workflow {#sec-kmeans-workflow}
+### Bundle into a Workflow {#sec-kmeans-workflow}
 
 Just as in Workshop 8, we combine the recipe and model into a single
 **[workflow](wk11_fr.qmd#workflow){.quarto-xref}** object, so that the
@@ -344,7 +407,7 @@ kmeans_workflow <- workflow() %>%
 kmeans_workflow
 ```
 
-:::::::::: {.callout-tip title="Extension: Choosing k with a Data-Driven Approach (Silhouette Tuning)" collapse="true"}
+:::::::::: {#extension .callout-tip title="Extension: Choosing k with a Data-Driven Approach (Silhouette Tuning)" collapse="true"}
 
 In the main workflow we set `num_clusters = 3` directly from our
 biological prior. But what if we did *not* know how many groups to
@@ -353,7 +416,7 @@ it measures how well each observation fits its assigned cluster relative
 to neighbouring clusters. This extension shows two routes — a quick
 one-liner, and the full `tidymodels` tuning approach.
 
-### A quick route: `fviz_nbclust()`
+#### A quick route: `fviz_nbclust()`
 
 The silhouette score is computed from **pairwise Euclidean distances**
 between mice — the same distances k-means uses. Just as in our recipe,
@@ -374,15 +437,14 @@ scaled_data <- kmeans_recipe %>%
 fviz_nbclust(scaled_data, kmeans, method = "silhouette")
 ```
 
-### The full route: tuning over values of k with `tune_cluster()` {#sec-kmeans-tuning}
+#### The full route: tuning over values of k with `tune_cluster()` {#sec-kmeans-tuning}
 
 The full route uses the same `tune_*()` machinery you saw for supervised
 models in Workshop 8. To use it, we would change our model specification
 to `k_means(num_clusters = tune())`. Here we evaluate *k* from 2 to 8
-clusters. We cap at 8 as there is no
-biological reason to expect more than a small number of morphologically
-distinct mouse groups. Recall that our biological prior suggests *k* = 3
-(three strains).
+clusters. We cap at 8 as there is no biological reason to expect more than 
+a small number of morphologically distinct mouse groups. Recall that our 
+biological prior suggests *k* = 3 (three strains).
 
 ```{r}
 #| label: clustering-grid
@@ -426,7 +488,7 @@ We now have an averaged silhouette estimate for each value of *k*, where
 values range from -1 (misclassified) to +1 (well-clustered). A score >
 0.5 generally indicates reasonable cluster structure.
 
-### Silhouette Plot Across k {#sec-silhouette}
+#### Silhouette Plot Across k {#sec-silhouette}
 
 We can visualise the mean silhouette width for each value of *k* using
 `ggplot2` . The red dashed line marks our biological prior of *k* = 3,
@@ -524,7 +586,7 @@ The observation is an outlier
 </details>
 :::::::::
 
-### Using the Best k from Tuning {#sec-prior}
+#### Using the Best k from Tuning {#sec-prior}
 
 But what if we wanted to use the **data-driven** optimum instead (i.e.,
 the silhouette maximum of *k* = 2)? We can use this code to do just that! 
@@ -551,7 +613,7 @@ is the standard way to use tuning results in tidymodels.
 
 ::::::::::
 
-## Fit the Final K-Means Model {#sec-kmeans-fit}
+### Fit the Final K-Means Model {#sec-kmeans-fit}
 
 Because we set `num_clusters = 3` directly in our model specification,
 there is no finalisation step — we can fit `kmeans_workflow` on our
@@ -590,9 +652,6 @@ dosage_predicted_clusters <- predict(
 )
 ```
 
-<!-- add in here that we can pipe before predict because this only gives one column worth of results not the metadata used to generate these predictions -->
-<!-- then we can left_join to noisy_dosage to get the known strain vs predicted -->
-
 We then bind our cluster predictions back to the original (unscaled)
 data using `bind_cols()` .
 
@@ -622,7 +681,7 @@ physiological features alone are sufficient to distinguish the three
 strains, supporting our biological prior.
 :::
 
-## Visualise the Clusters Against the Known Strains {#sec-cluster-viz}
+### Visualise the Clusters Against the Known Strains {#sec-cluster-viz}
 
 We can also see this correspondence visually. Take the **same plot**
 from our warm-up activity (`initial_weight_g` vs `drug_dose_g`) and add
@@ -839,47 +898,6 @@ distinguish the three strains
 
 ::::::::::
 
-## Tutorial Questions {#sec-t11-questions}
-
-Work through these questions in your own time. Questions 1–3 revisit the
-main workflow; questions 4–6 use the extension material.
-
-**Exploring different values of k**
-
-1. Refit the workflow with `num_clusters = 2`. (Hint: you only need to
-   change one number in `kmeans_spec`, rebuild the workflow, and re-run
-   `fit()` and `predict()`.) Re-make the cluster-coloured plot and the
-   cross-tabulation with `table()`. Which strains get merged?
-
-2. Repeat with `num_clusters = 5`. What happens to the Black6 mice — do
-   they stay together, or are they split apart? Which cross-tabulation
-   looks closest to the biological truth?
-
-3. Comparing your results for k = 2, 3 and 5: which *k* would you
-   report, and what evidence supports your choice? When might a
-   data-driven optimum disagree with a biological prior?
-
-**Extension questions**
-
-4. Use `fviz_nbclust()` on the scaled data extracted from your recipe
-   (see the silhouette tuning extension). Which *k* maximises the
-   average silhouette width? Does it agree with your answer to Q3?
-
-5. Following the approach from Workshop 8: save your fitted k = 3 model
-   with `saveRDS(final_kmeans_fit, "final_kmeans_fit.rds")`. Then load
-   the `new_mouszempic_dosage_data.csv` dataset, prepare it the same way
-   (drop missing values, select the same four numeric variables), and
-   use `predict()` to assign clusters to the new mice. Cross-tabulate
-   the predictions against the new data's strain labels. *Caveat:*
-   cluster labels are arbitrary — "Cluster_1" in your new predictions
-   may not correspond to "Cluster_1" in training, so compare the
-   *pattern* of the table, not the label names.
-
-6. Inspect `extract_centroids()` for your k = 2 and k = 5 fits. In
-   scaled units, which variable changes the most between centroids as
-   *k* increases? What does that tell you about how k-means "decides"
-   to split a cluster?
-
 ## k-Means vs Hierarchical Clustering {#sec-hierarchical}
 
 The lecture also introduced **hierarchical clustering** as a second
@@ -895,13 +913,10 @@ dendrogram at a chosen distance/height, and the number of branches
 crossed determines the number of clusters. This is different from
 k-means, where `num_clusters` must be specified before fitting.
 
-In R, `hclust()` (base R) or `step_normalize()` + `dist()` + `hclust()`
-can build this tree, and `tidyclust::hier_clust()` provides a
-`tidymodels` -consistent interface analogous to the `k_means()` workflow
-used above. We won't run it in this core session: see the further
-reading below if you'd like to try it on `dosage_clust`.
-
-<!-- this isn't actually done and should be moved to further reading? -->
+If you are interested in building a hierarchical clustering workflow, 
+you can use functions `hier_clust()` from the `tidyclust` R package. 
+See this tutorial 
+[here](https://tidyclust.tidymodels.org/articles/hier_clust.html). 
 
 ::::::::: {.callout-important title="Test Your Knowledge"}
 :::::::: question
@@ -954,9 +969,233 @@ clustering
 </details>
 :::::::::
 
-Congratulations on completing Tutorial 11! You have now seen both sides
-of the machine learning landscape: in Workshop 8 you trained a
-**supervised** random forest classifier using known strain labels, and
-here you used **unsupervised** k-means clustering to recover those same
-groupings without any labels — discovering that the physiological
+## Tutorial Questions {#sec-t11-questions}
+
+Work through these questions in your own time. Questions 1–3 revisit the
+main workflow; questions 4–6 use the extension material.
+
+**Exploring different values of k**
+
+1. Refit the workflow with `num_clusters = 2`. (Hint: you only need to
+   change one number in `kmeans_spec`, rebuild the workflow, and re-run
+   `fit()` and `predict()`.) Re-make the cluster-coloured plot and the
+   cross-tabulation with `table()`. Which strains get merged?
+
+2. Repeat with `num_clusters = 5`. What happens to the Black6 mice — do
+   they stay together, or are they split apart? Which cross-tabulation
+   looks closest to the biological truth?
+
+3. Comparing your results for k = 2, 3 and 5: which *k* would you
+   report, and what evidence supports your choice? When might a
+   data-driven optimum disagree with a biological prior?
+
+4. Inspect `extract_centroids()` for your k = 2 and k = 5 fits. In
+   scaled units, which variable changes the most between centroids as
+   *k* increases? What does that tell you about how k-means "decides"
+   to split a cluster?
+
+**Extension questions**
+
+5. Use `fviz_nbclust()` on the scaled data extracted from your recipe
+   (see the silhouette tuning extension). Which *k* maximises the
+   average silhouette width? Does it agree with your answer to Q3?
+
+6. Following the approach from Workshop 8: save your fitted k = 3 model
+   with `saveRDS(final_kmeans_fit, "final_kmeans_fit.rds")`. Then load
+   the `new_mouszempic_dosage_data.csv` dataset, prepare it the same way
+   (drop missing values, select the same four numeric variables), and
+   use `predict()` to assign clusters to the new mice. Cross-tabulate
+   the predictions against the new data's strain labels. *Caveat:*
+   cluster labels are arbitrary — "Cluster_1" in your new predictions
+   may not correspond to "Cluster_1" in training, so compare the
+   *pattern* of the table, not the label names.
+
+:::::::::: {.callout-tip title="Tutorial Question Answers" collapse="true"}
+Expand this section to check your answers once you have attempted each
+question.
+
+#### Question 1
+
+```{r}
+#| label: answer-k2
+
+kmeans_spec_k2 <- k_means(num_clusters = 2) %>%
+  set_engine("stats", nstart = 25)
+
+kmeans_workflow_k2 <- workflow() %>%
+  add_recipe(kmeans_recipe) %>%
+  add_model(kmeans_spec_k2)
+
+set.seed(5947)
+fit_k2 <- kmeans_workflow_k2 %>%
+  fit(data = dosage_clust)
+
+k2_clust_df <- dosage_clust %>%
+  bind_cols(predict(fit_k2, new_data = dosage_clust))
+
+k2_clust_df %>%
+  ggplot(aes(x = initial_weight_g, y = drug_dose_g, colour = .pred_cluster)) +
+  geom_point(size = 2.5, alpha = 0.8) +
+  labs(title = "k = 2")
+
+# join back to the full data to recover the strain labels
+k2_noisy_dosage <- k2_clust_df %>%
+  left_join(noisy_dosage)
+table(k2_noisy_dosage$.pred_cluster, k2_noisy_dosage$mouse_strain)
+```
+
+At *k* = 2, one cluster contains almost all Black6 mice, while the
+other cluster merges most CD1 mice with a large share of BALBc mice. So
+**BALBc and CD1 are largely merged into a single cluster** and Black6
+is separated: a worse *biological* solution than *k* = 3, even though
+it scores better *geometrically*.
+
+#### Question 2
+
+```{r}
+#| label: answer-k5
+
+kmeans_spec_k5 <- k_means(num_clusters = 5) %>%
+  set_engine("stats", nstart = 25)
+
+kmeans_workflow_k5 <- workflow() %>%
+  add_recipe(kmeans_recipe) %>%
+  add_model(kmeans_spec_k5)
+
+set.seed(5947)
+fit_k5 <- kmeans_workflow_k5 %>%
+  fit(data = dosage_clust)
+
+k5_clust_df <- dosage_clust %>%
+  bind_cols(predict(fit_k5, new_data = dosage_clust))
+
+k5_clust_df %>%
+  ggplot(aes(x = initial_weight_g, y = drug_dose_g, colour = .pred_cluster)) +
+  geom_point(size = 2.5, alpha = 0.8) +
+  labs(title = "k = 5")
+
+# join back to the full data to recover the strain labels
+k5_noisy_dosage <- k5_clust_df %>%
+  left_join(noisy_dosage)
+table(k5_noisy_dosage$.pred_cluster, k5_noisy_dosage$mouse_strain)
+```
+
+At *k* = 5, the Black6 mice are **split into two clusters**, the CD1
+mice are fragmented across several clusters, and most BALBc mice end up
+lumped together with CD1 mice in one cluster. Splitting strains apart
+like this adds no biological meaning — the algorithm is carving up
+natural within-strain variation. The *k* = 3 cross-tabulation (from the
+main workflow) is closest to the biological truth.
+
+#### Question 3
+
+*k* = 3 is the best choice: it matches the biological prior of three
+strains and the cross-tabulation recovers those strains without the
+under-splitting of *k* = 2 or the over-splitting of *k* = 5. This also
+illustrates when a data-driven optimum can disagree with a biological
+prior: when two true groups (here BALBc and CD1) overlap in feature
+space, geometric criteria such as the silhouette score prefer to merge
+them, even when merging is biologically wrong. The data-driven optimum
+should inform, not dictate, the choice of *k*.
+
+#### Question 4
+
+```{r}
+#| label: answer-centroids
+
+# Centroids for k = 2
+extract_centroids(fit_k2)
+# Centroids for k = 5
+extract_centroids(fit_k5)
+```
+
+The centroids separate most along `initial_weight_g`, `drug_dose_g` and
+`weight_lost_g` (at *k* = 5 these span roughly -0.9 to +0.9 in scaled
+units), while `tail_length_mm` varies less consistently. This shows
+that k-means splits clusters along whichever dimensions reduce
+within-cluster distances the most: it has no biological knowledge, it
+simply carves up feature space where points are most spread out.
+
+#### Question 5
+
+```{r}
+#| label: answer-fviz-nbclust
+
+scaled_data <- kmeans_recipe %>%
+  prep() %>%
+  bake(new_data = dosage_clust)
+
+fviz_nbclust(scaled_data, kmeans, method = "silhouette")
+```
+
+The average silhouette width is **maximised at k = 2**, not at our
+biological prior of *k* = 3, so it does **not** agree with the answer
+to Q3. This is common and instructive: the silhouette criterion rewards
+well-separated clusters, so when two groups (here BALBc and CD1) lie
+close together in feature space it prefers to merge them which is a worse
+*biological* solution even though it scores better *geometrically*. The
+silhouette score should inform, not dictate, the choice of *k*; with a
+strong biological prior we still select *k* = 3.
+
+#### Question 6
+
+```{r}
+#| label: answer-save-predict
+#| eval: false
+
+saveRDS(final_kmeans_fit, "final_kmeans_fit.rds")
+loaded_model <- readRDS("final_kmeans_fit.rds")
+
+new_dosage <- read_csv("data/new_mousezempic_dosage_data.csv")
+
+new_clust <- new_dosage %>%
+  drop_na() %>%
+  select(initial_weight_g, tail_length_mm, drug_dose_g, weight_lost_g)
+
+new_predicted <- new_clust %>%
+  bind_cols(predict(loaded_model, new_data = new_clust))
+
+new_df <- new_dosage %>%
+  left_join(
+    new_predicted,
+    by = c("weight_lost_g", "drug_dose_g", "tail_length_mm", "initial_weight_g")
+  )
+
+table(new_df$.pred_cluster, new_df$mouse_strain)
+```
+
+The cross-tabulation should show the same *pattern* as the training
+data (each cluster dominated by one strain), even though the
+"Cluster_1/2/3" labels themselves may be permuted, because cluster
+labels are assigned arbitrarily at each fit.
+::::::::::
+
+## Summary
+
+Today we've revised the key components of machine learning using 
+`tidymodels` in R: creating a recipe, specifying a model, creating a
+workflow and fitting a model as we learned in 
+[workshop 8](@sec-workshop08) but instead of training a **supervised**
+random forest classiifer using known strain labels, here you trained
+an **unsupervised** k-means clustering algorithm to recover those same
+groupings without any labels, discovering that the physiological
 features alone carry enough signal to distinguish the three strains.
+
+Here's what we covered in this session: 
+
+-   Differences between supervised and unsupervised machine learning
+    in the `tidymodels` workflow
+-   What a k-means clustering algorithm is and how we can train one
+-   Creating a recipe for an unsupervised machine learning algorithm where
+    we do not have an outcome variable: `~ predictor variables`
+-   Specifying a k-means clustering algorithm with a set value for `k` 
+    (and optionally: when we do *not* set a value of `k`)
+-   Fitting the model on our dataset
+-   Comparing our clustering results with our known mouse strain results 
+
+If you'd like to learn more, look at the [further reading](@sec-fr11)
+for this week, which includes links to many Machine Learning resources. 
+
+You can download the handout from our tutorial session here:
+
+{{< downloadthis resources/assign/tutorial_11_handout.pdf dname="tutorial_11_handout" label="Download the handout for tutorial 11" icon="file-earmark-arrow-down" type="primary" class="data-button" id="summarysheet" >}}
