@@ -75,7 +75,7 @@ which measures cluster *geometry* (how compact and well-separated the
 clusters are) rather than correctness. It is as a way to compare results, 
 like different values of *k*, not whether the clustering is "correct". This
 still requires biological prior knowledge. You can read more about the
-silhouette scores and plots in the [extension section](#sec-silhouette) below.
+silhouette scores and plots in the [extension section](#sec-extension) below.
 
 ## Setup {#sec-t11-setup}
 ```{r}
@@ -173,7 +173,7 @@ K-means clustering algorithms are iterative and repeatedly ask:
 how many coffee shops would fit for this cohort of 100 students? This
 would require the use of tuning the *k* parameter to see how many
 coffee shops would best suit this dataset. You can read more on how 
-to do this in our [extension sections](#extension) below.
+to do this in our [extension sections](#sec-extension) below.
 :::
 
 ### Prepare the Data {#sec-t11-wrangling}
@@ -412,7 +412,8 @@ kmeans_workflow <- workflow() %>%
 kmeans_workflow
 ```
 
-:::::::::: {#extension .callout-tip title="Extension: Choosing k with a Data-Driven Approach (Silhouette Tuning)" collapse="true"}
+### Extension {#sec-extension}
+:::::::::: {.callout-tip title="Extension: Choosing k with a Data-Driven Approach (Silhouette Tuning)" collapse="true"}
 
 In the main workflow we set `num_clusters = 3` directly from our
 biological prior. But what if we did *not* know how many groups to
