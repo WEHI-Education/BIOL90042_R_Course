@@ -503,12 +503,13 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 </header>
 
 
-<p>Curious whether random forest is <em>really</em> your best option in <a href="./workshop_8.html#sec-w8-part2">Part 2</a>?</p>
+<p>Curious whether random forest is <em>really</em> your best option in <a href="./workshop_8.html#sec-w8-part2">Workshop 8</a>?</p>
+<p>There are <em>so many</em> machine learning methods and <em>even more</em> possible R packages (“engines”) that are supported in the <code>parnsip</code> R package. For more information on these possibilities, see the <a href="https://www.tidymodels.org/find/parsnip/">model types, engines and arguments guide</a>.</p>
 <p>The tidymodels <a href="https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html">tuning and comparing models tutorial</a> shows how to compare it against several other classification algorithms.</p>
 <p>If you’d like to explore these ideas further, see the tidymodels tutorials on <a href="https://www.tidymodels.org/books/fes/">feature engineering</a>, <a href="https://www.tidymodels.org/start/resampling/">cross-validation</a>, <a href="https://www.tidymodels.org/start/tuning/">hyperparameter tuning</a>, and <a href="https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html">multi-model comparison</a>.</p>
+<p>The tidyclust package provides functions for k-means and hierarchical clustering methods, among more, as well as how to tune these cluster models. For more information, see the <a href="https://tidyclust.tidymodels.org">tidyclust documentation</a>.</p>
 <section id="sec-glossary" class="level2" data-number="28.1">
 <h2 data-number="28.1" class="anchored" data-anchor-id="sec-glossary"><span class="header-section-number">28.1</span> Glossary</h2>
-<p>Hovering over a linked glossary term anywhere in this book shows its definition, drawn from this list.</p>
 <div id="artificial-intelligence">
 <p><strong>Artificial Intelligence.</strong> The broad field of computer science focused on building systems that simulate human-like reasoning, learning, and decision-making.</p>
 </div>
@@ -1163,135 +1164,207 @@ gtag('config', 'G-FN78SCFVJJ', { 'anonymize_ip': true});
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu"># Further Reading {#sec-fr11}</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Curious whether random forest is *really* your best option in <span class="co">[</span><span class="ot">Part 2</span><span class="co">](workshop_8.qmd#sec-w8-part2)</span>? </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>The tidymodels <span class="co">[</span><span class="ot">tuning and comparing models tutorial</span><span class="co">](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html)</span> shows how to compare it against several other classification algorithms. </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>If you'd like to explore these ideas further, see the tidymodels tutorials on <span class="co">[</span><span class="ot">feature engineering</span><span class="co">](https://www.tidymodels.org/books/fes/)</span>, <span class="co">[</span><span class="ot">cross-validation</span><span class="co">](https://www.tidymodels.org/start/resampling/)</span>, <span class="co">[</span><span class="ot">hyperparameter tuning</span><span class="co">](https://www.tidymodels.org/start/tuning/)</span>, and <span class="co">[</span><span class="ot">multi-model comparison</span><span class="co">](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html)</span>.</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Glossary {#sec-glossary}</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>Hovering over a linked glossary term anywhere in this book shows its definition, drawn from this list.</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>::: {#artificial-intelligence}</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>**Artificial Intelligence.** The broad field of computer science focused on building systems that simulate human-like reasoning, learning, and decision-making.</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>Curious whether random forest is *really* your best option in</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Workshop 8</span><span class="co">](workshop_8.qmd#sec-w8-part2)</span>?</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>There are *so many* machine learning methods and *even more*</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>possible R packages ("engines") that are supported in the </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="in">`parnsip`</span> R package. For more information on these</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>possibilities, see the </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">model types, engines and arguments guide</span><span class="co">](https://www.tidymodels.org/find/parsnip/)</span>. </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>The tidymodels</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">tuning and comparing models tutorial</span><span class="co">](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html)</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>shows how to compare it against several other classification</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>algorithms.</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>::: {#machine-learning}</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>**Machine Learning.** A subset of AI where systems learn patterns from data to make decisions or predictions without being explicitly programmed.</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>::: {#unsupervised-ml}</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>**Unsupervised ML.** A type of ML where a model finds hidden patterns or groupings in unlabelled data (e.g. clustering, dimensionality reduction).</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>If you'd like to explore these ideas further, see the tidymodels</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>tutorials on</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">feature engineering</span><span class="co">](https://www.tidymodels.org/books/fes/)</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">cross-validation</span><span class="co">](https://www.tidymodels.org/start/resampling/)</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">hyperparameter tuning</span><span class="co">](https://www.tidymodels.org/start/tuning/)</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>and</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">multi-model comparison</span><span class="co">](https://workflowsets.tidymodels.org/articles/tuning-and-comparing-models.html)</span>.</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>::: {#supervised-ml}</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>**Supervised ML.** A type of ML where a model is trained on labelled data, learning to map inputs to known outputs.</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>::: {#engines}</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>**Engines.** A computational system or framework that executes a model or algorithm to process data and produce outputs.</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>::: {#model}</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>**Model.** A mathematical representation learned from data that captures patterns and can be used to make predictions or decisions on new inputs.</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>::: {#learning}</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>**Learning.** The process by which an algorithm iteratively adjusts its internal parameters based on data to improve its performance on a task.</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>::: {#predicting}</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>**Predicting.** The application of a trained model to new, unseen data to produce an estimated output.</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>::: {#pca}</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>**Principal Components Analysis.** A dimensionality reduction technique that transforms data into a smaller set of uncorrelated variables that capture the most variance.</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>::: {#mds}</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>**Multidimensional Scaling.** A technique that visualises the similarity or dissimilarity between data points by mapping them into a lower-dimensional space.</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>::: {#tree-clustering}</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>**Tree-based Clustering.** A hierarchical clustering approach that organises data into a tree structure, grouping similar observations at successive levels of granularity.</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>::: {#k-means}</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>**K-means Clustering.** An unsupervised clustering algorithm that partitions observations into *k* groups by iteratively assigning each point to its nearest centroid and updating centroids until they stabilise.</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>::: {#hierarchical-clustering}</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>**Hierarchical Clustering.** An unsupervised clustering approach that builds a dendrogram by repeatedly merging the two closest samples or clusters, without requiring the number of clusters to be fixed in advance.</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>::: {#train-test-split}</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>**Train/Test Split.** Dividing a dataset into a training set (used to fit a model) and a held-out test set (used to evaluate performance on unseen data).</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>::: {#confusion-matrix}</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>**Confusion Matrix.** A table comparing predicted class labels against true labels, with diagonal cells showing correct predictions and off-diagonal cells showing misclassifications.</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>::: {#auroc-auprc}</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>**AUROC / AUPRC.** Area Under the ROC Curve / Area Under the Precision-Recall Curve — summary metrics of classification performance across all thresholds; AUPRC is more sensitive to class imbalance than AUROC.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>The tidyclust package provides functions for k-means and hierarchical</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>clustering methods, among more, as well as how to tune these cluster</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>models. For more information, see the</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">tidyclust documentation</span><span class="co">](https://tidyclust.tidymodels.org)</span>.</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Glossary {#sec-glossary}</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>::: {#artificial-intelligence}</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>**Artificial Intelligence.** The broad field of computer science</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>focused on building systems that simulate human-like reasoning,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>learning, and decision-making.</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>::: {#machine-learning}</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>**Machine Learning.** A subset of AI where systems learn patterns</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>from data to make decisions or predictions without being explicitly</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>programmed.</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>::: {#unsupervised-ml}</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>**Unsupervised ML.** A type of ML where a model finds hidden patterns</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>or groupings in unlabelled data (e.g. clustering, dimensionality</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>reduction).</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>::: {#supervised-ml}</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>**Supervised ML.** A type of ML where a model is trained on labelled</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>data, learning to map inputs to known outputs.</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>::: {#engines}</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>**Engines.** A computational system or framework that executes a</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>model or algorithm to process data and produce outputs.</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>::: {#model}</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>**Model.** A mathematical representation learned from data that</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>captures patterns and can be used to make predictions or decisions on</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>new inputs.</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>::: {#learning}</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>**Learning.** The process by which an algorithm iteratively adjusts</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>its internal parameters based on data to improve its performance on a</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>task.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>::: {#predicting}</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>**Predicting.** The application of a trained model to new, unseen</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>data to produce an estimated output.</span>
 <span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>::: {#recipe}</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>**Recipe (tidymodels).** A tidymodels object that specifies the preprocessing steps (e.g. normalisation, dummy encoding) applied to data before a model is fit.</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>::: {#workflow}</span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>**Workflow (tidymodels).** A tidymodels object that bundles a preprocessing recipe and a model specification together so they are applied consistently during fitting and prediction.</span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>::: {#silhouette-score}</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>**Silhouette Score.** A per-observation metric ranging from -1 to +1 that measures how similar an observation is to its own cluster compared to the nearest neighbouring cluster; higher values indicate better-separated clusters.</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>::: {#pca}</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>**Principal Components Analysis.** A dimensionality reduction</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>technique that transforms data into a smaller set of uncorrelated</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>variables that capture the most variance.</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>::: {#mds}</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>**Multidimensional Scaling.** A technique that visualises the</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>similarity or dissimilarity between data points by mapping them into</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>a lower-dimensional space.</span>
 <span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>::: {#dendrogram}</span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>**Dendrogram.** A tree diagram produced by hierarchical clustering that records the order in which samples or clusters are merged, allowing the number of clusters to be chosen by cutting the tree at a given height.</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>::: {#hyperparameter}</span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>**Hyperparameter.** A model setting (e.g. <span class="in">`mtry`</span>, <span class="in">`k`</span>) chosen before training that controls how a model learns, as distinct from parameters estimated from the data itself.</span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>::: {#cross-validation}</span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>**Cross-validation.** A resampling technique that repeatedly splits data into folds, training on some and evaluating on the rest, to obtain a more robust estimate of model performance than a single split.</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>::: {#random-forest}</span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>**Random Forest.** An ensemble of many decision trees, each trained on a random bootstrap sample of the data and a random subset of predictors at each split; averaging their predictions reduces overfitting relative to a single tree.</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tidymodels {#tidy-table-steps}</span></span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>package | step | functions | </span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>--------|--------|--------|</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>rsample | 1. split into test and train sets | <span class="in">`initial_split()`</span>, <span class="in">`training()`</span>, <span class="in">`testing()`</span> | </span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>recipes | 2. create recipe and assign variable rols | <span class="in">`recipe()`</span>, <span class="in">`update_role()`</span>| </span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>parsnip | 3. specify model, engine and mode | e.g., <span class="in">`set_engine()`</span>, <span class="in">`set_mode()`</span>, <span class="in">`rand_forest()`</span> | </span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>workflows | 4. create workflow, add recipe, add model | <span class="in">`workflow()`</span>, <span class="in">`add_recipe()`</span>, <span class="in">`add_model()`</span> |</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>parsnip | 5. fit workflow | <span class="in">`fit()`</span> | </span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>parsnip | 6. get predictions | <span class="in">`predict()`</span> |</span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>yardstick | 7. use predictions to get performance metrics | <span class="in">`rmse()`</span>, <span class="in">`accuracy()`</span>, <span class="in">`metrics()`</span> | </span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>Another tutorial that summarises these aspects can be found <span class="co">[</span><span class="ot">here</span><span class="co">](https://chenxing.space/blog/tidymodels-ecosystem-tutorial/)</span>. </span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tidymodels vs. Tidyclust {#tidymodelclust}</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>::: {#tree-clustering}</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>**Tree-based Clustering.** A hierarchical clustering approach that</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>organises data into a tree structure, grouping similar observations</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>at successive levels of granularity.</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>::: {#k-means}</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>**K-means Clustering.** An unsupervised clustering algorithm that</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>partitions observations into *k* groups by iteratively assigning each</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>point to its nearest centroid and updating centroids until they</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>stabilise.</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>::: {#hierarchical-clustering}</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>**Hierarchical Clustering.** An unsupervised clustering approach that</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>builds a dendrogram by repeatedly merging the two closest samples or</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>clusters, without requiring the number of clusters to be fixed in</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>advance.</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>::: {#train-test-split}</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>**Train/Test Split.** Dividing a dataset into a training set (used to</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>fit a model) and a held-out test set (used to evaluate performance on</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>unseen data).</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>::: {#confusion-matrix}</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>**Confusion Matrix.** A table comparing predicted class labels</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>against true labels, with diagonal cells showing correct predictions</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>and off-diagonal cells showing misclassifications.</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>Several tidymodels functions have tidyclust equivalents that are written differently; these should be used when working with clustering workflows: </span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tidymodels`</span> Function   <span class="pp">|</span> <span class="in">`tidyclust`</span> Equivalent          <span class="pp">|</span> Same <span class="pp">|</span></span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------------------|---------------------------------|------|</span></span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`collect_metrics()`</span>       <span class="pp">|</span> <span class="in">`collect_metrics()`</span>             <span class="pp">|</span> ✅   <span class="pp">|</span></span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`select_best()`</span>           <span class="pp">|</span> <span class="in">`select_best()`</span>                 <span class="pp">|</span> ✅   <span class="pp">|</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit()`</span>                   <span class="pp">|</span> <span class="in">`fit()`</span>                         <span class="pp">|</span> ✅   <span class="pp">|</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict()`</span>               <span class="pp">|</span> <span class="in">`predict()`</span>                     <span class="pp">|</span> ✅   <span class="pp">|</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tune_grid()`</span>           <span class="pp">|</span> <span class="in">`tune_cluster()`</span>                <span class="pp">|</span> ❌   <span class="pp">|</span>   </span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`finalise_workflow()`</span>   <span class="pp">|</span> <span class="in">`finalise_workflow_tidyclust()`</span> <span class="pp">|</span> ❌   <span class="pp">|</span>   </span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`metric_set()`</span>            <span class="pp">|</span> <span class="in">`cluster_metric_set()`</span>          <span class="pp">|</span> ❌   <span class="pp">|</span>   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>::: {#auroc-auprc}</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>**AUROC / AUPRC.** Area Under the ROC Curve / Area Under the</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>Precision-Recall Curve — summary metrics of classification</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>performance across all thresholds; AUPRC is more sensitive to class</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>imbalance than AUROC.</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>::: {#recipe}</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>**Recipe (tidymodels).** A tidymodels object that specifies the</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>preprocessing steps (e.g. normalisation, dummy encoding) applied to</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>data before a model is fit.</span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>::: {#workflow}</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>**Workflow (tidymodels).** A tidymodels object that bundles a</span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>preprocessing recipe and a model specification together so they are</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>applied consistently during fitting and prediction.</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>::: {#silhouette-score}</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>**Silhouette Score.** A per-observation metric ranging from -1 to +1</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>that measures how similar an observation is to its own cluster</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>compared to the nearest neighbouring cluster; higher values indicate</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>better-separated clusters.</span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>::: {#dendrogram}</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>**Dendrogram.** A tree diagram produced by hierarchical clustering</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>that records the order in which samples or clusters are merged,</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>allowing the number of clusters to be chosen by cutting the tree at a</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>given height.</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>::: {#hyperparameter}</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>**Hyperparameter.** A model setting (e.g. <span class="in">`mtry`</span>, <span class="in">`k`</span>) chosen before</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>training that controls how a model learns, as distinct from</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>parameters estimated from the data itself.</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>::: {#cross-validation}</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>**Cross-validation.** A resampling technique that repeatedly splits</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>data into folds, training on some and evaluating on the rest, to</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>obtain a more robust estimate of model performance than a single</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>split.</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>::: {#random-forest}</span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>**Random Forest.** An ensemble of many decision trees, each trained</span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>on a random bootstrap sample of the data and a random subset of</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>predictors at each split; averaging their predictions reduces</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>overfitting relative to a single tree.</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tidymodels {#tidy-table-steps}</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>package | step | functions | </span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>--------|--------|--------|</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>rsample | 1. split into test and train sets | <span class="in">`initial_split()`</span>, <span class="in">`training()`</span>, <span class="in">`testing()`</span> | </span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>recipes | 2. create recipe and assign variable rols | <span class="in">`recipe()`</span>, <span class="in">`update_role()`</span>| </span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>parsnip | 3. specify model, engine and mode | e.g., <span class="in">`set_engine()`</span>, <span class="in">`set_mode()`</span>, <span class="in">`rand_forest()`</span> | </span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>workflows | 4. create workflow, add recipe, add model | <span class="in">`workflow()`</span>, <span class="in">`add_recipe()`</span>, <span class="in">`add_model()`</span> |</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>parsnip | 5. fit workflow | <span class="in">`fit()`</span> | </span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>parsnip | 6. get predictions | <span class="in">`predict()`</span> |</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>yardstick | 7. use predictions to get performance metrics | <span class="in">`rmse()`</span>, <span class="in">`accuracy()`</span>, <span class="in">`metrics()`</span> | </span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>Another tutorial that summarises these aspects can be found</span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">here</span><span class="co">](https://chenxing.space/blog/tidymodels-ecosystem-tutorial/)</span>.</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tidymodels vs. Tidyclust {#tidymodelclust}</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>Several tidymodels functions have tidyclust equivalents that are</span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>written differently; these should be used when working with</span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>clustering workflows:</span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tidymodels`</span> Function   <span class="pp">|</span> <span class="in">`tidyclust`</span> Equivalent          <span class="pp">|</span> Same <span class="pp">|</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------------------|---------------------------------|------|</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`collect_metrics()`</span>       <span class="pp">|</span> <span class="in">`collect_metrics()`</span>             <span class="pp">|</span> ✅   <span class="pp">|</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`select_best()`</span>           <span class="pp">|</span> <span class="in">`select_best()`</span>                 <span class="pp">|</span> ✅   <span class="pp">|</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`fit()`</span>                   <span class="pp">|</span> <span class="in">`fit()`</span>                         <span class="pp">|</span> ✅   <span class="pp">|</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`predict()`</span>               <span class="pp">|</span> <span class="in">`predict()`</span>                     <span class="pp">|</span> ✅   <span class="pp">|</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`tune_grid()`</span>           <span class="pp">|</span> <span class="in">`tune_cluster()`</span>                <span class="pp">|</span> ❌   <span class="pp">|</span>   </span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`finalise_workflow()`</span>   <span class="pp">|</span> <span class="in">`finalise_workflow_tidyclust()`</span> <span class="pp">|</span> ❌   <span class="pp">|</span>   </span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`metric_set()`</span>            <span class="pp">|</span> <span class="in">`cluster_metric_set()`</span>          <span class="pp">|</span> ❌   <span class="pp">|</span>   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

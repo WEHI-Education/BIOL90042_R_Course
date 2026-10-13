@@ -1585,7 +1585,7 @@
     "href": "wk11_fr.html",
     "title": "28  Further Reading",
     "section": "",
-    "text": "28.1 Glossary\nCurious whether random forest is really your best option in Part 2?\nThe tidymodels tuning and comparing models tutorial shows how to compare it against several other classification algorithms.\nIf you’d like to explore these ideas further, see the tidymodels tutorials on feature engineering, cross-validation, hyperparameter tuning, and multi-model comparison.\nHovering over a linked glossary term anywhere in this book shows its definition, drawn from this list.",
+    "text": "28.1 Glossary\nCurious whether random forest is really your best option in Workshop 8?\nThere are so many machine learning methods and even more possible R packages (“engines”) that are supported in the parnsip R package. For more information on these possibilities, see the model types, engines and arguments guide.\nThe tidymodels tuning and comparing models tutorial shows how to compare it against several other classification algorithms.\nIf you’d like to explore these ideas further, see the tidymodels tutorials on feature engineering, cross-validation, hyperparameter tuning, and multi-model comparison.\nThe tidyclust package provides functions for k-means and hierarchical clustering methods, among more, as well as how to tune these cluster models. For more information, see the tidyclust documentation.",
     "crumbs": [
       "Week 11",
       "<span class='chapter-number'>28</span>  <span class='chapter-title'>Further Reading</span>"
