@@ -2185,7 +2185,7 @@ weight_lost_g)`</code></pre>
 <span id="cb52-42"><a href="#cb52-42" aria-hidden="true" tabindex="-1"></a>    research.</span>
 <span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Construct a complete <span class="in">`tidymodels`</span> workflow: create a</span>
 <span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a>   <span class="co">[</span><span class="ot">recipe</span><span class="co">](wk11_fr.qmd#recipe)</span>{.quarto-xref}, specify a model,</span>
-<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a>   bundle a <span class="co">[</span><span class="ot">workflow</span><span class="co">](wk11_fr.qmd#silhouette-score)</span>{.quarto-xref}, </span>
+<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a>   bundle a <span class="co">[</span><span class="ot">workflow</span><span class="co">](wk11_fr.qmd#workflow)</span>{.quarto-xref}, </span>
 <span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a>   to train a k-means clustering algorithm. </span>
 <span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Fit a k-means model, inspect centroids, and assign cluster </span>
 <span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a>    predictions to observations</span>
@@ -2212,12 +2212,12 @@ weight_lost_g)`</code></pre>
 <span id="cb52-69"><a href="#cb52-69" aria-hidden="true" tabindex="-1"></a>We cannot explicitly evaluate model performance in the same way because </span>
 <span id="cb52-70"><a href="#cb52-70" aria-hidden="true" tabindex="-1"></a>there are no labels to measure against. Instead there are other, relative, </span>
 <span id="cb52-71"><a href="#cb52-71" aria-hidden="true" tabindex="-1"></a>measures we can employ to test how well our model performs. One such measure </span>
-<span id="cb52-72"><a href="#cb52-72" aria-hidden="true" tabindex="-1"></a>is the <span class="co">[</span><span class="ot">silhouette score</span><span class="co">](#sec-silhouette)</span>{.quarto-xref}, which measures </span>
+<span id="cb52-72"><a href="#cb52-72" aria-hidden="true" tabindex="-1"></a>is the <span class="co">[</span><span class="ot">silhouette score</span><span class="co">](#silhouette-score)</span>{.quarto-xref}, which measures </span>
 <span id="cb52-73"><a href="#cb52-73" aria-hidden="true" tabindex="-1"></a>cluster *geometry* (how compact and well-separated the clusters are) rather</span>
 <span id="cb52-74"><a href="#cb52-74" aria-hidden="true" tabindex="-1"></a>than correctness. It is as a way to compare results, like different values of </span>
 <span id="cb52-75"><a href="#cb52-75" aria-hidden="true" tabindex="-1"></a>*k*, not whether the clustering is "correct". This still requires biological</span>
 <span id="cb52-76"><a href="#cb52-76" aria-hidden="true" tabindex="-1"></a>prior knowledge. You can read more about the silhouette scores and plots in</span>
-<span id="cb52-77"><a href="#cb52-77" aria-hidden="true" tabindex="-1"></a>the <span class="co">[</span><span class="ot">extension section</span><span class="co">](@sec-silhouette)</span> below.</span>
+<span id="cb52-77"><a href="#cb52-77" aria-hidden="true" tabindex="-1"></a>the <span class="co">[</span><span class="ot">extension section</span><span class="co">](#sec-silhouette)</span> below.</span>
 <span id="cb52-78"><a href="#cb52-78" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-79"><a href="#cb52-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setup {#sec-t11-setup}</span></span>
 <span id="cb52-82"><a href="#cb52-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
